@@ -7,7 +7,7 @@ TEST_CASE("Pruebas de la clase Options", "[options]") {
 
   SECTION("Constructor y métodos de acceso") {
     const Options opt{
-        true, true, true, true, true, "binario", "ruta/archivo.cpp"};
+        true, true, true, true, true, true, "binario", "ruta/archivo.cpp"};
     REQUIRE(opt.help() == true);
     REQUIRE(opt.optimize() == true);
     REQUIRE(opt.printTree() == true);
@@ -18,7 +18,7 @@ TEST_CASE("Pruebas de la clase Options", "[options]") {
   }
 
   SECTION("Valores por defecto") {
-    const Options opt{false, false, true, true, true, "", ""};
+    const Options opt{false, false, true, true, true, true, "", ""};
     REQUIRE(opt.help() == false);
     REQUIRE(opt.optimize() == false);
     REQUIRE(opt.binaryName().empty());
@@ -26,9 +26,10 @@ TEST_CASE("Pruebas de la clase Options", "[options]") {
   }
 
   SECTION("Modificación de atributos") {
-    Options opt{false, false, true, true, true, "binario", "ruta/archivo.cpp"};
+    Options opt{false, false, true, true, true, true, "binario", "ruta/archivo.cpp"};
     // Simulando cambios en los atributos
     opt = Options{true,
+                  true,
                   true,
                   true,
                   true,
@@ -43,10 +44,11 @@ TEST_CASE("Pruebas de la clase Options", "[options]") {
 
   SECTION("Comparación de objetos Options") {
     const Options opt1{
-        true, false, true, true, true, "binario", "ruta/archivo.cpp"};
+        true, false, true, true, true, true, "binario", "ruta/archivo.cpp"};
     const Options opt2{
-        true, false, true, true, true, "binario", "ruta/archivo.cpp"};
+        true, false, true, true, true, true, "binario", "ruta/archivo.cpp"};
     const Options opt3{false,
+                       true,
                        true,
                        true,
                        true,

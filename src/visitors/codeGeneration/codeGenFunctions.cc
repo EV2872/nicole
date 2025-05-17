@@ -91,6 +91,8 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
   if (node->generics().size()) {
     return nullptr;
   }
+  if (!options_.validateTree())
+    isMain = false;
   std::shared_ptr<Scope> parentScope = currentScope_;
   currentScope_ = node->body()->scope();
   // Calcular nombre mangled de la declaración (sin genéricos de llamada)
@@ -159,6 +161,8 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
     return createError(bodyErr.error());
   if (!fn->getReturnType()->isVoidTy() && !entryBB->getTerminator())
     builder_.CreateRetVoid();
+  if (!options_.validateTree())
+    isMain = true;
   currentScope_ = parentScope;
   return fn;
 }
@@ -167,6 +171,10 @@ std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_RETURN *node) const noexcept {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_RETURN");
+  }
+  if (!node->expression() and isMain) {
+    return builder_.CreateRet(llvm::ConstantInt::get(
+        *typeTable_->intType()->llvmVersion(context_), 0));
   }
   if (!node->expression()) {
     return builder_.CreateRetVoid();

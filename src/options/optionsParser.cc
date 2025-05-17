@@ -6,7 +6,8 @@ bool OptionsParser::isOption(const std::string_view argument) noexcept {
   if (argument == "-o" or argument == "--optimize" or argument == "-n" or
       argument == "--name" or argument == "-h" or argument == "--help" or
       argument == "-p" or argument == "--printTree" or argument == "-i" or
-      argument == "--printIR" or argument == "-v" or argument == "--validate") {
+      argument == "--printIR" or argument == "-v" or argument == "--validate" or
+      argument == "-j" or argument == "--justInTime") {
     return true;
   }
   return false;
@@ -26,6 +27,7 @@ OptionsParser::parse(const std::vector<std::string_view> &arguments) noexcept {
   bool printTree{false};
   bool printIR{false};
   bool validateTree{false};
+  bool justInTime{false};
   std::string binaryName{"a.out"};
   std::filesystem::path entryFilePath{""};
 
@@ -45,6 +47,8 @@ OptionsParser::parse(const std::vector<std::string_view> &arguments) noexcept {
       printIR = true;
     } else if (argument == "-v" or argument == "--validate") {
       validateTree = true;
+    } else if (argument == "-j" or argument == "--justInTime") {
+      justInTime = true;
     } else if (argument == "-n" or argument == "--name") {
       if (++i == size or isOption(arguments[i])) {
         return createError(ERROR_TYPE::MISSING_BINARY_NAME,
@@ -67,8 +71,8 @@ OptionsParser::parse(const std::vector<std::string_view> &arguments) noexcept {
                        "must specify the entry file");
   }
 
-  return Options{help,         optimize,   printTree,    printIR,
-                 validateTree, binaryName, entryFilePath};
+  return Options{help,         optimize,   printTree,  printIR,
+                 validateTree, justInTime, binaryName, entryFilePath};
 }
 
 } // namespace nicole

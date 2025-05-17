@@ -13,17 +13,18 @@ private:
   bool printTree_;
   bool printIR_;
   bool validateTree_;
+  bool justInTime_;
   std::string binaryName_;
   std::filesystem::path entryFilePath_;
 
 public:
   explicit Options(const bool help, const bool optimize, const bool printTree,
                    const bool printIR, const bool validateTree,
-                   const std::string &binaryName,
+                   const bool justInTime, const std::string &binaryName,
                    const std::filesystem::path &entryFilePath) noexcept
       : help_{help}, optimize_{optimize}, printTree_{printTree},
-        printIR_{printIR}, validateTree_{validateTree}, binaryName_{binaryName},
-        entryFilePath_{entryFilePath} {}
+        printIR_{printIR}, validateTree_{validateTree}, justInTime_{justInTime},
+        binaryName_{binaryName}, entryFilePath_{entryFilePath} {}
 
   [[nodiscard]] bool help() const noexcept { return help_; }
 
@@ -34,6 +35,8 @@ public:
   [[nodiscard]] bool printIR() const noexcept { return printIR_; }
 
   [[nodiscard]] bool validateTree() const noexcept { return validateTree_; }
+
+  [[nodiscard]] bool justInTime() const noexcept { return justInTime_; }
 
   [[nodiscard]] const std::string &binaryName() const noexcept {
     return binaryName_;

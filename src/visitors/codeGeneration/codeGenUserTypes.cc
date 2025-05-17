@@ -11,6 +11,8 @@ std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_STRUCT *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
+  if (!options_.validateTree())
+    isMain = false;
   insideStruct = true;
   auto foundType{typeTable_->getType(node->id())};
   if (!foundType) {
@@ -50,6 +52,8 @@ CodeGeneration::visit(const AST_STRUCT *node) const noexcept {
     if (!mOrErr)
       return createError(mOrErr.error());
   }
+  if (!options_.validateTree())
+    isMain = true;
   insideStruct = false;
   // La declaración de un struct no produce un llvm::Value*, así que
   // devolvemos nullptr

@@ -2,6 +2,7 @@
 
 #include "../../../inc/parsingAnalysis/ast/tree.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_index.h"
+#include <cstdlib>
 #include <llvm/Passes/PassBuilder.h>
 #include <memory>
 
@@ -17,7 +18,74 @@ metodos / llamadas a atributos / variables auto
 
  */
 
+#include <llvm/IR/LegacyPassManager.h> // legacy::PassManager
+#include <llvm/MC/TargetRegistry.h>    // TargetRegistry::lookupTarget()
+#include <llvm/Support/CodeGen.h>      // CodeGenFileType
+#include <llvm/Support/FileSystem.h>   // sys::fs::OF_None
+#include <llvm/Support/Program.h>
+#include <llvm/Support/TargetSelect.h> // InitializeAllTargets()
+#include <llvm/Support/raw_ostream.h>  // errs(), raw_fd_ostream
+#include <llvm/Target/TargetMachine.h> // TargetMachine
+
 namespace nicole {
+
+std::expected<std::monostate, Error>
+CodeGeneration::emitObjectFile(llvm::Module *module) const noexcept {
+  // Inicializar todos los backends y parsers
+  llvm::InitializeAllTargetInfos();
+  llvm::InitializeAllTargets();
+  llvm::InitializeAllTargetMCs();
+  llvm::InitializeAllAsmParsers();
+  llvm::InitializeAllAsmPrinters();
+
+  // Obtener triple de destino y buscar Target
+  auto Triple = LLVMGetDefaultTargetTriple();
+  std::string Err;
+  const llvm::Target *Target = llvm::TargetRegistry::lookupTarget(Triple, Err);
+  if (!Target) {
+    llvm::errs() << "Error buscando target: " << Err << "\n";
+    return createError(ERROR_TYPE::ENTRY_FILE_NOT_FOUND,
+                       "Error buscando target: " + Err);
+  }
+
+  // Crear TargetMachine
+  llvm::TargetOptions Opts;
+  auto TM =
+      Target->createTargetMachine(Triple,
+                                  "generic", // CPU
+                                  "",        // características adicionales
+                                  Opts,
+                                  llvm::Reloc::PIC_, // Modelo de relocación
+                                  llvm::CodeModel::Small, // Modelo de código
+                                  llvm::CodeGenOptLevel::Default);
+
+  // Ajustar el módulo
+  module->setTargetTriple(Triple);
+  module->setDataLayout(TM->createDataLayout());
+
+  // Abrir flujo de salida para el objeto
+  std::error_code EC;
+  llvm::raw_fd_ostream Dest(options_.binaryName() + ".o", EC,
+                            llvm::sys::fs::OF_None);
+  if (EC) {
+    return createError(ERROR_TYPE::ENTRY_FILE_NOT_FOUND,
+                       "Error al abrir " + options_.binaryName() +
+                           EC.message());
+  }
+
+  // Añadir pases para emitir el objeto y ejecutarlos
+  llvm::legacy::PassManager PM;
+  if (TM->addPassesToEmitFile(PM, Dest,
+                              /*DwoDest=*/nullptr,
+                              llvm::CodeGenFileType::ObjectFile)) {
+    return createError(ERROR_TYPE::ENTRY_FILE_NOT_FOUND,
+                       "Este TargetMachine no puede emitir objeto");
+  }
+  PM.run(*module);
+  Dest.flush();
+
+  return {};
+}
 
 std::expected<std::string, Error>
 CodeGeneration::nameMangling(const std::shared_ptr<Type> &type) const noexcept {
@@ -271,8 +339,8 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
     llvm::Value *ret = builder_.CreateCall(userMain, {}, "call_user_main");
     builder_.CreateRet(ret);
   } else {
-    std::expected<llvm::Type *, Error> mainType{nullptr};
-    if (const std::shared_ptr<NoPropagateType> isNopropagateType{
+    std::expected<llvm::Type *, Error> mainType{typeTable_->intType()->llvmVersion(context_)};
+    /*if (const std::shared_ptr<NoPropagateType> isNopropagateType{
             std::dynamic_pointer_cast<NoPropagateType>(
                 tree->root()->returnedFromTypeAnalysis())}) {
       mainType = typeTable_->voidType()->llvmVersion(context_);
@@ -282,7 +350,11 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
       if (!mainType) {
         return createError(mainType.error());
       }
-    }
+    }*/
+    if (!mainType) {
+        return createError(mainType.error());
+      }
+
     funcType_ = llvm::FunctionType::get(*mainType, false);
     mainFunction_ = llvm::Function::Create(
         funcType_, llvm::Function::ExternalLinkage, "main", module_.get());
@@ -295,7 +367,8 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
       return createError(result.error());
     }
     if (!builder_.GetInsertBlock()->getTerminator())
-      builder_.CreateRetVoid();
+      builder_.CreateRet(llvm::ConstantInt::get(
+          *typeTable_->intType()->llvmVersion(context_), 0));
   }
 
   if (options_.optimize()) {
@@ -322,25 +395,39 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
     module_->print(llvm::outs(), nullptr);
   }
 
-  llvm::InitializeNativeTarget();
-  llvm::InitializeNativeTargetAsmPrinter();
-  llvm::InitializeNativeTargetAsmParser();
-  std::string errStr;
-  llvm::ExecutionEngine *execEngine =
-      llvm::EngineBuilder(std::move(module_))
-          .setErrorStr(&errStr)
-          .setOptLevel(llvm::CodeGenOptLevel::Default)
-          .create();
-  if (!execEngine) {
-    std::cerr << "Failed to create ExecutionEngine: " << errStr << std::endl;
+  if (options_.justInTime()) {
+    llvm::InitializeNativeTarget();
+    llvm::InitializeNativeTargetAsmPrinter();
+    llvm::InitializeNativeTargetAsmParser();
+    std::string errStr;
+    llvm::ExecutionEngine *execEngine =
+        llvm::EngineBuilder(std::move(module_))
+            .setErrorStr(&errStr)
+            .setOptLevel(llvm::CodeGenOptLevel::Default)
+            .create();
+    if (!execEngine) {
+      std::cerr << "Failed to create ExecutionEngine: " << errStr << std::endl;
+      return nullptr;
+    }
+
+    // Ejecuta la función main y obtiene el resultado
+    std::vector<llvm::GenericValue> noargs;
+    llvm::GenericValue gv = execEngine->runFunction(mainFunction_, noargs);
+
+    delete execEngine;
+
     return nullptr;
   }
 
-  // Ejecuta la función main y obtiene el resultado
-  std::vector<llvm::GenericValue> noargs;
-  llvm::GenericValue gv = execEngine->runFunction(mainFunction_, noargs);
+  auto emited{emitObjectFile(module_.get())};
 
-  delete execEngine;
+  if (!emited) {
+    return createError(emited.error());
+  }
+
+  system(std::string{"clang++ " + options_.binaryName() + ".o -o " +
+                     options_.binaryName()}
+             .c_str());
 
   return nullptr;
 }

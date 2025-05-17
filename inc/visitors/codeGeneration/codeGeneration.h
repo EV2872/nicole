@@ -6,6 +6,7 @@
 #include "../../tables/scope/scope.h"
 #include "../../tables/typeTable/typeTable.h"
 #include "../visitor.h"
+#include <expected>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/ExecutionEngine/MCJIT.h>
@@ -19,6 +20,7 @@
 #include <memory>
 #include <stack>
 #include <unordered_set>
+#include <variant>
 #include <vector>
 
 namespace nicole {
@@ -80,12 +82,17 @@ private:
   std::expected<llvm::Value *, Error>
   emitRValue(const AST *node) const noexcept;
 
+  [[nodiscard]] std::expected<std::monostate, Error>
+  emitObjectFile(llvm::Module *module) const noexcept;
+
   mutable std::unordered_set<llvm::Value *> allocatedPtrs_;
   mutable llvm::Function *mallocFn_ = nullptr;
   mutable llvm::Function *freeFn_ = nullptr;
   void ensureMallocFreeDeclared() const noexcept;
 
   bool isAggregateReturn(const AST_FUNC_DECL *node) const;
+
+  mutable bool isMain{true};
 
 public:
   CodeGeneration(const std::shared_ptr<FunctionTable> &functionTable,
