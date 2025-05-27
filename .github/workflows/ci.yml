@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ parser ]
+    branches: [ main ]
   pull_request:
-    branches: [ parser ]
+    branches: [ main ]
 
 jobs:
   build:
