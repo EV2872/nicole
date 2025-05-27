@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -73,11 +73,11 @@
 <span id="L11"><span class="lineNum">      11</span>              : class Attribute final : public Symbol {</span>
 <span id="L12"><span class="lineNum">      12</span>              : private:</span>
 <span id="L13"><span class="lineNum">      13</span>              :   std::shared_ptr&lt;Type&gt; type_{};</span>
-<span id="L14"><span class="lineNum">      14</span>              :   std::size_t position_;</span>
+<span id="L14"><span class="lineNum">      14</span>              :   mutable std::size_t position_;</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
 <span id="L16"><span class="lineNum">      16</span>              : public:</span>
-<span id="L17"><span class="lineNum">      17</span>              :   explicit Attribute(const std::string &amp;id,</span>
-<span id="L18"><span class="lineNum">      18</span>              :                      const std::shared_ptr&lt;Type&gt; &amp;type, const std::size_t pos) noexcept</span>
+<span id="L17"><span class="lineNum">      17</span>              :   explicit Attribute(const std::string &amp;id, const std::shared_ptr&lt;Type&gt; &amp;type,</span>
+<span id="L18"><span class="lineNum">      18</span>              :                      const std::size_t pos) noexcept</span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC tlaBgUNC">           0 :       : Symbol{id}, type_{type}, position_(pos) {}</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   [[nodiscard]] const std::shared_ptr&lt;Type&gt; &amp;type() const noexcept {</span></span>
@@ -85,11 +85,13 @@
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   [[nodiscard]] std::size_t position() const noexcept { return position_; }</span></span>
-<span id="L26"><span class="lineNum">      26</span>              : };</span>
-<span id="L27"><span class="lineNum">      27</span>              : </span>
-<span id="L28"><span class="lineNum">      28</span>              : } // namespace nicole</span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   void setPosition(const std::size_t pos) const noexcept { position_ = pos; }</span></span>
+<span id="L28"><span class="lineNum">      28</span>              : };</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span>              : #endif</span>
+<span id="L30"><span class="lineNum">      30</span>              : } // namespace nicole</span>
+<span id="L31"><span class="lineNum">      31</span>              : </span>
+<span id="L32"><span class="lineNum">      32</span>              : #endif</span>
         </pre>
               </td>
             </tr>

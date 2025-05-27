@@ -1,3 +1,5 @@
+# use in case that clangd starts glitching
+
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 
 rm -r "CMakeFiles"

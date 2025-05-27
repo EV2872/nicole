@@ -9,3 +9,4 @@ CMakeCache.txt
 CTestTestfile.cmake
 DartConfiguration.tcl
 tests*
+.vscode/

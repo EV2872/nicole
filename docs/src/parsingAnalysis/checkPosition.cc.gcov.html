@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -67,7 +67,7 @@
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : bool CheckPosition::hasAnyAncestorOf(</span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC tlaBgUNC">           0 :     const AST *node, const std::unordered_set&lt;AST_TYPE&gt; &amp;possibles) noexcept {</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   auto auxiliar{node};</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   const AST *auxiliar{node};</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   while (auxiliar-&gt;father()) {</span></span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :     auxiliar = auxiliar-&gt;father().get();</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     if (possibles.count(auxiliar-&gt;type())) {</span></span>
@@ -79,7 +79,7 @@
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span>              : bool CheckPosition::hasEveryAncestorInOrder(</span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     const AST *node, const std::vector&lt;AST_TYPE&gt; &amp;possibles) noexcept {</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   auto auxiliar{node};</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   const AST *auxiliar{node};</span></span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   size_t index{0};</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   while (auxiliar-&gt;father() and index &lt; possibles.size()) {</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     auxiliar = auxiliar-&gt;father().get();</span></span>
@@ -129,7 +129,7 @@
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L68"><span class="lineNum">      68</span>              : </span>
 <span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 : bool CheckPosition::isOutOfScope(const AST *node) noexcept {</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :   auto auxiliar{node};</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :   const AST *auxiliar{node};</span></span>
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :   while (auxiliar-&gt;father()) {</span></span>
 <span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :     auxiliar = auxiliar-&gt;father().get();</span></span>
 <span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :     if (auxiliar-&gt;type() == AST_TYPE::BODY and auxiliar-&gt;father()) {</span></span>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -129,277 +129,275 @@
 <span id="L67"><span class="lineNum">      67</span>              : </span>
 <span id="L68"><span class="lineNum">      68</span>              : #include &quot;../errors.h&quot;</span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
-<span id="L70"><span class="lineNum">      70</span>              : #include &lt;cstddef&gt;</span>
-<span id="L71"><span class="lineNum">      71</span>              : #include &lt;expected&gt;</span>
-<span id="L72"><span class="lineNum">      72</span>              : #include &lt;memory&gt;</span>
-<span id="L73"><span class="lineNum">      73</span>              : </span>
-<span id="L74"><span class="lineNum">      74</span>              : namespace nicole {</span>
-<span id="L75"><span class="lineNum">      75</span>              : </span>
-<span id="L76"><span class="lineNum">      76</span>              : class Builder final {</span>
-<span id="L77"><span class="lineNum">      77</span>              : private:</span>
-<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC tlaBgGNC">         384 :   [[nodiscard]] static long long unsigned generateNextId() noexcept {</span></span>
-<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">         384 :     static long long unsigned id{0};</span></span>
-<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">         384 :     return ++id;</span></span>
-<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">         384 :   }</span></span>
-<span id="L82"><span class="lineNum">      82</span>              : </span>
-<span id="L83"><span class="lineNum">      83</span>              :   Builder() noexcept = delete;</span>
-<span id="L84"><span class="lineNum">      84</span>              : </span>
-<span id="L85"><span class="lineNum">      85</span>              : public:</span>
-<span id="L86"><span class="lineNum">      86</span>              :   // Literals</span>
-<span id="L87"><span class="lineNum">      87</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BOOL&gt;, Error&gt;</span>
-<span id="L88"><span class="lineNum">      88</span>              :   createBool(const SourceLocation &amp;srcLoc, const bool value) noexcept;</span>
-<span id="L89"><span class="lineNum">      89</span>              : </span>
-<span id="L90"><span class="lineNum">      90</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CHAR&gt;, Error&gt;</span>
-<span id="L91"><span class="lineNum">      91</span>              :   createChar(const SourceLocation &amp;srcLoc, const std::string &amp;value) noexcept;</span>
-<span id="L92"><span class="lineNum">      92</span>              : </span>
-<span id="L93"><span class="lineNum">      93</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DOUBLE&gt;, Error&gt;</span>
-<span id="L94"><span class="lineNum">      94</span>              :   createDouble(const SourceLocation &amp;srcLoc, const double value) noexcept;</span>
-<span id="L95"><span class="lineNum">      95</span>              : </span>
-<span id="L96"><span class="lineNum">      96</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FLOAT&gt;, Error&gt;</span>
-<span id="L97"><span class="lineNum">      97</span>              :   createFloat(const SourceLocation &amp;srcLoc, const float value) noexcept;</span>
-<span id="L98"><span class="lineNum">      98</span>              : </span>
-<span id="L99"><span class="lineNum">      99</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_INT&gt;, Error&gt;</span>
-<span id="L100"><span class="lineNum">     100</span>              :   createInt(const SourceLocation &amp;srcLoc, const int value) noexcept;</span>
-<span id="L101"><span class="lineNum">     101</span>              : </span>
-<span id="L102"><span class="lineNum">     102</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_NULL&gt;, Error&gt;</span>
-<span id="L103"><span class="lineNum">     103</span>              :   createNull(const SourceLocation &amp;srcLoc) noexcept;</span>
-<span id="L104"><span class="lineNum">     104</span>              : </span>
-<span id="L105"><span class="lineNum">     105</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STRING&gt;, Error&gt;</span>
-<span id="L106"><span class="lineNum">     106</span>              :   createString(const SourceLocation &amp;srcLoc, const std::string value) noexcept;</span>
-<span id="L107"><span class="lineNum">     107</span>              : </span>
-<span id="L108"><span class="lineNum">     108</span>              :   // Vectors</span>
-<span id="L109"><span class="lineNum">     109</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt;</span>
-<span id="L110"><span class="lineNum">     110</span>              :   createVector(const SourceLocation &amp;srcLoc,</span>
-<span id="L111"><span class="lineNum">     111</span>              :                const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; values) noexcept;</span>
-<span id="L112"><span class="lineNum">     112</span>              : </span>
-<span id="L113"><span class="lineNum">     113</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_INDEX&gt;, Error&gt;</span>
-<span id="L114"><span class="lineNum">     114</span>              :   createIndex(const SourceLocation &amp;srcLoc,</span>
-<span id="L115"><span class="lineNum">     115</span>              :               const std::shared_ptr&lt;AST&gt; value) noexcept;</span>
-<span id="L116"><span class="lineNum">     116</span>              : </span>
-<span id="L117"><span class="lineNum">     117</span>              :   // Pointers</span>
-<span id="L118"><span class="lineNum">     118</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DELETE&gt;, Error&gt;</span>
-<span id="L119"><span class="lineNum">     119</span>              :   createDelete(const SourceLocation &amp;srcLoc,</span>
-<span id="L120"><span class="lineNum">     120</span>              :                const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L121"><span class="lineNum">     121</span>              : </span>
-<span id="L122"><span class="lineNum">     122</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_NEW&gt;, Error&gt;</span>
-<span id="L123"><span class="lineNum">     123</span>              :   createNew(const SourceLocation &amp;srcLoc,</span>
-<span id="L124"><span class="lineNum">     124</span>              :             const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L125"><span class="lineNum">     125</span>              : </span>
-<span id="L126"><span class="lineNum">     126</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DEREF&gt;, Error&gt;</span>
-<span id="L127"><span class="lineNum">     127</span>              :   createDeref(const SourceLocation &amp;srcLoc,</span>
-<span id="L128"><span class="lineNum">     128</span>              :               const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L129"><span class="lineNum">     129</span>              : </span>
-<span id="L130"><span class="lineNum">     130</span>              :   // Binary</span>
-<span id="L131"><span class="lineNum">     131</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BINARY&gt;, Error&gt;</span>
-<span id="L132"><span class="lineNum">     132</span>              :   createBinary(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
-<span id="L133"><span class="lineNum">     133</span>              :                const std::shared_ptr&lt;AST&gt; &amp;left,</span>
-<span id="L134"><span class="lineNum">     134</span>              :                const std::shared_ptr&lt;AST&gt; &amp;right) noexcept;</span>
-<span id="L135"><span class="lineNum">     135</span>              : </span>
-<span id="L136"><span class="lineNum">     136</span>              :   // Unary</span>
-<span id="L137"><span class="lineNum">     137</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_UNARY&gt;, Error&gt;</span>
-<span id="L138"><span class="lineNum">     138</span>              :   createUnary(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
-<span id="L139"><span class="lineNum">     139</span>              :               const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L140"><span class="lineNum">     140</span>              : </span>
-<span id="L141"><span class="lineNum">     141</span>              :   // Asignment</span>
-<span id="L142"><span class="lineNum">     142</span>              : </span>
-<span id="L143"><span class="lineNum">     143</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ASSIGNMENT&gt;, Error&gt;</span>
-<span id="L144"><span class="lineNum">     144</span>              :   createAssignment(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
-<span id="L145"><span class="lineNum">     145</span>              :                    const std::shared_ptr&lt;AST&gt; &amp;left,</span>
-<span id="L146"><span class="lineNum">     146</span>              :                    const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L147"><span class="lineNum">     147</span>              : </span>
-<span id="L148"><span class="lineNum">     148</span>              :   // Utils</span>
-<span id="L149"><span class="lineNum">     149</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_PRINT&gt;, Error&gt;</span>
-<span id="L150"><span class="lineNum">     150</span>              :   createPrint(const SourceLocation &amp;srcLoc,</span>
-<span id="L151"><span class="lineNum">     151</span>              :               const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;values) noexcept;</span>
-<span id="L152"><span class="lineNum">     152</span>              : </span>
-<span id="L153"><span class="lineNum">     153</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_IMPORT&gt;, Error&gt;</span>
-<span id="L154"><span class="lineNum">     154</span>              :   createImport(const SourceLocation &amp;srcLoc,</span>
-<span id="L155"><span class="lineNum">     155</span>              :                const std::filesystem::path &amp;path) noexcept;</span>
-<span id="L156"><span class="lineNum">     156</span>              : </span>
-<span id="L157"><span class="lineNum">     157</span>              :   // Statements</span>
-<span id="L158"><span class="lineNum">     158</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STATEMENT&gt;, Error&gt;</span>
-<span id="L159"><span class="lineNum">     159</span>              :   createStatement(const SourceLocation &amp;srcLoc,</span>
-<span id="L160"><span class="lineNum">     160</span>              :                   const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept;</span>
-<span id="L161"><span class="lineNum">     161</span>              : </span>
-<span id="L162"><span class="lineNum">     162</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;</span>
-<span id="L163"><span class="lineNum">     163</span>              :   createBody(const SourceLocation &amp;srcLoc,</span>
-<span id="L164"><span class="lineNum">     164</span>              :              const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;body) noexcept;</span>
-<span id="L165"><span class="lineNum">     165</span>              : </span>
-<span id="L166"><span class="lineNum">     166</span>              :   // Loops</span>
-<span id="L167"><span class="lineNum">     167</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_WHILE&gt;, Error&gt;</span>
-<span id="L168"><span class="lineNum">     168</span>              :   createWhile(const SourceLocation &amp;srcLoc,</span>
-<span id="L169"><span class="lineNum">     169</span>              :               const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L170"><span class="lineNum">     170</span>              :               const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L171"><span class="lineNum">     171</span>              : </span>
-<span id="L172"><span class="lineNum">     172</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FOR&gt;, Error&gt;</span>
-<span id="L173"><span class="lineNum">     173</span>              :   createFor(const SourceLocation &amp;srcLoc,</span>
-<span id="L174"><span class="lineNum">     174</span>              :             const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;init,</span>
-<span id="L175"><span class="lineNum">     175</span>              :             const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L176"><span class="lineNum">     176</span>              :             const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;update,</span>
-<span id="L177"><span class="lineNum">     177</span>              :             const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L178"><span class="lineNum">     178</span>              : </span>
-<span id="L179"><span class="lineNum">     179</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DO_WHILE&gt;, Error&gt;</span>
-<span id="L180"><span class="lineNum">     180</span>              :   createDoWhile(const SourceLocation &amp;srcLoc,</span>
-<span id="L181"><span class="lineNum">     181</span>              :                 const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
-<span id="L182"><span class="lineNum">     182</span>              :                 const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition) noexcept;</span>
-<span id="L183"><span class="lineNum">     183</span>              : </span>
-<span id="L184"><span class="lineNum">     184</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_PASS&gt;, Error&gt;</span>
-<span id="L185"><span class="lineNum">     185</span>              :   createPass(const SourceLocation &amp;srcLoc,</span>
-<span id="L186"><span class="lineNum">     186</span>              :              const std::shared_ptr&lt;AST&gt; &amp;fatherLoop) noexcept;</span>
-<span id="L187"><span class="lineNum">     187</span>              : </span>
-<span id="L188"><span class="lineNum">     188</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STOP&gt;, Error&gt;</span>
-<span id="L189"><span class="lineNum">     189</span>              :   createStop(const SourceLocation &amp;srcLoc,</span>
-<span id="L190"><span class="lineNum">     190</span>              :              const std::shared_ptr&lt;AST&gt; &amp;fatherLoop) noexcept;</span>
-<span id="L191"><span class="lineNum">     191</span>              : </span>
-<span id="L192"><span class="lineNum">     192</span>              :   // Conditionals</span>
-<span id="L193"><span class="lineNum">     193</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt;</span>
-<span id="L194"><span class="lineNum">     194</span>              :   createIf(const SourceLocation &amp;srcLoc,</span>
-<span id="L195"><span class="lineNum">     195</span>              :            const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L196"><span class="lineNum">     196</span>              :            const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
-<span id="L197"><span class="lineNum">     197</span>              :            const std::vector&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;&gt; &amp;elseIf,</span>
-<span id="L198"><span class="lineNum">     198</span>              :            const std::shared_ptr&lt;AST_BODY&gt; &amp;elseBody) noexcept;</span>
-<span id="L199"><span class="lineNum">     199</span>              : </span>
-<span id="L200"><span class="lineNum">     200</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;</span>
-<span id="L201"><span class="lineNum">     201</span>              :   createElseIf(const SourceLocation &amp;srcLoc,</span>
-<span id="L202"><span class="lineNum">     202</span>              :                const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L203"><span class="lineNum">     203</span>              :                const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L204"><span class="lineNum">     204</span>              : </span>
-<span id="L205"><span class="lineNum">     205</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;</span>
-<span id="L206"><span class="lineNum">     206</span>              :   createSwitch(const SourceLocation &amp;srcLoc,</span>
-<span id="L207"><span class="lineNum">     207</span>              :                const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L208"><span class="lineNum">     208</span>              :                const std::vector&lt;std::shared_ptr&lt;AST_CASE&gt;&gt; &amp;cases,</span>
-<span id="L209"><span class="lineNum">     209</span>              :                const std::shared_ptr&lt;AST_DEFAULT&gt; &amp;default_) noexcept;</span>
-<span id="L210"><span class="lineNum">     210</span>              : </span>
-<span id="L211"><span class="lineNum">     211</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt;</span>
-<span id="L212"><span class="lineNum">     212</span>              :   createCase(const SourceLocation &amp;srcLoc, const std::shared_ptr&lt;AST&gt; &amp;match,</span>
-<span id="L213"><span class="lineNum">     213</span>              :              const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L214"><span class="lineNum">     214</span>              : </span>
-<span id="L215"><span class="lineNum">     215</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;</span>
-<span id="L216"><span class="lineNum">     216</span>              :   createDefault(const SourceLocation &amp;srcLoc,</span>
-<span id="L217"><span class="lineNum">     217</span>              :                 const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L218"><span class="lineNum">     218</span>              : </span>
-<span id="L219"><span class="lineNum">     219</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_TERNARY&gt;, Error&gt;</span>
-<span id="L220"><span class="lineNum">     220</span>              :   createTernary(const SourceLocation &amp;srcLoc,</span>
-<span id="L221"><span class="lineNum">     221</span>              :                 const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L222"><span class="lineNum">     222</span>              :                 const std::shared_ptr&lt;AST&gt; &amp;first,</span>
-<span id="L223"><span class="lineNum">     223</span>              :                 const std::shared_ptr&lt;AST&gt; &amp;second) noexcept;</span>
-<span id="L224"><span class="lineNum">     224</span>              : </span>
-<span id="L225"><span class="lineNum">     225</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;</span>
-<span id="L226"><span class="lineNum">     226</span>              :   createCondition(const SourceLocation &amp;srcLoc,</span>
-<span id="L227"><span class="lineNum">     227</span>              :                   const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept;</span>
-<span id="L228"><span class="lineNum">     228</span>              : </span>
-<span id="L229"><span class="lineNum">     229</span>              :   // Functions</span>
-<span id="L230"><span class="lineNum">     230</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FUNC_CALL&gt;, Error&gt;</span>
-<span id="L231"><span class="lineNum">     231</span>              :   createFunCall(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L232"><span class="lineNum">     232</span>              :                 const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
-<span id="L233"><span class="lineNum">     233</span>              :                 const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
-<span id="L234"><span class="lineNum">     234</span>              : </span>
-<span id="L235"><span class="lineNum">     235</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt;</span>
-<span id="L236"><span class="lineNum">     236</span>              :   createFuncDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L237"><span class="lineNum">     237</span>              :                  const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
-<span id="L238"><span class="lineNum">     238</span>              :                  const Parameters &amp;params,</span>
-<span id="L239"><span class="lineNum">     239</span>              :                  const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
-<span id="L240"><span class="lineNum">     240</span>              :                  const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L241"><span class="lineNum">     241</span>              : </span>
-<span id="L242"><span class="lineNum">     242</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt;</span>
-<span id="L243"><span class="lineNum">     243</span>              :   createReturn(const SourceLocation &amp;srcLoc,</span>
-<span id="L244"><span class="lineNum">     244</span>              :                const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L245"><span class="lineNum">     245</span>              : </span>
-<span id="L246"><span class="lineNum">     246</span>              :   // Enum</span>
-<span id="L247"><span class="lineNum">     247</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ENUM&gt;, Error&gt;</span>
-<span id="L248"><span class="lineNum">     248</span>              :   createEnum(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L249"><span class="lineNum">     249</span>              :              const std::vector&lt;std::string&gt; &amp;enumIdentifiers) noexcept;</span>
-<span id="L250"><span class="lineNum">     250</span>              : </span>
-<span id="L251"><span class="lineNum">     251</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ENUM_ACCESS&gt;, Error&gt;</span>
-<span id="L252"><span class="lineNum">     252</span>              :   createEnumAccess(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L253"><span class="lineNum">     253</span>              :                    const std::string &amp;identifiers) noexcept;</span>
-<span id="L254"><span class="lineNum">     254</span>              : </span>
-<span id="L255"><span class="lineNum">     255</span>              :   // Usert types</span>
-<span id="L256"><span class="lineNum">     256</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STRUCT&gt;, Error&gt;</span>
-<span id="L257"><span class="lineNum">     257</span>              :   createStruct(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L258"><span class="lineNum">     258</span>              :                const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
-<span id="L259"><span class="lineNum">     259</span>              :                const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
-<span id="L260"><span class="lineNum">     260</span>              :                const Attributes &amp;attributes,</span>
-<span id="L261"><span class="lineNum">     261</span>              :                const std::vector&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;&gt; &amp;methods,</span>
-<span id="L262"><span class="lineNum">     262</span>              :                const std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt; &amp;constructor,</span>
-<span id="L263"><span class="lineNum">     263</span>              :                const std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt; &amp;destructor) noexcept;</span>
-<span id="L264"><span class="lineNum">     264</span>              : </span>
-<span id="L265"><span class="lineNum">     265</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ATTR_ACCESS&gt;, Error&gt;</span>
-<span id="L266"><span class="lineNum">     266</span>              :   createAttrAccess(const SourceLocation &amp;srcLoc,</span>
-<span id="L267"><span class="lineNum">     267</span>              :                    const std::string &amp;id) noexcept;</span>
-<span id="L268"><span class="lineNum">     268</span>              : </span>
-<span id="L269"><span class="lineNum">     269</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_METHOD_CALL&gt;, Error&gt;</span>
-<span id="L270"><span class="lineNum">     270</span>              :   createMethodCall(</span>
-<span id="L271"><span class="lineNum">     271</span>              :       const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L272"><span class="lineNum">     272</span>              :       const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
-<span id="L273"><span class="lineNum">     273</span>              :       const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
-<span id="L274"><span class="lineNum">     274</span>              : </span>
-<span id="L275"><span class="lineNum">     275</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;</span>
-<span id="L276"><span class="lineNum">     276</span>              :   createMethodDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L277"><span class="lineNum">     277</span>              :                    const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
-<span id="L278"><span class="lineNum">     278</span>              :                    const Parameters &amp;params,</span>
-<span id="L279"><span class="lineNum">     279</span>              : </span>
-<span id="L280"><span class="lineNum">     280</span>              :                    const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
-<span id="L281"><span class="lineNum">     281</span>              :                    const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
-<span id="L282"><span class="lineNum">     282</span>              :                    const bool isVirtual) noexcept;</span>
-<span id="L283"><span class="lineNum">     283</span>              : </span>
-<span id="L284"><span class="lineNum">     284</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt;,</span>
-<span id="L285"><span class="lineNum">     285</span>              :                                      Error&gt;</span>
-<span id="L286"><span class="lineNum">     286</span>              :   createConstructorDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L287"><span class="lineNum">     287</span>              :                         const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
-<span id="L288"><span class="lineNum">     288</span>              :                         const Parameters &amp;params,</span>
-<span id="L289"><span class="lineNum">     289</span>              :                         const std::shared_ptr&lt;AST_SUPER&gt; &amp;super,</span>
-<span id="L290"><span class="lineNum">     290</span>              :                         const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
-<span id="L291"><span class="lineNum">     291</span>              :                         const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L292"><span class="lineNum">     292</span>              : </span>
-<span id="L293"><span class="lineNum">     293</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt;,</span>
-<span id="L294"><span class="lineNum">     294</span>              :                                      Error&gt;</span>
-<span id="L295"><span class="lineNum">     295</span>              :   createDestructorDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L296"><span class="lineNum">     296</span>              :                        const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
-<span id="L297"><span class="lineNum">     297</span>              : </span>
-<span id="L298"><span class="lineNum">     298</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_SUPER&gt;, Error&gt;</span>
-<span id="L299"><span class="lineNum">     299</span>              :   createSuper(const SourceLocation &amp;srcLoc,</span>
-<span id="L300"><span class="lineNum">     300</span>              :               const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
-<span id="L301"><span class="lineNum">     301</span>              :               const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replacements,</span>
-<span id="L302"><span class="lineNum">     302</span>              :               const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;arguments) noexcept;</span>
-<span id="L303"><span class="lineNum">     303</span>              : </span>
-<span id="L304"><span class="lineNum">     304</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_THIS&gt;, Error&gt;</span>
-<span id="L305"><span class="lineNum">     305</span>              :   createThis(const SourceLocation &amp;srcLoc) noexcept;</span>
-<span id="L306"><span class="lineNum">     306</span>              : </span>
-<span id="L307"><span class="lineNum">     307</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_CALL&gt;,</span>
-<span id="L308"><span class="lineNum">     308</span>              :                                      Error&gt;</span>
-<span id="L309"><span class="lineNum">     309</span>              :   createConstructorCall(</span>
-<span id="L310"><span class="lineNum">     310</span>              :       const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L311"><span class="lineNum">     311</span>              :       const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
-<span id="L312"><span class="lineNum">     312</span>              :       const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
-<span id="L313"><span class="lineNum">     313</span>              : </span>
-<span id="L314"><span class="lineNum">     314</span>              :   // Variables</span>
-<span id="L315"><span class="lineNum">     315</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_AUTO_DECL&gt;, Error&gt;</span>
-<span id="L316"><span class="lineNum">     316</span>              :   createAutoDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L317"><span class="lineNum">     317</span>              :                  const std::shared_ptr&lt;AST&gt; &amp;value,</span>
-<span id="L318"><span class="lineNum">     318</span>              :                  const bool isConst) noexcept;</span>
-<span id="L319"><span class="lineNum">     319</span>              : </span>
-<span id="L320"><span class="lineNum">     320</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VAR_TYPED_DECL&gt;, Error&gt;</span>
-<span id="L321"><span class="lineNum">     321</span>              :   createVarTypedtDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
-<span id="L322"><span class="lineNum">     322</span>              :                       const std::shared_ptr&lt;Type&gt; &amp;type,</span>
-<span id="L323"><span class="lineNum">     323</span>              :                       const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
-<span id="L324"><span class="lineNum">     324</span>              : </span>
-<span id="L325"><span class="lineNum">     325</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VAR_CALL&gt;, Error&gt;</span>
-<span id="L326"><span class="lineNum">     326</span>              :   createVarCall(const SourceLocation &amp;srcLoc, const std::string &amp;id) noexcept;</span>
-<span id="L327"><span class="lineNum">     327</span>              : </span>
-<span id="L328"><span class="lineNum">     328</span>              :   // Chained expression</span>
-<span id="L329"><span class="lineNum">     329</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CHAINED&gt;, Error&gt;</span>
-<span id="L330"><span class="lineNum">     330</span>              :   createChained(const SourceLocation &amp;srcLoc, const std::shared_ptr&lt;AST&gt; &amp;base,</span>
-<span id="L331"><span class="lineNum">     331</span>              :                 const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;operations) noexcept;</span>
-<span id="L332"><span class="lineNum">     332</span>              : </span>
-<span id="L333"><span class="lineNum">     333</span>              :   // Tree</span>
-<span id="L334"><span class="lineNum">     334</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;Tree&gt;, Error&gt;</span>
-<span id="L335"><span class="lineNum">     335</span>              :   createTree(const std::shared_ptr&lt;AST_BODY&gt; &amp;statements) noexcept;</span>
-<span id="L336"><span class="lineNum">     336</span>              : };</span>
+<span id="L70"><span class="lineNum">      70</span>              : #include &lt;expected&gt;</span>
+<span id="L71"><span class="lineNum">      71</span>              : #include &lt;memory&gt;</span>
+<span id="L72"><span class="lineNum">      72</span>              : </span>
+<span id="L73"><span class="lineNum">      73</span>              : namespace nicole {</span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span>              : class Builder final {</span>
+<span id="L76"><span class="lineNum">      76</span>              : private:</span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC tlaBgGNC">         528 :   [[nodiscard]] static long long unsigned generateNextId() noexcept {</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">         528 :     static long long unsigned id{0};</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">         528 :     return ++id;</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">         528 :   }</span></span>
+<span id="L81"><span class="lineNum">      81</span>              : </span>
+<span id="L82"><span class="lineNum">      82</span>              :   Builder() noexcept = delete;</span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span>              : public:</span>
+<span id="L85"><span class="lineNum">      85</span>              :   // Literals</span>
+<span id="L86"><span class="lineNum">      86</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BOOL&gt;, Error&gt;</span>
+<span id="L87"><span class="lineNum">      87</span>              :   createBool(const SourceLocation &amp;srcLoc, const bool value) noexcept;</span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CHAR&gt;, Error&gt;</span>
+<span id="L90"><span class="lineNum">      90</span>              :   createChar(const SourceLocation &amp;srcLoc, const std::string &amp;value) noexcept;</span>
+<span id="L91"><span class="lineNum">      91</span>              : </span>
+<span id="L92"><span class="lineNum">      92</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DOUBLE&gt;, Error&gt;</span>
+<span id="L93"><span class="lineNum">      93</span>              :   createDouble(const SourceLocation &amp;srcLoc, const double value) noexcept;</span>
+<span id="L94"><span class="lineNum">      94</span>              : </span>
+<span id="L95"><span class="lineNum">      95</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FLOAT&gt;, Error&gt;</span>
+<span id="L96"><span class="lineNum">      96</span>              :   createFloat(const SourceLocation &amp;srcLoc, const float value) noexcept;</span>
+<span id="L97"><span class="lineNum">      97</span>              : </span>
+<span id="L98"><span class="lineNum">      98</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_INT&gt;, Error&gt;</span>
+<span id="L99"><span class="lineNum">      99</span>              :   createInt(const SourceLocation &amp;srcLoc, const int value) noexcept;</span>
+<span id="L100"><span class="lineNum">     100</span>              : </span>
+<span id="L101"><span class="lineNum">     101</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_NULL&gt;, Error&gt;</span>
+<span id="L102"><span class="lineNum">     102</span>              :   createNull(const SourceLocation &amp;srcLoc) noexcept;</span>
+<span id="L103"><span class="lineNum">     103</span>              : </span>
+<span id="L104"><span class="lineNum">     104</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STRING&gt;, Error&gt;</span>
+<span id="L105"><span class="lineNum">     105</span>              :   createString(const SourceLocation &amp;srcLoc, const std::string value) noexcept;</span>
+<span id="L106"><span class="lineNum">     106</span>              : </span>
+<span id="L107"><span class="lineNum">     107</span>              :   // Vectors</span>
+<span id="L108"><span class="lineNum">     108</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt;</span>
+<span id="L109"><span class="lineNum">     109</span>              :   createVector(const SourceLocation &amp;srcLoc,</span>
+<span id="L110"><span class="lineNum">     110</span>              :                const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; values) noexcept;</span>
+<span id="L111"><span class="lineNum">     111</span>              : </span>
+<span id="L112"><span class="lineNum">     112</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_INDEX&gt;, Error&gt;</span>
+<span id="L113"><span class="lineNum">     113</span>              :   createIndex(const SourceLocation &amp;srcLoc,</span>
+<span id="L114"><span class="lineNum">     114</span>              :               const std::shared_ptr&lt;AST&gt; value) noexcept;</span>
+<span id="L115"><span class="lineNum">     115</span>              : </span>
+<span id="L116"><span class="lineNum">     116</span>              :   // Pointers</span>
+<span id="L117"><span class="lineNum">     117</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DELETE&gt;, Error&gt;</span>
+<span id="L118"><span class="lineNum">     118</span>              :   createDelete(const SourceLocation &amp;srcLoc,</span>
+<span id="L119"><span class="lineNum">     119</span>              :                const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L120"><span class="lineNum">     120</span>              : </span>
+<span id="L121"><span class="lineNum">     121</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_NEW&gt;, Error&gt;</span>
+<span id="L122"><span class="lineNum">     122</span>              :   createNew(const SourceLocation &amp;srcLoc,</span>
+<span id="L123"><span class="lineNum">     123</span>              :             const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L124"><span class="lineNum">     124</span>              : </span>
+<span id="L125"><span class="lineNum">     125</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DEREF&gt;, Error&gt;</span>
+<span id="L126"><span class="lineNum">     126</span>              :   createDeref(const SourceLocation &amp;srcLoc,</span>
+<span id="L127"><span class="lineNum">     127</span>              :               const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L128"><span class="lineNum">     128</span>              : </span>
+<span id="L129"><span class="lineNum">     129</span>              :   // Binary</span>
+<span id="L130"><span class="lineNum">     130</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BINARY&gt;, Error&gt;</span>
+<span id="L131"><span class="lineNum">     131</span>              :   createBinary(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
+<span id="L132"><span class="lineNum">     132</span>              :                const std::shared_ptr&lt;AST&gt; &amp;left,</span>
+<span id="L133"><span class="lineNum">     133</span>              :                const std::shared_ptr&lt;AST&gt; &amp;right) noexcept;</span>
+<span id="L134"><span class="lineNum">     134</span>              : </span>
+<span id="L135"><span class="lineNum">     135</span>              :   // Unary</span>
+<span id="L136"><span class="lineNum">     136</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_UNARY&gt;, Error&gt;</span>
+<span id="L137"><span class="lineNum">     137</span>              :   createUnary(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
+<span id="L138"><span class="lineNum">     138</span>              :               const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L139"><span class="lineNum">     139</span>              : </span>
+<span id="L140"><span class="lineNum">     140</span>              :   // Asignment</span>
+<span id="L141"><span class="lineNum">     141</span>              : </span>
+<span id="L142"><span class="lineNum">     142</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ASSIGNMENT&gt;, Error&gt;</span>
+<span id="L143"><span class="lineNum">     143</span>              :   createAssignment(const SourceLocation &amp;srcLoc, const Token &amp;op,</span>
+<span id="L144"><span class="lineNum">     144</span>              :                    const std::shared_ptr&lt;AST&gt; &amp;left,</span>
+<span id="L145"><span class="lineNum">     145</span>              :                    const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L146"><span class="lineNum">     146</span>              : </span>
+<span id="L147"><span class="lineNum">     147</span>              :   // Utils</span>
+<span id="L148"><span class="lineNum">     148</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_PRINT&gt;, Error&gt;</span>
+<span id="L149"><span class="lineNum">     149</span>              :   createPrint(const SourceLocation &amp;srcLoc,</span>
+<span id="L150"><span class="lineNum">     150</span>              :               const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;values) noexcept;</span>
+<span id="L151"><span class="lineNum">     151</span>              : </span>
+<span id="L152"><span class="lineNum">     152</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_IMPORT&gt;, Error&gt;</span>
+<span id="L153"><span class="lineNum">     153</span>              :   createImport(const SourceLocation &amp;srcLoc,</span>
+<span id="L154"><span class="lineNum">     154</span>              :                const std::filesystem::path &amp;path) noexcept;</span>
+<span id="L155"><span class="lineNum">     155</span>              : </span>
+<span id="L156"><span class="lineNum">     156</span>              :   // Statements</span>
+<span id="L157"><span class="lineNum">     157</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STATEMENT&gt;, Error&gt;</span>
+<span id="L158"><span class="lineNum">     158</span>              :   createStatement(const SourceLocation &amp;srcLoc,</span>
+<span id="L159"><span class="lineNum">     159</span>              :                   const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept;</span>
+<span id="L160"><span class="lineNum">     160</span>              : </span>
+<span id="L161"><span class="lineNum">     161</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;</span>
+<span id="L162"><span class="lineNum">     162</span>              :   createBody(const SourceLocation &amp;srcLoc,</span>
+<span id="L163"><span class="lineNum">     163</span>              :              const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;body) noexcept;</span>
+<span id="L164"><span class="lineNum">     164</span>              : </span>
+<span id="L165"><span class="lineNum">     165</span>              :   // Loops</span>
+<span id="L166"><span class="lineNum">     166</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_WHILE&gt;, Error&gt;</span>
+<span id="L167"><span class="lineNum">     167</span>              :   createWhile(const SourceLocation &amp;srcLoc,</span>
+<span id="L168"><span class="lineNum">     168</span>              :               const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L169"><span class="lineNum">     169</span>              :               const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L170"><span class="lineNum">     170</span>              : </span>
+<span id="L171"><span class="lineNum">     171</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FOR&gt;, Error&gt;</span>
+<span id="L172"><span class="lineNum">     172</span>              :   createFor(const SourceLocation &amp;srcLoc,</span>
+<span id="L173"><span class="lineNum">     173</span>              :             const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;init,</span>
+<span id="L174"><span class="lineNum">     174</span>              :             const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L175"><span class="lineNum">     175</span>              :             const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;update,</span>
+<span id="L176"><span class="lineNum">     176</span>              :             const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L177"><span class="lineNum">     177</span>              : </span>
+<span id="L178"><span class="lineNum">     178</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DO_WHILE&gt;, Error&gt;</span>
+<span id="L179"><span class="lineNum">     179</span>              :   createDoWhile(const SourceLocation &amp;srcLoc,</span>
+<span id="L180"><span class="lineNum">     180</span>              :                 const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
+<span id="L181"><span class="lineNum">     181</span>              :                 const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition) noexcept;</span>
+<span id="L182"><span class="lineNum">     182</span>              : </span>
+<span id="L183"><span class="lineNum">     183</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_PASS&gt;, Error&gt;</span>
+<span id="L184"><span class="lineNum">     184</span>              :   createPass(const SourceLocation &amp;srcLoc) noexcept;</span>
+<span id="L185"><span class="lineNum">     185</span>              : </span>
+<span id="L186"><span class="lineNum">     186</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STOP&gt;, Error&gt;</span>
+<span id="L187"><span class="lineNum">     187</span>              :   createStop(const SourceLocation &amp;srcLoc) noexcept;</span>
+<span id="L188"><span class="lineNum">     188</span>              : </span>
+<span id="L189"><span class="lineNum">     189</span>              :   // Conditionals</span>
+<span id="L190"><span class="lineNum">     190</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt;</span>
+<span id="L191"><span class="lineNum">     191</span>              :   createIf(const SourceLocation &amp;srcLoc,</span>
+<span id="L192"><span class="lineNum">     192</span>              :            const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L193"><span class="lineNum">     193</span>              :            const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
+<span id="L194"><span class="lineNum">     194</span>              :            const std::vector&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;&gt; &amp;elseIf,</span>
+<span id="L195"><span class="lineNum">     195</span>              :            const std::shared_ptr&lt;AST_BODY&gt; &amp;elseBody) noexcept;</span>
+<span id="L196"><span class="lineNum">     196</span>              : </span>
+<span id="L197"><span class="lineNum">     197</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;</span>
+<span id="L198"><span class="lineNum">     198</span>              :   createElseIf(const SourceLocation &amp;srcLoc,</span>
+<span id="L199"><span class="lineNum">     199</span>              :                const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L200"><span class="lineNum">     200</span>              :                const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L201"><span class="lineNum">     201</span>              : </span>
+<span id="L202"><span class="lineNum">     202</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;</span>
+<span id="L203"><span class="lineNum">     203</span>              :   createSwitch(const SourceLocation &amp;srcLoc,</span>
+<span id="L204"><span class="lineNum">     204</span>              :                const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L205"><span class="lineNum">     205</span>              :                const std::vector&lt;std::shared_ptr&lt;AST_CASE&gt;&gt; &amp;cases,</span>
+<span id="L206"><span class="lineNum">     206</span>              :                const std::shared_ptr&lt;AST_DEFAULT&gt; &amp;default_) noexcept;</span>
+<span id="L207"><span class="lineNum">     207</span>              : </span>
+<span id="L208"><span class="lineNum">     208</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt;</span>
+<span id="L209"><span class="lineNum">     209</span>              :   createCase(const SourceLocation &amp;srcLoc, const std::shared_ptr&lt;AST&gt; &amp;match,</span>
+<span id="L210"><span class="lineNum">     210</span>              :              const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L211"><span class="lineNum">     211</span>              : </span>
+<span id="L212"><span class="lineNum">     212</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;</span>
+<span id="L213"><span class="lineNum">     213</span>              :   createDefault(const SourceLocation &amp;srcLoc,</span>
+<span id="L214"><span class="lineNum">     214</span>              :                 const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L215"><span class="lineNum">     215</span>              : </span>
+<span id="L216"><span class="lineNum">     216</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_TERNARY&gt;, Error&gt;</span>
+<span id="L217"><span class="lineNum">     217</span>              :   createTernary(const SourceLocation &amp;srcLoc,</span>
+<span id="L218"><span class="lineNum">     218</span>              :                 const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
+<span id="L219"><span class="lineNum">     219</span>              :                 const std::shared_ptr&lt;AST&gt; &amp;first,</span>
+<span id="L220"><span class="lineNum">     220</span>              :                 const std::shared_ptr&lt;AST&gt; &amp;second) noexcept;</span>
+<span id="L221"><span class="lineNum">     221</span>              : </span>
+<span id="L222"><span class="lineNum">     222</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;</span>
+<span id="L223"><span class="lineNum">     223</span>              :   createCondition(const SourceLocation &amp;srcLoc,</span>
+<span id="L224"><span class="lineNum">     224</span>              :                   const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept;</span>
+<span id="L225"><span class="lineNum">     225</span>              : </span>
+<span id="L226"><span class="lineNum">     226</span>              :   // Functions</span>
+<span id="L227"><span class="lineNum">     227</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FUNC_CALL&gt;, Error&gt;</span>
+<span id="L228"><span class="lineNum">     228</span>              :   createFunCall(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L229"><span class="lineNum">     229</span>              :                 const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
+<span id="L230"><span class="lineNum">     230</span>              :                 const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
+<span id="L231"><span class="lineNum">     231</span>              : </span>
+<span id="L232"><span class="lineNum">     232</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt;</span>
+<span id="L233"><span class="lineNum">     233</span>              :   createFuncDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L234"><span class="lineNum">     234</span>              :                  const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
+<span id="L235"><span class="lineNum">     235</span>              :                  const Parameters &amp;params,</span>
+<span id="L236"><span class="lineNum">     236</span>              :                  const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
+<span id="L237"><span class="lineNum">     237</span>              :                  const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L238"><span class="lineNum">     238</span>              : </span>
+<span id="L239"><span class="lineNum">     239</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt;</span>
+<span id="L240"><span class="lineNum">     240</span>              :   createReturn(const SourceLocation &amp;srcLoc,</span>
+<span id="L241"><span class="lineNum">     241</span>              :                const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L242"><span class="lineNum">     242</span>              : </span>
+<span id="L243"><span class="lineNum">     243</span>              :   // Enum</span>
+<span id="L244"><span class="lineNum">     244</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ENUM&gt;, Error&gt;</span>
+<span id="L245"><span class="lineNum">     245</span>              :   createEnum(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L246"><span class="lineNum">     246</span>              :              const std::vector&lt;std::string&gt; &amp;enumIdentifiers) noexcept;</span>
+<span id="L247"><span class="lineNum">     247</span>              : </span>
+<span id="L248"><span class="lineNum">     248</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ENUM_ACCESS&gt;, Error&gt;</span>
+<span id="L249"><span class="lineNum">     249</span>              :   createEnumAccess(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L250"><span class="lineNum">     250</span>              :                    const std::string &amp;identifiers) noexcept;</span>
+<span id="L251"><span class="lineNum">     251</span>              : </span>
+<span id="L252"><span class="lineNum">     252</span>              :   // Usert types</span>
+<span id="L253"><span class="lineNum">     253</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_STRUCT&gt;, Error&gt;</span>
+<span id="L254"><span class="lineNum">     254</span>              :   createStruct(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L255"><span class="lineNum">     255</span>              :                const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
+<span id="L256"><span class="lineNum">     256</span>              :                const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
+<span id="L257"><span class="lineNum">     257</span>              :                const Attributes &amp;attributes,</span>
+<span id="L258"><span class="lineNum">     258</span>              :                const std::vector&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;&gt; &amp;methods,</span>
+<span id="L259"><span class="lineNum">     259</span>              :                const std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt; &amp;constructor,</span>
+<span id="L260"><span class="lineNum">     260</span>              :                const std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt; &amp;destructor) noexcept;</span>
+<span id="L261"><span class="lineNum">     261</span>              : </span>
+<span id="L262"><span class="lineNum">     262</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_ATTR_ACCESS&gt;, Error&gt;</span>
+<span id="L263"><span class="lineNum">     263</span>              :   createAttrAccess(const SourceLocation &amp;srcLoc,</span>
+<span id="L264"><span class="lineNum">     264</span>              :                    const std::string &amp;id) noexcept;</span>
+<span id="L265"><span class="lineNum">     265</span>              : </span>
+<span id="L266"><span class="lineNum">     266</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_METHOD_CALL&gt;, Error&gt;</span>
+<span id="L267"><span class="lineNum">     267</span>              :   createMethodCall(</span>
+<span id="L268"><span class="lineNum">     268</span>              :       const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L269"><span class="lineNum">     269</span>              :       const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
+<span id="L270"><span class="lineNum">     270</span>              :       const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
+<span id="L271"><span class="lineNum">     271</span>              : </span>
+<span id="L272"><span class="lineNum">     272</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;</span>
+<span id="L273"><span class="lineNum">     273</span>              :   createMethodDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L274"><span class="lineNum">     274</span>              :                    const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
+<span id="L275"><span class="lineNum">     275</span>              :                    const Parameters &amp;params,</span>
+<span id="L276"><span class="lineNum">     276</span>              : </span>
+<span id="L277"><span class="lineNum">     277</span>              :                    const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
+<span id="L278"><span class="lineNum">     278</span>              :                    const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
+<span id="L279"><span class="lineNum">     279</span>              :                    const bool isVirtual) noexcept;</span>
+<span id="L280"><span class="lineNum">     280</span>              : </span>
+<span id="L281"><span class="lineNum">     281</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt;,</span>
+<span id="L282"><span class="lineNum">     282</span>              :                                      Error&gt;</span>
+<span id="L283"><span class="lineNum">     283</span>              :   createConstructorDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L284"><span class="lineNum">     284</span>              :                         const std::vector&lt;GenericParameter&gt; &amp;generics,</span>
+<span id="L285"><span class="lineNum">     285</span>              :                         const Parameters &amp;params,</span>
+<span id="L286"><span class="lineNum">     286</span>              :                         const std::shared_ptr&lt;AST_SUPER&gt; &amp;super,</span>
+<span id="L287"><span class="lineNum">     287</span>              :                         const std::shared_ptr&lt;Type&gt; &amp;returnType,</span>
+<span id="L288"><span class="lineNum">     288</span>              :                         const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept;</span>
+<span id="L289"><span class="lineNum">     289</span>              : </span>
+<span id="L290"><span class="lineNum">     290</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt;,</span>
+<span id="L291"><span class="lineNum">     291</span>              :                                      Error&gt;</span>
+<span id="L292"><span class="lineNum">     292</span>              :   createDestructorDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L293"><span class="lineNum">     293</span>              :                        const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
+<span id="L294"><span class="lineNum">     294</span>              :                        const bool isVirtual) noexcept;</span>
+<span id="L295"><span class="lineNum">     295</span>              : </span>
+<span id="L296"><span class="lineNum">     296</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_SUPER&gt;, Error&gt;</span>
+<span id="L297"><span class="lineNum">     297</span>              :   createSuper(const SourceLocation &amp;srcLoc,</span>
+<span id="L298"><span class="lineNum">     298</span>              :               const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
+<span id="L299"><span class="lineNum">     299</span>              :               const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replacements,</span>
+<span id="L300"><span class="lineNum">     300</span>              :               const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;arguments) noexcept;</span>
+<span id="L301"><span class="lineNum">     301</span>              : </span>
+<span id="L302"><span class="lineNum">     302</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_THIS&gt;, Error&gt;</span>
+<span id="L303"><span class="lineNum">     303</span>              :   createThis(const SourceLocation &amp;srcLoc) noexcept;</span>
+<span id="L304"><span class="lineNum">     304</span>              : </span>
+<span id="L305"><span class="lineNum">     305</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_CALL&gt;,</span>
+<span id="L306"><span class="lineNum">     306</span>              :                                      Error&gt;</span>
+<span id="L307"><span class="lineNum">     307</span>              :   createConstructorCall(</span>
+<span id="L308"><span class="lineNum">     308</span>              :       const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L309"><span class="lineNum">     309</span>              :       const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;replaceOfGenerics,</span>
+<span id="L310"><span class="lineNum">     310</span>              :       const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;parameters) noexcept;</span>
+<span id="L311"><span class="lineNum">     311</span>              : </span>
+<span id="L312"><span class="lineNum">     312</span>              :   // Variables</span>
+<span id="L313"><span class="lineNum">     313</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_AUTO_DECL&gt;, Error&gt;</span>
+<span id="L314"><span class="lineNum">     314</span>              :   createAutoDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L315"><span class="lineNum">     315</span>              :                  const std::shared_ptr&lt;AST&gt; &amp;value,</span>
+<span id="L316"><span class="lineNum">     316</span>              :                  const bool isConst) noexcept;</span>
+<span id="L317"><span class="lineNum">     317</span>              : </span>
+<span id="L318"><span class="lineNum">     318</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VAR_TYPED_DECL&gt;, Error&gt;</span>
+<span id="L319"><span class="lineNum">     319</span>              :   createVarTypedtDecl(const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>
+<span id="L320"><span class="lineNum">     320</span>              :                       const std::shared_ptr&lt;Type&gt; &amp;type,</span>
+<span id="L321"><span class="lineNum">     321</span>              :                       const std::shared_ptr&lt;AST&gt; &amp;value) noexcept;</span>
+<span id="L322"><span class="lineNum">     322</span>              : </span>
+<span id="L323"><span class="lineNum">     323</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_VAR_CALL&gt;, Error&gt;</span>
+<span id="L324"><span class="lineNum">     324</span>              :   createVarCall(const SourceLocation &amp;srcLoc, const std::string &amp;id) noexcept;</span>
+<span id="L325"><span class="lineNum">     325</span>              : </span>
+<span id="L326"><span class="lineNum">     326</span>              :   // Chained expression</span>
+<span id="L327"><span class="lineNum">     327</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;AST_CHAINED&gt;, Error&gt;</span>
+<span id="L328"><span class="lineNum">     328</span>              :   createChained(const SourceLocation &amp;srcLoc, const std::shared_ptr&lt;AST&gt; &amp;base,</span>
+<span id="L329"><span class="lineNum">     329</span>              :                 const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;operations) noexcept;</span>
+<span id="L330"><span class="lineNum">     330</span>              : </span>
+<span id="L331"><span class="lineNum">     331</span>              :   // Tree</span>
+<span id="L332"><span class="lineNum">     332</span>              :   [[nodiscard]] static std::expected&lt;std::shared_ptr&lt;Tree&gt;, Error&gt;</span>
+<span id="L333"><span class="lineNum">     333</span>              :   createTree(const std::shared_ptr&lt;AST_BODY&gt; &amp;statements) noexcept;</span>
+<span id="L334"><span class="lineNum">     334</span>              : };</span>
+<span id="L335"><span class="lineNum">     335</span>              : </span>
+<span id="L336"><span class="lineNum">     336</span>              : } // namespace nicole</span>
 <span id="L337"><span class="lineNum">     337</span>              : </span>
-<span id="L338"><span class="lineNum">     338</span>              : } // namespace nicole</span>
-<span id="L339"><span class="lineNum">     339</span>              : </span>
-<span id="L340"><span class="lineNum">     340</span>              : #endif</span>
+<span id="L338"><span class="lineNum">     338</span>              : #endif</span>
         </pre>
               </td>
             </tr>

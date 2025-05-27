@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">25.0&nbsp;%</td>
@@ -77,11 +77,11 @@
 <span id="L15"><span class="lineNum">      15</span>              :   explicit AST_IMPORT(const long long unsigned nodeId,</span>
 <span id="L16"><span class="lineNum">      16</span>              :                       const SourceLocation &amp;srcLoc,</span>
 <span id="L17"><span class="lineNum">      17</span>              :                       const std::filesystem::path &amp;path) noexcept</span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC tlaBgGNC">           1 :       : AST(nodeId, AST_TYPE::IMPORT, srcLoc), path_{path} {}</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC tlaBgGNC">           3 :       : AST(nodeId, AST_TYPE::IMPORT, srcLoc), path_{path} {}</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           9 :   [[nodiscard]] const std::filesystem::path &amp;path() const noexcept {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           9 :     return path_;</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           9 :   }</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          11 :   [[nodiscard]] const std::filesystem::path &amp;path() const noexcept {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          11 :     return path_;</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          11 :   }</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span>              :   [[nodiscard]] std::expected&lt;std::string, Error&gt;</span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC tlaBgUNC">           0 :   accept(const PrintTree &amp;visitor) const noexcept override {</span></span>
@@ -108,7 +108,7 @@
 <span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span>              :   [[nodiscard]] std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
+<span id="L49"><span class="lineNum">      49</span>              :   [[nodiscard]] std::expected&lt;llvm::Value*, Error&gt;</span>
 <span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :   accept(const CodeGeneration &amp;visitor) const noexcept override {</span></span>
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :   }</span></span>

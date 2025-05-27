@@ -41,6 +41,8 @@ Generate the AST and intermediate code without optimization:
 ./nicole.sh -p -i helloWorld.nc
 ```
 
+## Install without Docker
+
 ## Install using docker
 Start the server if needed
 ```sh
@@ -94,10 +96,14 @@ These versions were used during the development phase but they might not be need
 - `The project only has been tested in Linux`
 - `LLD 19.1.7` (optional) compatible with GNU linkers (not yet implemented)
 
-## Features Implemented
-
-## Features yet to implement
-
 ## Folder structure
 
-## Grammar
+- `Plain:` configuration files
+- `.github:` to run Github actions
+- `dockerInstall:` installation via Docker
+- `docs:` documentation and coverage
+- `examples:` sintax examples
+- `images:` grammar, mascot
+- `inc:` C++ interfaces
+- `src:` C++ implementation of folder inc interfaces
+- `test:` compiler tests

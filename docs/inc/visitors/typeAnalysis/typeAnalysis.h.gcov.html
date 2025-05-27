@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -69,25 +69,25 @@
 <span id="L7"><span class="lineNum">       7</span>              : #include &quot;../../tables/typeTable/typeTable.h&quot;</span>
 <span id="L8"><span class="lineNum">       8</span>              : #include &quot;../visitor.h&quot;</span>
 <span id="L9"><span class="lineNum">       9</span>              : #include &lt;memory&gt;</span>
-<span id="L10"><span class="lineNum">      10</span>              : #include &lt;variant&gt;</span>
-<span id="L11"><span class="lineNum">      11</span>              : #include &lt;vector&gt;</span>
-<span id="L12"><span class="lineNum">      12</span>              : </span>
-<span id="L13"><span class="lineNum">      13</span>              : namespace nicole {</span>
-<span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span>              : class TypeAnalysis final : public Visitor&lt;std::shared_ptr&lt;Type&gt;&gt; {</span>
-<span id="L16"><span class="lineNum">      16</span>              : private:</span>
-<span id="L17"><span class="lineNum">      17</span>              :   mutable std::shared_ptr&lt;FunctionTable&gt; functionTable_;</span>
-<span id="L18"><span class="lineNum">      18</span>              :   mutable std::shared_ptr&lt;TypeTable&gt; typeTable_;</span>
-<span id="L19"><span class="lineNum">      19</span>              :   mutable std::shared_ptr&lt;Type&gt; currentType_{nullptr};</span>
-<span id="L20"><span class="lineNum">      20</span>              :   mutable std::shared_ptr&lt;Scope&gt; currentScope_{nullptr};</span>
-<span id="L21"><span class="lineNum">      21</span>              :   mutable std::vector&lt;GenericParameter&gt; currentGenericList_{};</span>
-<span id="L22"><span class="lineNum">      22</span>              :   mutable std::vector&lt;GenericParameter&gt; currentStructGenericList_{};</span>
-<span id="L23"><span class="lineNum">      23</span>              :   mutable std::shared_ptr&lt;UserType&gt; currentUserType_{nullptr};</span>
-<span id="L24"><span class="lineNum">      24</span>              :   mutable std::shared_ptr&lt;Type&gt; switchTypeCondition_{nullptr};</span>
-<span id="L25"><span class="lineNum">      25</span>              :   mutable bool analyzingInsideClass{false};</span>
-<span id="L26"><span class="lineNum">      26</span>              :   mutable bool insideDeclWithGenerics{false};</span>
-<span id="L27"><span class="lineNum">      27</span>              :   mutable bool firstBody{true};</span>
-<span id="L28"><span class="lineNum">      28</span>              :   mutable bool foundReturn{false};</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;vector&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : namespace nicole {</span>
+<span id="L13"><span class="lineNum">      13</span>              : </span>
+<span id="L14"><span class="lineNum">      14</span>              : class TypeAnalysis final : public Visitor&lt;std::shared_ptr&lt;Type&gt;&gt; {</span>
+<span id="L15"><span class="lineNum">      15</span>              : private:</span>
+<span id="L16"><span class="lineNum">      16</span>              :   mutable std::shared_ptr&lt;FunctionTable&gt; functionTable_;</span>
+<span id="L17"><span class="lineNum">      17</span>              :   mutable std::shared_ptr&lt;TypeTable&gt; typeTable_;</span>
+<span id="L18"><span class="lineNum">      18</span>              :   mutable std::shared_ptr&lt;Type&gt; currentType_{nullptr};</span>
+<span id="L19"><span class="lineNum">      19</span>              :   mutable std::shared_ptr&lt;Scope&gt; currentScope_{nullptr};</span>
+<span id="L20"><span class="lineNum">      20</span>              :   mutable std::vector&lt;GenericParameter&gt; currentGenericList_{};</span>
+<span id="L21"><span class="lineNum">      21</span>              :   mutable std::vector&lt;GenericParameter&gt; currentStructGenericList_{};</span>
+<span id="L22"><span class="lineNum">      22</span>              :   mutable std::shared_ptr&lt;UserType&gt; currentUserType_{nullptr};</span>
+<span id="L23"><span class="lineNum">      23</span>              :   mutable std::shared_ptr&lt;Type&gt; switchTypeCondition_{nullptr};</span>
+<span id="L24"><span class="lineNum">      24</span>              :   mutable bool analyzingInsideClass{false};</span>
+<span id="L25"><span class="lineNum">      25</span>              :   mutable bool insideDeclWithGenerics{false};</span>
+<span id="L26"><span class="lineNum">      26</span>              :   mutable bool firstBody{true};</span>
+<span id="L27"><span class="lineNum">      27</span>              :   mutable bool foundReturn{false};</span>
+<span id="L28"><span class="lineNum">      28</span>              :   mutable bool secondAnalysis{false};</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
 <span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] std::vector&lt;GenericParameter&gt;</span>
 <span id="L31"><span class="lineNum">      31</span>              :   mergeGenericLists(const std::vector&lt;GenericParameter&gt; &amp;list1,</span>

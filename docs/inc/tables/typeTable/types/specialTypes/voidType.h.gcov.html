@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">2</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -73,11 +73,17 @@
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] std::string toString() const noexcept override {</span></span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     return &quot;void&quot;;</span></span>
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L14"><span class="lineNum">      14</span>              : };</span>
-<span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span>              : } // namespace nicole</span>
-<span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span>              : #endif</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              :   [[nodiscard]] std::expected&lt;llvm::Type*, Error&gt;</span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   llvmVersion(llvm::LLVMContext &amp;context) const noexcept override {</span></span>
+<span id="L17"><span class="lineNum">      17</span>              :     // Representamos void en LLVM como el tipo VoidTy</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     return llvm::Type::getVoidTy(context);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L20"><span class="lineNum">      20</span>              : };</span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span>              : } // namespace nicole</span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              : #endif</span>
         </pre>
               </td>
             </tr>

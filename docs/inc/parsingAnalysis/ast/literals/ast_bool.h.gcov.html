@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">25.0&nbsp;%</td>
@@ -74,11 +74,11 @@
 <span id="L12"><span class="lineNum">      12</span>              : public:</span>
 <span id="L13"><span class="lineNum">      13</span>              :   explicit AST_BOOL(const long long unsigned nodeId,</span>
 <span id="L14"><span class="lineNum">      14</span>              :                     const SourceLocation &amp;srcLoc, const bool value) noexcept</span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">          39 :       : AST{nodeId, AST_TYPE::BOOL, srcLoc}, value_{value} {}</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">         105 :       : AST{nodeId, AST_TYPE::BOOL, srcLoc}, value_{value} {}</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
 <span id="L17"><span class="lineNum">      17</span>              :   ~AST_BOOL() noexcept = default;</span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">          72 :   [[nodiscard]] bool value() const noexcept { return value_; }</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">          88 :   [[nodiscard]] bool value() const noexcept { return value_; }</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span>              :   [[nodiscard]] std::expected&lt;std::string, Error&gt;</span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC tlaBgUNC">           0 :   accept(const PrintTree &amp;visitor) const noexcept override {</span></span>
@@ -105,7 +105,7 @@
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L45"><span class="lineNum">      45</span>              : </span>
-<span id="L46"><span class="lineNum">      46</span>              :   [[nodiscard]] std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
+<span id="L46"><span class="lineNum">      46</span>              :   [[nodiscard]] std::expected&lt;llvm::Value*, Error&gt;</span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   accept(const CodeGeneration &amp;visitor) const noexcept override {</span></span>
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :   }</span></span>

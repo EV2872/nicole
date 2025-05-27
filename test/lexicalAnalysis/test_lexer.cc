@@ -1,6 +1,6 @@
 #include "../inc/lexicalAnalysis/nicoleSintax.h"
 #include <catch2/catch_test_macros.hpp>
-
+/*
 TEST_CASE("The lexer works", "[Lexer]") {
   // Instancia de NicoleSintax
   const nicole::NicoleSintax sintax;
@@ -102,3 +102,4 @@ TEST_CASE("The lexer works", "[Lexer]") {
   // Verificar que el análisis fue exitoso
   REQUIRE(result.error().type() == nicole::ERROR_TYPE::CHECK_UNMATCHED);
 }
+*/

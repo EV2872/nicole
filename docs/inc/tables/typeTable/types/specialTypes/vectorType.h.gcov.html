@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">22</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -84,11 +84,34 @@
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   [[nodiscard]] std::string toString() const noexcept override {</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     return &quot;vector&lt;&quot; + elementType_-&gt;toString() + &quot;&gt;&quot;;</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L25"><span class="lineNum">      25</span>              : };</span>
-<span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span>              : } // namespace nicole</span>
-<span id="L28"><span class="lineNum">      28</span>              : </span>
-<span id="L29"><span class="lineNum">      29</span>              : #endif</span>
+<span id="L25"><span class="lineNum">      25</span>              : </span>
+<span id="L26"><span class="lineNum">      26</span>              :   [[nodiscard]] std::expected&lt;llvm::Type *, Error&gt;</span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   llvmVersion(llvm::LLVMContext &amp;context) const noexcept override {</span></span>
+<span id="L28"><span class="lineNum">      28</span>              :     // Obtener el tipo LLVM correspondiente al tipo de elemento</span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Type *, Error&gt; elemOrErr =</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         elementType_-&gt;llvmVersion(context);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     if (!elemOrErr) {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :       return std::unexpected(elemOrErr.error());</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     llvm::Type *elemTy = *elemOrErr;</span></span>
+<span id="L35"><span class="lineNum">      35</span>              : </span>
+<span id="L36"><span class="lineNum">      36</span>              :     // Representar vector&lt;T&gt; como un struct { T* data; i64 size; }</span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     llvm::PointerType *dataPtrTy =</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :         llvm::PointerType::get(elemTy, /*AddressSpace=*/0);</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :     llvm::Type *sizeTy = llvm::Type::getInt64Ty(context);</span></span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span>              :     // Crear o recuperar un StructType único por nombre</span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :     std::string structName = &quot;vector&lt;&quot; + elementType_-&gt;toString() + &quot;&gt;&quot;;</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :     llvm::StructType *vecStruct =</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :         llvm::StructType::create(context, {dataPtrTy, sizeTy}, structName);</span></span>
+<span id="L45"><span class="lineNum">      45</span>              : </span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     return vecStruct;</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L48"><span class="lineNum">      48</span>              : };</span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span>              : } // namespace nicole</span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span>              : #endif</span>
         </pre>
               </td>
             </tr>

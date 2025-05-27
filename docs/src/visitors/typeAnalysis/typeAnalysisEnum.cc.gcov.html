@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -80,23 +80,20 @@
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   return type;</span></span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span>              : /*</span>
-<span id="L22"><span class="lineNum">      22</span>              : - retorna int</span>
-<span id="L23"><span class="lineNum">      23</span>              : */</span>
-<span id="L24"><span class="lineNum">      24</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_ENUM_ACCESS *node) const noexcept {</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ENUM_ACCESS&quot;);</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   const auto type{typeTable_-&gt;getType(node-&gt;enumId())};</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   if (!type) {</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;enum does not exist&quot;);</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(*type);</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   return type;</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L36"><span class="lineNum">      36</span>              : </span>
-<span id="L37"><span class="lineNum">      37</span>              : }</span>
+<span id="L21"><span class="lineNum">      21</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_ENUM_ACCESS *node) const noexcept {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ENUM_ACCESS&quot;);</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   const auto type{typeTable_-&gt;getType(node-&gt;id())};</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   if (!type) {</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;enum does not exist&quot;);</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(*type);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   return type;</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L33"><span class="lineNum">      33</span>              : </span>
+<span id="L34"><span class="lineNum">      34</span>              : }</span>
         </pre>
               </td>
             </tr>

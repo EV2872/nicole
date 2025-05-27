@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:29:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -63,25 +63,25 @@
 <span id="L1"><span class="lineNum">       1</span>              : #include &quot;../inc/lexicalAnalysis/nicoleSintax.h&quot;</span>
 <span id="L2"><span class="lineNum">       2</span>              : #include &lt;catch2/catch_test_macros.hpp&gt;</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
-<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">           9 : TEST_CASE(&quot;The lexer works&quot;, &quot;[Lexer]&quot;) {</span></span>
+<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">          10 : TEST_CASE(&quot;The lexer works&quot;, &quot;[Lexer]&quot;) {</span></span>
 <span id="L5"><span class="lineNum">       5</span>              :   // Instancia de NicoleSintax</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           9 :   const nicole::NicoleSintax sintax;</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">          10 :   const nicole::NicoleSintax sintax;</span></span>
 <span id="L7"><span class="lineNum">       7</span>              :   // Crear el Lexer</span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           9 :   const nicole::Lexer lexer{sintax.createLexer()};</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">          10 :   const nicole::Lexer lexer{sintax.createLexer()};</span></span>
 <span id="L9"><span class="lineNum">       9</span>              :   // Verificar que las categorías del Lexer no estén vacías</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           9 :   REQUIRE_FALSE(lexer.categories().empty());</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">          10 :   REQUIRE_FALSE(lexer.categories().empty());</span></span>
 <span id="L11"><span class="lineNum">      11</span>              :   // Ruta al archivo fuente de prueba</span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           9 :   std::filesystem::path testFile{&quot;../examples/literals/literals.nc&quot;};</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">          10 :   std::filesystem::path testFile{&quot;../examples/literals/literals.nc&quot;};</span></span>
 <span id="L13"><span class="lineNum">      13</span>              :   // Analizar el archivo fuente</span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           9 :   std::expected&lt;nicole::TokenStream, nicole::Error&gt; result{</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           9 :       lexer.analyze(testFile)};</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">          10 :   std::expected&lt;nicole::TokenStream, nicole::Error&gt; result{</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">          10 :       lexer.analyze(testFile)};</span></span>
 <span id="L16"><span class="lineNum">      16</span>              :   // Verificar que el análisis fue exitoso</span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           9 :   REQUIRE(result.has_value());</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">          10 :   REQUIRE(result.has_value());</span></span>
 <span id="L18"><span class="lineNum">      18</span>              :   // Verificar que el TokenStream no esté vacío</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           9 :   REQUIRE(result-&gt;size() == 99);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">          10 :   REQUIRE(result-&gt;size() == 99);</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span>              :   // Ruta al archivo fuente de prueba</span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           9 :   testFile = std::filesystem::path{&quot;../examples/loops/matrix.nc&quot;};</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          10 :   testFile = std::filesystem::path{&quot;../examples/loops/matrix.nc&quot;};</span></span>
 <span id="L23"><span class="lineNum">      23</span>              :   // Analizar el archivo fuente</span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           9 :   result = lexer.analyze(testFile);</span></span>
 <span id="L25"><span class="lineNum">      25</span>              :   // Verificar que el análisis fue exitoso</span>

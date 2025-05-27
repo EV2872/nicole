@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -82,13 +82,13 @@
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span>              : public:</span>
 <span id="L22"><span class="lineNum">      22</span>              :   explicit TokenStream(const std::vector&lt;Token&gt; &amp;tokens) noexcept</span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC tlaBgGNC">         198 :       : tokens_{tokens} {}</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC tlaBgGNC">         226 :       : tokens_{tokens} {}</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          90 :   [[nodiscard]] size_t size() const noexcept { return tokens_.size(); };</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          94 :   [[nodiscard]] size_t size() const noexcept { return tokens_.size(); };</span></span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
 <span id="L27"><span class="lineNum">      27</span>              :   [[nodiscard]] const std::expected&lt;std::monostate, Error&gt; eat() noexcept;</span>
 <span id="L28"><span class="lineNum">      28</span>              : </span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">          27 :   [[nodiscard]] size_t currentPos() const noexcept { return currentPos_; }</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">          33 :   [[nodiscard]] size_t currentPos() const noexcept { return currentPos_; }</span></span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
 <span id="L31"><span class="lineNum">      31</span>              :   [[nodiscard]] bool isEnd() const noexcept;</span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
@@ -97,30 +97,32 @@
 <span id="L35"><span class="lineNum">      35</span>              :   [[nodiscard]] const std::expected&lt;Token, Error&gt;</span>
 <span id="L36"><span class="lineNum">      36</span>              :   lookAhead(const size_t pos) const noexcept;</span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span>              :   [[nodiscard]] const std::expected&lt;Token, Error&gt;</span>
-<span id="L39"><span class="lineNum">      39</span>              :   lastRead() const noexcept;</span>
-<span id="L40"><span class="lineNum">      40</span>              : </span>
-<span id="L41"><span class="lineNum">      41</span>              :   [[nodiscard]] const std::expected&lt;bool, Error&gt;</span>
-<span id="L42"><span class="lineNum">      42</span>              :   isCurrentTokenType(const TokenType type) const noexcept;</span>
-<span id="L43"><span class="lineNum">      43</span>              : </span>
-<span id="L44"><span class="lineNum">      44</span>              :   [[nodiscard]] bool</span>
-<span id="L45"><span class="lineNum">      45</span>              :   isTokenAheadBeforeSemicolon(const TokenType type) const noexcept;</span>
-<span id="L46"><span class="lineNum">      46</span>              : </span>
-<span id="L47"><span class="lineNum">      47</span>              :   // needed for whenever an import is found</span>
-<span id="L48"><span class="lineNum">      48</span>              :   [[nodiscard]] const std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L49"><span class="lineNum">      49</span>              :   insertAfter(const TokenStream &amp;tkStream,</span>
-<span id="L50"><span class="lineNum">      50</span>              :               const size_t pos = std::numeric_limits&lt;int&gt;::infinity()) noexcept;</span>
-<span id="L51"><span class="lineNum">      51</span>              : </span>
-<span id="L52"><span class="lineNum">      52</span>              :   void shiftToSemicolon() noexcept;</span>
-<span id="L53"><span class="lineNum">      53</span>              : </span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           9 :   [[nodiscard]] auto begin() const noexcept { return tokens_.begin(); }</span></span>
-<span id="L55"><span class="lineNum">      55</span>              : </span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           9 :   [[nodiscard]] auto end() const noexcept { return tokens_.end(); }</span></span>
-<span id="L57"><span class="lineNum">      57</span>              : };</span>
-<span id="L58"><span class="lineNum">      58</span>              : </span>
-<span id="L59"><span class="lineNum">      59</span>              : } // namespace nicole</span>
+<span id="L38"><span class="lineNum">      38</span>              :   [[nodiscard]] const std::expected&lt;Token, Error&gt; lastRead() const noexcept;</span>
+<span id="L39"><span class="lineNum">      39</span>              : </span>
+<span id="L40"><span class="lineNum">      40</span>              :   [[nodiscard]] const std::expected&lt;bool, Error&gt;</span>
+<span id="L41"><span class="lineNum">      41</span>              :   isCurrentTokenType(const TokenType type) const noexcept;</span>
+<span id="L42"><span class="lineNum">      42</span>              : </span>
+<span id="L43"><span class="lineNum">      43</span>              :   [[nodiscard]] bool</span>
+<span id="L44"><span class="lineNum">      44</span>              :   isTokenAheadBeforeSemicolon(const TokenType type) const noexcept;</span>
+<span id="L45"><span class="lineNum">      45</span>              : </span>
+<span id="L46"><span class="lineNum">      46</span>              :   // needed for whenever an import is found</span>
+<span id="L47"><span class="lineNum">      47</span>              :   [[nodiscard]] const std::expected&lt;std::monostate, Error&gt;</span>
+<span id="L48"><span class="lineNum">      48</span>              :   insertAfter(const TokenStream &amp;tkStream,</span>
+<span id="L49"><span class="lineNum">      49</span>              :               const size_t pos = std::numeric_limits&lt;int&gt;::infinity()) noexcept;</span>
+<span id="L50"><span class="lineNum">      50</span>              : </span>
+<span id="L51"><span class="lineNum">      51</span>              :   void shiftToSemicolon() noexcept;</span>
+<span id="L52"><span class="lineNum">      52</span>              : </span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">          11 :   [[nodiscard]] auto begin() const noexcept { return tokens_.begin(); }</span></span>
+<span id="L54"><span class="lineNum">      54</span>              : </span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">          11 :   [[nodiscard]] auto end() const noexcept { return tokens_.end(); }</span></span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              :   [[nodiscard]] bool hasMatchingPairBefore(TokenType open,</span>
+<span id="L58"><span class="lineNum">      58</span>              :                                            TokenType until) const noexcept ;</span>
+<span id="L59"><span class="lineNum">      59</span>              : };</span>
 <span id="L60"><span class="lineNum">      60</span>              : </span>
-<span id="L61"><span class="lineNum">      61</span>              : #endif</span>
+<span id="L61"><span class="lineNum">      61</span>              : } // namespace nicole</span>
+<span id="L62"><span class="lineNum">      62</span>              : </span>
+<span id="L63"><span class="lineNum">      63</span>              : #endif</span>
         </pre>
               </td>
             </tr>

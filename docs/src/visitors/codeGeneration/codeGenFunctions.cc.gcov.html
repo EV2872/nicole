@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">35</td>
+            <td class="headerCovTableEntry">177</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -60,59 +60,244 @@
               <td>
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
-<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/visitors/codeGeneration/codeGeneration.h&quot;</span>
-<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_funcCall.h&quot;</span>
-<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_funcDecl.h&quot;</span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_return.h&quot;</span>
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_funcCall.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_funcDecl.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/functions/ast_return.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/visitors/codeGeneration/codeGeneration.h&quot;</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : #include &lt;cstddef&gt;</span>
-<span id="L7"><span class="lineNum">       7</span>              : #include &lt;memory&gt;</span>
-<span id="L8"><span class="lineNum">       8</span>              : #include &lt;variant&gt;</span>
-<span id="L9"><span class="lineNum">       9</span>              : </span>
-<span id="L10"><span class="lineNum">      10</span>              : namespace nicole {</span>
-<span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span>              : std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC tlaBgUNC">           0 : CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_FUNC_CALL&quot;);</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :   for (const auto &amp;chain : node-&gt;parameters()) {</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     const auto result{chain-&gt;accept(*this)};</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     if (!result) {</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :       return createError(result.error());</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   return {};</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span>              : std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_FUNC_DECL&quot;);</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   const auto result{node-&gt;body()-&gt;accept(*this)};</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :   if (!result) {</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     return createError(result.error());</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   return {};</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span>              : std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_RETURN *node) const noexcept {</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_RETURN&quot;);</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   if (!node-&gt;expression()) {</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     return {};</span></span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :   const auto result{node-&gt;expression()-&gt;accept(*this)};</span></span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   if (!result) {</span></span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     return createError(result.error());</span></span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :   return {};</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L52"><span class="lineNum">      52</span>              : </span>
-<span id="L53"><span class="lineNum">      53</span>              : }</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;llvm/IR/DerivedTypes.h&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;llvm/IR/Value.h&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &lt;memory&gt;</span>
+<span id="L10"><span class="lineNum">      10</span>              : </span>
+<span id="L11"><span class="lineNum">      11</span>              : namespace nicole {</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC tlaBgUNC">           0 : CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_FUNC_CALL&quot;);</span></span>
+<span id="L17"><span class="lineNum">      17</span>              :   // 1) Evaluar argumentos</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   llvm::SmallVector&lt;llvm::Value *, 8&gt; argValues;</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   argValues.reserve(node-&gt;parameters().size());</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST&gt; &amp;expr : node-&gt;parameters()) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; valOrErr = emitRValue(expr.get());</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     if (!valOrErr)</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :       return createError(valOrErr.error());</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     argValues.push_back(*valOrErr);</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span>              :   // Obtener la declaración monomorfizada elegida</span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   const AST_FUNC_DECL *decl = node-&gt;declReference();</span></span>
+<span id="L29"><span class="lineNum">      29</span>              : </span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   if (!decl)</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :                        &quot;no declaration bound for call to &quot; + node-&gt;id());</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   bool alreadyMangled{false};</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   if (node-&gt;replaceOfGenerics().size()) {</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     alreadyMangled = true;</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; monoFunction{visit(decl)};</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     if (!monoFunction) {</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :       return createError(monoFunction.error());</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :     std::cout &lt;&lt; &quot;codeGen &quot; &lt;&lt; node-&gt;id() &lt;&lt; &quot; &quot; &lt;&lt; node-&gt;nodeId() &lt;&lt; &quot;\n&quot;;</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :     std::cout &lt;&lt; &quot;~~~~~~~~~~~~~&quot; &lt;&lt; decl-&gt;id() &lt;&lt; &quot;\n&quot;;</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :     std::cout &lt;&lt; &quot;~~~~~~~~~~~~~&quot; &lt;&lt; decl-&gt;generics().size() &lt;&lt; &quot;\n&quot;;</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L44"><span class="lineNum">      44</span>              : </span>
+<span id="L45"><span class="lineNum">      45</span>              :   // Construir el descriptor Function a partir de la decl</span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :   Function funcDesc{decl-&gt;id(), decl-&gt;generics(),</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :                     decl-&gt;parameters(), // usa Parameters para firma</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :                     decl-&gt;returnType(), decl-&gt;body()};</span></span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span>              :   // Mangling del nombre de la función</span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :   std::expected&lt;std::string, Error&gt; mNameOrErr =</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :       (alreadyMangled) ? decl-&gt;id() : nameManglingFunctionDecl(funcDesc);</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :   if (!mNameOrErr)</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :     return createError(mNameOrErr.error());</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :   std::string fnName = *mNameOrErr;</span></span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              :   // Recuperar el llvm::Function* del módulo</span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :   llvm::Function *callee = module_-&gt;getFunction(fnName);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :   if (!callee)</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :                        &quot;LLVM function not found: &quot; + fnName);</span></span>
+<span id="L62"><span class="lineNum">      62</span>              : </span>
+<span id="L63"><span class="lineNum">      63</span>              :   // Ajustar y empaquetar argumentos</span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :   llvm::SmallVector&lt;llvm::Value *, 8&gt; callArgs;</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :   llvm::FunctionType *ft = callee-&gt;getFunctionType();</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :   for (size_t i = 0; i &lt; argValues.size(); ++i) {</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :     llvm::Value *v = argValues[i];</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :     llvm::Type *paramTy = ft-&gt;getParamType(static_cast&lt;unsigned int&gt;(i));</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :     if (v-&gt;getType() != paramTy) {</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :       if (v-&gt;getType()-&gt;isIntegerTy() &amp;&amp; paramTy-&gt;isIntegerTy())</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :         v = builder_.CreateSExt(v, paramTy, &quot;arg_sext&quot;);</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :       else</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :         v = builder_.CreateBitCast(v, paramTy, &quot;arg_cast&quot;);</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :     callArgs.push_back(v);</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L77"><span class="lineNum">      77</span>              : </span>
+<span id="L78"><span class="lineNum">      78</span>              :   // Emitir la llamada y actualizar estado de chaining</span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaUNC">           0 :   llvm::CallInst *ci =</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaUNC">           0 :       builder_.CreateCall(callee, callArgs, node-&gt;id() + &quot;_call&quot;);</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = ci;</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaUNC">           0 :   currentType = decl-&gt;returnType();</span></span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC">           0 :   return ci;</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L86"><span class="lineNum">      86</span>              : </span>
+<span id="L87"><span class="lineNum">      87</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {</span></span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_FUNC_DECL&quot;);</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaUNC">           0 :   if (node-&gt;generics().size()) {</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC">           0 :     return nullptr;</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :   if (!options_.validateTree())</span></span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :     isMain = false;</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaUNC">           0 :   std::shared_ptr&lt;Scope&gt; parentScope = currentScope_;</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :   currentScope_ = node-&gt;body()-&gt;scope();</span></span>
+<span id="L98"><span class="lineNum">      98</span>              :   // Calcular nombre mangled de la declaración (sin genéricos de llamada)</span>
+<span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 :   std::expected&lt;std::string, Error&gt; mNameOrErr = nameManglingFunctionDecl(</span></span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 :       Function{node-&gt;id(), node-&gt;generics(), node-&gt;parameters(),</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :                node-&gt;returnType(), nullptr});</span></span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :   if (!mNameOrErr)</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :     return createError(mNameOrErr.error());</span></span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaUNC">           0 :   std::string fnName = *mNameOrErr;</span></span>
+<span id="L105"><span class="lineNum">     105</span>              : </span>
+<span id="L106"><span class="lineNum">     106</span>              :   // Crear o recuperar llvm::Function</span>
+<span id="L107"><span class="lineNum">     107</span> <span class="tlaUNC">           0 :   llvm::SmallVector&lt;llvm::Type *, 8&gt; paramTys;</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC">           0 :   for (const std::pair&lt;std::string, std::shared_ptr&lt;Type&gt;&gt; &amp;p :</span></span>
+<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 :        node-&gt;parameters().params()) {</span></span>
+<span id="L110"><span class="lineNum">     110</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Type *, Error&gt; tyOrErr =</span></span>
+<span id="L111"><span class="lineNum">     111</span> <span class="tlaUNC">           0 :         p.second-&gt;llvmVersion(context_);</span></span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaUNC">           0 :     if (!tyOrErr)</span></span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaUNC">           0 :       return createError(tyOrErr.error());</span></span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :     paramTys.push_back(*tyOrErr);</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; retTyOrErr =</span></span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :       node-&gt;returnType()-&gt;llvmVersion(context_);</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaUNC">           0 :   if (!retTyOrErr)</span></span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaUNC">           0 :     return createError(retTyOrErr.error());</span></span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC">           0 :   llvm::FunctionType *fnTy =</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :       llvm::FunctionType::get(*retTyOrErr, paramTys, false);</span></span>
+<span id="L122"><span class="lineNum">     122</span>              : </span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 :   llvm::Function *fn = llvm::cast&lt;llvm::Function&gt;(</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :       module_-&gt;getOrInsertFunction(fnName, fnTy).getCallee());</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 :   fn-&gt;setLinkage(llvm::GlobalValue::ExternalLinkage);</span></span>
+<span id="L126"><span class="lineNum">     126</span>              : </span>
+<span id="L127"><span class="lineNum">     127</span>              :   // Reservar slots para parámetros y registrarlos</span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 :   llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(context_, &quot;entry&quot;, fn);</span></span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :   entry_ = entryBB;</span></span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 :   llvm::IRBuilder&lt;&gt; entryBuilder(entryBB);</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC">           0 :   unsigned idx = 0;</span></span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :   for (const std::pair&lt;std::string, std::shared_ptr&lt;Type&gt;&gt; &amp;pr :</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :        node-&gt;parameters().params()) {</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :     llvm::Argument &amp;arg = *std::next(fn-&gt;arg_begin(), idx);</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :     arg.setName(pr.first);</span></span>
+<span id="L136"><span class="lineNum">     136</span>              : </span>
+<span id="L137"><span class="lineNum">     137</span>              :     // Alloca + store</span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :     llvm::AllocaInst *slot =</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :         entryBuilder.CreateAlloca(arg.getType(), nullptr, pr.first + &quot;.addr&quot;);</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :     entryBuilder.CreateStore(&amp;arg, slot);</span></span>
+<span id="L141"><span class="lineNum">     141</span>              : </span>
+<span id="L142"><span class="lineNum">     142</span>              :     // Variable registra slot y valor inicial</span>
+<span id="L143"><span class="lineNum">     143</span>              :     // auto varPtr = std::make_shared&lt;Variable&gt;(pr.first, pr.second, nullptr);</span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 :     std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt; varOrErr{</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :         currentScope_-&gt;getVariable(pr.first)};</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :     if (!varOrErr) {</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :       return createError(varOrErr.error());</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaUNC">           0 :     std::shared_ptr&lt;Variable&gt; varPtr = *varOrErr; // shared_ptr&lt;Variable&gt;</span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :     Variable &amp;var = *varPtr;                      // referencia al objeto real</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :     var.setAddress(slot);</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaUNC">           0 :     var.setValue(&amp;arg);</span></span>
+<span id="L153"><span class="lineNum">     153</span>              : </span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaUNC">           0 :     ++idx;</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L156"><span class="lineNum">     156</span>              :   // Generar el cuerpo</span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaUNC">           0 :   llvm::IRBuilder&lt;&gt;::InsertPointGuard guard(builder_);</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaUNC">           0 :   builder_.SetInsertPoint(entryBB);</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :   if (std::expected&lt;llvm::Value *, Error&gt; bodyErr = node-&gt;body()-&gt;accept(*this);</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaUNC">           0 :       !bodyErr)</span></span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaUNC">           0 :     return createError(bodyErr.error());</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :   if (!fn-&gt;getReturnType()-&gt;isVoidTy() &amp;&amp; !entryBB-&gt;getTerminator())</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :     builder_.CreateRetVoid();</span></span>
+<span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :   if (!options_.validateTree())</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :     isMain = true;</span></span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :   currentScope_ = parentScope;</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :   return fn;</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L169"><span class="lineNum">     169</span>              : </span>
+<span id="L170"><span class="lineNum">     170</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_RETURN *node) const noexcept {</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_RETURN&quot;);</span></span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaUNC">           0 :   if (!node-&gt;expression() and isMain) {</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :     return builder_.CreateRet(llvm::ConstantInt::get(</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaUNC">           0 :         *typeTable_-&gt;intType()-&gt;llvmVersion(context_), 0));</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC">           0 :   if (!node-&gt;expression()) {</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaUNC">           0 :     return builder_.CreateRetVoid();</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :   const std::expected&lt;llvm::Value *, Error&gt; result{</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :       emitRValue(node-&gt;expression().get())};</span></span>
+<span id="L184"><span class="lineNum">     184</span> <span class="tlaUNC">           0 :   if (!result) {</span></span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaUNC">           0 :     return createError(result.error());</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 :   return builder_.CreateRet(*result);</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L189"><span class="lineNum">     189</span>              : </span>
+<span id="L190"><span class="lineNum">     190</span>              : std::expected&lt;std::string, Error&gt;</span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC">           0 : CodeGeneration::nameManglingFunctionDecl(const Function &amp;func) const noexcept {</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaUNC">           0 :   if (options_.validateTree() and func.id() == &quot;main&quot;) {</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaUNC">           0 :     return &quot;$_main&quot;;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L195"><span class="lineNum">     195</span>              :   // Prefijo</span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaUNC">           0 :   std::string mangled = &quot;$&quot;;</span></span>
+<span id="L197"><span class="lineNum">     197</span>              : </span>
+<span id="L198"><span class="lineNum">     198</span>              :   // Nombre base de la función</span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaUNC">           0 :   mangled += &quot;_&quot;;</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaUNC">           0 :   mangled += func.id(); // id() es el nombre base sin parámetros</span></span>
+<span id="L201"><span class="lineNum">     201</span>              : </span>
+<span id="L202"><span class="lineNum">     202</span>              :   // Genéricos (si los hay)</span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaUNC">           0 :   for (const GenericParameter &amp;genType : func.generics()) {</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaUNC">           0 :     mangled += &quot;_&quot;;</span></span>
+<span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC">           0 :     mangled += genType.name();</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L207"><span class="lineNum">     207</span>              : </span>
+<span id="L208"><span class="lineNum">     208</span>              :   // Parámetros formales</span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaUNC">           0 :   for (const std::pair&lt;std::string, std::shared_ptr&lt;Type&gt;&gt; &amp;param :</span></span>
+<span id="L210"><span class="lineNum">     210</span> <span class="tlaUNC">           0 :        func.params().params()) {</span></span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaUNC">           0 :     std::string tmp;</span></span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaUNC">           0 :     if (std::expected&lt;std::string, Error&gt; res =</span></span>
+<span id="L213"><span class="lineNum">     213</span> <span class="tlaUNC">           0 :             nameManglingImpl(param.second, tmp);</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaUNC">           0 :         !res)</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaUNC">           0 :     mangled += &quot;_&quot;;</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaUNC">           0 :     mangled += tmp;</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L219"><span class="lineNum">     219</span>              : </span>
+<span id="L220"><span class="lineNum">     220</span>              :   // Tipo de retorno</span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :   {</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC">           0 :     std::string tmp;</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :     if (std::expected&lt;std::string, Error&gt; res =</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :             nameManglingImpl(func.returnType(), tmp);</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :         !res)</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaUNC">           0 :     mangled += &quot;_ret_&quot;;</span></span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaUNC">           0 :     mangled += tmp;</span></span>
+<span id="L229"><span class="lineNum">     229</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L230"><span class="lineNum">     230</span>              : </span>
+<span id="L231"><span class="lineNum">     231</span>              :   // Limpiar posible guión bajo inicial</span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaUNC">           0 :   if (!mangled.empty() &amp;&amp; mangled.front() == '_')</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 :     mangled.erase(mangled.begin());</span></span>
+<span id="L234"><span class="lineNum">     234</span>              : </span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaUNC">           0 :   return mangled;</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L237"><span class="lineNum">     237</span>              : </span>
+<span id="L238"><span class="lineNum">     238</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

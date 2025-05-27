@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">33.3&nbsp;%</td>
@@ -78,15 +78,15 @@
 <span id="L16"><span class="lineNum">      16</span>              :                     const SourceLocation &amp;srcLoc,</span>
 <span id="L17"><span class="lineNum">      17</span>              :                     const std::shared_ptr&lt;AST&gt; &amp;match,</span>
 <span id="L18"><span class="lineNum">      18</span>              :                     const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">           2 :       : AST(nodeId, AST_TYPE::CASE, srcLoc), match_{match}, body_{body} {}</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">           6 :       : AST(nodeId, AST_TYPE::CASE, srcLoc), match_{match}, body_{body} {}</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           9 :   [[nodiscard]] const std::shared_ptr&lt;AST&gt; &amp;match() const noexcept {</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           9 :     return match_;</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           9 :   }</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          11 :   [[nodiscard]] const std::shared_ptr&lt;AST&gt; &amp;match() const noexcept {</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          11 :     return match_;</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          11 :   }</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           9 :   [[nodiscard]] const std::shared_ptr&lt;AST_BODY&gt; &amp;body() const noexcept {</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           9 :     return body_;</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           9 :   }</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          11 :   [[nodiscard]] const std::shared_ptr&lt;AST_BODY&gt; &amp;body() const noexcept {</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          11 :     return body_;</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">          11 :   }</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : </span>
 <span id="L29"><span class="lineNum">      29</span>              :   [[nodiscard]] std::expected&lt;std::string, Error&gt;</span>
 <span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC tlaBgUNC">           0 :   accept(const PrintTree &amp;visitor) const noexcept override {</span></span>
@@ -113,7 +113,7 @@
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L53"><span class="lineNum">      53</span>              : </span>
-<span id="L54"><span class="lineNum">      54</span>              :   [[nodiscard]] std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
+<span id="L54"><span class="lineNum">      54</span>              :   [[nodiscard]] std::expected&lt;llvm::Value*, Error&gt;</span>
 <span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :   accept(const CodeGeneration &amp;visitor) const noexcept override {</span></span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :     return visitor.visit(this);</span></span>
 <span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :   }</span></span>

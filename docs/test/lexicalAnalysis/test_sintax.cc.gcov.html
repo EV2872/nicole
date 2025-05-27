@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -64,40 +64,40 @@
 <span id="L2"><span class="lineNum">       2</span>              : #include &lt;catch2/catch_test_macros.hpp&gt;</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : TEST_CASE(&quot;NicoleSintax crea un Lexer con las categorías correctas&quot;,</span>
-<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">           9 :           &quot;[NicoleSintax]&quot;) {</span></span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">          11 :           &quot;[NicoleSintax]&quot;) {</span></span>
 <span id="L6"><span class="lineNum">       6</span>              :   // Crear una instancia de NicoleSintax</span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           9 :   nicole::NicoleSintax sintax;</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">          11 :   nicole::NicoleSintax sintax;</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              :   // Crear el Lexer utilizando NicoleSintax</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           9 :   nicole::Lexer lexer = sintax.createLexer();</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">          11 :   nicole::Lexer lexer = sintax.createLexer();</span></span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
 <span id="L12"><span class="lineNum">      12</span>              :   // Obtener las categorías del Lexer</span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           9 :   std::vector&lt;nicole::Category&gt; categories = lexer.categories();</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">          11 :   std::vector&lt;nicole::Category&gt; categories = lexer.categories();</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
 <span id="L15"><span class="lineNum">      15</span>              :   // Verificar que las categorías no estén vacías</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           9 :   REQUIRE_FALSE(categories.empty());</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">          11 :   REQUIRE_FALSE(categories.empty());</span></span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span>              :   // Opcional: Verificar algunas categorías específicas</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           9 :   bool foundSpaceCategory = false;</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           9 :   bool foundCommentCategory = false;</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">          11 :   bool foundSpaceCategory = false;</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          11 :   bool foundCommentCategory = false;</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">         801 :   for (const auto &amp;category : categories) {</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">         801 :     if (category.type() == nicole::TokenType::SPACE) {</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           9 :       foundSpaceCategory = true;</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           9 :       REQUIRE(category.rawPattern() == &quot;\\s+&quot;);</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           9 :       REQUIRE(category.skip() == true);</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">         792 :     } else if (category.type() == nicole::TokenType::COMMENT) {</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           9 :       foundCommentCategory = true;</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           9 :       REQUIRE(category.rawPattern() == &quot;\\/\\*(.|\\n)*?\\*\\/&quot;);</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           9 :       REQUIRE(category.skip() == true);</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           9 :     }</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">         979 :   for (const auto &amp;category : categories) {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">         979 :     if (category.type() == nicole::TokenType::SPACE) {</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          11 :       foundSpaceCategory = true;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          11 :       REQUIRE(category.rawPattern() == &quot;\\s+&quot;);</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          11 :       REQUIRE(category.skip() == true);</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">         968 :     } else if (category.type() == nicole::TokenType::COMMENT) {</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">          11 :       foundCommentCategory = true;</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">          11 :       REQUIRE(category.rawPattern() == &quot;\\/\\*(.|\\n)*?\\*\\/&quot;);</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">          11 :       REQUIRE(category.skip() == true);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          11 :     }</span></span>
 <span id="L32"><span class="lineNum">      32</span>              :     // Puedes agregar más verificaciones para otras categorías según sea</span>
 <span id="L33"><span class="lineNum">      33</span>              :     // necesario</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">         801 :   }</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">         979 :   }</span></span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           9 :   REQUIRE(foundSpaceCategory);</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           9 :   REQUIRE(foundCommentCategory);</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           9 : }</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">          11 :   REQUIRE(foundSpaceCategory);</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">          11 :   REQUIRE(foundCommentCategory);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">          11 : }</span></span>
         </pre>
               </td>
             </tr>

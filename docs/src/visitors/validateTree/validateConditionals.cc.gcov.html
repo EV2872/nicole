@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">140</td>
+            <td class="headerCovTableEntry">139</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -60,14 +60,14 @@
               <td>
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
-<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/visitors/validateTree/validateTree.h&quot;</span>
-<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_case.h&quot;</span>
-<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_default.h&quot;</span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_elseIf.h&quot;</span>
-<span id="L5"><span class="lineNum">       5</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_if.h&quot;</span>
-<span id="L6"><span class="lineNum">       6</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_switch.h&quot;</span>
-<span id="L7"><span class="lineNum">       7</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_ternary.h&quot;</span>
-<span id="L8"><span class="lineNum">       8</span>              : #include &quot;../../../inc/parsingAnalysis/checkPosition.h&quot;</span>
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_case.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_default.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_elseIf.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_if.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_switch.h&quot;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;../../../inc/parsingAnalysis/ast/conditionals/ast_ternary.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &quot;../../../inc/parsingAnalysis/checkPosition.h&quot;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &quot;../../../inc/visitors/validateTree/validateTree.h&quot;</span>
 <span id="L9"><span class="lineNum">       9</span>              : </span>
 <span id="L10"><span class="lineNum">      10</span>              : namespace nicole {</span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
@@ -221,16 +221,15 @@
 <span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L160"><span class="lineNum">     160</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_CONDITION&quot;);</span></span>
 <span id="L161"><span class="lineNum">     161</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :   if (CheckPosition::hasAnyAncestorOf(node, {AST_TYPE::IF, AST_TYPE::ELSE_IF,</span></span>
-<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :                                              AST_TYPE::IF, AST_TYPE::SWITCH,</span></span>
-<span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :                                              AST_TYPE::DO_WHILE,</span></span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :                                              AST_TYPE::WHILE, AST_TYPE::FOR})) {</span></span>
-<span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::VALIDATE_TREE, &quot;misplaced condition&quot;);</span></span>
-<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :   return node-&gt;condition()-&gt;accept(*this);</span></span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L170"><span class="lineNum">     170</span>              : </span>
-<span id="L171"><span class="lineNum">     171</span>              : }</span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :   if (!CheckPosition::hasAnyAncestorOf(</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :           node, {AST_TYPE::IF, AST_TYPE::ELSE_IF, AST_TYPE::SWITCH,</span></span>
+<span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :                  AST_TYPE::DO_WHILE, AST_TYPE::WHILE, AST_TYPE::FOR})) {</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::VALIDATE_TREE, &quot;misplaced condition&quot;);</span></span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :   return node-&gt;condition()-&gt;accept(*this);</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L169"><span class="lineNum">     169</span>              : </span>
+<span id="L170"><span class="lineNum">     170</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

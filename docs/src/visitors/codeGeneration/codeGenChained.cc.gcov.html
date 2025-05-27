@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">56</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -63,30 +63,83 @@
 <span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/visitors/codeGeneration/codeGeneration.h&quot;</span>
 <span id="L2"><span class="lineNum">       2</span>              : </span>
 <span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/chained/ast_chained.h&quot;</span>
-<span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : #include &lt;memory&gt;</span>
-<span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span>              : namespace nicole {</span>
-<span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span>              : std::expected&lt;std::shared_ptr&lt;llvm::Value&gt;, Error&gt;</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC tlaBgUNC">           0 : CodeGeneration::visit(const AST_CHAINED *node) const noexcept {</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_CHAINED&quot;);</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   const auto base{node-&gt;base()-&gt;accept(*this)};</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :   if (!base) {</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     return createError(base.error());</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   for (const auto &amp;chain : node-&gt;operations()) {</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     const auto result{chain-&gt;accept(*this)};</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :     if (!result) {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :       return createError(result.error());</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   return {};</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span>              : } // namespace nicole</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/ast/userTypes/ast_attrAccess.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &quot;../../../inc/parsingAnalysis/ast/userTypes/ast_methodCall.h&quot;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;../../../inc/parsingAnalysis/ast/vector/ast_index.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;memory&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : namespace nicole {</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC tlaBgUNC">           0 : CodeGeneration::visit(const AST_CHAINED *node) const noexcept {</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_CHAINED&quot;);</span></span>
+<span id="L16"><span class="lineNum">      16</span>              : </span>
+<span id="L17"><span class="lineNum">      17</span>              :   // VAR_CALL → emitLValue, FUNC_CALL/CTOR/ENUM → emitRValue</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   llvm::Value *current;</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   switch (node-&gt;base()-&gt;type()) {</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   case AST_TYPE::VAR_CALL: {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; addr = emitLValue(node-&gt;base().get());</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     if (!addr)</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :       return createError(addr.error());</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     current = *addr;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     break;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   case AST_TYPE::FUN_CALL:</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   case AST_TYPE::CONSTRUCTOR_CALL:</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   case AST_TYPE::ENUM_ACCESS: {</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; val = emitRValue(node-&gt;base().get());</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     if (!val)</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :       return createError(val.error());</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     current = *val;</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     break;</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :   default:</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :                        &quot;unsupported base in chained expression&quot;);</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = current;</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   currentType = node-&gt;base()-&gt;returnedFromTypeAnalysis();</span></span>
+<span id="L42"><span class="lineNum">      42</span>              : </span>
+<span id="L43"><span class="lineNum">      43</span>              :   // Recorre las operaciones encadenadas</span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST&gt; &amp;op : node-&gt;operations()) {</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :     llvm::Value *next;</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     if (const AST_ATTR_ACCESS *attr =</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :             dynamic_cast&lt;const AST_ATTR_ACCESS *&gt;(op.get())) {</span></span>
+<span id="L48"><span class="lineNum">      48</span>              :       // acceso a atributo → lvalue</span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :       std::expected&lt;llvm::Value *, Error&gt; addr = emitLValue(attr);</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :       if (!addr)</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :         return createError(addr.error());</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :       next = *addr;</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :     } else if (const AST_INDEX *idx =</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :                    dynamic_cast&lt;const AST_INDEX *&gt;(op.get())) {</span></span>
+<span id="L55"><span class="lineNum">      55</span>              :       // acceso por índice rvalue, devuelve el valor dentro del vector/str</span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :       std::expected&lt;llvm::Value *, Error&gt; val = emitRValue(idx);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :       if (!val)</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :         return createError(val.error());</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :       next = *val;</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     } else if (const AST_METHOD_CALL *mcall =</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :                    dynamic_cast&lt;const AST_METHOD_CALL *&gt;(op.get())) {</span></span>
+<span id="L62"><span class="lineNum">      62</span>              :       // llamada a método → rvalue</span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :       std::expected&lt;llvm::Value *, Error&gt; val = emitRValue(mcall);</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :       if (!val)</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :         return createError(val.error());</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :       next = *val;</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :     } else {</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :                          &quot;unsupported operation in chained expression&quot;);</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span>              :     // Actualiza para la siguiente iteración</span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :     resultChainedExpression_ = next;</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :     currentType = op-&gt;returnedFromTypeAnalysis();</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L76"><span class="lineNum">      76</span>              : </span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :   return resultChainedExpression_;</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L79"><span class="lineNum">      79</span>              : </span>
+<span id="L80"><span class="lineNum">      80</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

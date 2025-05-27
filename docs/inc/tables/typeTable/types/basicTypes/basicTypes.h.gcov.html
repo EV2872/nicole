@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">36</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -95,11 +95,32 @@
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :       return &quot;str&quot;;</span></span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     }</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L36"><span class="lineNum">      36</span>              : };</span>
-<span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span>              : } // namespace nicole</span>
-<span id="L39"><span class="lineNum">      39</span>              : </span>
-<span id="L40"><span class="lineNum">      40</span>              : #endif</span>
+<span id="L36"><span class="lineNum">      36</span>              : </span>
+<span id="L37"><span class="lineNum">      37</span>              :   [[nodiscard]] std::expected&lt;llvm::Type *, Error&gt;</span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :   llvmVersion(llvm::LLVMContext &amp;context) const noexcept override {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :     switch (kind_) {</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :     case BasicKind::Bool:</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :       return llvm::Type::getInt1Ty(context);</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :     case BasicKind::Int:</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :       return llvm::Type::getInt32Ty(context);</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     case BasicKind::Float:</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :       return llvm::Type::getFloatTy(context);</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     case BasicKind::Double:</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :       return llvm::Type::getDoubleTy(context);</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     case BasicKind::Char:</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :       return llvm::Type::getInt8Ty(context);</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :     case BasicKind::Str: {</span></span>
+<span id="L51"><span class="lineNum">      51</span>              :       // C-style string: pointer to i8</span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :       llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :       return llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L57"><span class="lineNum">      57</span>              : };</span>
+<span id="L58"><span class="lineNum">      58</span>              : </span>
+<span id="L59"><span class="lineNum">      59</span>              : } // namespace nicole</span>
+<span id="L60"><span class="lineNum">      60</span>              : </span>
+<span id="L61"><span class="lineNum">      61</span>              : #endif</span>
         </pre>
               </td>
             </tr>

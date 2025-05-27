@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-04-18 15:53:49</td>
+            <td class="headerValue">2025-05-27 13:34:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -76,7 +76,7 @@
 <span id="L14"><span class="lineNum">      14</span>              : </span>
 <span id="L15"><span class="lineNum">      15</span>              : class Scope final {</span>
 <span id="L16"><span class="lineNum">      16</span>              : private:</span>
-<span id="L17"><span class="lineNum">      17</span>              :   mutable std::unordered_map&lt;std::string, Variable&gt; table_;</span>
+<span id="L17"><span class="lineNum">      17</span>              :   mutable std::unordered_map&lt;std::string, std::shared_ptr&lt;Variable&gt;&gt; table_;</span>
 <span id="L18"><span class="lineNum">      18</span>              :   std::shared_ptr&lt;Scope&gt; father_;</span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
 <span id="L20"><span class="lineNum">      20</span>              : public:</span>
@@ -89,11 +89,11 @@
 <span id="L27"><span class="lineNum">      27</span>              : </span>
 <span id="L28"><span class="lineNum">      28</span>              :   [[nodiscard]] bool has(const std::string &amp;id) const noexcept;</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] const std::expected&lt;Variable, Error&gt;</span>
+<span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt;</span>
 <span id="L31"><span class="lineNum">      31</span>              :   getVariable(const std::string &amp;id) const noexcept;</span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
 <span id="L33"><span class="lineNum">      33</span>              :   [[nodiscard]] std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L34"><span class="lineNum">      34</span>              :   insert(const Variable &amp;variable) noexcept;</span>
+<span id="L34"><span class="lineNum">      34</span>              :   insert(const std::shared_ptr&lt;Variable&gt; &amp;variable) noexcept;</span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
 <span id="L36"><span class="lineNum">      36</span>              :   std::expected&lt;std::monostate, Error&gt;</span>
 <span id="L37"><span class="lineNum">      37</span>              :   setVariableType(const std::string &amp;id,</span>

@@ -8,6 +8,11 @@
   #  - "-I/usr/include"
    # - "compile_commands.json"
     #- "--std=c++23"
+
+# Reinicia clangd o VSCode:
+
+  #  Abre VSCode y reinicia el servidor de lenguaje clangd para que lea el archivo .clangd actualizado.
+   # Puedes reiniciar clangd en VSCode abriendo la paleta de comandos (Ctrl+Shift+P) y buscando Clangd: Restart Language Server.
     
 CompileFlags:
   Add:
