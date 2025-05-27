@@ -339,7 +339,8 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
     llvm::Value *ret = builder_.CreateCall(userMain, {}, "call_user_main");
     builder_.CreateRet(ret);
   } else {
-    std::expected<llvm::Type *, Error> mainType{typeTable_->intType()->llvmVersion(context_)};
+    std::expected<llvm::Type *, Error> mainType{
+        typeTable_->intType()->llvmVersion(context_)};
     /*if (const std::shared_ptr<NoPropagateType> isNopropagateType{
             std::dynamic_pointer_cast<NoPropagateType>(
                 tree->root()->returnedFromTypeAnalysis())}) {
@@ -352,8 +353,8 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
       }
     }*/
     if (!mainType) {
-        return createError(mainType.error());
-      }
+      return createError(mainType.error());
+    }
 
     funcType_ = llvm::FunctionType::get(*mainType, false);
     mainFunction_ = llvm::Function::Create(
@@ -424,10 +425,20 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
   if (!emited) {
     return createError(emited.error());
   }
-
+  // -fuse-ld=lld
   system(std::string{"clang++ " + options_.binaryName() + ".o -o " +
                      options_.binaryName()}
              .c_str());
+
+  const std::error_code removedObejctFile{
+      llvm::sys::fs::remove(options_.binaryName() + ".o")};
+  if (removedObejctFile) {
+    return createError(ERROR_TYPE::MISSING_BINARY_NAME,
+                       removedObejctFile.message());
+  }
+
+  // system(std::string{"ld.lld " + options_.binaryName() + ".o -o " +
+  // options_.binaryName()}.c_str());
 
   return nullptr;
 }

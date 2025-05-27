@@ -89,9 +89,10 @@ These versions were used during the development phase but they might not be need
 - `ninja 1.12` (optional) for faster compilation
 - `clang-tidy 19` (optional) static analyzer
 - `cppcheck 2.7` (optional) static analyzer
-- `lcov 2.0.1` for coverage analysis
+- `lcov 2.0.1` (optional) for coverage analysis
 - `Docker 28.0.4` (optional) in case that the used operating system is not Linux (Fedora)
 - `The project only has been tested in Linux`
+- `LLD 19.1.7` (optional) compatible with GNU linkers
 
 ## Features Implemented
 
