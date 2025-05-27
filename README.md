@@ -92,7 +92,7 @@ These versions were used during the development phase but they might not be need
 - `lcov 2.0.1` (optional) for coverage analysis
 - `Docker 28.0.4` (optional) in case that the used operating system is not Linux (Fedora)
 - `The project only has been tested in Linux`
-- `LLD 19.1.7` (optional) compatible with GNU linkers
+- `LLD 19.1.7` (optional) compatible with GNU linkers (not yet implemented)
 
 ## Features Implemented
 
