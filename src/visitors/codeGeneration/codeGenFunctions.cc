@@ -26,6 +26,7 @@ CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
 
   // Obtener la declaración monomorfizada elegida
   const AST_FUNC_DECL *decl = node->declReference();
+  auto &formalParams = decl->parameters().params();
 
   if (!decl)
     return createError(ERROR_TYPE::FUNCTION,
@@ -65,6 +66,15 @@ CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
   llvm::FunctionType *ft = callee->getFunctionType();
   for (size_t i = 0; i < argValues.size(); ++i) {
     llvm::Value *v = argValues[i];
+    auto &formalTy = formalParams[i].second;
+
+    if (auto basic = std::dynamic_pointer_cast<BasicType>(formalTy)) {
+      if (basic->baseKind() == BasicKind::Str && v->getType()->isPointerTy() &&
+          llvm::isa<llvm::Constant>(v)) { // literal global
+        v = builder_.CreateCall(strdupFn_, {v}, "strdup_call");
+      }
+    }
+
     llvm::Type *paramTy = ft->getParamType(static_cast<unsigned int>(i));
 
     // Si el parámetro es un struct (agregado) y v es un puntero, cargamos:
@@ -165,7 +175,7 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
   if (std::expected<llvm::Value *, Error> bodyErr = node->body()->accept(*this);
       !bodyErr)
     return createError(bodyErr.error());
-  if (!fn->getReturnType()->isVoidTy() && !entryBB->getTerminator())
+  if (fn->getReturnType()->isVoidTy() && !entryBB->getTerminator())
     builder_.CreateRetVoid();
   if (!options_.validateTree())
     isMain = true;

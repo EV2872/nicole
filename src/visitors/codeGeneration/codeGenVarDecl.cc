@@ -90,6 +90,12 @@ CodeGeneration::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
   llvm::AllocaInst *alloca = builder_.CreateAlloca(llvmTy, nullptr, node->id());
   var.setAddress(alloca);
 
+  const auto isBasicType{std::dynamic_pointer_cast<BasicType>(var.type())};
+  if (isBasicType && isBasicType->baseKind() == BasicKind::Str &&
+      initVal->getType()->isPointerTy()) {
+    initVal = builder_.CreateCall(strdupFn_, {initVal}, "strdup_call");
+  }
+
   // Si es un struct (aggregate), primero cargamos el valor y luego lo
   // almacenamos
   if (llvmTy->isAggregateType()) {

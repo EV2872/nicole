@@ -30,3 +30,9 @@ auto ww = "hola";
 ww[0] := '7';
 
 print(ww);
+
+ww := "adios";
+
+ww[0] := 'M';
+
+print(ww);

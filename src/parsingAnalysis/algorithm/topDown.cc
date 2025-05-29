@@ -125,7 +125,7 @@ TopDown::parseStatement() const noexcept {
         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_ADD) ||
         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_SUB) ||
         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_MULT) ||
-        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_DIV)) and (firsToken->type() != TokenType::STRUCT))
+        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_DIV)) and (firsToken->type() != TokenType::STRUCT)  and (firsToken->type() != TokenType::FUNCTION))
       return parseAssignment(false);
 
     // Se obtiene el tipo del token actual para decidir la rama de parseo.

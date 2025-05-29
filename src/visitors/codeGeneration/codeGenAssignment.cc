@@ -27,6 +27,13 @@ CodeGeneration::visit(const AST_ASSIGNMENT *node) const noexcept {
 
   // ajustar tipo según semántica
   std::shared_ptr<Type> semTy = node->left()->returnedFromTypeAnalysis();
+
+  if (auto basic = std::dynamic_pointer_cast<BasicType>(semTy)) {
+    if (basic->baseKind() == BasicKind::Str && val->getType()->isPointerTy()) {
+      val = builder_.CreateCall(strdupFn_, {val}, "strdup_call");
+    }
+  }
+
   std::expected<llvm::Type *, Error> llvmTyOrErr = semTy->llvmVersion(context_);
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
