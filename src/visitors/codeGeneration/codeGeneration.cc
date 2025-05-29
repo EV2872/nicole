@@ -315,6 +315,11 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }
 
+  auto *i8Ty = builder_.getInt8Ty();
+  auto *i8PtrTy = i8Ty->getPointerTo();
+  auto *strdupTy = llvm::FunctionType::get(i8PtrTy, {i8PtrTy}, false);
+  strdupFn_ = module_->getOrInsertFunction("strdup", strdupTy);
+
   if (options_.validateTree()) {
     llvm::Type *i32Ty = llvm::Type::getInt32Ty(context_);
     llvm::FunctionType *wrapFT =

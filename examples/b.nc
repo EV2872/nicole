@@ -23,3 +23,10 @@ print(x.x.x);
 x.x.x := 20;
 
 print(x.x.x);
+
+
+auto ww = "hola";
+
+ww[0] := '7';
+
+print(ww);

@@ -88,6 +88,7 @@ private:
   mutable std::unordered_set<llvm::Value *> allocatedPtrs_;
   mutable llvm::Function *mallocFn_ = nullptr;
   mutable llvm::Function *freeFn_ = nullptr;
+  mutable llvm::FunctionCallee strdupFn_; // copy strings
   void ensureMallocFreeDeclared() const noexcept;
 
   bool isAggregateReturn(const AST_FUNC_DECL *node) const;

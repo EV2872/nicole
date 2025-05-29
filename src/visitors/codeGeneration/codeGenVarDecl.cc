@@ -2,6 +2,7 @@
 #include "../../../inc/parsingAnalysis/ast/variables/ast_typedDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_varCall.h"
 #include "../../../inc/visitors/codeGeneration/codeGeneration.h"
+#include <memory>
 
 namespace nicole {
 
@@ -37,7 +38,12 @@ CodeGeneration::visit(const AST_AUTO_DECL *node) const noexcept {
   llvm::Type *llvmTy = *llvmTyOrErr;
   llvm::AllocaInst *alloca = builder_.CreateAlloca(llvmTy, nullptr, node->id());
   var.setAddress(alloca);
-  // Restauramos el punto de inserción original (gracias al guard)
+
+  const auto isBasicType{std::dynamic_pointer_cast<BasicType>(var.type())};
+  if (isBasicType && isBasicType->baseKind() == BasicKind::Str &&
+      initVal->getType()->isPointerTy()) {
+    initVal = builder_.CreateCall(strdupFn_, {initVal}, "strdup_call");
+  }
 
   // Si es un struct (aggregate), primero cargamos el valor y luego lo
   // almacenamos
