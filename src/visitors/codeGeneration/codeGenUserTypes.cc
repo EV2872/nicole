@@ -281,7 +281,18 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
   llvm::Function *ctorFn = module_->getFunction(ctorName);
   if (!ctorFn)
     return createError(ERROR_TYPE::FUNCTION, "ctor not found: " + ctorName);
-  //builder_.CreateCall(ctorFn, callArgs, node->id() + "_ctor");
+
+  auto *ctorTy = ctorFn->getFunctionType();
+  for (unsigned i = 1; i < callArgs.size(); ++i) {
+    llvm::Type *paramTy = ctorTy->getParamType(i);
+    llvm::Value *arg = callArgs[i];
+    // Si el parámetro es un struct (aggregate) pero pasamos un ptr:
+    if (paramTy->isAggregateType() && arg->getType()->isPointerTy()) {
+      // Carga el struct para pasar por valor
+      callArgs[i] = builder_.CreateLoad(paramTy, arg, node->id() + "_arg_load");
+    }
+  }
+  // builder_.CreateCall(ctorFn, callArgs, node->id() + "_ctor");
   builder_.CreateCall(ctorFn, callArgs);
   // Actualizar estado y devolver puntero al objeto
   resultChainedExpression_ = objAlloca;
