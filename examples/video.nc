@@ -45,6 +45,8 @@ struct Complex {
 
 auto number = Complex{3.14, 9.8};
 
+let number2: Complex = Complex{3.14, 9.8};
+
 print(number.real, ", ", number.img, "\n");
 
 number.real := -number.real;
@@ -54,6 +56,10 @@ if (var) {
     print(number.real, ", ", number.img, "\n");
 }
 
+/*
 while (!!var or !var) {
     print("Infinite Loop\n");
 }
+*/
+
+print("number2 ", number2.real);

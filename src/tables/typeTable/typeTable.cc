@@ -116,6 +116,57 @@ bool TypeTable::isGenericType(
   return false;
 }
 
+std::expected<std::shared_ptr<Type>, Error>
+TypeTable::isCompundUserType(const std::shared_ptr<Type> &type) const noexcept {
+  // Const
+  if (auto ct = std::dynamic_pointer_cast<ConstType>(type)) {
+    auto inner = isCompundUserType(ct->baseType());
+    if (!inner) return createError(inner.error());
+    return std::make_shared<ConstType>(inner.value());
+  }
+
+  // Puntero
+  if (auto pt = std::dynamic_pointer_cast<PointerType>(type)) {
+    auto inner = isCompundUserType(pt->baseType());
+    if (!inner) return createError(inner.error());
+    return std::make_shared<PointerType>(inner.value());
+  }
+
+  // Vector
+  if (auto vt = std::dynamic_pointer_cast<VectorType>(type)) {
+    auto inner = isCompundUserType(vt->elementType());
+    if (!inner) return createError(inner.error());
+    return std::make_shared<VectorType>(inner.value());
+  }
+
+  // Instancia genérica de un UserType
+  if (auto git = std::dynamic_pointer_cast<GenericInstanceType>(type)) {
+    auto exists = getType(git->name());
+    if (!exists) return createError(exists.error());
+    // Asegurarse de que la definición base es un UserType
+    if (!std::dynamic_pointer_cast<UserType>(exists.value()))
+      return createError(ERROR_TYPE::TYPE,
+                         "El tipo encontrado no es un UserType");
+    // No deshacemos los argumentos genéricos, devolvemos la misma instancia
+    return git;
+  }
+
+  // Tipo definido por el usuario
+  if (auto ut = std::dynamic_pointer_cast<UserType>(type)) {
+    auto exists = getType(ut->name());
+    if (!exists) return createError(exists.error());
+    if (!std::dynamic_pointer_cast<UserType>(exists.value()))
+      return createError(ERROR_TYPE::TYPE,
+                         "El tipo encontrado no es un UserType");
+    return exists.value();
+  }
+
+  // No es un tipo de usuario compuesto
+  return createError(ERROR_TYPE::TYPE,
+                     "El tipo no es un tipo compuesto de usuario");
+}
+
+
 bool TypeTable::isCompundPlaceHolder(
     const std::shared_ptr<Type> &type) const noexcept {
   if (!type)
@@ -188,13 +239,6 @@ TypeTable::isCompundEnumType(const std::shared_ptr<Type> &type) const noexcept {
                          "El tipo encontrado no es un EnumType");
   }
   return createError(ERROR_TYPE::TYPE, "El tipo no es un Enum compuesto");
-}
-
-std::expected<std::shared_ptr<Type>, Error>
-TypeTable::isCompundUserType(const std::shared_ptr<Type> &type) const noexcept {
-  if (type) {
-  }
-  return nullptr;
 }
 
 std::expected<std::shared_ptr<Type>, Error> TypeTable::isCompundGenericType(

@@ -62,6 +62,13 @@ FillSemanticInfo::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
     node->setVarType(varType);
   }
 
+  auto checkIfMaskedUserType{typeTable_->isCompundUserType(node->varType())};
+  if (checkIfMaskedUserType) {
+    varType = *checkIfMaskedUserType;
+    node->setVarType(varType);
+  }
+
+
   auto maybeGeneric =
       typeTable_->isCompundGenericType(varType, currentGenericList_);
   if (maybeGeneric.has_value()) {

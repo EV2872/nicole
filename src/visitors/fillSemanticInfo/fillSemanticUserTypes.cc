@@ -86,6 +86,9 @@ FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept {
     if (auto maskedEnum = typeTable_->isCompundEnumType(attrType))
       attrType = *maskedEnum;
 
+    if (auto maskedUserType = typeTable_->isCompundUserType(attrType))
+      attrType = *maskedUserType;
+
     if (auto maskedGeneric =
             typeTable_->isCompundGenericType(attrType, currentGenericList_))
       attrType = *maskedGeneric;
@@ -159,6 +162,13 @@ FillSemanticInfo::visit(const AST_METHOD_CALL *node) const noexcept {
         return createError(setRes.error());
     }
 
+    if (auto maskedUserType = typeTable_->isCompundUserType(replacement)) {
+      replacement = *maskedUserType;
+      auto setRes = node->setGenericReplacement(i, replacement);
+      if (!setRes)
+        return createError(setRes.error());
+    }
+
     if (auto maskedGeneric = typeTable_->isCompundGenericType(
             replacement, currentGenericList_)) {
       replacement = *maskedGeneric;
@@ -207,6 +217,8 @@ FillSemanticInfo::visit(const AST_METHOD_DECL *node) const noexcept {
     auto newType = param.second;
     if (auto maskedEnum = typeTable_->isCompundEnumType(newType))
       newType = *maskedEnum;
+    if (auto maskedUserType = typeTable_->isCompundUserType(newType))
+      newType = *maskedUserType;
     if (auto maskedGeneric =
             typeTable_->isCompundGenericType(newType, currentGenericList_))
       newType = *maskedGeneric;
@@ -230,6 +242,8 @@ FillSemanticInfo::visit(const AST_METHOD_DECL *node) const noexcept {
   auto retType = node->returnType();
   if (auto maskedReturn = typeTable_->isCompundEnumType(retType))
     retType = *maskedReturn;
+  if (auto maskedUserTypeReturn = typeTable_->isCompundUserType(retType))
+    retType = *maskedUserTypeReturn;
   if (auto maskedGenericReturn =
           typeTable_->isCompundGenericType(retType, currentGenericList_))
     retType = *maskedGenericReturn;
@@ -295,6 +309,8 @@ FillSemanticInfo::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
     auto newType = param.second;
     if (auto masked = typeTable_->isCompundEnumType(newType))
       newType = *masked;
+    if (auto maskedUserType = typeTable_->isCompundUserType(newType))
+      newType = *maskedUserType;
     if (auto maskedGeneric =
             typeTable_->isCompundGenericType(newType, currentGenericList_))
       newType = *maskedGeneric;
@@ -325,6 +341,8 @@ FillSemanticInfo::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   auto retType = node->returnType();
   if (auto masked = typeTable_->isCompundEnumType(retType))
     retType = *masked;
+  if (auto maskedUserType = typeTable_->isCompundUserType(retType))
+    retType = *maskedUserType;
   if (auto maskedGeneric =
           typeTable_->isCompundGenericType(retType, currentGenericList_))
     retType = *maskedGeneric;
@@ -357,6 +375,14 @@ FillSemanticInfo::visit(const AST_SUPER *node) const noexcept {
 
     if (auto maskedEnum = typeTable_->isCompundEnumType(replacement)) {
       replacement = *maskedEnum;
+      auto res = node->setGenericReplacement(i, replacement);
+      if (!res) {
+        return createError(res.error());
+      }
+    }
+
+    if (auto maskedUserType = typeTable_->isCompundUserType(replacement)) {
+      replacement = *maskedUserType;
       auto res = node->setGenericReplacement(i, replacement);
       if (!res) {
         return createError(res.error());
