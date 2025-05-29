@@ -31,7 +31,11 @@ CodeGeneration::visit(const AST_ASSIGNMENT *node) const noexcept {
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
   llvm::Type *dstTy = *llvmTyOrErr;
-  if (val->getType() != dstTy) {
+  if (dstTy->isAggregateType() && val->getType()->isPointerTy()) {
+    val = builder_.CreateLoad(dstTy, val, "assign_load");
+  }
+  // Si tras el load el tipo sigue sin coincidir, aplica sext/bitcast
+  else if (val->getType() != dstTy) {
     if (val->getType()->isIntegerTy() && dstTy->isIntegerTy())
       val = builder_.CreateSExt(val, dstTy, "assign_sext");
     else
