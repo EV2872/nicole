@@ -26,7 +26,10 @@ printParameters(const std::vector<llvm::Value *> &values,
     llvm::Type *ty = val->getType();
     std::string fmt;
 
-    if (ty->isIntegerTy(8)) {
+    if (ty->isIntegerTy(1)) {
+      fmt = "%d";
+      val = builder.CreateZExt(val, builder.getInt32Ty(), "bool_to_int");
+    } else if (ty->isIntegerTy(8)) {
       fmt = "%c";
     } else if (ty->isIntegerTy()) {
       fmt = "%d";

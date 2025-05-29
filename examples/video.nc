@@ -63,3 +63,9 @@ while (!!var or !var) {
 */
 
 print("number2 ", number2.real);
+
+def equalComplex(x: Complex, y: Complex): bool {
+  return (x.real == y.real and x.img == y.img);
+}
+
+print(equalComplex(number, number2));

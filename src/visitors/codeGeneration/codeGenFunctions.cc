@@ -66,6 +66,12 @@ CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
   for (size_t i = 0; i < argValues.size(); ++i) {
     llvm::Value *v = argValues[i];
     llvm::Type *paramTy = ft->getParamType(static_cast<unsigned int>(i));
+
+    // Si el parámetro es un struct (agregado) y v es un puntero, cargamos:
+    if (paramTy->isAggregateType() && v->getType()->isPointerTy()) {
+      v = builder_.CreateLoad(paramTy, v, node->id() + "_arg_load");
+    }
+
     if (v->getType() != paramTy) {
       if (v->getType()->isIntegerTy() && paramTy->isIntegerTy())
         v = builder_.CreateSExt(v, paramTy, "arg_sext");
