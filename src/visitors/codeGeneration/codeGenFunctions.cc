@@ -91,9 +91,11 @@ CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
     callArgs.push_back(v);
   }
 
-  // Emitir la llamada y actualizar estado de chaining
-  llvm::CallInst *ci =
-      builder_.CreateCall(callee, callArgs, node->id() + "_call");
+  // Emitir la llamada y actualizar estado de chaining, la llamada solo tiene
+  // nombre si no retorna void
+  llvm::CallInst *ci = builder_.CreateCall(
+      callee, callArgs,
+      callee->getReturnType()->isVoidTy() ? "" : node->id() + "_call");
   resultChainedExpression_ = ci;
   currentType = decl->returnType();
 

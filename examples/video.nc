@@ -1,12 +1,9 @@
 auto a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
-/*
 if (a[0][2] == 3) {
     print("Hola\n");
 }
-*/
 
-/*
 def fibonacci(n: int): int {
   if (n == 0 or n == 1) {
     return n;
@@ -24,9 +21,7 @@ def factorial(n: int): int {
 print(factorial(5), " ", fibonacci(10), "\n");
 
 print("concat1" + "concat2" + "\n");
-*/
 
-/*
 let m: int = 5;
 let n: int = 10;
 for (auto i = 0; i < m; ++i) {
@@ -35,9 +30,7 @@ for (auto i = 0; i < m; ++i) {
     }
     print("\n");
 }
-*/
 
-/*
 struct Complex {
     real: double
     img: double
@@ -70,8 +63,6 @@ def equalComplex(x: Complex, y: Complex): bool {
 }
 
 print(equalComplex(number, number2));
-
-*/
 
 /*
 while (!!var or !var) {

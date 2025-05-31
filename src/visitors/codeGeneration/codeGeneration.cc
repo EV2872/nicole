@@ -255,6 +255,13 @@ CodeGeneration::emitRValue(const AST *node) const noexcept {
     return tmp;
   }
 
+  // para str retornado por funcion
+  auto isBasic{
+      std::dynamic_pointer_cast<BasicType>(node->returnedFromTypeAnalysis())};
+  if (llvm::isa<llvm::CallInst>(val) and isBasic and
+      isBasic->baseKind() == BasicKind::Str)
+    return val;
+
   // Si es puntero:
   if (val->getType()->isPointerTy()) {
     // sólo cargamos si NO es una constante
