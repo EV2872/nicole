@@ -2,7 +2,7 @@
 
 # How to run the Docker is found at the readme file section: Install using docker
 
-FROM fedora:latest
+FROM fedora:41
 ENV LANG C.UTF-8
 
 # Install dependencies
@@ -27,9 +27,11 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5
 
 # Clone repo
 ARG GITHUB_TOKEN
-RUN git clone --branch main https://github.com/EV2872/nicole.git /app
+RUN git clone --branch test_branch https://github.com/EV2872/nicole.git /app
 #RUN git clone --branch main https://${GITHUB_TOKEN}@github.com/EV2872/nicole.git /app
 WORKDIR /app
 
-# Give permissions and compile
-RUN chmod +x nicole.sh && ./nicole.sh
+# Give permissions
+RUN chmod +x nicole.sh
+# compile and execute a program
+RUN ./nicole.sh examples/aa.nc -j

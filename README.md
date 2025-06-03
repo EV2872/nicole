@@ -56,12 +56,12 @@ cd dockerInstall
 
 Create image, since it is a personal token it won't be shown, replace with yours so you can clone the private repo, this will be possible if you are a collaborator
 ```sh
-sudo docker build --build-arg GITHUB_TOKEN=******* -t mi_proyecto .
+sudo docker build -t mi_proyecto .
 ```
 
 Create a container and execute an example program, remember that --rm will remove the container once the process is finished
 ```sh
-sudo docker run --rm --name mi_contenedor mi_proyecto ./nicole.sh examples/a.nc -p
+sudo docker run --rm --name mi_contenedor mi_proyecto ./nicole.sh examples/aa.nc -p
 ```
 
 Remove image
@@ -83,7 +83,7 @@ sudo systemctl stop docker.socket
 
 ## Requirements
 These versions were used during the development phase but they might not be needed specifically and other versions could work
-- `clang 19 or g++ 14` for compilation
+- `clang 19 or g++ 14` for compilation (recommended with Clang)
 - `Catch2 3.7` for test
 - `LLVM 19` for code generation
 - `cmake 3.30.5` for building the project
