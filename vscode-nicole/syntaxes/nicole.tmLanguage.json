@@ -1,0 +1,84 @@
+{
+    "scopeName": "source.nicole",
+    "fileTypes": ["nc"],
+    "patterns": [
+      {
+        "name": "comment.block.nicole",
+        "begin": "/\\*",
+        "end": "\\*/"
+      },
+      {
+        "name": "comment.line.double-slash.nicole",
+        "match": "//.*$"
+      },
+      {
+        "name": "string.quoted.double.nicole",
+        "begin": "\"",
+        "end": "\"",
+        "patterns": [
+          {
+            "name": "constant.character.escape.nicole",
+            "match": "\\\\."
+          }
+        ]
+      },
+      {
+        "name": "string.quoted.single.nicole",
+        "begin": "'",
+        "end": "'",
+        "patterns": [
+          {
+            "name": "constant.character.escape.nicole",
+            "match": "\\\\."
+          }
+        ]
+      },
+      {
+        "name": "constant.numeric.float.nicole",
+        "match": "\\b[0-9]+\\.[0-9]+([eE][-]?[0-9]+)?f\\b"
+      },
+      {
+        "name": "constant.numeric.double.nicole",
+        "match": "\\b[0-9]+\\.[0-9]+([eE][-]?[0-9]+)?\\b"
+      },
+      {
+        "name": "constant.numeric.integer.nicole",
+        "match": "\\b[0-9]+([eE][-]?[0-9]+)?\\b"
+      },
+      {
+        "name": "constant.language.boolean.nicole",
+        "match": "\\b(?:true|false|null)\\b"
+      },
+      {
+        "name": "storage.type.nicole",
+        "match": "\\b(?:void|bool|char|double|float|int|str)\\b"
+      },
+      {
+        "name": "keyword.declaration.nicole",
+        "match": "\\b(?:constructor|destructor|const|let|auto|ptr|vector|new|delete|import|print|system|type)\\b"
+      },
+      {
+        "name": "keyword.control.nicole",
+        "match": "\\b(?:switch|case|default|if|else|while|for|do|stop|pass|return|enum|struct|class|private|public|protected|extends|method|attr|this|override|virtual|super|or|and)\\b"
+      },
+      {
+        "name": "variable.other.nicole",
+        "match": "\\b[a-zA-Z][a-zA-Z0-9_]*\\b"
+      },
+      {
+        "name": "punctuation.separator.nicole",
+        "match": "[;,\\?\\.:]"
+      },
+      {
+        "name": "punctuation.bracket.nicole",
+        "match": "[\\(\\)\\[\\]\\{\\}]"
+      },
+      {
+        "name": "keyword.operator.nicole",
+        "match": "(?:\\+\\+|\\-\\-|\\+=|\\-=|\\*=|/=|<=|>=|==|!=|:=|=|\\+|\\-|\\*|/|<|>|!|%)"
+      }
+    ],
+    "repository": {},
+    "scopeName": "source.nicole"
+  }
+  

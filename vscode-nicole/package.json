@@ -1,0 +1,26 @@
+{
+    "name": "vscode-nicole",
+    "displayName": "Nicole",
+    "publisher": "tu_usuario",
+    "version": "0.0.1",
+    "engines": { "vscode": "^1.80.0" },
+    "categories": ["Languages"],
+    "contributes": {
+      "languages": [
+        {
+          "id": "nicole",
+          "aliases": ["Nicole", "nicole"],
+          "extensions": [".nc"],
+          "configuration": "./language-configuration.json"
+        }
+      ],
+      "grammars": [
+        {
+          "language": "nicole",
+          "scopeName": "source.nicole",
+          "path": "./syntaxes/nicole.tmLanguage.json"
+        }
+      ]
+    }
+  }
+  

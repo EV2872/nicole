@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">306</td>
+            <td class="headerCovTableEntry">315</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-05-27 13:34:43</td>
+            <td class="headerValue">2025-06-03 17:20:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -317,195 +317,207 @@
 <span id="L255"><span class="lineNum">     255</span> <span class="tlaUNC">           0 :     return tmp;</span></span>
 <span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L257"><span class="lineNum">     257</span>              : </span>
-<span id="L258"><span class="lineNum">     258</span>              :   // Si es puntero:</span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :   if (val-&gt;getType()-&gt;isPointerTy()) {</span></span>
-<span id="L260"><span class="lineNum">     260</span>              :     // sólo cargamos si NO es una constante</span>
-<span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :     if (!llvm::isa&lt;llvm::Constant&gt;(val) &amp;&amp; !isVectorElement(node)) {</span></span>
-<span id="L262"><span class="lineNum">     262</span>              :       // esto cubre variables locales (alloca), argumentos, etc.</span>
-<span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC">           0 :       return builder_.CreateLoad(llvmTy, val, &quot;rval_load&quot;);</span></span>
-<span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L265"><span class="lineNum">     265</span>              :     // en cambio, literales de cadena (CreateGlobalStringPtr → Constant*)</span>
-<span id="L266"><span class="lineNum">     266</span>              :     // se dejan tal cual, como i8* apuntando al .rodata</span>
-<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC">           0 :     return val;</span></span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L269"><span class="lineNum">     269</span>              : </span>
-<span id="L270"><span class="lineNum">     270</span>              :   // escalar ya cargado (int, float, bool…)</span>
-<span id="L271"><span class="lineNum">     271</span> <span class="tlaUNC">           0 :   return val;</span></span>
-<span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L273"><span class="lineNum">     273</span>              : </span>
-<span id="L274"><span class="lineNum">     274</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_STATEMENT *node) const noexcept {</span></span>
-<span id="L276"><span class="lineNum">     276</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_STATEMENT&quot;);</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 :   return node-&gt;expression()-&gt;accept(*this);</span></span>
-<span id="L280"><span class="lineNum">     280</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L281"><span class="lineNum">     281</span>              : </span>
-<span id="L282"><span class="lineNum">     282</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_BODY *node) const noexcept {</span></span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_BODY&quot;);</span></span>
-<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L287"><span class="lineNum">     287</span> <span class="tlaUNC">           0 :   auto parentScope = currentScope_;</span></span>
-<span id="L288"><span class="lineNum">     288</span> <span class="tlaUNC">           0 :   currentScope_ = node-&gt;scope();</span></span>
-<span id="L289"><span class="lineNum">     289</span>              : </span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :   llvm::Value *lastValue{nullptr};</span></span>
-<span id="L291"><span class="lineNum">     291</span>              : </span>
-<span id="L292"><span class="lineNum">     292</span>              :   // Recorremos todas las sentencias del cuerpo</span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;statement : node-&gt;body()) {</span></span>
-<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; res = statement-&gt;accept(*this);</span></span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :     if (!res) {</span></span>
-<span id="L296"><span class="lineNum">     296</span>              :       // Propagamos el error si alguna sentencia falla</span>
-<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
-<span id="L298"><span class="lineNum">     298</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :     if (builder_.GetInsertBlock()-&gt;getTerminator())</span></span>
-<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :       break;</span></span>
-<span id="L301"><span class="lineNum">     301</span>              :     // Guardamos el valor devuelto (puede ser nullptr si la sentencia no produce</span>
-<span id="L302"><span class="lineNum">     302</span>              :     // valor)</span>
-<span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :     lastValue = res.value();</span></span>
-<span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :   currentScope_ = parentScope;</span></span>
-<span id="L306"><span class="lineNum">     306</span>              : </span>
-<span id="L307"><span class="lineNum">     307</span>              :   // Devolvemos el valor de la última sentencia (o nullptr si no había</span>
-<span id="L308"><span class="lineNum">     308</span>              :   // sentencias)</span>
-<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :   return lastValue;</span></span>
-<span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L311"><span class="lineNum">     311</span>              : </span>
-<span id="L312"><span class="lineNum">     312</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L313"><span class="lineNum">     313</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const Tree *tree) const noexcept {</span></span>
-<span id="L314"><span class="lineNum">     314</span> <span class="tlaUNC">           0 :   if (!tree) {</span></span>
-<span id="L315"><span class="lineNum">     315</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid Tree&quot;);</span></span>
-<span id="L316"><span class="lineNum">     316</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L317"><span class="lineNum">     317</span>              : </span>
-<span id="L318"><span class="lineNum">     318</span> <span class="tlaUNC">           0 :   if (options_.validateTree()) {</span></span>
-<span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC">           0 :     llvm::Type *i32Ty = llvm::Type::getInt32Ty(context_);</span></span>
-<span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 :     llvm::FunctionType *wrapFT =</span></span>
-<span id="L321"><span class="lineNum">     321</span> <span class="tlaUNC">           0 :         llvm::FunctionType::get(i32Ty, /*isVarArg=*/false);</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaUNC">           0 :     mainFunction_ = llvm::Function::Create(</span></span>
-<span id="L323"><span class="lineNum">     323</span> <span class="tlaUNC">           0 :         wrapFT, llvm::Function::ExternalLinkage, &quot;main&quot;, module_.get());</span></span>
+<span id="L258"><span class="lineNum">     258</span>              :   // para str retornado por funcion</span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :   auto isBasic{</span></span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 :       std::dynamic_pointer_cast&lt;BasicType&gt;(node-&gt;returnedFromTypeAnalysis())};</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :   if (llvm::isa&lt;llvm::CallInst&gt;(val) and isBasic and</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaUNC">           0 :       isBasic-&gt;baseKind() == BasicKind::Str)</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC">           0 :     return val;</span></span>
+<span id="L264"><span class="lineNum">     264</span>              : </span>
+<span id="L265"><span class="lineNum">     265</span>              :   // Si es puntero:</span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaUNC">           0 :   if (val-&gt;getType()-&gt;isPointerTy()) {</span></span>
+<span id="L267"><span class="lineNum">     267</span>              :     // sólo cargamos si NO es una constante</span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :     if (!llvm::isa&lt;llvm::Constant&gt;(val) &amp;&amp; !isVectorElement(node)) {</span></span>
+<span id="L269"><span class="lineNum">     269</span>              :       // esto cubre variables locales (alloca), argumentos, etc.</span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :       return builder_.CreateLoad(llvmTy, val, &quot;rval_load&quot;);</span></span>
+<span id="L271"><span class="lineNum">     271</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L272"><span class="lineNum">     272</span>              :     // en cambio, literales de cadena (CreateGlobalStringPtr → Constant*)</span>
+<span id="L273"><span class="lineNum">     273</span>              :     // se dejan tal cual, como i8* apuntando al .rodata</span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaUNC">           0 :     return val;</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L276"><span class="lineNum">     276</span>              : </span>
+<span id="L277"><span class="lineNum">     277</span>              :   // escalar ya cargado (int, float, bool…)</span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :   return val;</span></span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L280"><span class="lineNum">     280</span>              : </span>
+<span id="L281"><span class="lineNum">     281</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_STATEMENT *node) const noexcept {</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_STATEMENT&quot;);</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :   return node-&gt;expression()-&gt;accept(*this);</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L288"><span class="lineNum">     288</span>              : </span>
+<span id="L289"><span class="lineNum">     289</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_BODY *node) const noexcept {</span></span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_BODY&quot;);</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :   auto parentScope = currentScope_;</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :   currentScope_ = node-&gt;scope();</span></span>
+<span id="L296"><span class="lineNum">     296</span>              : </span>
+<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :   llvm::Value *lastValue{nullptr};</span></span>
+<span id="L298"><span class="lineNum">     298</span>              : </span>
+<span id="L299"><span class="lineNum">     299</span>              :   // Recorremos todas las sentencias del cuerpo</span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;statement : node-&gt;body()) {</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Value *, Error&gt; res = statement-&gt;accept(*this);</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :     if (!res) {</span></span>
+<span id="L303"><span class="lineNum">     303</span>              :       // Propagamos el error si alguna sentencia falla</span>
+<span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :     if (builder_.GetInsertBlock()-&gt;getTerminator())</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaUNC">           0 :       break;</span></span>
+<span id="L308"><span class="lineNum">     308</span>              :     // Guardamos el valor devuelto (puede ser nullptr si la sentencia no produce</span>
+<span id="L309"><span class="lineNum">     309</span>              :     // valor)</span>
+<span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC">           0 :     lastValue = res.value();</span></span>
+<span id="L311"><span class="lineNum">     311</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L312"><span class="lineNum">     312</span> <span class="tlaUNC">           0 :   currentScope_ = parentScope;</span></span>
+<span id="L313"><span class="lineNum">     313</span>              : </span>
+<span id="L314"><span class="lineNum">     314</span>              :   // Devolvemos el valor de la última sentencia (o nullptr si no había</span>
+<span id="L315"><span class="lineNum">     315</span>              :   // sentencias)</span>
+<span id="L316"><span class="lineNum">     316</span> <span class="tlaUNC">           0 :   return lastValue;</span></span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L318"><span class="lineNum">     318</span>              : </span>
+<span id="L319"><span class="lineNum">     319</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const Tree *tree) const noexcept {</span></span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaUNC">           0 :   if (!tree) {</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid Tree&quot;);</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L324"><span class="lineNum">     324</span>              : </span>
-<span id="L325"><span class="lineNum">     325</span>              :     // Insertamos el bloque de entrada ANTES de generar el cuerpo de usuario</span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaUNC">           0 :     entry_ = llvm::BasicBlock::Create(context_, &quot;entry&quot;, mainFunction_);</span></span>
-<span id="L327"><span class="lineNum">     327</span> <span class="tlaUNC">           0 :     builder_.SetInsertPoint(entry_);</span></span>
-<span id="L328"><span class="lineNum">     328</span>              : </span>
-<span id="L329"><span class="lineNum">     329</span>              :     // Ahora generamos TODO el AST de usuario (incluido $_main) ---</span>
-<span id="L330"><span class="lineNum">     330</span> <span class="tlaUNC">           0 :     if (std::expected&lt;llvm::Value *, Error&gt; res = tree-&gt;root()-&gt;accept(*this);</span></span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaUNC">           0 :         !res)</span></span>
-<span id="L332"><span class="lineNum">     332</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
-<span id="L333"><span class="lineNum">     333</span>              : </span>
-<span id="L334"><span class="lineNum">     334</span>              :     // Llamamos a la función del usuario ($_main) y retornamos su i32 ---</span>
-<span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC">           0 :     llvm::Function *userMain = module_-&gt;getFunction(&quot;$_main&quot;);</span></span>
-<span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :     if (!userMain)</span></span>
-<span id="L337"><span class="lineNum">     337</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::FUNCTION, &quot;no existe $_main&quot;);</span></span>
-<span id="L338"><span class="lineNum">     338</span>              : </span>
-<span id="L339"><span class="lineNum">     339</span> <span class="tlaUNC">           0 :     llvm::Value *ret = builder_.CreateCall(userMain, {}, &quot;call_user_main&quot;);</span></span>
-<span id="L340"><span class="lineNum">     340</span> <span class="tlaUNC">           0 :     builder_.CreateRet(ret);</span></span>
-<span id="L341"><span class="lineNum">     341</span> <span class="tlaUNC">           0 :   } else {</span></span>
-<span id="L342"><span class="lineNum">     342</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Type *, Error&gt; mainType{</span></span>
-<span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 :         typeTable_-&gt;intType()-&gt;llvmVersion(context_)};</span></span>
-<span id="L344"><span class="lineNum">     344</span>              :     /*if (const std::shared_ptr&lt;NoPropagateType&gt; isNopropagateType{</span>
-<span id="L345"><span class="lineNum">     345</span>              :             std::dynamic_pointer_cast&lt;NoPropagateType&gt;(</span>
-<span id="L346"><span class="lineNum">     346</span>              :                 tree-&gt;root()-&gt;returnedFromTypeAnalysis())}) {</span>
-<span id="L347"><span class="lineNum">     347</span>              :       mainType = typeTable_-&gt;voidType()-&gt;llvmVersion(context_);</span>
-<span id="L348"><span class="lineNum">     348</span>              :     } else {</span>
-<span id="L349"><span class="lineNum">     349</span>              :       mainType =</span>
-<span id="L350"><span class="lineNum">     350</span>              :           tree-&gt;root()-&gt;returnedFromTypeAnalysis()-&gt;llvmVersion(context_);</span>
-<span id="L351"><span class="lineNum">     351</span>              :       if (!mainType) {</span>
-<span id="L352"><span class="lineNum">     352</span>              :         return createError(mainType.error());</span>
-<span id="L353"><span class="lineNum">     353</span>              :       }</span>
-<span id="L354"><span class="lineNum">     354</span>              :     }*/</span>
-<span id="L355"><span class="lineNum">     355</span> <span class="tlaUNC">           0 :     if (!mainType) {</span></span>
-<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 :       return createError(mainType.error());</span></span>
-<span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L358"><span class="lineNum">     358</span>              : </span>
-<span id="L359"><span class="lineNum">     359</span> <span class="tlaUNC">           0 :     funcType_ = llvm::FunctionType::get(*mainType, false);</span></span>
-<span id="L360"><span class="lineNum">     360</span> <span class="tlaUNC">           0 :     mainFunction_ = llvm::Function::Create(</span></span>
-<span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 :         funcType_, llvm::Function::ExternalLinkage, &quot;main&quot;, module_.get());</span></span>
-<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :     entry_ = llvm::BasicBlock::Create(context_, &quot;entry&quot;, mainFunction_);</span></span>
-<span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :     builder_.SetInsertPoint(entry_);</span></span>
-<span id="L364"><span class="lineNum">     364</span>              : </span>
-<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :     const std::expected&lt;llvm::Value *, Error&gt; result{</span></span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :         tree-&gt;root()-&gt;accept(*this)};</span></span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :     if (!result) {</span></span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :       return createError(result.error());</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC">           0 :   auto *i8Ty = builder_.getInt8Ty();</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaUNC">           0 :   auto *i8PtrTy = i8Ty-&gt;getPointerTo();</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaUNC">           0 :   auto *strdupTy = llvm::FunctionType::get(i8PtrTy, {i8PtrTy}, false);</span></span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaUNC">           0 :   strdupFn_ = module_-&gt;getOrInsertFunction(&quot;strdup&quot;, strdupTy);</span></span>
+<span id="L329"><span class="lineNum">     329</span>              : </span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaUNC">           0 :   if (options_.validateTree()) {</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaUNC">           0 :     llvm::Type *i32Ty = llvm::Type::getInt32Ty(context_);</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaUNC">           0 :     llvm::FunctionType *wrapFT =</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaUNC">           0 :         llvm::FunctionType::get(i32Ty, /*isVarArg=*/false);</span></span>
+<span id="L334"><span class="lineNum">     334</span> <span class="tlaUNC">           0 :     mainFunction_ = llvm::Function::Create(</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC">           0 :         wrapFT, llvm::Function::ExternalLinkage, &quot;main&quot;, module_.get());</span></span>
+<span id="L336"><span class="lineNum">     336</span>              : </span>
+<span id="L337"><span class="lineNum">     337</span>              :     // Insertamos el bloque de entrada ANTES de generar el cuerpo de usuario</span>
+<span id="L338"><span class="lineNum">     338</span> <span class="tlaUNC">           0 :     entry_ = llvm::BasicBlock::Create(context_, &quot;entry&quot;, mainFunction_);</span></span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaUNC">           0 :     builder_.SetInsertPoint(entry_);</span></span>
+<span id="L340"><span class="lineNum">     340</span>              : </span>
+<span id="L341"><span class="lineNum">     341</span>              :     // Ahora generamos TODO el AST de usuario (incluido $_main) ---</span>
+<span id="L342"><span class="lineNum">     342</span> <span class="tlaUNC">           0 :     if (std::expected&lt;llvm::Value *, Error&gt; res = tree-&gt;root()-&gt;accept(*this);</span></span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 :         !res)</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L345"><span class="lineNum">     345</span>              : </span>
+<span id="L346"><span class="lineNum">     346</span>              :     // Llamamos a la función del usuario ($_main) y retornamos su i32 ---</span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :     llvm::Function *userMain = module_-&gt;getFunction(&quot;$_main&quot;);</span></span>
+<span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :     if (!userMain)</span></span>
+<span id="L349"><span class="lineNum">     349</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::FUNCTION, &quot;no existe $_main&quot;);</span></span>
+<span id="L350"><span class="lineNum">     350</span>              : </span>
+<span id="L351"><span class="lineNum">     351</span> <span class="tlaUNC">           0 :     llvm::Value *ret = builder_.CreateCall(userMain, {}, &quot;call_user_main&quot;);</span></span>
+<span id="L352"><span class="lineNum">     352</span> <span class="tlaUNC">           0 :     builder_.CreateRet(ret);</span></span>
+<span id="L353"><span class="lineNum">     353</span> <span class="tlaUNC">           0 :   } else {</span></span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaUNC">           0 :     std::expected&lt;llvm::Type *, Error&gt; mainType{</span></span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaUNC">           0 :         typeTable_-&gt;intType()-&gt;llvmVersion(context_)};</span></span>
+<span id="L356"><span class="lineNum">     356</span>              :     /*if (const std::shared_ptr&lt;NoPropagateType&gt; isNopropagateType{</span>
+<span id="L357"><span class="lineNum">     357</span>              :             std::dynamic_pointer_cast&lt;NoPropagateType&gt;(</span>
+<span id="L358"><span class="lineNum">     358</span>              :                 tree-&gt;root()-&gt;returnedFromTypeAnalysis())}) {</span>
+<span id="L359"><span class="lineNum">     359</span>              :       mainType = typeTable_-&gt;voidType()-&gt;llvmVersion(context_);</span>
+<span id="L360"><span class="lineNum">     360</span>              :     } else {</span>
+<span id="L361"><span class="lineNum">     361</span>              :       mainType =</span>
+<span id="L362"><span class="lineNum">     362</span>              :           tree-&gt;root()-&gt;returnedFromTypeAnalysis()-&gt;llvmVersion(context_);</span>
+<span id="L363"><span class="lineNum">     363</span>              :       if (!mainType) {</span>
+<span id="L364"><span class="lineNum">     364</span>              :         return createError(mainType.error());</span>
+<span id="L365"><span class="lineNum">     365</span>              :       }</span>
+<span id="L366"><span class="lineNum">     366</span>              :     }*/</span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :     if (!mainType) {</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :       return createError(mainType.error());</span></span>
 <span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaUNC">           0 :     if (!builder_.GetInsertBlock()-&gt;getTerminator())</span></span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :       builder_.CreateRet(llvm::ConstantInt::get(</span></span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :           *typeTable_-&gt;intType()-&gt;llvmVersion(context_), 0));</span></span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L374"><span class="lineNum">     374</span>              : </span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :   if (options_.optimize()) {</span></span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :     llvm::PassBuilder PB;</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :     llvm::LoopAnalysisManager LAM;</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :     llvm::FunctionAnalysisManager FAM;</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :     llvm::CGSCCAnalysisManager CGAM;</span></span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :     llvm::ModuleAnalysisManager MAM;</span></span>
-<span id="L381"><span class="lineNum">     381</span>              : </span>
-<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :     PB.registerModuleAnalyses(MAM);</span></span>
-<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :     PB.registerCGSCCAnalyses(CGAM);</span></span>
-<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 :     PB.registerFunctionAnalyses(FAM);</span></span>
-<span id="L385"><span class="lineNum">     385</span> <span class="tlaUNC">           0 :     PB.registerLoopAnalyses(LAM);</span></span>
-<span id="L386"><span class="lineNum">     386</span> <span class="tlaUNC">           0 :     PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);</span></span>
-<span id="L387"><span class="lineNum">     387</span>              : </span>
-<span id="L388"><span class="lineNum">     388</span> <span class="tlaUNC">           0 :     llvm::ModulePassManager MPM =</span></span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaUNC">           0 :         PB.buildPerModuleDefaultPipeline(llvm::OptimizationLevel::O3, true);</span></span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :     MPM.run(*module_, MAM);</span></span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L392"><span class="lineNum">     392</span>              : </span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :   llvm::verifyModule(*module_, &amp;llvm::errs());</span></span>
-<span id="L394"><span class="lineNum">     394</span>              : </span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :   if (options_.printIR()) {</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaUNC">           0 :     module_-&gt;print(llvm::outs(), nullptr);</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L398"><span class="lineNum">     398</span>              : </span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :   if (options_.justInTime()) {</span></span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTarget();</span></span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTargetAsmPrinter();</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTargetAsmParser();</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :     std::string errStr;</span></span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :     llvm::ExecutionEngine *execEngine =</span></span>
-<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :         llvm::EngineBuilder(std::move(module_))</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :             .setErrorStr(&amp;errStr)</span></span>
-<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :             .setOptLevel(llvm::CodeGenOptLevel::Default)</span></span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :             .create();</span></span>
-<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 :     if (!execEngine) {</span></span>
-<span id="L410"><span class="lineNum">     410</span> <span class="tlaUNC">           0 :       std::cerr &lt;&lt; &quot;Failed to create ExecutionEngine: &quot; &lt;&lt; errStr &lt;&lt; std::endl;</span></span>
-<span id="L411"><span class="lineNum">     411</span> <span class="tlaUNC">           0 :       return nullptr;</span></span>
-<span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L413"><span class="lineNum">     413</span>              : </span>
-<span id="L414"><span class="lineNum">     414</span>              :     // Ejecuta la función main y obtiene el resultado</span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaUNC">           0 :     std::vector&lt;llvm::GenericValue&gt; noargs;</span></span>
-<span id="L416"><span class="lineNum">     416</span> <span class="tlaUNC">           0 :     llvm::GenericValue gv = execEngine-&gt;runFunction(mainFunction_, noargs);</span></span>
-<span id="L417"><span class="lineNum">     417</span>              : </span>
-<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :     delete execEngine;</span></span>
-<span id="L419"><span class="lineNum">     419</span>              : </span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaUNC">           0 :     return nullptr;</span></span>
-<span id="L421"><span class="lineNum">     421</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L422"><span class="lineNum">     422</span>              : </span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :   auto emited{emitObjectFile(module_.get())};</span></span>
-<span id="L424"><span class="lineNum">     424</span>              : </span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaUNC">           0 :   if (!emited) {</span></span>
-<span id="L426"><span class="lineNum">     426</span> <span class="tlaUNC">           0 :     return createError(emited.error());</span></span>
-<span id="L427"><span class="lineNum">     427</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L428"><span class="lineNum">     428</span>              :   // -fuse-ld=lld</span>
-<span id="L429"><span class="lineNum">     429</span> <span class="tlaUNC">           0 :   system(std::string{&quot;clang++ &quot; + options_.binaryName() + &quot;.o -o &quot; +</span></span>
-<span id="L430"><span class="lineNum">     430</span> <span class="tlaUNC">           0 :                      options_.binaryName()}</span></span>
-<span id="L431"><span class="lineNum">     431</span> <span class="tlaUNC">           0 :              .c_str());</span></span>
-<span id="L432"><span class="lineNum">     432</span>              : </span>
-<span id="L433"><span class="lineNum">     433</span> <span class="tlaUNC">           0 :   const std::error_code removedObejctFile{</span></span>
-<span id="L434"><span class="lineNum">     434</span> <span class="tlaUNC">           0 :       llvm::sys::fs::remove(options_.binaryName() + &quot;.o&quot;)};</span></span>
-<span id="L435"><span class="lineNum">     435</span> <span class="tlaUNC">           0 :   if (removedObejctFile) {</span></span>
-<span id="L436"><span class="lineNum">     436</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::MISSING_BINARY_NAME,</span></span>
-<span id="L437"><span class="lineNum">     437</span> <span class="tlaUNC">           0 :                        removedObejctFile.message());</span></span>
-<span id="L438"><span class="lineNum">     438</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L439"><span class="lineNum">     439</span>              : </span>
-<span id="L440"><span class="lineNum">     440</span>              :   // system(std::string{&quot;ld.lld &quot; + options_.binaryName() + &quot;.o -o &quot; +</span>
-<span id="L441"><span class="lineNum">     441</span>              :   // options_.binaryName()}.c_str());</span>
-<span id="L442"><span class="lineNum">     442</span>              : </span>
-<span id="L443"><span class="lineNum">     443</span> <span class="tlaUNC">           0 :   return nullptr;</span></span>
-<span id="L444"><span class="lineNum">     444</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L445"><span class="lineNum">     445</span>              : </span>
-<span id="L446"><span class="lineNum">     446</span>              : } // namespace nicole</span>
+<span id="L370"><span class="lineNum">     370</span>              : </span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :     funcType_ = llvm::FunctionType::get(*mainType, false);</span></span>
+<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :     mainFunction_ = llvm::Function::Create(</span></span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :         funcType_, llvm::Function::ExternalLinkage, &quot;main&quot;, module_.get());</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :     entry_ = llvm::BasicBlock::Create(context_, &quot;entry&quot;, mainFunction_);</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :     builder_.SetInsertPoint(entry_);</span></span>
+<span id="L376"><span class="lineNum">     376</span>              : </span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :     const std::expected&lt;llvm::Value *, Error&gt; result{</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :         tree-&gt;root()-&gt;accept(*this)};</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :     if (!result) {</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :       return createError(result.error());</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :     if (!builder_.GetInsertBlock()-&gt;getTerminator())</span></span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :       builder_.CreateRet(llvm::ConstantInt::get(</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 :           *typeTable_-&gt;intType()-&gt;llvmVersion(context_), 0));</span></span>
+<span id="L385"><span class="lineNum">     385</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L386"><span class="lineNum">     386</span>              : </span>
+<span id="L387"><span class="lineNum">     387</span> <span class="tlaUNC">           0 :   if (options_.optimize()) {</span></span>
+<span id="L388"><span class="lineNum">     388</span> <span class="tlaUNC">           0 :     llvm::PassBuilder PB;</span></span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaUNC">           0 :     llvm::LoopAnalysisManager LAM;</span></span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :     llvm::FunctionAnalysisManager FAM;</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :     llvm::CGSCCAnalysisManager CGAM;</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :     llvm::ModuleAnalysisManager MAM;</span></span>
+<span id="L393"><span class="lineNum">     393</span>              : </span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :     PB.registerModuleAnalyses(MAM);</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :     PB.registerCGSCCAnalyses(CGAM);</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaUNC">           0 :     PB.registerFunctionAnalyses(FAM);</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :     PB.registerLoopAnalyses(LAM);</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :     PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);</span></span>
+<span id="L399"><span class="lineNum">     399</span>              : </span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :     llvm::ModulePassManager MPM =</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaUNC">           0 :         PB.buildPerModuleDefaultPipeline(llvm::OptimizationLevel::O3, true);</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :     MPM.run(*module_, MAM);</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L404"><span class="lineNum">     404</span>              : </span>
+<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :   llvm::verifyModule(*module_, &amp;llvm::errs());</span></span>
+<span id="L406"><span class="lineNum">     406</span>              : </span>
+<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :   if (options_.printIR()) {</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :     module_-&gt;print(llvm::outs(), nullptr);</span></span>
+<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L410"><span class="lineNum">     410</span>              : </span>
+<span id="L411"><span class="lineNum">     411</span> <span class="tlaUNC">           0 :   if (options_.justInTime()) {</span></span>
+<span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTarget();</span></span>
+<span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTargetAsmPrinter();</span></span>
+<span id="L414"><span class="lineNum">     414</span> <span class="tlaUNC">           0 :     llvm::InitializeNativeTargetAsmParser();</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaUNC">           0 :     std::string errStr;</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaUNC">           0 :     llvm::ExecutionEngine *execEngine =</span></span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 :         llvm::EngineBuilder(std::move(module_))</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :             .setErrorStr(&amp;errStr)</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :             .setOptLevel(llvm::CodeGenOptLevel::Default)</span></span>
+<span id="L420"><span class="lineNum">     420</span> <span class="tlaUNC">           0 :             .create();</span></span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaUNC">           0 :     if (!execEngine) {</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaUNC">           0 :       std::cerr &lt;&lt; &quot;Failed to create ExecutionEngine: &quot; &lt;&lt; errStr &lt;&lt; std::endl;</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :       return nullptr;</span></span>
+<span id="L424"><span class="lineNum">     424</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L425"><span class="lineNum">     425</span>              : </span>
+<span id="L426"><span class="lineNum">     426</span>              :     // Ejecuta la función main y obtiene el resultado</span>
+<span id="L427"><span class="lineNum">     427</span> <span class="tlaUNC">           0 :     std::vector&lt;llvm::GenericValue&gt; noargs;</span></span>
+<span id="L428"><span class="lineNum">     428</span> <span class="tlaUNC">           0 :     llvm::GenericValue gv = execEngine-&gt;runFunction(mainFunction_, noargs);</span></span>
+<span id="L429"><span class="lineNum">     429</span>              : </span>
+<span id="L430"><span class="lineNum">     430</span> <span class="tlaUNC">           0 :     delete execEngine;</span></span>
+<span id="L431"><span class="lineNum">     431</span>              : </span>
+<span id="L432"><span class="lineNum">     432</span> <span class="tlaUNC">           0 :     return nullptr;</span></span>
+<span id="L433"><span class="lineNum">     433</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L434"><span class="lineNum">     434</span>              : </span>
+<span id="L435"><span class="lineNum">     435</span> <span class="tlaUNC">           0 :   auto emited{emitObjectFile(module_.get())};</span></span>
+<span id="L436"><span class="lineNum">     436</span>              : </span>
+<span id="L437"><span class="lineNum">     437</span> <span class="tlaUNC">           0 :   if (!emited) {</span></span>
+<span id="L438"><span class="lineNum">     438</span> <span class="tlaUNC">           0 :     return createError(emited.error());</span></span>
+<span id="L439"><span class="lineNum">     439</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L440"><span class="lineNum">     440</span>              :   // -fuse-ld=lld</span>
+<span id="L441"><span class="lineNum">     441</span> <span class="tlaUNC">           0 :   system(std::string{&quot;clang++ &quot; + options_.binaryName() + &quot;.o -o &quot; +</span></span>
+<span id="L442"><span class="lineNum">     442</span> <span class="tlaUNC">           0 :                      options_.binaryName()}</span></span>
+<span id="L443"><span class="lineNum">     443</span> <span class="tlaUNC">           0 :              .c_str());</span></span>
+<span id="L444"><span class="lineNum">     444</span>              : </span>
+<span id="L445"><span class="lineNum">     445</span> <span class="tlaUNC">           0 :   const std::error_code removedObejctFile{</span></span>
+<span id="L446"><span class="lineNum">     446</span> <span class="tlaUNC">           0 :       llvm::sys::fs::remove(options_.binaryName() + &quot;.o&quot;)};</span></span>
+<span id="L447"><span class="lineNum">     447</span> <span class="tlaUNC">           0 :   if (removedObejctFile) {</span></span>
+<span id="L448"><span class="lineNum">     448</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::MISSING_BINARY_NAME,</span></span>
+<span id="L449"><span class="lineNum">     449</span> <span class="tlaUNC">           0 :                        removedObejctFile.message());</span></span>
+<span id="L450"><span class="lineNum">     450</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L451"><span class="lineNum">     451</span>              : </span>
+<span id="L452"><span class="lineNum">     452</span>              :   // system(std::string{&quot;ld.lld &quot; + options_.binaryName() + &quot;.o -o &quot; +</span>
+<span id="L453"><span class="lineNum">     453</span>              :   // options_.binaryName()}.c_str());</span>
+<span id="L454"><span class="lineNum">     454</span>              : </span>
+<span id="L455"><span class="lineNum">     455</span> <span class="tlaUNC">           0 :   return nullptr;</span></span>
+<span id="L456"><span class="lineNum">     456</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L457"><span class="lineNum">     457</span>              : </span>
+<span id="L458"><span class="lineNum">     458</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

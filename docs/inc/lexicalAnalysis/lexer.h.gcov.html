@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-05-27 13:34:43</td>
+            <td class="headerValue">2025-06-03 17:20:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -90,11 +90,11 @@
 <span id="L28"><span class="lineNum">      28</span>              : public:</span>
 <span id="L29"><span class="lineNum">      29</span>              :   explicit Lexer(const std::vector&lt;Category&gt; &amp;categories,</span>
 <span id="L30"><span class="lineNum">      30</span>              :                  const std::string &amp;extension) noexcept</span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">          21 :       : categories_{categories}, extension_{extension} {};</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">           2 :       : categories_{categories}, extension_{extension} {};</span></span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">          21 :   [[nodiscard]] const std::vector&lt;Category&gt; &amp;categories() const noexcept {</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">          21 :     return categories_;</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">          21 :   }</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           2 :   [[nodiscard]] const std::vector&lt;Category&gt; &amp;categories() const noexcept {</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           2 :     return categories_;</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :   }</span></span>
 <span id="L36"><span class="lineNum">      36</span>              : </span>
 <span id="L37"><span class="lineNum">      37</span>              :   [[nodiscard]] const std::expected&lt;TokenStream, Error&gt;</span>
 <span id="L38"><span class="lineNum">      38</span>              :   analyze(const std::filesystem::path &amp;fileName,</span>

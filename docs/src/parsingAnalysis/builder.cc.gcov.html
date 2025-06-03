@@ -31,18 +31,18 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">17.9&nbsp;%</td>
+            <td class="headerCovTableEntryLo">10.5&nbsp;%</td>
             <td class="headerCovTableEntry">503</td>
-            <td class="headerCovTableEntry">90</td>
+            <td class="headerCovTableEntry">53</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-05-27 13:34:43</td>
+            <td class="headerValue">2025-06-03 17:20:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryLo">20.0&nbsp;%</td>
+            <td class="headerCovTableEntryLo">14.0&nbsp;%</td>
             <td class="headerCovTableEntry">50</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">7</td>
           </tr>
                   <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -66,9 +66,9 @@
 <span id="L4"><span class="lineNum">       4</span>              : namespace nicole {</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : std::expected&lt;std::shared_ptr&lt;AST_BOOL&gt;, Error&gt;</span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">         102 : Builder::createBool(const SourceLocation &amp;srcLoc, const bool value) noexcept {</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">         102 :   return std::make_shared&lt;AST_BOOL&gt;(generateNextId(), srcLoc, value);</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">         102 : }</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">          64 : Builder::createBool(const SourceLocation &amp;srcLoc, const bool value) noexcept {</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">          64 :   return std::make_shared&lt;AST_BOOL&gt;(generateNextId(), srcLoc, value);</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">          64 : }</span></span>
 <span id="L10"><span class="lineNum">      10</span>              : </span>
 <span id="L11"><span class="lineNum">      11</span>              : std::expected&lt;std::shared_ptr&lt;AST_CHAR&gt;, Error&gt;</span>
 <span id="L12"><span class="lineNum">      12</span>              : Builder::createChar(const SourceLocation &amp;srcLoc,</span>
@@ -110,9 +110,9 @@
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L49"><span class="lineNum">      49</span>              : </span>
 <span id="L50"><span class="lineNum">      50</span>              : std::expected&lt;std::shared_ptr&lt;AST_INT&gt;, Error&gt;</span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC tlaBgGNC">           9 : Builder::createInt(const SourceLocation &amp;srcLoc, const int value) noexcept {</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           9 :   return std::make_shared&lt;AST_INT&gt;(generateNextId(), srcLoc, value);</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           9 : }</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC tlaBgGNC">           6 : Builder::createInt(const SourceLocation &amp;srcLoc, const int value) noexcept {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           6 :   return std::make_shared&lt;AST_INT&gt;(generateNextId(), srcLoc, value);</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           6 : }</span></span>
 <span id="L54"><span class="lineNum">      54</span>              : </span>
 <span id="L55"><span class="lineNum">      55</span>              : std::expected&lt;std::shared_ptr&lt;AST_NULL&gt;, Error&gt;</span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC tlaBgUNC">           0 : Builder::createNull(const SourceLocation &amp;srcLoc) noexcept {</span></span>
@@ -278,90 +278,90 @@
 <span id="L216"><span class="lineNum">     216</span>              : </span>
 <span id="L217"><span class="lineNum">     217</span>              : std::expected&lt;std::shared_ptr&lt;AST_STATEMENT&gt;, Error&gt;</span>
 <span id="L218"><span class="lineNum">     218</span>              : Builder::createStatement(const SourceLocation &amp;srcLoc,</span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC tlaBgGNC">          45 :                          const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept {</span></span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          45 :   const std::shared_ptr&lt;AST_STATEMENT&gt; astStatement{</span></span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          45 :       std::make_shared&lt;AST_STATEMENT&gt;(generateNextId(), srcLoc, expression)};</span></span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          45 :   if (expression) {</span></span>
-<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">          45 :     expression-&gt;setFather(astStatement);</span></span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">          45 :   }</span></span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">          45 :   return astStatement;</span></span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">          45 : }</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC tlaBgGNC">          30 :                          const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept {</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          30 :   const std::shared_ptr&lt;AST_STATEMENT&gt; astStatement{</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          30 :       std::make_shared&lt;AST_STATEMENT&gt;(generateNextId(), srcLoc, expression)};</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          30 :   if (expression) {</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">          30 :     expression-&gt;setFather(astStatement);</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">          30 :   }</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">          30 :   return astStatement;</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">          30 : }</span></span>
 <span id="L227"><span class="lineNum">     227</span>              : </span>
 <span id="L228"><span class="lineNum">     228</span>              : std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt; Builder::createBody(</span>
 <span id="L229"><span class="lineNum">     229</span>              :     const SourceLocation &amp;srcLoc,</span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">          39 :     const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;body) noexcept {</span></span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">          39 :   const std::shared_ptr&lt;AST_BODY&gt; astBody{</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          39 :       std::make_shared&lt;AST_BODY&gt;(generateNextId(), srcLoc, body)};</span></span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">          39 :   const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;statements{</span></span>
-<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          39 :       astBody-&gt;body()};</span></span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">          39 :   for (const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;statement : statements) {</span></span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">          33 :     if (statement) {</span></span>
-<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">          33 :       statement-&gt;setFather(astBody);</span></span>
-<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">          33 :     }</span></span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">          33 :   }</span></span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          39 :   return astBody;</span></span>
-<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">          39 : }</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">          22 :     const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;body) noexcept {</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">          22 :   const std::shared_ptr&lt;AST_BODY&gt; astBody{</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          22 :       std::make_shared&lt;AST_BODY&gt;(generateNextId(), srcLoc, body)};</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">          22 :   const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;statements{</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          22 :       astBody-&gt;body()};</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">          22 :   for (const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;statement : statements) {</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">          22 :     if (statement) {</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">          22 :       statement-&gt;setFather(astBody);</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">          22 :     }</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">          22 :   }</span></span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          22 :   return astBody;</span></span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">          22 : }</span></span>
 <span id="L242"><span class="lineNum">     242</span>              : </span>
 <span id="L243"><span class="lineNum">     243</span>              : std::expected&lt;std::shared_ptr&lt;AST_WHILE&gt;, Error&gt;</span>
 <span id="L244"><span class="lineNum">     244</span>              : Builder::createWhile(const SourceLocation &amp;srcLoc,</span>
 <span id="L245"><span class="lineNum">     245</span>              :                      const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">           2 :                      const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
-<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">           2 :   const std::shared_ptr&lt;AST_WHILE&gt; astWhile{</span></span>
-<span id="L248"><span class="lineNum">     248</span> <span class="tlaGNC">           2 :       std::make_shared&lt;AST_WHILE&gt;(generateNextId(), srcLoc, condition, body)};</span></span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">           2 :   if (condition) {</span></span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">           2 :     condition-&gt;setFather(astWhile);</span></span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">           2 :   if (body) {</span></span>
-<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">           2 :     body-&gt;setFather(astWhile);</span></span>
-<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">           2 :   return astWhile;</span></span>
-<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">           2 : }</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaUNC tlaBgUNC">           0 :                      const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
+<span id="L247"><span class="lineNum">     247</span> <span class="tlaUNC">           0 :   const std::shared_ptr&lt;AST_WHILE&gt; astWhile{</span></span>
+<span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC">           0 :       std::make_shared&lt;AST_WHILE&gt;(generateNextId(), srcLoc, condition, body)};</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :   if (condition) {</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaUNC">           0 :     condition-&gt;setFather(astWhile);</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaUNC">           0 :   if (body) {</span></span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaUNC">           0 :     body-&gt;setFather(astWhile);</span></span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L255"><span class="lineNum">     255</span> <span class="tlaUNC">           0 :   return astWhile;</span></span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L257"><span class="lineNum">     257</span>              : </span>
 <span id="L258"><span class="lineNum">     258</span>              : std::expected&lt;std::shared_ptr&lt;AST_FOR&gt;, Error&gt;</span>
 <span id="L259"><span class="lineNum">     259</span>              : Builder::createFor(const SourceLocation &amp;srcLoc,</span>
 <span id="L260"><span class="lineNum">     260</span>              :                    const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;init,</span>
 <span id="L261"><span class="lineNum">     261</span>              :                    const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
 <span id="L262"><span class="lineNum">     262</span>              :                    const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;update,</span>
-<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">           2 :                    const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
-<span id="L264"><span class="lineNum">     264</span> <span class="tlaGNC">           2 :   const std::shared_ptr&lt;AST_FOR&gt; astFor{std::make_shared&lt;AST_FOR&gt;(</span></span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">           2 :       generateNextId(), srcLoc, init, condition, update, body)};</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">           2 :   const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;init__{astFor-&gt;init()};</span></span>
-<span id="L267"><span class="lineNum">     267</span> <span class="tlaGNC">           2 :   for (const std::shared_ptr&lt;AST&gt; &amp;init_ : init__) {</span></span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC tlaBgUNC">           0 :     if (init_) {</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC">           0 :                    const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
+<span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :   const std::shared_ptr&lt;AST_FOR&gt; astFor{std::make_shared&lt;AST_FOR&gt;(</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaUNC">           0 :       generateNextId(), srcLoc, init, condition, update, body)};</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaUNC">           0 :   const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;init__{astFor-&gt;init()};</span></span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST&gt; &amp;init_ : init__) {</span></span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :     if (init_) {</span></span>
 <span id="L269"><span class="lineNum">     269</span> <span class="tlaUNC">           0 :       astFor-&gt;setFather(init_);</span></span>
 <span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :     }</span></span>
 <span id="L271"><span class="lineNum">     271</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L272"><span class="lineNum">     272</span> <span class="tlaGNC tlaBgGNC">           2 :   if (condition) {</span></span>
-<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">           2 :     condition-&gt;setFather(astFor);</span></span>
-<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">           2 :   const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;update__{astFor-&gt;update()};</span></span>
-<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">           2 :   for (const std::shared_ptr&lt;AST&gt; &amp;update_ : update__) {</span></span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC tlaBgUNC">           0 :     if (update_) {</span></span>
+<span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 :   if (condition) {</span></span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaUNC">           0 :     condition-&gt;setFather(astFor);</span></span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 :   const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;update__{astFor-&gt;update()};</span></span>
+<span id="L276"><span class="lineNum">     276</span> <span class="tlaUNC">           0 :   for (const std::shared_ptr&lt;AST&gt; &amp;update_ : update__) {</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC">           0 :     if (update_) {</span></span>
 <span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :       astFor-&gt;setFather(update_);</span></span>
 <span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 :     }</span></span>
 <span id="L280"><span class="lineNum">     280</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC tlaBgGNC">           2 :   if (body) {</span></span>
-<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           2 :     body-&gt;setFather(astFor);</span></span>
-<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           2 :   return astFor;</span></span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">           2 : }</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaUNC">           0 :   if (body) {</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaUNC">           0 :     body-&gt;setFather(astFor);</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaUNC">           0 :   return astFor;</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L286"><span class="lineNum">     286</span>              : </span>
 <span id="L287"><span class="lineNum">     287</span>              : std::expected&lt;std::shared_ptr&lt;AST_DO_WHILE&gt;, Error&gt; Builder::createDoWhile(</span>
 <span id="L288"><span class="lineNum">     288</span>              :     const SourceLocation &amp;srcLoc, const std::shared_ptr&lt;AST_BODY&gt; &amp;body,</span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">           2 :     const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition) noexcept {</span></span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           2 :   const std::shared_ptr&lt;AST_DO_WHILE&gt; astDoWhile{std::make_shared&lt;AST_DO_WHILE&gt;(</span></span>
-<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">           2 :       generateNextId(), srcLoc, body, condition)};</span></span>
-<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">           2 :   if (condition) {</span></span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">           2 :     condition-&gt;setFather(astDoWhile);</span></span>
-<span id="L294"><span class="lineNum">     294</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">           2 :   if (body) {</span></span>
-<span id="L296"><span class="lineNum">     296</span> <span class="tlaGNC">           2 :     body-&gt;setFather(astDoWhile);</span></span>
-<span id="L297"><span class="lineNum">     297</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L298"><span class="lineNum">     298</span> <span class="tlaGNC">           2 :   return astDoWhile;</span></span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">           2 : }</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :     const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition) noexcept {</span></span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :   const std::shared_ptr&lt;AST_DO_WHILE&gt; astDoWhile{std::make_shared&lt;AST_DO_WHILE&gt;(</span></span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :       generateNextId(), srcLoc, body, condition)};</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :   if (condition) {</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :     condition-&gt;setFather(astDoWhile);</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :   if (body) {</span></span>
+<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :     body-&gt;setFather(astDoWhile);</span></span>
+<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L298"><span class="lineNum">     298</span> <span class="tlaUNC">           0 :   return astDoWhile;</span></span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L300"><span class="lineNum">     300</span>              : </span>
 <span id="L301"><span class="lineNum">     301</span>              : std::expected&lt;std::shared_ptr&lt;AST_PASS&gt;, Error&gt;</span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC tlaBgUNC">           0 : Builder::createPass(const SourceLocation &amp;srcLoc) noexcept {</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 : Builder::createPass(const SourceLocation &amp;srcLoc) noexcept {</span></span>
 <span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :   const std::shared_ptr&lt;AST_PASS&gt; astPass{</span></span>
 <span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 :       std::make_shared&lt;AST_PASS&gt;(generateNextId(), srcLoc)};</span></span>
 <span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :   return astPass;</span></span>
@@ -403,17 +403,17 @@
 <span id="L341"><span class="lineNum">     341</span>              : std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;</span>
 <span id="L342"><span class="lineNum">     342</span>              : Builder::createElseIf(const SourceLocation &amp;srcLoc,</span>
 <span id="L343"><span class="lineNum">     343</span>              :                       const std::shared_ptr&lt;AST_CONDITION&gt; &amp;condition,</span>
-<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC tlaBgGNC">           3 :                       const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
-<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">           3 :   const std::shared_ptr&lt;AST_ELSE_IF&gt; astIf{</span></span>
-<span id="L346"><span class="lineNum">     346</span> <span class="tlaGNC">           3 :       std::make_shared&lt;AST_ELSE_IF&gt;(generateNextId(), srcLoc, condition, body)};</span></span>
-<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">           3 :   if (condition) {</span></span>
-<span id="L348"><span class="lineNum">     348</span> <span class="tlaGNC">           3 :     condition-&gt;setFather(astIf);</span></span>
-<span id="L349"><span class="lineNum">     349</span> <span class="tlaGNC">           3 :   }</span></span>
-<span id="L350"><span class="lineNum">     350</span> <span class="tlaGNC">           3 :   if (body) {</span></span>
-<span id="L351"><span class="lineNum">     351</span> <span class="tlaGNC">           3 :     body-&gt;setFather(astIf);</span></span>
-<span id="L352"><span class="lineNum">     352</span> <span class="tlaGNC">           3 :   }</span></span>
-<span id="L353"><span class="lineNum">     353</span> <span class="tlaGNC">           3 :   return astIf;</span></span>
-<span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">           3 : }</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC tlaBgGNC">           2 :                       const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">           2 :   const std::shared_ptr&lt;AST_ELSE_IF&gt; astIf{</span></span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaGNC">           2 :       std::make_shared&lt;AST_ELSE_IF&gt;(generateNextId(), srcLoc, condition, body)};</span></span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">           2 :   if (condition) {</span></span>
+<span id="L348"><span class="lineNum">     348</span> <span class="tlaGNC">           2 :     condition-&gt;setFather(astIf);</span></span>
+<span id="L349"><span class="lineNum">     349</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L350"><span class="lineNum">     350</span> <span class="tlaGNC">           2 :   if (body) {</span></span>
+<span id="L351"><span class="lineNum">     351</span> <span class="tlaGNC">           2 :     body-&gt;setFather(astIf);</span></span>
+<span id="L352"><span class="lineNum">     352</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L353"><span class="lineNum">     353</span> <span class="tlaGNC">           2 :   return astIf;</span></span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">           2 : }</span></span>
 <span id="L355"><span class="lineNum">     355</span>              : </span>
 <span id="L356"><span class="lineNum">     356</span>              : std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;</span>
 <span id="L357"><span class="lineNum">     357</span>              : Builder::createSwitch(const SourceLocation &amp;srcLoc,</span>
@@ -454,14 +454,14 @@
 <span id="L392"><span class="lineNum">     392</span>              : </span>
 <span id="L393"><span class="lineNum">     393</span>              : std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;</span>
 <span id="L394"><span class="lineNum">     394</span>              : Builder::createDefault(const SourceLocation &amp;srcLoc,</span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC tlaBgGNC">           3 :                        const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">           3 :   const std::shared_ptr&lt;AST_DEFAULT&gt; astDefault{</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">           3 :       std::make_shared&lt;AST_DEFAULT&gt;(generateNextId(), srcLoc, body)};</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">           3 :   if (body) {</span></span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC">           3 :     body-&gt;setFather(astDefault);</span></span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">           3 :   }</span></span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">           3 :   return astDefault;</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">           3 : }</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC tlaBgGNC">           2 :                        const std::shared_ptr&lt;AST_BODY&gt; &amp;body) noexcept {</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">           2 :   const std::shared_ptr&lt;AST_DEFAULT&gt; astDefault{</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">           2 :       std::make_shared&lt;AST_DEFAULT&gt;(generateNextId(), srcLoc, body)};</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">           2 :   if (body) {</span></span>
+<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC">           2 :     body-&gt;setFather(astDefault);</span></span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">           2 :   return astDefault;</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">           2 : }</span></span>
 <span id="L403"><span class="lineNum">     403</span>              : </span>
 <span id="L404"><span class="lineNum">     404</span>              : std::expected&lt;std::shared_ptr&lt;AST_TERNARY&gt;, Error&gt;</span>
 <span id="L405"><span class="lineNum">     405</span>              : Builder::createTernary(const SourceLocation &amp;srcLoc,</span>
@@ -484,14 +484,14 @@
 <span id="L422"><span class="lineNum">     422</span>              : </span>
 <span id="L423"><span class="lineNum">     423</span>              : std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;</span>
 <span id="L424"><span class="lineNum">     424</span>              : Builder::createCondition(const SourceLocation &amp;srcLoc,</span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC tlaBgGNC">          33 :                          const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept {</span></span>
-<span id="L426"><span class="lineNum">     426</span> <span class="tlaGNC">          33 :   const std::shared_ptr&lt;AST_CONDITION&gt; astCondition{</span></span>
-<span id="L427"><span class="lineNum">     427</span> <span class="tlaGNC">          33 :       std::make_shared&lt;AST_CONDITION&gt;(generateNextId(), srcLoc, expression)};</span></span>
-<span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">          33 :   if (expression) {</span></span>
-<span id="L429"><span class="lineNum">     429</span> <span class="tlaGNC">          33 :     expression-&gt;setFather(astCondition);</span></span>
-<span id="L430"><span class="lineNum">     430</span> <span class="tlaGNC">          33 :   }</span></span>
-<span id="L431"><span class="lineNum">     431</span> <span class="tlaGNC">          33 :   return astCondition;</span></span>
-<span id="L432"><span class="lineNum">     432</span> <span class="tlaGNC">          33 : }</span></span>
+<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC tlaBgGNC">          18 :                          const std::shared_ptr&lt;AST&gt; &amp;expression) noexcept {</span></span>
+<span id="L426"><span class="lineNum">     426</span> <span class="tlaGNC">          18 :   const std::shared_ptr&lt;AST_CONDITION&gt; astCondition{</span></span>
+<span id="L427"><span class="lineNum">     427</span> <span class="tlaGNC">          18 :       std::make_shared&lt;AST_CONDITION&gt;(generateNextId(), srcLoc, expression)};</span></span>
+<span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">          18 :   if (expression) {</span></span>
+<span id="L429"><span class="lineNum">     429</span> <span class="tlaGNC">          18 :     expression-&gt;setFather(astCondition);</span></span>
+<span id="L430"><span class="lineNum">     430</span> <span class="tlaGNC">          18 :   }</span></span>
+<span id="L431"><span class="lineNum">     431</span> <span class="tlaGNC">          18 :   return astCondition;</span></span>
+<span id="L432"><span class="lineNum">     432</span> <span class="tlaGNC">          18 : }</span></span>
 <span id="L433"><span class="lineNum">     433</span>              : </span>
 <span id="L434"><span class="lineNum">     434</span>              : std::expected&lt;std::shared_ptr&lt;AST_FUNC_CALL&gt;, Error&gt; Builder::createFunCall(</span>
 <span id="L435"><span class="lineNum">     435</span>              :     const SourceLocation &amp;srcLoc, const std::string &amp;id,</span>

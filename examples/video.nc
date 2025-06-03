@@ -56,7 +56,7 @@ if (var) {
     print(number.real, ", ", number.img, "\n");
 }
 
-print("number2 ", number2.real);
+print("number2 ", number2.real, "\n");
 
 def equalComplex(x: Complex, y: Complex): bool {
   return (x.real == y.real and x.img == y.img);

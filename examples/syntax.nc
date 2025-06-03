@@ -4,14 +4,11 @@ a[0][0][0] := 10;
 
 print((a[0][0][0] * 10) / 20, "\n");
 
-
-
 def max(x: int, y: int): int {
     return (x > y) ? x : y;
 }
 
 print(max(55, 35), "\n");
-
 
 struct Person {
     name: str

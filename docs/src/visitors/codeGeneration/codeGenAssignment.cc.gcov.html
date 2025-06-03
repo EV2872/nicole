@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntry">37</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-05-27 13:34:43</td>
+            <td class="headerValue">2025-06-03 17:20:49</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -89,27 +89,38 @@
 <span id="L27"><span class="lineNum">      27</span>              : </span>
 <span id="L28"><span class="lineNum">      28</span>              :   // ajustar tipo según semántica</span>
 <span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   std::shared_ptr&lt;Type&gt; semTy = node-&gt;left()-&gt;returnedFromTypeAnalysis();</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; llvmTyOrErr = semTy-&gt;llvmVersion(context_);</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   if (!llvmTyOrErr)</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :     return createError(llvmTyOrErr.error());</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   llvm::Type *dstTy = *llvmTyOrErr;</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   if (val-&gt;getType() != dstTy) {</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     if (val-&gt;getType()-&gt;isIntegerTy() &amp;&amp; dstTy-&gt;isIntegerTy())</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :       val = builder_.CreateSExt(val, dstTy, &quot;assign_sext&quot;);</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     else</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :       val = builder_.CreateBitCast(val, dstTy, &quot;assign_cast&quot;);</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L40"><span class="lineNum">      40</span>              : </span>
-<span id="L41"><span class="lineNum">      41</span>              :   // emitir store</span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :   builder_.CreateStore(val, addr);</span></span>
-<span id="L43"><span class="lineNum">      43</span>              : </span>
-<span id="L44"><span class="lineNum">      44</span>              :   // actualizar para chaining</span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = val;</span></span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :   currentType = semTy;</span></span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   return val;</span></span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L49"><span class="lineNum">      49</span>              : </span>
-<span id="L50"><span class="lineNum">      50</span>              : } // namespace nicole</span>
+<span id="L30"><span class="lineNum">      30</span>              : </span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   if (auto basic = std::dynamic_pointer_cast&lt;BasicType&gt;(semTy)) {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :     if (basic-&gt;baseKind() == BasicKind::Str &amp;&amp; val-&gt;getType()-&gt;isPointerTy()) {</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :       val = builder_.CreateCall(strdupFn_, {val}, &quot;strdup_call&quot;);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L36"><span class="lineNum">      36</span>              : </span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; llvmTyOrErr = semTy-&gt;llvmVersion(context_);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :   if (!llvmTyOrErr)</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :     return createError(llvmTyOrErr.error());</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :   llvm::Type *dstTy = *llvmTyOrErr;</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   if (dstTy-&gt;isAggregateType() &amp;&amp; val-&gt;getType()-&gt;isPointerTy()) {</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :     val = builder_.CreateLoad(dstTy, val, &quot;assign_load&quot;);</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L44"><span class="lineNum">      44</span>              :   // Si tras el load el tipo sigue sin coincidir, aplica sext/bitcast</span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   else if (val-&gt;getType() != dstTy) {</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     if (val-&gt;getType()-&gt;isIntegerTy() &amp;&amp; dstTy-&gt;isIntegerTy())</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :       val = builder_.CreateSExt(val, dstTy, &quot;assign_sext&quot;);</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     else</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :       val = builder_.CreateBitCast(val, dstTy, &quot;assign_cast&quot;);</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span>              :   // emitir store</span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :   builder_.CreateStore(val, addr);</span></span>
+<span id="L54"><span class="lineNum">      54</span>              : </span>
+<span id="L55"><span class="lineNum">      55</span>              :   // actualizar para chaining</span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = val;</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :   currentType = semTy;</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :   return val;</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L60"><span class="lineNum">      60</span>              : </span>
+<span id="L61"><span class="lineNum">      61</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

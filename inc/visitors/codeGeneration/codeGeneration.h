@@ -95,6 +95,8 @@ private:
 
   mutable bool isMain{true};
 
+  mutable llvm::Value *sretPtr_{nullptr};
+
 public:
   CodeGeneration(const std::shared_ptr<FunctionTable> &functionTable,
                  std::shared_ptr<TypeTable> &typeTable,
