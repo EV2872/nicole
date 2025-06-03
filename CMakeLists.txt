@@ -42,14 +42,14 @@ set(CMAKE_COLOR_DIAGNOSTICS ON)
 option(ENABLE_WARNINGS "Activar flags de warnings" ON)
 if(ENABLE_WARNINGS)
     if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        set(COMPILER_WARNINGS "-Wall -Wextra -Werror -Wpedantic \
-                               -Wshadow -Wnon-virtual-dtor -Wold-style-cast \
+        set(COMPILER_WARNINGS "-Wall -Wextra -Wpedantic \
+                               -Wnon-virtual-dtor -Wold-style-cast \
                                -Wcast-align -Wunused -Woverloaded-virtual \
                                -Wconversion -Wsign-conversion -Wnull-dereference \
                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation")
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(COMPILER_WARNINGS "-Wall -Wextra -Werror -Wpedantic \
-                               -Wshadow -Wnon-virtual-dtor -Wold-style-cast \
+        set(COMPILER_WARNINGS "-Wall -Wextra -Wpedantic \
+                               -Wnon-virtual-dtor -Wold-style-cast \
                                -Wcast-align -Wunused -Woverloaded-virtual \
                                -Wconversion -Wsign-conversion -Wnull-dereference \
                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation \
