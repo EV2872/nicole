@@ -27,7 +27,7 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.5/cmake-3.30.5
 
 # Clone repo
 ARG GITHUB_TOKEN
-RUN git clone --branch test_branch https://github.com/EV2872/nicole.git /app
+RUN git clone --branch main https://github.com/EV2872/nicole.git /app
 #RUN git clone --branch main https://${GITHUB_TOKEN}@github.com/EV2872/nicole.git /app
 WORKDIR /app
 
