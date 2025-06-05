@@ -1,13 +1,14 @@
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_delete.h"
+#include "../../../inc/parsingAnalysis/ast/chained/ast_chained.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_deref.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
+#include "../../../inc/parsingAnalysis/ast/userTypes/ast_constructorCall.h"
 #include "../../../inc/visitors/codeGeneration/codeGeneration.h"
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
+#include <memory>
 
 namespace nicole {
-
-// En codeGeneration.cpp:
 
 void CodeGeneration::ensureMallocFreeDeclared() const noexcept {
   if (!mallocFn_) {
@@ -36,44 +37,84 @@ CodeGeneration::visit(const AST_NEW *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
 
-  // Tipo y número de elementos
-  //  Suponemos que node->newType() y node->countExpr() existen
-  std::shared_ptr<Type> semTy = node->returnedFromTypeAnalysis();
-  std::expected<llvm::Type *, Error> llvmTyOrErr = semTy->llvmVersion(context_);
-  if (!llvmTyOrErr)
-    return createError(ERROR_TYPE::TYPE, "no llvm type for new");
-  llvm::Type *elemTy = *llvmTyOrErr;
-
-  // Generar el count (número de elementos)
-  std::expected<llvm::Value *, Error> cntOrErr =
-      emitRValue(node->value().get());
-  if (!cntOrErr)
-    return createError(cntOrErr.error());
-  llvm::Value *countVal = *cntOrErr;
-
-  // Calcular bytes = countVal * sizeof(elemTy)
-  const llvm::DataLayout &DL = module_->getDataLayout();
-  uint64_t sizeOfElem = DL.getTypeAllocSize(elemTy);
-  llvm::Value *sizeConst = builder_.getInt64(sizeOfElem);
-  llvm::Value *countI64 =
-      builder_.CreateZExtOrBitCast(countVal, builder_.getInt64Ty(), "cnt_i64");
-  llvm::Value *totalBytes =
-      builder_.CreateMul(countI64, sizeConst, "total_bytes");
-
-  // Declarar malloc/free (si es necesario)
+  // Asegurarnos de que malloc/free estén declarados
   ensureMallocFreeDeclared();
 
-  // Llamada a malloc
-  llvm::Value *rawPtr = builder_.CreateCall(mallocFn_, {totalBytes}, "new_ptr");
+  // Identificar el nodo de constructor, bien directo o dentro de un AST_CHAINED
+  const AST_CONSTRUCTOR_CALL *ctorNode = nullptr;
+  if (auto directCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(node->value().get())) {
+    // caso 2.a) new A{...} → value() es directamente AST_CONSTRUCTOR_CALL
+    ctorNode = directCtor;
+  } else if (auto chained = dynamic_cast<const AST_CHAINED *>(node->value().get())) {
+    // caso 2.b) new (A{...}.algo) → value() es AST_CHAINED cuyo base() debe ser AST_CONSTRUCTOR_CALL
+    auto basePtr = chained->base().get();
+    if (auto baseCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(basePtr)) {
+      // verificar que no haya otras operaciones encadenadas
+      if (!chained->operations().empty()) {
+        return createError(ERROR_TYPE::TYPE,
+                           "AST_NEW: las operaciones encadenadas tras el constructor no están permitidas");
+      }
+      ctorNode = baseCtor;
+    } else {
+      return createError(ERROR_TYPE::TYPE,
+                         "AST_NEW: se esperaba que el base de AST_CHAINED fuera un constructor");
+    }
+  } else {
+    return createError(ERROR_TYPE::TYPE,
+                       "AST_NEW: se esperaba un AST_CONSTRUCTOR_CALL (directo o en AST_CHAINED)");
+  }
 
-  // Inicializar la memoria a cero
-  //  llvm.memset.p0.p0.i64(ptr, i8 0, i64 size, i1 false)
-  builder_.CreateMemSet(rawPtr, builder_.getInt8(0), totalBytes,
-                        llvm::MaybeAlign(1));
+  // Ahora ya sabemos que 'ctorNode' apunta al AST_CONSTRUCTOR_CALL correcto.
+  // Obtener el tipo LLVM que corresponde al objeto a instanciar:
+  auto typeOfNew = ctorNode->returnedFromTypeAnalysis();
+  if (!typeOfNew)
+    return createError(ERROR_TYPE::TYPE, "type returned is null");
+  std::expected<llvm::Type *, Error> llvmTyOrErr =
+      typeOfNew->llvmVersion(context_);
+  if (!llvmTyOrErr)
+    return createError(llvmTyOrErr.error());
+  llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A
+  llvm::PointerType *structPtrTy = structTy->getPointerTo(); // %A*
 
-  // Registrar el puntero y devolverlo
-  allocatedPtrs_.insert(rawPtr);
-  return rawPtr;
+  // Calcular tamaño en bytes con DataLayout
+  const llvm::DataLayout &DL = module_->getDataLayout();
+  uint64_t sizeBytes = DL.getTypeAllocSize(structTy);
+  llvm::Value *sizeConst =
+      llvm::ConstantInt::get(builder_.getInt64Ty(), sizeBytes);
+
+  // Llamar a malloc(sizeBytes)
+  llvm::CallInst *rawPtr =
+      builder_.CreateCall(mallocFn_, sizeConst, "new_malloc"); // devuelve i8*
+
+  // Hacer bitcast de i8* a %A*
+  llvm::Value *typedPtr =
+      builder_.CreateBitCast(rawPtr, structPtrTy,
+                             "new_bitcast"); // ahora typedPtr es %A*
+
+  // Generar parámetros del constructor (rvalues)
+  llvm::SmallVector<llvm::Value *, 8> callArgs;
+  callArgs.push_back(typedPtr); // primer arg: 'this'
+
+  for (auto &argAST : ctorNode->parameters()) {
+    auto valOrErr = emitRValue(argAST.get());
+    if (!valOrErr)
+      return createError(valOrErr.error());
+    callArgs.push_back(*valOrErr);
+  }
+
+  // Llamar a la función manglada del constructor
+  std::string ctorName = "$_ctor_" + ctorNode->id();
+  llvm::Function *ctorFn = module_->getFunction(ctorName);
+  if (!ctorFn)
+    return createError(ERROR_TYPE::FUNCTION, "ctor not found: " + ctorName);
+
+  builder_.CreateCall(ctorFn, callArgs);
+
+  // Actualizar chaining y tipo resultante
+  resultChainedExpression_ = typedPtr;
+  currentType = typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining
+
+  return typedPtr;
 }
 
 std::expected<llvm::Value *, Error>
@@ -81,52 +122,52 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
 
-  // Generar el rvalue que es el puntero a liberar
-  std::expected<llvm::Value *, Error> ptrOrErr =
-      emitRValue(node->value().get());
+  // Evaluar el subnodo 'value' en modo rvalue: debe ser un puntero a liberar
+  auto ptrOrErr = emitRValue(node->value().get());
   if (!ptrOrErr)
     return createError(ptrOrErr.error());
-  llvm::Value *ptrVal = *ptrOrErr;
+  llvm::Value *ptrVal = *ptrOrErr; // esto es algo de tipo T*
 
-  // Solo liberamos si lo conocemos
-  if (allocatedPtrs_.count(ptrVal) == 0) {
-    return createError(ERROR_TYPE::TYPE,
-                       "attempt to delete unallocated pointer");
-  }
-
-  // Llamar a free(ptrVal)
+  // 2) Asegurarnos de que free exista en el módulo
   ensureMallocFreeDeclared();
-  builder_.CreateCall(freeFn_, {ptrVal});
 
-  // Quitar de la tabla
-  allocatedPtrs_.erase(ptrVal);
+  // 3) Hacer bitcast a i8* para pasar a free
+  llvm::Value *i8Ptr = builder_.CreateBitCast(
+      ptrVal, llvm::Type::getInt8Ty(context_)->getPointerTo(),
+      "delete_bitcast");
 
-  // delete no produce valor
+  // 4) Llamar a free(i8*)
+  builder_.CreateCall(freeFn_, i8Ptr);
+
+  // delete no retorna valor
   return nullptr;
 }
 
+
+// ---------------------- AST_DEREF ----------------------
 std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_DEREF *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEREF");
 
-  // Obtener rvalue del subnodo (una dirección)
-  std::expected<llvm::Value *, Error> ptrOrErr =
-      emitRValue(node->value().get());
+  // Obtener rvalue del puntero: debe ser un Value* que apunta a la dirección
+  auto ptrOrErr = emitRValue(node->value().get());
   if (!ptrOrErr)
     return createError(ptrOrErr.error());
-  llvm::Value *addr = *ptrOrErr;
+  llvm::Value *ptrVal = *ptrOrErr;
 
-  // Para dereference en contexto de rvalue, cargamos la dirección:
-  //  Si quieres lvalue, usarías emitLValue en vez de accept aquí.
-  std::expected<llvm::Type *, Error> pointeeTy =
-      node->returnedFromTypeAnalysis()->llvmVersion(context_);
-  if (!pointeeTy) {
-    return createError(pointeeTy.error());
+  // Para un operador *p, devolvemos esa dirección como lvalue en chaining
+  resultChainedExpression_ = ptrVal;
+
+  // Ajustar currentType: si p era T*, el resultado de *p debe ser T
+  auto ptrType = node->value()->returnedFromTypeAnalysis();
+  if (auto pt = std::dynamic_pointer_cast<PointerType>(ptrType)) {
+    currentType = pt->baseType();
+  } else {
+    return createError(ERROR_TYPE::TYPE, "base de deref no es PointerType");
   }
-  llvm::Value *loaded = builder_.CreateLoad(*pointeeTy, addr, "deref_load");
 
-  return loaded;
+  return ptrVal;
 }
 
 } // namespace nicole

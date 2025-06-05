@@ -2,6 +2,7 @@
 
 #include "../../../inc/parsingAnalysis/ast/tree.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_index.h"
+#include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
 #include <cstdlib>
 #include <llvm/Passes/PassBuilder.h>
 #include <memory>
@@ -239,7 +240,9 @@ CodeGeneration::emitRValue(const AST *node) const noexcept {
   if (!valOrErr)
     return createError(valOrErr.error());
   llvm::Value *val = *valOrErr;
-
+  if (dynamic_cast<const AST_NEW *>(node)) {
+    return node->accept(*this);
+  }
   std::expected<llvm::Type *, Error> tyOrErr =
       node->returnedFromTypeAnalysis()->llvmVersion(context_);
   if (!tyOrErr)
