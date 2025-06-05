@@ -9,6 +9,8 @@ struct A {
 
 auto a = new A{5};
 
+
+
 auto b = *a;
 
 print(b.x, "\n");
@@ -23,6 +25,10 @@ print(c.x, "\n");
 
 delete a;
 
-auto d = *a;
+print(a, "\n");
 
-print(d.x, "\n");
+a := new A{60};
+
+auto bb = *a;
+
+print(a);

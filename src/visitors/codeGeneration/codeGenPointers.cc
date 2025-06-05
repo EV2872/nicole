@@ -122,22 +122,34 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
 
+  // Obtener l-value (la dirección de la variable) para luegi asignarle null
+  auto addrOrErr = emitLValue(node->value().get());
+  if (!addrOrErr)
+    return createError(addrOrErr.error());
+  llvm::Value *varAddr = *addrOrErr;  
+
   // Evaluar el subnodo 'value' en modo rvalue: debe ser un puntero a liberar
   auto ptrOrErr = emitRValue(node->value().get());
   if (!ptrOrErr)
     return createError(ptrOrErr.error());
   llvm::Value *ptrVal = *ptrOrErr; // esto es algo de tipo T*
 
-  // 2) Asegurarnos de que free exista en el módulo
+  // Asegurarnos de que free exista en el módulo
   ensureMallocFreeDeclared();
 
-  // 3) Hacer bitcast a i8* para pasar a free
+  // Hacer bitcast a i8* para pasar a free
   llvm::Value *i8Ptr = builder_.CreateBitCast(
       ptrVal, llvm::Type::getInt8Ty(context_)->getPointerTo(),
       "delete_bitcast");
 
-  // 4) Llamar a free(i8*)
+  // Llamar a free(i8*)
   builder_.CreateCall(freeFn_, i8Ptr);
+
+  // Ahora guardar un null del mismo tipo en la variable
+  llvm::PointerType *ptrTy = 
+      llvm::cast<llvm::PointerType>(ptrVal->getType()); // T*
+  llvm::Constant *nullConst = llvm::Constant::getNullValue(ptrTy);
+  builder_.CreateStore(nullConst, varAddr);
 
   // delete no retorna valor
   return nullptr;

@@ -8,9 +8,9 @@
 
 namespace nicole {
 
-std::vector<std::pair<llvm::Value *, std::string>>
-printParameters(const std::vector<llvm::Value *> &values,
-                llvm::LLVMContext &context, llvm::IRBuilder<> &builder) {
+std::vector<std::pair<llvm::Value *, std::string>> printParameters(
+    const std::vector<std::pair<llvm::Value *, std::shared_ptr<Type>>> &values,
+    llvm::LLVMContext &context, llvm::IRBuilder<> &builder) {
   std::vector<std::pair<llvm::Value *, std::string>> out;
   out.reserve(values.size());
 
@@ -18,7 +18,8 @@ printParameters(const std::vector<llvm::Value *> &values,
   llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);
   llvm::Type *i8PtrTy = i8Ty->getPointerTo(/*AddressSpace=*/0);
 
-  for (llvm::Value *origVal : values) {
+  for (auto value : values) {
+    llvm::Value *origVal{value.first}; 
     if (!origVal)
       llvm::report_fatal_error("Failed to evaluate expression for print.");
 
@@ -40,7 +41,11 @@ printParameters(const std::vector<llvm::Value *> &values,
       fmt = "%f";
     } else if (ty->isPointerTy() && ty == i8PtrTy) {
       // Cadena C (i8*)
-      fmt = "%s";
+      if (std::dynamic_pointer_cast<PointerType>(value.second)) {
+        fmt = "%p";
+      } else {
+        fmt = "%s";
+      }
     }
 
     if (fmt.empty())
@@ -57,7 +62,7 @@ CodeGeneration::visit(const AST_PRINT *node) const noexcept {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PRINT");
   }
-  std::vector<llvm::Value *> values;
+  std::vector<std::pair<llvm::Value *, std::shared_ptr<Type>>> values;
   values.reserve(node->values().size());
   for (const std::shared_ptr<AST> &chain : node->values()) {
     std::expected<llvm::Value *, Error> result = emitRValue(chain.get());
@@ -65,7 +70,7 @@ CodeGeneration::visit(const AST_PRINT *node) const noexcept {
       return createError(result.error());
     llvm::Value *val = *result;
     // VERSION VAR CALL RETORNA ADDR
-    values.push_back(val);
+    values.push_back({val, chain->returnedFromTypeAnalysis()});
   }
 
   // Llamar a printParameters (sin cambios respecto a tu código)
