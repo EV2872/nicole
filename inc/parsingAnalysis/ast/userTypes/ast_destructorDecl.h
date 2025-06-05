@@ -15,10 +15,11 @@ public:
   explicit AST_DESTRUCTOR_DECL(const long long unsigned nodeId,
                                const SourceLocation &srcLoc,
                                const std::string &id,
+                               const std::shared_ptr<Type> &returnType,
                                const std::shared_ptr<AST_BODY> &body,
                                const bool isVirtual) noexcept
       : AST_SUBRUTINE_DECL(nodeId, AST_TYPE::DESTRUCTOR_DECL, srcLoc, id,
-                           std::make_shared<VoidType>(), body),
+                           returnType, body),
         isVirtual_{isVirtual} {}
 
   [[nodiscard]] bool isVirtual() const noexcept { return isVirtual_; }
@@ -48,7 +49,7 @@ public:
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value*, Error>
+  [[nodiscard]] std::expected<llvm::Value *, Error>
   accept(const CodeGeneration &visitor) const noexcept override {
     return visitor.visit(this);
   }

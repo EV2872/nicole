@@ -62,6 +62,15 @@ public:
   [[nodiscard]] const std::expected<std::vector<Method>, Error>
   getMethods(const std::string &id) const noexcept;
 
+  [[nodiscard]] std::vector<Attribute> attributes() const noexcept {
+    std::vector<Attribute> result;
+    result.reserve(attrTable_.size());
+    for (auto &kv : attrTable_) {
+      result.push_back(kv.second);
+    }
+    return result;
+  }
+
   void
   setDestructor(const std::shared_ptr<Destructor> &destructor) const noexcept {
     destructor_ = destructor;

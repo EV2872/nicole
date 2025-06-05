@@ -612,11 +612,12 @@ std::expected<std::shared_ptr<AST_SUPER>, Error> Builder::createSuper(
 std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error>
 Builder::createDestructorDecl(const SourceLocation &srcLoc,
                               const std::string &id,
+                              const std::shared_ptr<Type> &returnType,
                               const std::shared_ptr<AST_BODY> &body,
                               const bool isVirtual) noexcept {
   const std::shared_ptr<AST_DESTRUCTOR_DECL> astConstructor{
-      std::make_shared<AST_DESTRUCTOR_DECL>(generateNextId(), srcLoc, id, body,
-                                            isVirtual)};
+      std::make_shared<AST_DESTRUCTOR_DECL>(generateNextId(), srcLoc, id,
+                                            returnType, body, isVirtual)};
   if (body) {
     body->setFather(astConstructor);
   }

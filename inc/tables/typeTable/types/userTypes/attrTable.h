@@ -16,6 +16,8 @@ private:
 public:
   [[nodiscard]] bool has(const std::string &id) const noexcept;
 
+  [[nodiscard]] size_t size() const noexcept { return table_.size(); }
+
   [[nodiscard]] const std::expected<Attribute, Error>
   getAttribute(const std::string &id) const noexcept;
 

@@ -28,6 +28,12 @@ TypeAnalysis::visit(const AST_AUTO_DECL *node) const noexcept {
   auto insertRes = currentScope_->setVariableType(node->id(), deducedType);
   if (!insertRes)
     return createError(insertRes.error());
+
+  if (auto ut = std::dynamic_pointer_cast<UserType>(deducedType)) {
+    const auto variable{currentScope_->getVariable(node->id()).value()};
+    currentScope_->registerForDestruction(variable);
+  }
+
   node->setReturnedFromAnalysis(typeTable_->noPropagateType());
   return typeTable_->noPropagateType();
 }
@@ -58,6 +64,11 @@ TypeAnalysis::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
         ERROR_TYPE::TYPE,
         "assigned value type does not match declared variable type -> " +
             declaredType->toString() + " | " + valueType->toString());
+
+  if (auto ut = std::dynamic_pointer_cast<UserType>(declaredType)) {
+    const auto variable{currentScope_->getVariable(node->id()).value()};
+    currentScope_->registerForDestruction(variable);
+  }
 
   node->setReturnedFromAnalysis(typeTable_->noPropagateType());
   return typeTable_->noPropagateType();

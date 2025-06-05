@@ -426,6 +426,22 @@ FillSemanticInfo::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
     return createError(body.error());
   }
 
+  if (!typeTable_->isPossibleType(node->returnType()) &&
+      !typeTable_->isGenericType(node->returnType(), currentGenericList_))
+    return createError(ERROR_TYPE::TYPE,
+                       node->returnType()->toString() +
+                           " is not a possible type or generic");
+
+  auto retType = node->returnType();
+  if (auto masked = typeTable_->isCompundEnumType(retType))
+    retType = *masked;
+  if (auto maskedUserType = typeTable_->isCompundUserType(retType))
+    retType = *maskedUserType;
+  if (auto maskedGeneric =
+          typeTable_->isCompundGenericType(retType, currentGenericList_))
+    retType = *maskedGeneric;
+  node->setReturnType(retType);
+
   popScope();
 
   return {};

@@ -353,7 +353,8 @@ TopDown::parseDestructorDecl(const std::string &id,
                             : body.error());
   }
   return Builder::createDestructorDecl(
-      SourceLocation{*firsToken, *tkStream_.lastRead()}, id, *body, isVirtual);
+      SourceLocation{*firsToken, *tkStream_.lastRead()}, id, std::make_shared<UserType>(id, nullptr,
+                                 std::vector<GenericParameter>{}),*body, isVirtual);
 }
 
 const std::expected<std::shared_ptr<AST_METHOD_DECL>, Error>

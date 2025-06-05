@@ -1,8 +1,8 @@
 #include "../../../inc/visitors/codeGeneration/codeGeneration.h"
 
+#include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
 #include "../../../inc/parsingAnalysis/ast/tree.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_index.h"
-#include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
 #include <cstdlib>
 #include <llvm/Passes/PassBuilder.h>
 #include <memory>
@@ -312,8 +312,22 @@ CodeGeneration::visit(const AST_BODY *node) const noexcept {
     // valor)
     lastValue = res.value();
   }
-  currentScope_ = parentScope;
 
+  // las variables que usan clases debemos llamr al destructor
+  for (auto it = currentScope_->registeredForDestruction().rbegin();
+       it != currentScope_->registeredForDestruction().rend(); ++it) {
+    llvm::AllocaInst *addr = (*it)->address();
+    std::string dtorName =
+        "$_dtor_" + std::dynamic_pointer_cast<UserType>((*it)->type())->name();
+
+    llvm::Function *dtorFn = module_->getFunction(dtorName);
+    // Cargar la “this” y llamar a dtor
+    llvm::Value *thisPtr = builder_.CreateLoad(
+        addr->getAllocatedType()->getPointerTo(), addr, "load_this");
+    builder_.CreateCall(dtorFn, {thisPtr});
+  }
+
+  currentScope_ = parentScope;
   // Devolvemos el valor de la última sentencia (o nullptr si no había
   // sentencias)
   return lastValue;

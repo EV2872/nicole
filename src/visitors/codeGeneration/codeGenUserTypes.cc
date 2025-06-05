@@ -236,15 +236,112 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
 
 std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
-  if (!node) {
+  if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
+
+  // Guardamos el scope padre y creamos uno nuevo para el cuerpo del destructor
+  std::shared_ptr<Scope> parentScope = currentScope_;
+  currentScope_ = node->body()->scope();
+
+  // El destructor siempre retorna void y solo recibe “this” (puntero a la struct).
+  llvm::Type *retTy = llvm::Type::getVoidTy(context_);
+
+  // Recuperar el UserType (el tipo de la struct a destruir)
+  auto userStTy = std::dynamic_pointer_cast<UserType>(node->returnType());
+  if (!userStTy)
+    return createError(ERROR_TYPE::TYPE, "destructor no retorna UserType");
+
+  std::expected<llvm::Type *, Error> structOrErr = userStTy->llvmVersion(context_);
+  if (!structOrErr)
+    return createError(structOrErr.error());
+
+  // Construir la lista de tipos de parámetros: solo “this*”
+  llvm::SmallVector<llvm::Type *, 1> paramTys;
+  paramTys.push_back(llvm::PointerType::getUnqual(*structOrErr)); // this*
+
+  // Crear el FunctionType y la Function en el módulo
+  llvm::FunctionType *fnTy = llvm::FunctionType::get(retTy, paramTys, false);
+  std::string fnName = "$_dtor_" + node->id();
+  llvm::Function *fn = llvm::cast<llvm::Function>(
+      module_->getOrInsertFunction(fnName, fnTy).getCallee());
+  fn->setLinkage(llvm::GlobalValue::ExternalLinkage);
+
+  // Crear el bloque “entry” y posicionar el builder allí
+  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(context_, "entry", fn);
+  llvm::IRBuilder<>::InsertPointGuard guard(builder_);
+  builder_.SetInsertPoint(entryBB);
+
+  // Allocas para los parámetros y registro en scope
+  unsigned idx = 0;
+  for (auto &arg : fn->args()) {
+    // Creamos un alloca para almacenar “this”
+    llvm::AllocaInst *slot = builder_.CreateAlloca(
+        arg.getType(), nullptr,
+        (idx == 0 ? "this_ptr" : ("arg" + std::to_string(idx))));
+    builder_.CreateStore(&arg, slot);
+
+    // Para idx == 0, registramos la variable “this” en el scope
+    if (idx == 0) {
+      auto thisVar = std::make_shared<Variable>(
+          std::string("this"),
+          node->returnType(), // UserType de la struct
+          /* value */ &arg);
+      thisVar->setAddress(slot);
+      auto err = currentScope_->insert(thisVar);
+      if (!err)
+        return createError(err.error());
+    }
+    ++idx;
   }
-  const std::expected<llvm::Value *, Error> result{node->body()->accept(*this)};
-  if (!result) {
-    return createError(result.error());
+
+  // Generar el cuerpo del destructor
+  if (auto bodyOrErr = node->body()->accept(*this); !bodyOrErr)
+    return createError(bodyOrErr.error());
+
+  auto ut = std::dynamic_pointer_cast<UserType>(node->returnType());
+  auto structTyOrErr = ut->llvmVersion(context_);  
+  // structTyOrErr es %B (LLVM StructType*)
+  llvm::StructType *llvmStTy = llvm::cast<llvm::StructType>(*structTyOrErr);
+
+  const auto &attrs = ut->attributes();  
+  for (auto it = attrs.rbegin(); it != attrs.rend(); ++it) {
+    const auto &attr = *it;
+    // Obtener “this” (el primer argumento de $_dtor_B, p.ej. %B* %this)
+    llvm::Argument *argThis = &*(fn->arg_begin());
+    llvm::Value *thisPtr = argThis;
+
+    // GEP para &this->campo
+    llvm::Value *fieldPtr = builder_.CreateStructGEP(
+        llvmStTy,
+        thisPtr,
+        static_cast<unsigned int>(attr.position()),
+        attr.id()
+    );
+
+    // Llamar al destructor del tipo de ese campo
+    auto fieldType = std::dynamic_pointer_cast<UserType>(attr.type());
+    if (fieldType) {
+      std::string dtorName = "$_dtor_" + fieldType->name();
+      llvm::Function *dtorFn = module_->getFunction(dtorName);
+      if (dtorFn) {
+        // Para un miembro by-value, basta pasar &this->campo:
+        builder_.CreateCall(dtorFn, { fieldPtr });
+      }
+    }
   }
-  return {};
+
+  // Restaurar contextos
+  currentScope_ = parentScope;
+
+  // Insertar el `ret void` si no hay terminador
+  if (!builder_.GetInsertBlock()->getTerminator()) {
+    builder_.CreateRetVoid();
+  }
+
+
+  return fn;
 }
+
 
 std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_THIS *node) const noexcept {
