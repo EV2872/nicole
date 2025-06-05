@@ -37,85 +37,125 @@ CodeGeneration::visit(const AST_NEW *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
 
-  // Asegurarnos de que malloc/free estén declarados
+  // 1) Asegurarnos de que malloc/free estén declarados en el módulo
   ensureMallocFreeDeclared();
 
-  // Identificar el nodo de constructor, bien directo o dentro de un AST_CHAINED
-  const AST_CONSTRUCTOR_CALL *ctorNode = nullptr;
-  if (auto directCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(node->value().get())) {
-    // caso 2.a) new A{...} → value() es directamente AST_CONSTRUCTOR_CALL
-    ctorNode = directCtor;
-  } else if (auto chained = dynamic_cast<const AST_CHAINED *>(node->value().get())) {
-    // caso 2.b) new (A{...}.algo) → value() es AST_CHAINED cuyo base() debe ser AST_CONSTRUCTOR_CALL
-    auto basePtr = chained->base().get();
-    if (auto baseCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(basePtr)) {
-      // verificar que no haya otras operaciones encadenadas
-      if (!chained->operations().empty()) {
-        return createError(ERROR_TYPE::TYPE,
-                           "AST_NEW: las operaciones encadenadas tras el constructor no están permitidas");
-      }
-      ctorNode = baseCtor;
-    } else {
-      return createError(ERROR_TYPE::TYPE,
-                         "AST_NEW: se esperaba que el base de AST_CHAINED fuera un constructor");
+  // 2) Intentamos ver si node->value() es un AST_CONSTRUCTOR_CALL (tipo usuario)
+  const AST_CONSTRUCTOR_CALL *ctorNode = 
+      dynamic_cast<const AST_CONSTRUCTOR_CALL *>(node->value().get());
+
+  // 3) Si esConstructor → manejamos tipo usuario con constructor
+  if (ctorNode) {
+    // ———————— CAMINO PARA TIPOS USUARIO ————————
+
+    // 3.1) Obtener el tipo LLVM de “ctorNode”
+    auto typeOfNew = ctorNode->returnedFromTypeAnalysis();
+    if (!typeOfNew)
+      return createError(ERROR_TYPE::TYPE, "type returned is null");
+    std::expected<llvm::Type *, Error> llvmTyOrErr =
+        typeOfNew->llvmVersion(context_);
+    if (!llvmTyOrErr)
+      return createError(llvmTyOrErr.error());
+    llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A
+    llvm::PointerType *structPtrTy = structTy->getPointerTo(); // %A*
+
+    // 3.2) Calcular tamaño en bytes
+    const llvm::DataLayout &DL = module_->getDataLayout();
+    uint64_t sizeBytes = DL.getTypeAllocSize(structTy);
+    llvm::Value *sizeConst =
+        llvm::ConstantInt::get(builder_.getInt64Ty(), sizeBytes);
+
+    // 3.3) Llamar a malloc(sizeBytes) → devuelve i8*
+    llvm::CallInst *rawPtr =
+        builder_.CreateCall(mallocFn_, sizeConst, "new_malloc"); // i8*
+
+    // 3.4) Hacer bitcast de i8* a %A*
+    llvm::Value *typedPtr =
+        builder_.CreateBitCast(rawPtr,
+                               structPtrTy,
+                               "new_bitcast"); // ahora typedPtr es %A*
+
+    // 3.5) Generar parámetros del constructor (todos rvalues)
+    llvm::SmallVector<llvm::Value *, 8> callArgs;
+    callArgs.push_back(typedPtr); // primer arg: “this”
+
+    for (auto &argAST : ctorNode->parameters()) {
+      auto valOrErr = emitRValue(argAST.get());
+      if (!valOrErr)
+        return createError(valOrErr.error());
+      callArgs.push_back(*valOrErr);
     }
-  } else {
-    return createError(ERROR_TYPE::TYPE,
-                       "AST_NEW: se esperaba un AST_CONSTRUCTOR_CALL (directo o en AST_CHAINED)");
+
+    // 3.6) Llamar a la función manglada del constructor
+    std::string ctorName = "$_ctor_" + ctorNode->id();
+    llvm::Function *ctorFn = module_->getFunction(ctorName);
+    if (!ctorFn)
+      return createError(ERROR_TYPE::FUNCTION, "ctor not found: " + ctorName);
+
+    builder_.CreateCall(ctorFn, callArgs);
+
+    // 3.7) Actualizar chaining y tipo resultante para expresiones encadenadas
+    resultChainedExpression_ = typedPtr;
+    currentType = typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining
+
+    return typedPtr;
   }
 
-  // Ahora ya sabemos que 'ctorNode' apunta al AST_CONSTRUCTOR_CALL correcto.
-  // Obtener el tipo LLVM que corresponde al objeto a instanciar:
-  auto typeOfNew = ctorNode->returnedFromTypeAnalysis();
+  // 4) ———————— CAMINO PARA TIPOS BÁSICOS (int, double, i8*, etc.) ————————
+  // node->value() NO es AST_CONSTRUCTOR_CALL.
+  // Por ejemplo puede ser:
+  //   new 5
+  //   new 3.14
+  //   new "hola"
+  //   new &someVar       (si en tu gramática permites new sobre una expresión puntero)
+  //
+  // 4.1) Recuperar el tipo devuelto por TypeAnalysis de node->value()
+  auto typeOfNew = node->value()->returnedFromTypeAnalysis();
   if (!typeOfNew)
     return createError(ERROR_TYPE::TYPE, "type returned is null");
   std::expected<llvm::Type *, Error> llvmTyOrErr =
-      typeOfNew->llvmVersion(context_);
+    typeOfNew->llvmVersion(context_);
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
-  llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A
-  llvm::PointerType *structPtrTy = structTy->getPointerTo(); // %A*
+  llvm::Type *allocTy = *llvmTyOrErr;               // ej. i32, double, i8*, etc.
+  llvm::PointerType *allocPtrTy = allocTy->getPointerTo(); // ej. i32*, double*, i8**,...
 
-  // Calcular tamaño en bytes con DataLayout
+  // 4.2) Calcular tamaño en bytes
   const llvm::DataLayout &DL = module_->getDataLayout();
-  uint64_t sizeBytes = DL.getTypeAllocSize(structTy);
+  uint64_t sizeBytes = DL.getTypeAllocSize(allocTy);
   llvm::Value *sizeConst =
       llvm::ConstantInt::get(builder_.getInt64Ty(), sizeBytes);
 
-  // Llamar a malloc(sizeBytes)
+  // 4.3) Llamar a malloc(sizeBytes)
   llvm::CallInst *rawPtr =
-      builder_.CreateCall(mallocFn_, sizeConst, "new_malloc"); // devuelve i8*
+      builder_.CreateCall(mallocFn_, sizeConst, "new_malloc"); // i8*
 
-  // Hacer bitcast de i8* a %A*
+  // 4.4) Hacer bitcast de i8* a T* (en este momento T = allocTy)
   llvm::Value *typedPtr =
-      builder_.CreateBitCast(rawPtr, structPtrTy,
-                             "new_bitcast"); // ahora typedPtr es %A*
+      builder_.CreateBitCast(rawPtr,
+                             allocPtrTy,
+                             "new_bitcast_basic"); // ahora typedPtr es T*
 
-  // Generar parámetros del constructor (rvalues)
-  llvm::SmallVector<llvm::Value *, 8> callArgs;
-  callArgs.push_back(typedPtr); // primer arg: 'this'
+  // 4.5) Evaluar la expresión “node->value()” para obtener su rvalue
+  //      (por ejemplo si node->value() era '5', esto crea un ConstantInt 5;
+  //       si era "hola", es un i8* al literal; si era 3.14, un ConstantFP, etc.)
+  auto valOrErr = emitRValue(node->value().get());
+  if (!valOrErr)
+    return createError(valOrErr.error());
+  llvm::Value *initialVal = *valOrErr; // esto ya es un Value* del tipo allocTy o i8*
 
-  for (auto &argAST : ctorNode->parameters()) {
-    auto valOrErr = emitRValue(argAST.get());
-    if (!valOrErr)
-      return createError(valOrErr.error());
-    callArgs.push_back(*valOrErr);
-  }
+  // 4.6) Si el tipo es agregado (por ejemplo un struct, o std::string implícito),
+  //      habría que hacer MemCpy. Pero aquí estamos en “básicos”: i32, double, i8*…
+  //      Así que simplemente hacemos un store simple:
+  builder_.CreateStore(initialVal, typedPtr);
 
-  // Llamar a la función manglada del constructor
-  std::string ctorName = "$_ctor_" + ctorNode->id();
-  llvm::Function *ctorFn = module_->getFunction(ctorName);
-  if (!ctorFn)
-    return createError(ERROR_TYPE::FUNCTION, "ctor not found: " + ctorName);
-
-  builder_.CreateCall(ctorFn, callArgs);
-
-  // Actualizar chaining y tipo resultante
+  // 4.7) Preparar chaining y tipo resultante
   resultChainedExpression_ = typedPtr;
-  currentType = typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining
+  currentType = typeOfNew; // para new 5, currentType = int; pero en chaining devuelve int*?
 
   return typedPtr;
 }
+
 
 std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_DELETE *node) const noexcept {
