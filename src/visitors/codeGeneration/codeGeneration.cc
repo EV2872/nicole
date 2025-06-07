@@ -243,8 +243,12 @@ CodeGeneration::emitRValue(const AST *node) const noexcept {
   if (dynamic_cast<const AST_NEW *>(node)) {
     return node->accept(*this);
   }
-  std::expected<llvm::Type *, Error> tyOrErr =
-      node->returnedFromTypeAnalysis()->llvmVersion(context_);
+
+  std::expected<llvm::Type *, Error> tyOrErr = nullptr;
+  if (!node->returnedFromTypeAnalysis()) {
+    return createError(ERROR_TYPE::NULL_NODE, "null " + astTypeToStr(node->type()));
+  }
+    tyOrErr = node->returnedFromTypeAnalysis()->llvmVersion(context_);
   if (!tyOrErr)
     return createError(tyOrErr.error());
   llvm::Type *llvmTy = *tyOrErr;

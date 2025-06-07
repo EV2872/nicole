@@ -73,7 +73,6 @@ CodeGeneration::visit(const AST_CHAINED *node) const noexcept {
     resultChainedExpression_ = next;
     currentType = op->returnedFromTypeAnalysis();
   }
-
   return resultChainedExpression_;
 }
 

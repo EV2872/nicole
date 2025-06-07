@@ -243,6 +243,16 @@ TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
         mergeGenericLists(currentStructGenericList_, node->generics());
   }
 
+  // como los parametros de super necesitan saber el scope del constructor
+  // aparte de en body tambien hacemos push y pop aqui
+  auto oldScope = currentScope_;
+  currentScope_ = node->body()->scope();
+
+  if (node->super()) {
+    if (auto superOrErr = node->super()->accept(*this); !superOrErr)
+      return createError(superOrErr.error());
+  }
+
   auto bodyRes = node->body()->accept(*this);
   if (!bodyRes)
     return createError(bodyRes.error());
@@ -252,6 +262,8 @@ TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
       !typeTable_->areSameType(bodyType, typeTable_->breakType()))
     return createError(ERROR_TYPE::TYPE,
                        "constructor body must not return a value");
+
+  currentScope_ = oldScope;
 
   insideDeclWithGenerics = false;
   currentGenericList_.clear();

@@ -117,6 +117,7 @@ std::expected<llvm::Value *, Error>
 CodeGeneration::visit(const AST_VAR_CALL *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_CALL");
+  
   if (insideStruct && currentUserType_ &&
       currentUserType_->hasAttribute(node->id())) {
     // Recuperar el alloca de 'this'

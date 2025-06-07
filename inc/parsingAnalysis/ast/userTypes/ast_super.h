@@ -8,7 +8,7 @@ namespace nicole {
 
 class AST_SUPER final : public AST {
 private:
-  std::shared_ptr<Type> fatherType_;
+  mutable std::shared_ptr<Type> fatherType_;
   mutable std::vector<std::shared_ptr<Type>> replacements_;
   std::vector<std::shared_ptr<AST>> arguments_;
 
@@ -47,6 +47,10 @@ public:
     return {};
   }
 
+  void setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept {
+    fatherType_ = fatherType;
+  }
+
   [[nodiscard]] std::expected<std::string, Error>
   accept(const PrintTree &visitor) const noexcept override {
     return visitor.visit(this);
@@ -72,7 +76,7 @@ public:
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value*, Error>
+  [[nodiscard]] std::expected<llvm::Value *, Error>
   accept(const CodeGeneration &visitor) const noexcept override {
     return visitor.visit(this);
   }
