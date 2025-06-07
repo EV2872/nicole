@@ -280,10 +280,46 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SUPER");
   }
+
+  auto fatherTypeInfo{std::dynamic_pointer_cast<UserType>(node->fatherType())};
+  if (!fatherTypeInfo) {
+    return createError(ERROR_TYPE::TYPE, "ill-formed super node father type");
+  }
+  const auto fatherConstructor{fatherTypeInfo->constructor()};
+
+  if (fatherConstructor->generics().size() != node->replacements().size()) {
+    return createError(ERROR_TYPE::TYPE,
+                       "there is a mismatch between the "
+                       "number of generics in super and the constructor decl");
+  }
+
+  if (fatherConstructor->params().size() != node->replacements().size()) {
+    return createError(
+        ERROR_TYPE::TYPE,
+        "there is a mismatch between the "
+        "number of parameters in super and the constructor decl");
+  }
+
+  const auto fatherCtrParameters{fatherConstructor->params()};
+  const auto superArguments{node->arguments()};
+
   for (const auto &arg : node->arguments()) {
     auto res = arg->accept(*this);
     if (!res)
       return createError(res.error());
+  }
+
+  for (size_t i{0}; i < superArguments.size(); ++i) {
+    auto res = superArguments[i]->accept(*this);
+    if (!res)
+      return createError(res.error());
+    if (!typeTable_->canAssign(fatherCtrParameters.params()[i].second, *res)) {
+      return createError(
+          ERROR_TYPE::TYPE,
+          "function body return type does not match declared return type -> " +
+              fatherCtrParameters.params()[i].second->toString() + " | " +
+              res.value()->toString());
+    }
   }
 
   std::vector<std::shared_ptr<Type>> processedReplacements;
