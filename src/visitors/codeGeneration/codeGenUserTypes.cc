@@ -230,7 +230,7 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SUPER");
 
-  // 1) Recuperar el puntero 'this' del scope actual
+  // Recuperar el puntero 'this' del scope actual
   auto varOrErr = currentScope_->getVariable("this");
   if (!varOrErr)
     return createError(ERROR_TYPE::VARIABLE, "no local 'this' in scope");
@@ -240,7 +240,7 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
   llvm::Value *thisPtr =
       builder_.CreateLoad(slot->getAllocatedType(), slot, "super_this");
 
-  // 2) Preparar argumentos del super: primero 'this', luego los demás
+  // Preparar argumentos del super: primero 'this', luego los demás
   llvm::SmallVector<llvm::Value *, 8> callArgs;
   callArgs.push_back(thisPtr);
   for (auto &argAST : node->arguments()) {
@@ -250,14 +250,14 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
     callArgs.push_back(*valOrErr);
   }
 
-  // 3) Determinar el nombre del constructor de la clase base
-  //    fatherType() debe ser un UserType
+  // Determinar el nombre del constructor de la clase base
+  // fatherType() debe ser un UserType
   auto baseUT = std::dynamic_pointer_cast<UserType>(node->fatherType());
   if (!baseUT)
     return createError(ERROR_TYPE::TYPE, "super of non‐UserType");
   std::string ctorName = "$_ctor_" + baseUT->name();
 
-  // 4) Llamar al constructor base
+  // Llamar al constructor base
   llvm::Function *ctorFn = module_->getFunction(ctorName);
   if (!ctorFn)
     return createError(ERROR_TYPE::FUNCTION, "super ctor not found: " + ctorName);
