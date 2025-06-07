@@ -285,7 +285,16 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
   if (!fatherTypeInfo) {
     return createError(ERROR_TYPE::TYPE, "ill-formed super node father type");
   }
-  const auto fatherConstructor{fatherTypeInfo->constructor()};
+  const auto realFatherType{typeTable_->getType(fatherTypeInfo->name())};
+  if (!realFatherType) {
+    return createError(realFatherType.error());
+  }
+  const auto conversionType{std::dynamic_pointer_cast<UserType>(*realFatherType)};
+  const auto fatherConstructor{conversionType->constructor()};
+
+  if (!fatherConstructor) {
+    return createError(ERROR_TYPE::TYPE, "ill-formed super node father type");
+  }
 
   if (fatherConstructor->generics().size() != node->replacements().size()) {
     return createError(ERROR_TYPE::TYPE,
@@ -293,11 +302,11 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
                        "number of generics in super and the constructor decl");
   }
 
-  if (fatherConstructor->params().size() != node->replacements().size()) {
+  if (fatherConstructor->params().size() != node->arguments().size()) {
     return createError(
         ERROR_TYPE::TYPE,
         "there is a mismatch between the "
-        "number of parameters in super and the constructor decl");
+        "number of arguments in super and the constructor decl");
   }
 
   const auto fatherCtrParameters{fatherConstructor->params()};
