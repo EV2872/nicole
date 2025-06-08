@@ -10,14 +10,37 @@ struct A {
 }
 
 struct B extends A {
-    constructor(x_: int): super(x_) {}
+    y: str
+    
+    constructor(x_: int, y_: str): super(x_) {
+        y := y_;
+    }
 
     destructor {
         print("Hola2\n");
     }
 }
 
+struct C extends B {
+    z: double
+    constructor(x_: int, y_: str, z_: double): super(x_, y_) {
+        z := z_;
+    }
 
-auto cc = B{10};
+    destructor {
+        print("Hola3\n");
+    }
+}
 
-print(cc.x);
+auto cc = C{10, "HOLA", 3.14};
+
+print(cc.x, "\n");
+print(cc.y, "\n");
+print(cc.z, "\n");
+
+cc.x := 30;
+cc.y[2] := '9';
+cc.z := 10.88;
+print(cc.x, "\n");
+print(cc.y, "\n");
+print(cc.z, "\n");

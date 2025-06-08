@@ -129,4 +129,42 @@ std::string UserType::toString() const noexcept {
   return oss.str();
 }
 
+std::expected<llvm::Type *, Error>
+UserType::llvmVersion(llvm::LLVMContext &context) const noexcept {
+  llvm::StructType *st = llvm::StructType::getTypeByName(context, name_);
+  if (!st) {
+    st = llvm::StructType::create(context, name_);
+  }
+
+  // Si es opaco, definir cuerpo aplanando herencia
+  if (st->isOpaque()) {
+    llvm::SmallVector<llvm::Type *, 4> elems;
+
+    // Campos heredados (aplanados)
+    if (baseType_) {
+      auto baseOrErr = baseType_->llvmVersion(context);
+      if (!baseOrErr)
+        return std::unexpected(baseOrErr.error());
+      auto *baseSt = llvm::cast<llvm::StructType>(*baseOrErr);
+      for (unsigned i = 0, n = baseSt->getNumElements(); i < n; ++i) {
+        elems.push_back(baseSt->getElementType(i));
+      }
+    }
+
+    // Campos propios
+    for (auto &kv : attrTable_) {
+      auto &attr = kv.second;
+      auto tyOrErr = attr.type()->llvmVersion(context);
+      if (!tyOrErr)
+        return std::unexpected(tyOrErr.error());
+      attr.setPosition(elems.size());
+      elems.push_back(*tyOrErr);
+    }
+
+    st->setBody(elems, /*isPacked=*/false);
+  }
+
+  return st;
+}
+
 } // namespace nicole
