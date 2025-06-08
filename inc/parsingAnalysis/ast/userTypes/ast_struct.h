@@ -19,6 +19,7 @@ private:
   mutable std::vector<std::shared_ptr<AST_METHOD_DECL>> methods_;
   mutable std::shared_ptr<AST_CONSTRUCTOR_DECL> constructor_;
   mutable std::shared_ptr<AST_DESTRUCTOR_DECL> destructor_;
+  mutable std::string mangledId_;
 
 public:
   explicit AST_STRUCT(
@@ -45,6 +46,10 @@ public:
 
   [[nodiscard]] const std::shared_ptr<Type> &fatherType() const noexcept {
     return fatherType_;
+  }
+
+  [[nodiscard]] const std::string &mangledId() const noexcept {
+    return mangledId_;
   }
 
   void setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept {
@@ -119,6 +124,8 @@ public:
   accept(const CodeGeneration &visitor) const noexcept override {
     return visitor.visit(this);
   }
+
+  void setMangledId(const std::string &id) const noexcept { mangledId_ = id; }
 };
 
 } // namespace nicole

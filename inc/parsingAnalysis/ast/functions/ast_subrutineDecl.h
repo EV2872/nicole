@@ -13,6 +13,7 @@ private:
   mutable std::string id_;
   mutable std::shared_ptr<Type> returnType_;
   mutable std::shared_ptr<AST_BODY> body_;
+  mutable std::string mangledId_{""};
 
 public:
   explicit AST_SUBRUTINE_DECL(const long long unsigned nodeId,
@@ -24,6 +25,10 @@ public:
         body_{body} {}
 
   [[nodiscard]] const std::string &id() const noexcept { return id_; }
+
+  [[nodiscard]] const std::string &mangledId() const noexcept {
+    return mangledId_;
+  }
 
   [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
     return returnType_;
@@ -37,7 +42,9 @@ public:
     returnType_ = type;
   }
 
-  void setId(const std::string& id) const noexcept { id_ = id; }
+  void setId(const std::string &id) const noexcept { id_ = id; }
+
+  void setMangledId(const std::string &id) const noexcept { mangledId_ = id; }
 };
 
 } // namespace nicole

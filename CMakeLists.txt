@@ -233,6 +233,9 @@ add_executable(tests
 
     # compiler
     src/compiler/nicole.cc
+
+    # utils
+    src/utils/nameMangler.cc
 )
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(tests PRIVATE
@@ -432,6 +435,9 @@ set(SRC_FILES
     src/visitors/codeGeneration/codeGenVector.cc
 
     src/compiler/nicole.cc
+
+    # utils
+    src/utils/nameMangler.cc
 )
 
 # Include directories para el ejecutable principal

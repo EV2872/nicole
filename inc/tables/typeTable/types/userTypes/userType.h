@@ -2,6 +2,7 @@
 #define USER_TYPE_H
 
 #include "attrTable.h"
+#include "virtualTable.h"
 #include "attribute.h"
 #include "constructor.h"
 #include "destructor.h"
@@ -25,6 +26,7 @@ private:
   mutable MethodTable methodTable_;
   mutable std::shared_ptr<Constructor> constructor_;
   mutable std::shared_ptr<Destructor> destructor_;
+  mutable VirtualTable vtable_;
 
 public:
   explicit UserType(const std::string &name,
@@ -70,6 +72,8 @@ public:
     }
     return result;
   }
+
+  const VirtualTable &vtable() const noexcept { return vtable_; }
 
   void
   setDestructor(const std::shared_ptr<Destructor> &destructor) const noexcept {

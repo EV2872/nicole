@@ -4,7 +4,7 @@ struct A {
         x := x_;
     }
 
-    destructor {
+    virtual destructor {
         print("Hola1\n");
     }
 }
