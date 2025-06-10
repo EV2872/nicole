@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">387</td>
+            <td class="headerCovTableEntry">388</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-03 17:20:49</td>
+            <td class="headerValue">2025-06-09 23:15:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -415,79 +415,80 @@
 <span id="L353"><span class="lineNum">     353</span> <span class="tlaUNC">           0 :                             : body.error());</span></span>
 <span id="L354"><span class="lineNum">     354</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L355"><span class="lineNum">     355</span> <span class="tlaUNC">           0 :   return Builder::createDestructorDecl(</span></span>
-<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, id, *body, isVirtual);</span></span>
-<span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L358"><span class="lineNum">     358</span>              : </span>
-<span id="L359"><span class="lineNum">     359</span>              : const std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;</span>
-<span id="L360"><span class="lineNum">     360</span> <span class="tlaUNC">           0 : TopDown::parseMethodDecl(const bool isVirtual) const noexcept {</span></span>
-<span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
-<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
-<span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
-<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::ID) {</span></span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :                        &quot;missing identifier of function at &quot; +</span></span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaUNC">           0 :   const Token id{*tkStream_.current()};</span></span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :   std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt; generics{};</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :   if (isVirtual and</span></span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :       tkStream_.current()-&gt;type() == TokenType::OPERATOR_SMALLER) {</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :                        &quot;a virtual method cannot be templated &quot; +</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() == TokenType::OPERATOR_SMALLER) {</span></span>
-<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :     generics = parseGenerics();</span></span>
-<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 :   if (!generics) {</span></span>
-<span id="L385"><span class="lineNum">     385</span> <span class="tlaUNC">           0 :     return createError(generics.error());</span></span>
-<span id="L386"><span class="lineNum">     386</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L387"><span class="lineNum">     387</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::LP) {</span></span>
-<span id="L388"><span class="lineNum">     388</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX, &quot;missing ( of function at &quot; +</span></span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaUNC">           0 :                                                tkStream_.current()-&gt;locInfo());</span></span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :   const std::expected&lt;Parameters, Error&gt; params{parseParams()};</span></span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :   if (!params) {</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaUNC">           0 :     return createError(params.error());</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::RP) {</span></span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX, &quot;missing ) of function at &quot; +</span></span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :                                                tkStream_.current()-&gt;locInfo());</span></span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::DOTDOT) {</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
-<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :                        &quot;missing : after ) of function decl at &quot; +</span></span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;raw() + &quot; at &quot; +</span></span>
-<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
-<span id="L410"><span class="lineNum">     410</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L411"><span class="lineNum">     411</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
-<span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
-<span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L414"><span class="lineNum">     414</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; returnType{parseType()};</span></span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaUNC">           0 :   if (!returnType) {</span></span>
-<span id="L416"><span class="lineNum">     416</span> <span class="tlaUNC">           0 :     return createError(returnType.error());</span></span>
-<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt; body{parseBody()};</span></span>
-<span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :   if (!body || !*body) {</span></span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaUNC">           0 :     return createError(body ? Error{ERROR_TYPE::NULL_NODE, &quot;node is null&quot;}</span></span>
-<span id="L421"><span class="lineNum">     421</span> <span class="tlaUNC">           0 :                             : body.error());</span></span>
-<span id="L422"><span class="lineNum">     422</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :   return Builder::createMethodDecl(</span></span>
-<span id="L424"><span class="lineNum">     424</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, id.raw(), *generics,</span></span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaUNC">           0 :       *params, *returnType, *body, isVirtual);</span></span>
-<span id="L426"><span class="lineNum">     426</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L427"><span class="lineNum">     427</span>              : </span>
-<span id="L428"><span class="lineNum">     428</span>              : } // namespace nicole</span>
+<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, id, std::make_shared&lt;UserType&gt;(id, nullptr,</span></span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 :                                  std::vector&lt;GenericParameter&gt;{}),*body, isVirtual);</span></span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L359"><span class="lineNum">     359</span>              : </span>
+<span id="L360"><span class="lineNum">     360</span>              : const std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;</span>
+<span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 : TopDown::parseMethodDecl(const bool isVirtual) const noexcept {</span></span>
+<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
+<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::ID) {</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :                        &quot;missing identifier of function at &quot; +</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
+<span id="L370"><span class="lineNum">     370</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :   const Token id{*tkStream_.current()};</span></span>
+<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :   std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt; generics{};</span></span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :   if (isVirtual and</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :       tkStream_.current()-&gt;type() == TokenType::OPERATOR_SMALLER) {</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :                        &quot;a virtual method cannot be templated &quot; +</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() == TokenType::OPERATOR_SMALLER) {</span></span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :     generics = parseGenerics();</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L385"><span class="lineNum">     385</span> <span class="tlaUNC">           0 :   if (!generics) {</span></span>
+<span id="L386"><span class="lineNum">     386</span> <span class="tlaUNC">           0 :     return createError(generics.error());</span></span>
+<span id="L387"><span class="lineNum">     387</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L388"><span class="lineNum">     388</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::LP) {</span></span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX, &quot;missing ( of function at &quot; +</span></span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :                                                tkStream_.current()-&gt;locInfo());</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
+<span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :   const std::expected&lt;Parameters, Error&gt; params{parseParams()};</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaUNC">           0 :   if (!params) {</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :     return createError(params.error());</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::RP) {</span></span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX, &quot;missing ) of function at &quot; +</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaUNC">           0 :                                                tkStream_.current()-&gt;locInfo());</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
+<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
+<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != TokenType::DOTDOT) {</span></span>
+<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :                        &quot;missing : after ) of function decl at &quot; +</span></span>
+<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;raw() + &quot; at &quot; +</span></span>
+<span id="L410"><span class="lineNum">     410</span> <span class="tlaUNC">           0 :                            tkStream_.current()-&gt;locInfo());</span></span>
+<span id="L411"><span class="lineNum">     411</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
+<span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
+<span id="L414"><span class="lineNum">     414</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; returnType{parseType()};</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaUNC">           0 :   if (!returnType) {</span></span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 :     return createError(returnType.error());</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt; body{parseBody()};</span></span>
+<span id="L420"><span class="lineNum">     420</span> <span class="tlaUNC">           0 :   if (!body || !*body) {</span></span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaUNC">           0 :     return createError(body ? Error{ERROR_TYPE::NULL_NODE, &quot;node is null&quot;}</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaUNC">           0 :                             : body.error());</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L424"><span class="lineNum">     424</span> <span class="tlaUNC">           0 :   return Builder::createMethodDecl(</span></span>
+<span id="L425"><span class="lineNum">     425</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, id.raw(), *generics,</span></span>
+<span id="L426"><span class="lineNum">     426</span> <span class="tlaUNC">           0 :       *params, *returnType, *body, isVirtual);</span></span>
+<span id="L427"><span class="lineNum">     427</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L428"><span class="lineNum">     428</span>              : </span>
+<span id="L429"><span class="lineNum">     429</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

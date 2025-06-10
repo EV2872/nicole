@@ -35,7 +35,7 @@ CodeGeneration::visit(const AST_ENUM_ACCESS *node) const noexcept {
       enumType->identifierToNumber(node->identifier())};
 
   // Crear un ConstantInt de 32 bits con ese valor
-  llvm::Type *intTy = llvm::Type::getInt32Ty(context_);
+  llvm::Type *intTy = llvm::Type::getInt32Ty(*context_);
   llvm::Value *constInt =
       llvm::ConstantInt::get(intTy, *conversion, /*isSigned=*/true);
 

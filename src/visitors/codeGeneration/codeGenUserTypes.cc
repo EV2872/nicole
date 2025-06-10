@@ -27,7 +27,7 @@ CodeGeneration::visit(const AST_STRUCT *node) const noexcept {
   if (!ut) {
     return createError(ut.error());
   }
-  std::expected<llvm::Type *, Error> stOrErr = (*ut)->llvmVersion(context_);
+  std::expected<llvm::Type *, Error> stOrErr = (*ut)->llvmVersion(*context_);
   if (!stOrErr)
     return createError(stOrErr.error());
   // No necesitamos un Value* aquí: la declaración de struct solo define el tipo
@@ -78,7 +78,7 @@ CodeGeneration::visit(const AST_ATTR_ACCESS *node) const noexcept {
     return createError(ERROR_TYPE::TYPE, "base is not a user‐defined struct");
 
   // Obtener el LLVM StructType desde el UserType
-  auto stOrErr = userStTy->llvmVersion(context_);
+  auto stOrErr = userStTy->llvmVersion(*context_);
   if (!stOrErr)
     return createError(stOrErr.error());
   auto *llvmStTy = llvm::cast<llvm::StructType>(*stOrErr);
@@ -137,7 +137,7 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   std::shared_ptr<Scope> parentScope = currentScope_;
   currentScope_ = node->body()->scope();
   // Obtener el type de retorno (debe ser void)
-  llvm::Type *retTy = llvm::Type::getVoidTy(context_);
+  llvm::Type *retTy = llvm::Type::getVoidTy(*context_);
 
   // Colectar los tipos de los parámetros (incluyendo 'this' como primero)
   llvm::SmallVector<llvm::Type *, 8> paramTys;
@@ -146,7 +146,7 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   if (!userStTy)
     return createError(ERROR_TYPE::TYPE, "constructor no retorna UserType");
   std::expected<llvm::Type *, Error> structOrErr =
-      userStTy->llvmVersion(context_);
+      userStTy->llvmVersion(*context_);
   if (!structOrErr)
     return createError(structOrErr.error());
   // usar puntero al struct, no struct por valor
@@ -154,7 +154,7 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
 
   for (auto &pr : node->parameters().params()) {
     std::expected<llvm::Type *, Error> tyOrErr =
-        pr.second->llvmVersion(context_);
+        pr.second->llvmVersion(*context_);
     if (!tyOrErr)
       return createError(tyOrErr.error());
     paramTys.push_back(*tyOrErr);
@@ -168,7 +168,7 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   fn->setLinkage(llvm::GlobalValue::ExternalLinkage);
 
   // Crear el bloque entry y preparar builder
-  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(context_, "entry", fn);
+  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(*context_, "entry", fn);
   llvm::IRBuilder<>::InsertPointGuard guard(builder_);
   builder_.SetInsertPoint(entryBB);
 
@@ -278,14 +278,14 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   currentScope_ = node->body()->scope();
 
   // El destructor siempre retorna void y solo recibe “this” (puntero a la struct).
-  llvm::Type *retTy = llvm::Type::getVoidTy(context_);
+  llvm::Type *retTy = llvm::Type::getVoidTy(*context_);
 
   // Recuperar el UserType (el tipo de la struct a destruir)
   auto userStTy = std::dynamic_pointer_cast<UserType>(node->returnType());
   if (!userStTy)
     return createError(ERROR_TYPE::TYPE, "destructor no retorna UserType");
 
-  std::expected<llvm::Type *, Error> structOrErr = userStTy->llvmVersion(context_);
+  std::expected<llvm::Type *, Error> structOrErr = userStTy->llvmVersion(*context_);
   if (!structOrErr)
     return createError(structOrErr.error());
 
@@ -301,7 +301,7 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   fn->setLinkage(llvm::GlobalValue::ExternalLinkage);
 
   // Crear el bloque “entry” y posicionar el builder allí
-  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(context_, "entry", fn);
+  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(*context_, "entry", fn);
   llvm::IRBuilder<>::InsertPointGuard guard(builder_);
   builder_.SetInsertPoint(entryBB);
 
@@ -333,7 +333,7 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
     return createError(bodyOrErr.error());
 
   auto ut = std::dynamic_pointer_cast<UserType>(node->returnType());
-  auto structTyOrErr = ut->llvmVersion(context_);  
+  auto structTyOrErr = ut->llvmVersion(*context_);  
   // structTyOrErr es %B (LLVM StructType*)
   llvm::StructType *llvmStTy = llvm::cast<llvm::StructType>(*structTyOrErr);
 
@@ -391,7 +391,7 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
 
   // Reservar espacio para el objeto
-  auto tyOrErr = node->returnedFromTypeAnalysis()->llvmVersion(context_);
+  auto tyOrErr = node->returnedFromTypeAnalysis()->llvmVersion(*context_);
   if (!tyOrErr)
     return createError(tyOrErr.error());
   llvm::AllocaInst *objAlloca =

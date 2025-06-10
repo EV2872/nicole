@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">79</td>
+            <td class="headerCovTableEntry">115</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-03 17:20:49</td>
+            <td class="headerValue">2025-06-09 23:15:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -61,137 +61,190 @@
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/parsingAnalysis/ast/pointer/ast_delete.h&quot;</span>
-<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/pointer/ast_deref.h&quot;</span>
-<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/pointer/ast_new.h&quot;</span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/visitors/codeGeneration/codeGeneration.h&quot;</span>
-<span id="L5"><span class="lineNum">       5</span>              : #include &lt;llvm/IR/DataLayout.h&gt;</span>
-<span id="L6"><span class="lineNum">       6</span>              : #include &lt;llvm/IR/DerivedTypes.h&gt;</span>
-<span id="L7"><span class="lineNum">       7</span>              : </span>
-<span id="L8"><span class="lineNum">       8</span>              : namespace nicole {</span>
-<span id="L9"><span class="lineNum">       9</span>              : </span>
-<span id="L10"><span class="lineNum">      10</span>              : // En codeGeneration.cpp:</span>
-<span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC tlaBgUNC">           0 : void CodeGeneration::ensureMallocFreeDeclared() const noexcept {</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   if (!mallocFn_) {</span></span>
-<span id="L14"><span class="lineNum">      14</span>              :     // void* malloc(size_t)</span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(context_);</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     llvm::PointerType *voidPtr =</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :         llvm::Type::getInt8Ty(context_)-&gt;getPointerTo();</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     llvm::FunctionType *mallocFT =</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :         llvm::FunctionType::get(voidPtr, {i64Ty}, false);</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :     mallocFn_ = llvm::cast&lt;llvm::Function&gt;(</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :         module_-&gt;getOrInsertFunction(&quot;malloc&quot;, mallocFT).getCallee());</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   if (!freeFn_) {</span></span>
-<span id="L24"><span class="lineNum">      24</span>              :     // void free(void*)</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     llvm::PointerType *voidPtr =</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :         llvm::Type::getInt8Ty(context_)-&gt;getPointerTo();</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     llvm::FunctionType *freeFT = llvm::FunctionType::get(</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :         llvm::Type::getVoidTy(context_), {voidPtr}, false);</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     freeFn_ = llvm::cast&lt;llvm::Function&gt;(</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         module_-&gt;getOrInsertFunction(&quot;free&quot;, freeFT).getCallee());</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_NEW *node) const noexcept {</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_NEW&quot;);</span></span>
-<span id="L38"><span class="lineNum">      38</span>              : </span>
-<span id="L39"><span class="lineNum">      39</span>              :   // Tipo y número de elementos</span>
-<span id="L40"><span class="lineNum">      40</span>              :   //  Suponemos que node-&gt;newType() y node-&gt;countExpr() existen</span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   std::shared_ptr&lt;Type&gt; semTy = node-&gt;returnedFromTypeAnalysis();</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; llvmTyOrErr = semTy-&gt;llvmVersion(context_);</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   if (!llvmTyOrErr)</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;no llvm type for new&quot;);</span></span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   llvm::Type *elemTy = *llvmTyOrErr;</span></span>
-<span id="L46"><span class="lineNum">      46</span>              : </span>
-<span id="L47"><span class="lineNum">      47</span>              :   // Generar el count (número de elementos)</span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Value *, Error&gt; cntOrErr =</span></span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :       emitRValue(node-&gt;value().get());</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :   if (!cntOrErr)</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     return createError(cntOrErr.error());</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :   llvm::Value *countVal = *cntOrErr;</span></span>
-<span id="L53"><span class="lineNum">      53</span>              : </span>
-<span id="L54"><span class="lineNum">      54</span>              :   // Calcular bytes = countVal * sizeof(elemTy)</span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :   const llvm::DataLayout &amp;DL = module_-&gt;getDataLayout();</span></span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :   uint64_t sizeOfElem = DL.getTypeAllocSize(elemTy);</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :   llvm::Value *sizeConst = builder_.getInt64(sizeOfElem);</span></span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :   llvm::Value *countI64 =</span></span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :       builder_.CreateZExtOrBitCast(countVal, builder_.getInt64Ty(), &quot;cnt_i64&quot;);</span></span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :   llvm::Value *totalBytes =</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :       builder_.CreateMul(countI64, sizeConst, &quot;total_bytes&quot;);</span></span>
-<span id="L62"><span class="lineNum">      62</span>              : </span>
-<span id="L63"><span class="lineNum">      63</span>              :   // Declarar malloc/free (si es necesario)</span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :   ensureMallocFreeDeclared();</span></span>
-<span id="L65"><span class="lineNum">      65</span>              : </span>
-<span id="L66"><span class="lineNum">      66</span>              :   // Llamada a malloc</span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :   llvm::Value *rawPtr = builder_.CreateCall(mallocFn_, {totalBytes}, &quot;new_ptr&quot;);</span></span>
-<span id="L68"><span class="lineNum">      68</span>              : </span>
-<span id="L69"><span class="lineNum">      69</span>              :   // Inicializar la memoria a cero</span>
-<span id="L70"><span class="lineNum">      70</span>              :   //  llvm.memset.p0.p0.i64(ptr, i8 0, i64 size, i1 false)</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :   builder_.CreateMemSet(rawPtr, builder_.getInt8(0), totalBytes,</span></span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :                         llvm::MaybeAlign(1));</span></span>
-<span id="L73"><span class="lineNum">      73</span>              : </span>
-<span id="L74"><span class="lineNum">      74</span>              :   // Registrar el puntero y devolverlo</span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :   allocatedPtrs_.insert(rawPtr);</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :   return rawPtr;</span></span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/chained/ast_chained.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/pointer/ast_deref.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/ast/pointer/ast_new.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &quot;../../../inc/parsingAnalysis/ast/userTypes/ast_constructorCall.h&quot;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;../../../inc/visitors/codeGeneration/codeGeneration.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;llvm/IR/DataLayout.h&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;llvm/IR/DerivedTypes.h&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &lt;memory&gt;</span>
+<span id="L10"><span class="lineNum">      10</span>              : </span>
+<span id="L11"><span class="lineNum">      11</span>              : namespace nicole {</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC tlaBgUNC">           0 : void CodeGeneration::ensureMallocFreeDeclared() const noexcept {</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   if (!mallocFn_) {</span></span>
+<span id="L15"><span class="lineNum">      15</span>              :     // void* malloc(size_t)</span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(context_);</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :     llvm::PointerType *voidPtr =</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :         llvm::Type::getInt8Ty(context_)-&gt;getPointerTo();</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     llvm::FunctionType *mallocFT =</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :         llvm::FunctionType::get(voidPtr, {i64Ty}, false);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     mallocFn_ = llvm::cast&lt;llvm::Function&gt;(</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :         module_-&gt;getOrInsertFunction(&quot;malloc&quot;, mallocFT).getCallee());</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   if (!freeFn_) {</span></span>
+<span id="L25"><span class="lineNum">      25</span>              :     // void free(void*)</span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :     llvm::PointerType *voidPtr =</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         llvm::Type::getInt8Ty(context_)-&gt;getPointerTo();</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :     llvm::FunctionType *freeFT = llvm::FunctionType::get(</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         llvm::Type::getVoidTy(context_), {voidPtr}, false);</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :     freeFn_ = llvm::cast&lt;llvm::Function&gt;(</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         module_-&gt;getOrInsertFunction(&quot;free&quot;, freeFT).getCallee());</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L34"><span class="lineNum">      34</span>              : </span>
+<span id="L35"><span class="lineNum">      35</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_NEW *node) const noexcept {</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_NEW&quot;);</span></span>
+<span id="L39"><span class="lineNum">      39</span>              : </span>
+<span id="L40"><span class="lineNum">      40</span>              :   // Asegurarnos de que malloc/free estén declarados</span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   ensureMallocFreeDeclared();</span></span>
+<span id="L42"><span class="lineNum">      42</span>              : </span>
+<span id="L43"><span class="lineNum">      43</span>              :   // Identificar el nodo de constructor, bien directo o dentro de un AST_CHAINED</span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :   const AST_CONSTRUCTOR_CALL *ctorNode = nullptr;</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   if (auto directCtor = dynamic_cast&lt;const AST_CONSTRUCTOR_CALL *&gt;(node-&gt;value().get())) {</span></span>
+<span id="L46"><span class="lineNum">      46</span>              :     // caso 2.a) new A{...} → value() es directamente AST_CONSTRUCTOR_CALL</span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :     ctorNode = directCtor;</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :   } else if (auto chained = dynamic_cast&lt;const AST_CHAINED *&gt;(node-&gt;value().get())) {</span></span>
+<span id="L49"><span class="lineNum">      49</span>              :     // caso 2.b) new (A{...}.algo) → value() es AST_CHAINED cuyo base() debe ser AST_CONSTRUCTOR_CALL</span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :     auto basePtr = chained-&gt;base().get();</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     if (auto baseCtor = dynamic_cast&lt;const AST_CONSTRUCTOR_CALL *&gt;(basePtr)) {</span></span>
+<span id="L52"><span class="lineNum">      52</span>              :       // verificar que no haya otras operaciones encadenadas</span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :       if (!chained-&gt;operations().empty()) {</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :         return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :                            &quot;AST_NEW: las operaciones encadenadas tras el constructor no están permitidas&quot;);</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :       }</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :       ctorNode = baseCtor;</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :     } else {</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :                          &quot;AST_NEW: se esperaba que el base de AST_CHAINED fuera un constructor&quot;);</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :   } else {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :                        &quot;AST_NEW: se esperaba un AST_CONSTRUCTOR_CALL (directo o en AST_CHAINED)&quot;);</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L66"><span class="lineNum">      66</span>              : </span>
+<span id="L67"><span class="lineNum">      67</span>              :   // Ahora ya sabemos que 'ctorNode' apunta al AST_CONSTRUCTOR_CALL correcto.</span>
+<span id="L68"><span class="lineNum">      68</span>              :   // Obtener el tipo LLVM que corresponde al objeto a instanciar:</span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :   auto typeOfNew = ctorNode-&gt;returnedFromTypeAnalysis();</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :   if (!typeOfNew)</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;type returned is null&quot;);</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; llvmTyOrErr =</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :       typeOfNew-&gt;llvmVersion(context_);</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :   if (!llvmTyOrErr)</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :     return createError(llvmTyOrErr.error());</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :   llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :   llvm::PointerType *structPtrTy = structTy-&gt;getPointerTo(); // %A*</span></span>
 <span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L80"><span class="lineNum">      80</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_DELETE *node) const noexcept {</span></span>
-<span id="L81"><span class="lineNum">      81</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
-<span id="L82"><span class="lineNum">      82</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_DELETE&quot;);</span></span>
-<span id="L83"><span class="lineNum">      83</span>              : </span>
-<span id="L84"><span class="lineNum">      84</span>              :   // Generar el rvalue que es el puntero a liberar</span>
-<span id="L85"><span class="lineNum">      85</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Value *, Error&gt; ptrOrErr =</span></span>
-<span id="L86"><span class="lineNum">      86</span> <span class="tlaUNC">           0 :       emitRValue(node-&gt;value().get());</span></span>
-<span id="L87"><span class="lineNum">      87</span> <span class="tlaUNC">           0 :   if (!ptrOrErr)</span></span>
-<span id="L88"><span class="lineNum">      88</span> <span class="tlaUNC">           0 :     return createError(ptrOrErr.error());</span></span>
-<span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :   llvm::Value *ptrVal = *ptrOrErr;</span></span>
-<span id="L90"><span class="lineNum">      90</span>              : </span>
-<span id="L91"><span class="lineNum">      91</span>              :   // Solo liberamos si lo conocemos</span>
-<span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC">           0 :   if (allocatedPtrs_.count(ptrVal) == 0) {</span></span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :                        &quot;attempt to delete unallocated pointer&quot;);</span></span>
-<span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L96"><span class="lineNum">      96</span>              : </span>
-<span id="L97"><span class="lineNum">      97</span>              :   // Llamar a free(ptrVal)</span>
-<span id="L98"><span class="lineNum">      98</span> <span class="tlaUNC">           0 :   ensureMallocFreeDeclared();</span></span>
-<span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 :   builder_.CreateCall(freeFn_, {ptrVal});</span></span>
-<span id="L100"><span class="lineNum">     100</span>              : </span>
-<span id="L101"><span class="lineNum">     101</span>              :   // Quitar de la tabla</span>
-<span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :   allocatedPtrs_.erase(ptrVal);</span></span>
-<span id="L103"><span class="lineNum">     103</span>              : </span>
-<span id="L104"><span class="lineNum">     104</span>              :   // delete no produce valor</span>
-<span id="L105"><span class="lineNum">     105</span> <span class="tlaUNC">           0 :   return nullptr;</span></span>
-<span id="L106"><span class="lineNum">     106</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L107"><span class="lineNum">     107</span>              : </span>
-<span id="L108"><span class="lineNum">     108</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
-<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_DEREF *node) const noexcept {</span></span>
-<span id="L110"><span class="lineNum">     110</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
-<span id="L111"><span class="lineNum">     111</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_DEREF&quot;);</span></span>
+<span id="L79"><span class="lineNum">      79</span>              :   // Calcular tamaño en bytes con DataLayout</span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaUNC">           0 :   const llvm::DataLayout &amp;DL = module_-&gt;getDataLayout();</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaUNC">           0 :   uint64_t sizeBytes = DL.getTypeAllocSize(structTy);</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaUNC">           0 :   llvm::Value *sizeConst =</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaUNC">           0 :       llvm::ConstantInt::get(builder_.getInt64Ty(), sizeBytes);</span></span>
+<span id="L84"><span class="lineNum">      84</span>              : </span>
+<span id="L85"><span class="lineNum">      85</span>              :   // Llamar a malloc(sizeBytes)</span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaUNC">           0 :   llvm::CallInst *rawPtr =</span></span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaUNC">           0 :       builder_.CreateCall(mallocFn_, sizeConst, &quot;new_malloc&quot;); // devuelve i8*</span></span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span>              :   // Hacer bitcast de i8* a %A*</span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaUNC">           0 :   llvm::Value *typedPtr =</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaUNC">           0 :       builder_.CreateBitCast(rawPtr, structPtrTy,</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC">           0 :                              &quot;new_bitcast&quot;); // ahora typedPtr es %A*</span></span>
+<span id="L93"><span class="lineNum">      93</span>              : </span>
+<span id="L94"><span class="lineNum">      94</span>              :   // Generar parámetros del constructor (rvalues)</span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :   llvm::SmallVector&lt;llvm::Value *, 8&gt; callArgs;</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaUNC">           0 :   callArgs.push_back(typedPtr); // primer arg: 'this'</span></span>
+<span id="L97"><span class="lineNum">      97</span>              : </span>
+<span id="L98"><span class="lineNum">      98</span> <span class="tlaUNC">           0 :   for (auto &amp;argAST : ctorNode-&gt;parameters()) {</span></span>
+<span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 :     auto valOrErr = emitRValue(argAST.get());</span></span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 :     if (!valOrErr)</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :       return createError(valOrErr.error());</span></span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :     callArgs.push_back(*valOrErr);</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span>              :   // Llamar a la función manglada del constructor</span>
+<span id="L106"><span class="lineNum">     106</span> <span class="tlaUNC">           0 :   std::string ctorName = &quot;$_ctor_&quot; + ctorNode-&gt;id();</span></span>
+<span id="L107"><span class="lineNum">     107</span> <span class="tlaUNC">           0 :   llvm::Function *ctorFn = module_-&gt;getFunction(ctorName);</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC">           0 :   if (!ctorFn)</span></span>
+<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION, &quot;ctor not found: &quot; + ctorName);</span></span>
+<span id="L110"><span class="lineNum">     110</span>              : </span>
+<span id="L111"><span class="lineNum">     111</span> <span class="tlaUNC">           0 :   builder_.CreateCall(ctorFn, callArgs);</span></span>
 <span id="L112"><span class="lineNum">     112</span>              : </span>
-<span id="L113"><span class="lineNum">     113</span>              :   // Obtener rvalue del subnodo (una dirección)</span>
-<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Value *, Error&gt; ptrOrErr =</span></span>
-<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :       emitRValue(node-&gt;value().get());</span></span>
-<span id="L116"><span class="lineNum">     116</span> <span class="tlaUNC">           0 :   if (!ptrOrErr)</span></span>
-<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :     return createError(ptrOrErr.error());</span></span>
-<span id="L118"><span class="lineNum">     118</span> <span class="tlaUNC">           0 :   llvm::Value *addr = *ptrOrErr;</span></span>
+<span id="L113"><span class="lineNum">     113</span>              :   // Actualizar chaining y tipo resultante</span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = typedPtr;</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :   currentType = typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining</span></span>
+<span id="L116"><span class="lineNum">     116</span>              : </span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :   return typedPtr;</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L119"><span class="lineNum">     119</span>              : </span>
-<span id="L120"><span class="lineNum">     120</span>              :   // Para dereference en contexto de rvalue, cargamos la dirección:</span>
-<span id="L121"><span class="lineNum">     121</span>              :   //  Si quieres lvalue, usarías emitLValue en vez de accept aquí.</span>
-<span id="L122"><span class="lineNum">     122</span> <span class="tlaUNC">           0 :   std::expected&lt;llvm::Type *, Error&gt; pointeeTy =</span></span>
-<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 :       node-&gt;returnedFromTypeAnalysis()-&gt;llvmVersion(context_);</span></span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :   if (!pointeeTy) {</span></span>
-<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 :     return createError(pointeeTy.error());</span></span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :   llvm::Value *loaded = builder_.CreateLoad(*pointeeTy, addr, &quot;deref_load&quot;);</span></span>
-<span id="L128"><span class="lineNum">     128</span>              : </span>
-<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :   return loaded;</span></span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L131"><span class="lineNum">     131</span>              : </span>
-<span id="L132"><span class="lineNum">     132</span>              : } // namespace nicole</span>
+<span id="L120"><span class="lineNum">     120</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_DELETE *node) const noexcept {</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_DELETE&quot;);</span></span>
+<span id="L124"><span class="lineNum">     124</span>              : </span>
+<span id="L125"><span class="lineNum">     125</span>              :   // Obtener l-value (la dirección de la variable) para luegi asignarle null</span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :   auto addrOrErr = emitLValue(node-&gt;value().get());</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :   if (!addrOrErr)</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 :     return createError(addrOrErr.error());</span></span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :   llvm::Value *varAddr = *addrOrErr;  </span></span>
+<span id="L130"><span class="lineNum">     130</span>              : </span>
+<span id="L131"><span class="lineNum">     131</span>              :   // Evaluar el subnodo 'value' en modo rvalue: debe ser un puntero a liberar</span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :   auto ptrOrErr = emitRValue(node-&gt;value().get());</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :   if (!ptrOrErr)</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :     return createError(ptrOrErr.error());</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :   llvm::Value *ptrVal = *ptrOrErr; // esto es algo de tipo T*</span></span>
+<span id="L136"><span class="lineNum">     136</span>              : </span>
+<span id="L137"><span class="lineNum">     137</span>              :   // Asegurarnos de que free exista en el módulo</span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :   ensureMallocFreeDeclared();</span></span>
+<span id="L139"><span class="lineNum">     139</span>              : </span>
+<span id="L140"><span class="lineNum">     140</span>              :   // Hacer bitcast a i8* para pasar a free</span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :   llvm::Value *i8Ptr = builder_.CreateBitCast(</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :       ptrVal, llvm::Type::getInt8Ty(context_)-&gt;getPointerTo(),</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :       &quot;delete_bitcast&quot;);</span></span>
+<span id="L144"><span class="lineNum">     144</span>              : </span>
+<span id="L145"><span class="lineNum">     145</span>              :   // Llamar a free(i8*)</span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   builder_.CreateCall(freeFn_, i8Ptr);</span></span>
+<span id="L147"><span class="lineNum">     147</span>              : </span>
+<span id="L148"><span class="lineNum">     148</span>              :   // Ahora guardar un null del mismo tipo en la variable</span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaUNC">           0 :   llvm::PointerType *ptrTy = </span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :       llvm::cast&lt;llvm::PointerType&gt;(ptrVal-&gt;getType()); // T*</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :   llvm::Constant *nullConst = llvm::Constant::getNullValue(ptrTy);</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaUNC">           0 :   builder_.CreateStore(nullConst, varAddr);</span></span>
+<span id="L153"><span class="lineNum">     153</span>              : </span>
+<span id="L154"><span class="lineNum">     154</span>              :   // delete no retorna valor</span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :   return nullptr;</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L157"><span class="lineNum">     157</span>              : </span>
+<span id="L158"><span class="lineNum">     158</span>              : </span>
+<span id="L159"><span class="lineNum">     159</span>              : // ---------------------- AST_DEREF ----------------------</span>
+<span id="L160"><span class="lineNum">     160</span>              : std::expected&lt;llvm::Value *, Error&gt;</span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_DEREF *node) const noexcept {</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_DEREF&quot;);</span></span>
+<span id="L164"><span class="lineNum">     164</span>              : </span>
+<span id="L165"><span class="lineNum">     165</span>              :   // Obtener rvalue del puntero: debe ser un Value* que apunta a la dirección</span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :   auto ptrOrErr = emitRValue(node-&gt;value().get());</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :   if (!ptrOrErr)</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :     return createError(ptrOrErr.error());</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 :   llvm::Value *ptrVal = *ptrOrErr;</span></span>
+<span id="L170"><span class="lineNum">     170</span>              : </span>
+<span id="L171"><span class="lineNum">     171</span>              :   // Para un operador *p, devolvemos esa dirección como lvalue en chaining</span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = ptrVal;</span></span>
+<span id="L173"><span class="lineNum">     173</span>              : </span>
+<span id="L174"><span class="lineNum">     174</span>              :   // Ajustar currentType: si p era T*, el resultado de *p debe ser T</span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaUNC">           0 :   auto ptrType = node-&gt;value()-&gt;returnedFromTypeAnalysis();</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :   if (auto pt = std::dynamic_pointer_cast&lt;PointerType&gt;(ptrType)) {</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaUNC">           0 :     currentType = pt-&gt;baseType();</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :   } else {</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;base de deref no es PointerType&quot;);</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L181"><span class="lineNum">     181</span>              : </span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :   return ptrVal;</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L184"><span class="lineNum">     184</span>              : </span>
+<span id="L185"><span class="lineNum">     185</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-03 17:20:49</td>
+            <td class="headerValue">2025-06-09 23:15:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -79,18 +79,18 @@
 <span id="L17"><span class="lineNum">      17</span>              : public:</span>
 <span id="L18"><span class="lineNum">      18</span>              :   explicit Token(const TokenType &amp;type, const std::string &amp;raw,</span>
 <span id="L19"><span class="lineNum">      19</span>              :                  const Location &amp;loc) noexcept</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">         178 :       : type_{type}, raw_{raw}, loc_{loc} {};</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">          89 :       : type_{type}, raw_{raw}, loc_{loc} {};</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          46 :   [[nodiscard]] TokenType type() const noexcept { return type_; };</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          23 :   [[nodiscard]] TokenType type() const noexcept { return type_; };</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          28 :   [[nodiscard]] const std::string &amp;raw() const noexcept { return raw_; }</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          14 :   [[nodiscard]] const std::string &amp;raw() const noexcept { return raw_; }</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          22 :   [[nodiscard]] const Location &amp;location() const noexcept { return loc_; }</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          11 :   [[nodiscard]] const Location &amp;location() const noexcept { return loc_; }</span></span>
 <span id="L27"><span class="lineNum">      27</span>              : </span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :   [[nodiscard]] const std::string locInfo() const noexcept {</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           2 :     return loc_.file().string() + &quot; &quot; + std::to_string(loc_.row()) + ':' +</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           2 :            std::to_string(loc_.col());</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :   [[nodiscard]] const std::string locInfo() const noexcept {</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :     return loc_.file().string() + &quot; &quot; + std::to_string(loc_.row()) + ':' +</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           1 :            std::to_string(loc_.col());</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           1 :   }</span></span>
 <span id="L32"><span class="lineNum">      32</span>              : };</span>
 <span id="L33"><span class="lineNum">      33</span>              : </span>
 <span id="L34"><span class="lineNum">      34</span>              : } // namespace nicole</span>

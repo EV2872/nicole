@@ -6,27 +6,35 @@
 
 namespace nicole {
 
+// Arquitecturas soportadas
+enum class Arch { x86, x86_64, arm, aarch64 };
+
+// Sistemas operativos soportados
+enum class OS { Linux, MacOS, Windows };
+
 class Options final {
 private:
-  bool help_;
   bool optimize_;
   bool printTree_;
   bool printIR_;
   bool validateTree_;
   bool justInTime_;
+  bool useLLD_;
   std::string binaryName_;
   std::filesystem::path entryFilePath_;
+  Arch arch_;
+  OS os_;
 
 public:
-  explicit Options(const bool help, const bool optimize, const bool printTree,
-                   const bool printIR, const bool validateTree,
-                   const bool justInTime, const std::string &binaryName,
-                   const std::filesystem::path &entryFilePath) noexcept
-      : help_{help}, optimize_{optimize}, printTree_{printTree},
-        printIR_{printIR}, validateTree_{validateTree}, justInTime_{justInTime},
-        binaryName_{binaryName}, entryFilePath_{entryFilePath} {}
-
-  [[nodiscard]] bool help() const noexcept { return help_; }
+  explicit Options(bool optimize, bool printTree, bool printIR,
+                   bool validateTree, bool justInTime, bool useLLD,
+                   const std::string &binaryName,
+                   const std::filesystem::path &entryFilePath, Arch arch,
+                   OS os) noexcept
+      : optimize_{optimize}, printTree_{printTree}, printIR_{printIR},
+        validateTree_{validateTree}, justInTime_{justInTime}, useLLD_{useLLD},
+        binaryName_{binaryName}, entryFilePath_{entryFilePath}, arch_{arch},
+        os_{os} {}
 
   [[nodiscard]] bool optimize() const noexcept { return optimize_; }
 
@@ -38,6 +46,8 @@ public:
 
   [[nodiscard]] bool justInTime() const noexcept { return justInTime_; }
 
+  [[nodiscard]] bool useLLD() const noexcept { return useLLD_; }
+
   [[nodiscard]] const std::string &binaryName() const noexcept {
     return binaryName_;
   }
@@ -46,43 +56,11 @@ public:
     return entryFilePath_;
   }
 
-  void helper() noexcept {
-    std::cout
-        << "Usage \n"
-           "From the parent directory, run:\n"
-           "\t./nicole.sh [[options] input_file] | "
-           "-t Where input_file is the main program file with the "
-           ".nc extension(e.g., helloWorld.nc).\n\n"
-           "Options can appear in any position except -n, "
-           "which must be followed by the output file name.\n\n"
-           "\t-h | --help --> Displays a brief description of how to use the "
-           "compiler.\n\n"
-           "\t-v | --validate --> Forces the program to follow certain "
-           "validation "
-           "rules (recommended).\n\n"
-           "\t-o | --optimize --> Performs optimizations on the generated "
-           "code.\n\n"
-           "\t-n | --name output_file --> Allows specifying the name of the "
-           "output "
-           "file (default is a.out).\n\n"
-           "\t-p | --printTree --> Prints the Abstract Syntax Tree (AST) in a "
-           "directory-like structure.\n\n"
-           "\t-i | --printIR --> Prints the generated Intermediate "
-           "Representation "
-           "(IR) code.\n\n"
-           "\t-t --> Executes the tests of the compiler, also to run the tests "
-           "no "
-           "other argument but -t can be passed to the script.\n\n"
-           "Usage Examples:\n"
-           "\t- Compile a file with optimization and validation, specifying "
-           "the "
-           "output executable name:\n"
-           "      ./nicole.sh -v -o -n program_out helloWorld.nc\n\n"
-           "\t- Generate the AST and intermediate code without optimization :\n"
-           "      ./nicole.sh -p -i helloWorld.nc\n";
-  }
+  [[nodiscard]] Arch arch() const noexcept { return arch_; }
+
+  [[nodiscard]] OS os() const noexcept { return os_; }
 };
 
 } // namespace nicole
 
-#endif
+#endif // OPTIONS_H

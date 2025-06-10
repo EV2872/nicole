@@ -75,7 +75,7 @@ CodeGeneration::visit(const AST_PRINT *node) const noexcept {
 
   // Llamar a printParameters (sin cambios respecto a tu código)
   std::vector<std::pair<llvm::Value *, std::string>> paramsAndFormats =
-      printParameters(values, context_, builder_);
+      printParameters(values, *context_, builder_);
 
   // Concatenar el formato completo y preparar los argumentos
   std::string fullFormatStr;
@@ -88,10 +88,10 @@ CodeGeneration::visit(const AST_PRINT *node) const noexcept {
   }
 
   // Obtener/declarar printf con getOrInsertFunction
-  llvm::Type *i8Ty = llvm::Type::getInt8Ty(context_);
+  llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
   llvm::Type *i8PtrTy = i8Ty->getPointerTo(0);
   llvm::FunctionType *printfTy = llvm::FunctionType::get(
-      llvm::Type::getInt32Ty(context_), {i8PtrTy}, /*isVarArg=*/true);
+      llvm::Type::getInt32Ty(*context_), {i8PtrTy}, /*isVarArg=*/true);
   llvm::FunctionCallee printfFn =
       module_->getOrInsertFunction("printf", printfTy);
 

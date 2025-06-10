@@ -21,13 +21,13 @@ CodeGeneration::visit(const AST_WHILE *node) const noexcept {
   std::string id = std::to_string(node->nodeId());
   // Bloque para la condición
   llvm::BasicBlock *condBB =
-      llvm::BasicBlock::Create(context_, "while_cond" + id, parent);
+      llvm::BasicBlock::Create(*context_, "while_cond" + id, parent);
   // Bloque para el cuerpo
   llvm::BasicBlock *bodyBB =
-      llvm::BasicBlock::Create(context_, "while_body" + id, parent);
+      llvm::BasicBlock::Create(*context_, "while_body" + id, parent);
   // Bloque de salida
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "while_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "while_merge" + id, parent);
 
   // Salto inicial a la condición
   builder_.CreateBr(condBB);
@@ -83,13 +83,13 @@ CodeGeneration::visit(const AST_FOR *node) const noexcept {
   llvm::Function *parent = builder_.GetInsertBlock()->getParent();
   std::string id = std::to_string(node->nodeId());
   llvm::BasicBlock *condBB =
-      llvm::BasicBlock::Create(context_, "for_cond" + id, parent);
+      llvm::BasicBlock::Create(*context_, "for_cond" + id, parent);
   llvm::BasicBlock *bodyBB =
-      llvm::BasicBlock::Create(context_, "for_body" + id, parent);
+      llvm::BasicBlock::Create(*context_, "for_body" + id, parent);
   llvm::BasicBlock *updateBB =
-      llvm::BasicBlock::Create(context_, "for_update" + id, parent);
+      llvm::BasicBlock::Create(*context_, "for_update" + id, parent);
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "for_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "for_merge" + id, parent);
 
   // Primer salto a la condición
   builder_.CreateBr(condBB);
@@ -147,13 +147,13 @@ CodeGeneration::visit(const AST_DO_WHILE *node) const noexcept {
   std::string id = std::to_string(node->nodeId());
   // Bloque para el cuerpo (se ejecuta primero)
   llvm::BasicBlock *bodyBB =
-      llvm::BasicBlock::Create(context_, "dowhile_body" + id, parent);
+      llvm::BasicBlock::Create(*context_, "dowhile_body" + id, parent);
   // Bloque para la condición
   llvm::BasicBlock *condBB =
-      llvm::BasicBlock::Create(context_, "dowhile_cond" + id, parent);
+      llvm::BasicBlock::Create(*context_, "dowhile_cond" + id, parent);
   // Bloque de salida
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "dowhile_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "dowhile_merge" + id, parent);
 
   // Salto inicial al cuerpo
   builder_.CreateBr(bodyBB);

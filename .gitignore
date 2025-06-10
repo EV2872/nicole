@@ -2,11 +2,16 @@
 build/
 .cache/
 _deps/
+version/
+generate/
+vscode-nicole/
 Testing/
 CMakeFiles/
 cmake_install.cmake
 CMakeCache.txt
 CTestTestfile.cmake
 DartConfiguration.tcl
+settings.json
+compile_commands.json
 tests*
 .vscode/

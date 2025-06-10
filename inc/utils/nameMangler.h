@@ -10,7 +10,7 @@
 
 namespace nicole {
 
-class NameMangler {
+class NameMangler final {
 private:
   inline static std::string prefix_;
 

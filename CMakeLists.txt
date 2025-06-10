@@ -19,6 +19,23 @@ if(NOT DEFINED CMAKE_CXX_COMPILER)
     endif()
 endif()
 
+# Obtener la versión desde git
+execute_process(
+    COMMAND git describe --tags --always
+    OUTPUT_VARIABLE GIT_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Generar version.h desde version.h.in
+configure_file(
+    ${CMAKE_SOURCE_DIR}/version/version.h.in
+    ${CMAKE_BINARY_DIR}/generate/version.h
+    @ONLY
+)
+ 
+# Incluir la carpeta donde se generó version.h
+include_directories(${CMAKE_BINARY_DIR}/generate)
+
 project(MyProject LANGUAGES CXX)
 
 # Configurar ccache (si está instalado)
@@ -233,6 +250,10 @@ add_executable(tests
 
     # compiler
     src/compiler/nicole.cc
+    src/compiler/optimizer.cc
+    src/compiler/jitEngine.cc
+    src/compiler/linker.cc
+    src/compiler/targetGenerator.cc
 
     # utils
     src/utils/nameMangler.cc
@@ -435,6 +456,10 @@ set(SRC_FILES
     src/visitors/codeGeneration/codeGenVector.cc
 
     src/compiler/nicole.cc
+    src/compiler/optimizer.cc
+    src/compiler/jitEngine.cc
+    src/compiler/linker.cc
+    src/compiler/targetGenerator.cc
 
     # utils
     src/utils/nameMangler.cc

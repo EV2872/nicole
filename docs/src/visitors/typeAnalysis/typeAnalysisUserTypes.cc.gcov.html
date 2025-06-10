@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">342</td>
+            <td class="headerCovTableEntry">387</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-03 17:20:49</td>
+            <td class="headerValue">2025-06-09 23:15:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -305,224 +305,281 @@
 <span id="L243"><span class="lineNum">     243</span> <span class="tlaUNC">           0 :         mergeGenericLists(currentStructGenericList_, node-&gt;generics());</span></span>
 <span id="L244"><span class="lineNum">     244</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L245"><span class="lineNum">     245</span>              : </span>
-<span id="L246"><span class="lineNum">     246</span> <span class="tlaUNC">           0 :   auto bodyRes = node-&gt;body()-&gt;accept(*this);</span></span>
-<span id="L247"><span class="lineNum">     247</span> <span class="tlaUNC">           0 :   if (!bodyRes)</span></span>
-<span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC">           0 :     return createError(bodyRes.error());</span></span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :   auto bodyType = bodyRes.value();</span></span>
+<span id="L246"><span class="lineNum">     246</span>              :   // como los parametros de super necesitan saber el scope del constructor</span>
+<span id="L247"><span class="lineNum">     247</span>              :   // aparte de en body tambien hacemos push y pop aqui</span>
+<span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC">           0 :   auto oldScope = currentScope_;</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :   currentScope_ = node-&gt;body()-&gt;scope();</span></span>
 <span id="L250"><span class="lineNum">     250</span>              : </span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaUNC">           0 :   if (!typeTable_-&gt;areSameType(bodyType, typeTable_-&gt;noPropagateType()) &amp;&amp;</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaUNC">           0 :       !typeTable_-&gt;areSameType(bodyType, typeTable_-&gt;breakType()))</span></span>
-<span id="L253"><span class="lineNum">     253</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L254"><span class="lineNum">     254</span> <span class="tlaUNC">           0 :                        &quot;constructor body must not return a value&quot;);</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaUNC">           0 :   if (node-&gt;super()) {</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaUNC">           0 :     if (auto superOrErr = node-&gt;super()-&gt;accept(*this); !superOrErr)</span></span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaUNC">           0 :       return createError(superOrErr.error());</span></span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L255"><span class="lineNum">     255</span>              : </span>
-<span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC">           0 :   insideDeclWithGenerics = false;</span></span>
-<span id="L257"><span class="lineNum">     257</span> <span class="tlaUNC">           0 :   currentGenericList_.clear();</span></span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(typeTable_-&gt;noPropagateType());</span></span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :   return typeTable_-&gt;noPropagateType();</span></span>
-<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L261"><span class="lineNum">     261</span>              : </span>
-<span id="L262"><span class="lineNum">     262</span>              : /*</span>
-<span id="L263"><span class="lineNum">     263</span>              : - retorna el tipo del padre</span>
-<span id="L264"><span class="lineNum">     264</span>              : - comprobar generics y argumentos</span>
-<span id="L265"><span class="lineNum">     265</span>              : */</span>
-<span id="L266"><span class="lineNum">     266</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_SUPER *node) const noexcept {</span></span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L269"><span class="lineNum">     269</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_SUPER&quot;);</span></span>
-<span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L271"><span class="lineNum">     271</span> <span class="tlaUNC">           0 :   for (const auto &amp;arg : node-&gt;arguments()) {</span></span>
-<span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 :     auto res = arg-&gt;accept(*this);</span></span>
-<span id="L273"><span class="lineNum">     273</span> <span class="tlaUNC">           0 :     if (!res)</span></span>
-<span id="L274"><span class="lineNum">     274</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
-<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L276"><span class="lineNum">     276</span>              : </span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC">           0 :   std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; processedReplacements;</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :   for (const auto &amp;rep : node-&gt;replacements()) {</span></span>
-<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 :     std::shared_ptr&lt;Type&gt; proc = rep;</span></span>
-<span id="L280"><span class="lineNum">     280</span>              :     /*</span>
-<span id="L281"><span class="lineNum">     281</span>              :     if (insideDeclWithGenerics &amp;&amp;</span>
-<span id="L282"><span class="lineNum">     282</span>              :         typeTable_-&gt;isGenericType(rep, currentGenericList_))</span>
-<span id="L283"><span class="lineNum">     283</span>              :       proc = std::make_shared&lt;PlaceHolder&gt;(rep);</span>
-<span id="L284"><span class="lineNum">     284</span>              :     */</span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 :     processedReplacements.push_back(proc);</span></span>
-<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L287"><span class="lineNum">     287</span>              : </span>
-<span id="L288"><span class="lineNum">     288</span> <span class="tlaUNC">           0 :   auto fatherType = node-&gt;fatherType();</span></span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :   if (!fatherType)</span></span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :                        &quot;father type not specified in super call&quot;);</span></span>
-<span id="L292"><span class="lineNum">     292</span>              : </span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :   if (!processedReplacements.empty()) {</span></span>
-<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :     auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(fatherType);</span></span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :     if (!userType)</span></span>
-<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :       return createError(</span></span>
-<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
-<span id="L298"><span class="lineNum">     298</span> <span class="tlaUNC">           0 :           &quot;father type in super call must be a user-defined type&quot;);</span></span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :     const auto instance{</span></span>
-<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :         std::make_shared&lt;GenericInstanceType&gt;(userType, processedReplacements)};</span></span>
-<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(instance);</span></span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :     return instance;</span></span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC">           0 :   auto bodyRes = node-&gt;body()-&gt;accept(*this);</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaUNC">           0 :   if (!bodyRes)</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC">           0 :     return createError(bodyRes.error());</span></span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :   auto bodyType = bodyRes.value();</span></span>
+<span id="L260"><span class="lineNum">     260</span>              : </span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :   if (!typeTable_-&gt;areSameType(bodyType, typeTable_-&gt;noPropagateType()) &amp;&amp;</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaUNC">           0 :       !typeTable_-&gt;areSameType(bodyType, typeTable_-&gt;breakType()))</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :                        &quot;constructor body must not return a value&quot;);</span></span>
+<span id="L265"><span class="lineNum">     265</span>              : </span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaUNC">           0 :   currentScope_ = oldScope;</span></span>
+<span id="L267"><span class="lineNum">     267</span>              : </span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :   insideDeclWithGenerics = false;</span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaUNC">           0 :   currentGenericList_.clear();</span></span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(typeTable_-&gt;noPropagateType());</span></span>
+<span id="L271"><span class="lineNum">     271</span> <span class="tlaUNC">           0 :   return typeTable_-&gt;noPropagateType();</span></span>
+<span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L273"><span class="lineNum">     273</span>              : </span>
+<span id="L274"><span class="lineNum">     274</span>              : /*</span>
+<span id="L275"><span class="lineNum">     275</span>              : - retorna el tipo del padre</span>
+<span id="L276"><span class="lineNum">     276</span>              : - comprobar generics y argumentos</span>
+<span id="L277"><span class="lineNum">     277</span>              : */</span>
+<span id="L278"><span class="lineNum">     278</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_SUPER *node) const noexcept {</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_SUPER&quot;);</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L283"><span class="lineNum">     283</span>              : </span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaUNC">           0 :   auto fatherTypeInfo{std::dynamic_pointer_cast&lt;UserType&gt;(node-&gt;fatherType())};</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 :   if (!fatherTypeInfo) {</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;ill-formed super node father type&quot;);</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L288"><span class="lineNum">     288</span> <span class="tlaUNC">           0 :   const auto realFatherType{typeTable_-&gt;getType(fatherTypeInfo-&gt;name())};</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :   if (!realFatherType) {</span></span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :     return createError(realFatherType.error());</span></span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :   const auto conversionType{std::dynamic_pointer_cast&lt;UserType&gt;(*realFatherType)};</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :   const auto fatherConstructor{conversionType-&gt;constructor()};</span></span>
+<span id="L294"><span class="lineNum">     294</span>              : </span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :   if (!fatherConstructor) {</span></span>
+<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;ill-formed super node father type&quot;);</span></span>
+<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L298"><span class="lineNum">     298</span>              : </span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;generics().size() != node-&gt;replacements().size()) {</span></span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :                        &quot;there is a mismatch between the &quot;</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :                        &quot;number of generics in super and the constructor decl&quot;);</span></span>
 <span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 :   const auto result{typeTable_-&gt;getType(fatherType-&gt;toString())};</span></span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :   if (!result) {</span></span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :     return createError(result.error());</span></span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(*result);</span></span>
-<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :   return result;</span></span>
-<span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L304"><span class="lineNum">     304</span>              : </span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;params().size() != node-&gt;arguments().size()) {</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :     return createError(</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaUNC">           0 :         ERROR_TYPE::TYPE,</span></span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaUNC">           0 :         &quot;there is a mismatch between the &quot;</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :         &quot;number of arguments in super and the constructor decl&quot;);</span></span>
+<span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L311"><span class="lineNum">     311</span>              : </span>
-<span id="L312"><span class="lineNum">     312</span>              : /*</span>
-<span id="L313"><span class="lineNum">     313</span>              : - comprobar body</span>
-<span id="L314"><span class="lineNum">     314</span>              : - retorna NoPropagate</span>
-<span id="L315"><span class="lineNum">     315</span>              : */</span>
-<span id="L316"><span class="lineNum">     316</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L317"><span class="lineNum">     317</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {</span></span>
-<span id="L318"><span class="lineNum">     318</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_DESTRUCTOR_DECL&quot;);</span></span>
-<span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L321"><span class="lineNum">     321</span> <span class="tlaUNC">           0 :   const auto body{node-&gt;body()-&gt;accept(*this)};</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaUNC">           0 :   if (!body) {</span></span>
-<span id="L323"><span class="lineNum">     323</span> <span class="tlaUNC">           0 :     return createError(body.error());</span></span>
-<span id="L324"><span class="lineNum">     324</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(typeTable_-&gt;noPropagateType());</span></span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaUNC">           0 :   return typeTable_-&gt;noPropagateType();</span></span>
-<span id="L327"><span class="lineNum">     327</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L328"><span class="lineNum">     328</span>              : </span>
-<span id="L329"><span class="lineNum">     329</span>              : /*</span>
-<span id="L330"><span class="lineNum">     330</span>              : - retorna el tipo de la clase envuelto en un puntero const?</span>
-<span id="L331"><span class="lineNum">     331</span>              : */</span>
-<span id="L332"><span class="lineNum">     332</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L333"><span class="lineNum">     333</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_THIS *node) const noexcept {</span></span>
-<span id="L334"><span class="lineNum">     334</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
-<span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_THIS&quot;);</span></span>
-<span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L337"><span class="lineNum">     337</span> <span class="tlaUNC">           0 :   if (!node-&gt;userType())</span></span>
-<span id="L338"><span class="lineNum">     338</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;user type not set for 'this'&quot;);</span></span>
-<span id="L339"><span class="lineNum">     339</span>              : </span>
-<span id="L340"><span class="lineNum">     340</span> <span class="tlaUNC">           0 :   auto typeFromTable = typeTable_-&gt;getType(node-&gt;userType()-&gt;name());</span></span>
-<span id="L341"><span class="lineNum">     341</span> <span class="tlaUNC">           0 :   if (!typeFromTable)</span></span>
-<span id="L342"><span class="lineNum">     342</span> <span class="tlaUNC">           0 :     return createError(typeFromTable.error());</span></span>
-<span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 :   auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(*typeFromTable);</span></span>
-<span id="L344"><span class="lineNum">     344</span> <span class="tlaUNC">           0 :   if (!userType)</span></span>
-<span id="L345"><span class="lineNum">     345</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L346"><span class="lineNum">     346</span> <span class="tlaUNC">           0 :                        &quot;'this' must refer to a user-defined type&quot;);</span></span>
-<span id="L347"><span class="lineNum">     347</span>              : </span>
-<span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :   auto constType =</span></span>
-<span id="L349"><span class="lineNum">     349</span> <span class="tlaUNC">           0 :       std::make_shared&lt;ConstType&gt;(std::make_shared&lt;PointerType&gt;(userType));</span></span>
-<span id="L350"><span class="lineNum">     350</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(constType);</span></span>
-<span id="L351"><span class="lineNum">     351</span> <span class="tlaUNC">           0 :   return std::make_shared&lt;ConstType&gt;(constType);</span></span>
-<span id="L352"><span class="lineNum">     352</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L353"><span class="lineNum">     353</span>              : </span>
-<span id="L354"><span class="lineNum">     354</span>              : /*</span>
-<span id="L355"><span class="lineNum">     355</span>              : - comprueba generics</span>
-<span id="L356"><span class="lineNum">     356</span>              : - comprueba argumentos</span>
-<span id="L357"><span class="lineNum">     357</span>              : - comprueba body</span>
-<span id="L358"><span class="lineNum">     358</span>              : */</span>
-<span id="L359"><span class="lineNum">     359</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L360"><span class="lineNum">     360</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {</span></span>
-<span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
-<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_CONSTRUCTOR_CALL&quot;);</span></span>
-<span id="L363"><span class="lineNum">     363</span>              : </span>
-<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :   auto tempUserType = std::make_shared&lt;UserType&gt;(</span></span>
-<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :       node-&gt;id(), nullptr, std::vector&lt;GenericParameter&gt;{});</span></span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :   if (insideDeclWithGenerics &amp;&amp;</span></span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :       typeTable_-&gt;isGenericType(tempUserType, currentGenericList_)) {</span></span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :     if (!node-&gt;replaceOfGenerics().empty()) {</span></span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :       std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; genericArgs;</span></span>
-<span id="L370"><span class="lineNum">     370</span> <span class="tlaUNC">           0 :       for (const auto &amp;gen : node-&gt;replaceOfGenerics()) {</span></span>
-<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :         if (insideDeclWithGenerics &amp;&amp;</span></span>
-<span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC">           0 :             typeTable_-&gt;isGenericType(gen, currentGenericList_)) {</span></span>
-<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :           genericArgs.push_back(gen);</span></span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :         } else</span></span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :           genericArgs.push_back(gen);</span></span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :       }</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :       const auto instance{</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :           std::make_shared&lt;GenericInstanceType&gt;(tempUserType, genericArgs)};</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :       currentType_ = instance;</span></span>
-<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :       node-&gt;setReturnedFromAnalysis(instance);</span></span>
-<span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :       return instance;</span></span>
-<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :     } else {</span></span>
-<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :       currentType_ = tempUserType;</span></span>
-<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 :       node-&gt;setReturnedFromAnalysis(tempUserType);</span></span>
-<span id="L385"><span class="lineNum">     385</span> <span class="tlaUNC">           0 :       return tempUserType;</span></span>
-<span id="L386"><span class="lineNum">     386</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L387"><span class="lineNum">     387</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L388"><span class="lineNum">     388</span>              : </span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaUNC">           0 :   std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; argTypes;</span></span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :   for (const auto &amp;expr : node-&gt;parameters()) {</span></span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :     auto res = expr-&gt;accept(*this);</span></span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :     if (!res)</span></span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :     argTypes.push_back(res.value());</span></span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L312"><span class="lineNum">     312</span> <span class="tlaUNC">           0 :   const auto fatherCtrParameters{fatherConstructor-&gt;params()};</span></span>
+<span id="L313"><span class="lineNum">     313</span> <span class="tlaUNC">           0 :   const auto superArguments{node-&gt;arguments()};</span></span>
+<span id="L314"><span class="lineNum">     314</span>              : </span>
+<span id="L315"><span class="lineNum">     315</span> <span class="tlaUNC">           0 :   for (const auto &amp;arg : node-&gt;arguments()) {</span></span>
+<span id="L316"><span class="lineNum">     316</span> <span class="tlaUNC">           0 :     auto res = arg-&gt;accept(*this);</span></span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaUNC">           0 :     if (!res)</span></span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L320"><span class="lineNum">     320</span>              : </span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaUNC">           0 :   for (size_t i{0}; i &lt; superArguments.size(); ++i) {</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaUNC">           0 :     auto res = superArguments[i]-&gt;accept(*this);</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaUNC">           0 :     if (!res)</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC">           0 :     if (!typeTable_-&gt;canAssign(fatherCtrParameters.params()[i].second, *res)) {</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaUNC">           0 :       return createError(</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaUNC">           0 :           &quot;function body return type does not match declared return type -&gt; &quot; +</span></span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaUNC">           0 :               fatherCtrParameters.params()[i].second-&gt;toString() + &quot; | &quot; +</span></span>
+<span id="L330"><span class="lineNum">     330</span> <span class="tlaUNC">           0 :               res.value()-&gt;toString());</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L333"><span class="lineNum">     333</span>              : </span>
+<span id="L334"><span class="lineNum">     334</span> <span class="tlaUNC">           0 :   std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; processedReplacements;</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC">           0 :   for (const auto &amp;rep : node-&gt;replacements()) {</span></span>
+<span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :     std::shared_ptr&lt;Type&gt; proc = rep;</span></span>
+<span id="L337"><span class="lineNum">     337</span>              :     /*</span>
+<span id="L338"><span class="lineNum">     338</span>              :     if (insideDeclWithGenerics &amp;&amp;</span>
+<span id="L339"><span class="lineNum">     339</span>              :         typeTable_-&gt;isGenericType(rep, currentGenericList_))</span>
+<span id="L340"><span class="lineNum">     340</span>              :       proc = std::make_shared&lt;PlaceHolder&gt;(rep);</span>
+<span id="L341"><span class="lineNum">     341</span>              :     */</span>
+<span id="L342"><span class="lineNum">     342</span> <span class="tlaUNC">           0 :     processedReplacements.push_back(proc);</span></span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L344"><span class="lineNum">     344</span>              : </span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaUNC">           0 :   auto fatherType = node-&gt;fatherType();</span></span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaUNC">           0 :   if (!fatherType)</span></span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :                        &quot;father type not specified in super call&quot;);</span></span>
+<span id="L349"><span class="lineNum">     349</span>              : </span>
+<span id="L350"><span class="lineNum">     350</span> <span class="tlaUNC">           0 :   if (!processedReplacements.empty()) {</span></span>
+<span id="L351"><span class="lineNum">     351</span> <span class="tlaUNC">           0 :     auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(fatherType);</span></span>
+<span id="L352"><span class="lineNum">     352</span> <span class="tlaUNC">           0 :     if (!userType)</span></span>
+<span id="L353"><span class="lineNum">     353</span> <span class="tlaUNC">           0 :       return createError(</span></span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaUNC">           0 :           &quot;father type in super call must be a user-defined type&quot;);</span></span>
+<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 :     const auto instance{</span></span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 :         std::make_shared&lt;GenericInstanceType&gt;(userType, processedReplacements)};</span></span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(instance);</span></span>
+<span id="L359"><span class="lineNum">     359</span> <span class="tlaUNC">           0 :     return instance;</span></span>
+<span id="L360"><span class="lineNum">     360</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 :   const auto result{typeTable_-&gt;getType(fatherType-&gt;toString())};</span></span>
+<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :   if (!result) {</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :     return createError(result.error());</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(*result);</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :   return result;</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L368"><span class="lineNum">     368</span>              : </span>
+<span id="L369"><span class="lineNum">     369</span>              : /*</span>
+<span id="L370"><span class="lineNum">     370</span>              : - comprobar body</span>
+<span id="L371"><span class="lineNum">     371</span>              : - retorna NoPropagate</span>
+<span id="L372"><span class="lineNum">     372</span>              : */</span>
+<span id="L373"><span class="lineNum">     373</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_DESTRUCTOR_DECL&quot;);</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaUNC">           0 :   const auto body{node-&gt;body()-&gt;accept(*this)};</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaUNC">           0 :   if (!body) {</span></span>
+<span id="L380"><span class="lineNum">     380</span> <span class="tlaUNC">           0 :     return createError(body.error());</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L382"><span class="lineNum">     382</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(typeTable_-&gt;noPropagateType());</span></span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaUNC">           0 :   return typeTable_-&gt;noPropagateType();</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L385"><span class="lineNum">     385</span>              : </span>
+<span id="L386"><span class="lineNum">     386</span>              : /*</span>
+<span id="L387"><span class="lineNum">     387</span>              : - retorna el tipo de la clase envuelto en un puntero const?</span>
+<span id="L388"><span class="lineNum">     388</span>              : */</span>
+<span id="L389"><span class="lineNum">     389</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_THIS *node) const noexcept {</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_THIS&quot;);</span></span>
+<span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaUNC">           0 :   if (!node-&gt;userType())</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;user type not set for 'this'&quot;);</span></span>
 <span id="L396"><span class="lineNum">     396</span>              : </span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :   auto baseTypeExp = typeTable_-&gt;getType(node-&gt;id());</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :   if (!baseTypeExp)</span></span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :     return createError(baseTypeExp.error());</span></span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :   auto baseType = baseTypeExp.value();</span></span>
-<span id="L401"><span class="lineNum">     401</span>              : </span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :   if (const auto enumType{std::dynamic_pointer_cast&lt;EnumType&gt;(baseType)}) {</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :     if (argTypes.size() != 1) {</span></span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :       return createError(</span></span>
-<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :           &quot;constructor call of a enum must have one argument of the same type&quot;);</span></span>
-<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :     if (!typeTable_-&gt;canAssign(enumType, argTypes[0])) {</span></span>
-<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 :       return createError(</span></span>
-<span id="L410"><span class="lineNum">     410</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
-<span id="L411"><span class="lineNum">     411</span> <span class="tlaUNC">           0 :           &quot;constructor call of a enum must have one argument of the same type&quot;);</span></span>
-<span id="L412"><span class="lineNum">     412</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(enumType);</span></span>
-<span id="L414"><span class="lineNum">     414</span> <span class="tlaUNC">           0 :     return enumType;</span></span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L416"><span class="lineNum">     416</span>              : </span>
-<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 :   auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(baseType);</span></span>
-<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :   if (!userType)</span></span>
-<span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaUNC">           0 :                        &quot;constructor call id must refer to a user-defined type&quot;);</span></span>
-<span id="L421"><span class="lineNum">     421</span>              : </span>
-<span id="L422"><span class="lineNum">     422</span> <span class="tlaUNC">           0 :   auto cons = userType-&gt;constructor();</span></span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :   if (!cons)</span></span>
-<span id="L424"><span class="lineNum">     424</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaUNC">           0 :                        &quot;no constructor defined for type: &quot; + userType-&gt;name());</span></span>
-<span id="L426"><span class="lineNum">     426</span>              : </span>
-<span id="L427"><span class="lineNum">     427</span> <span class="tlaUNC">           0 :   if (cons-&gt;params().size() != argTypes.size())</span></span>
-<span id="L428"><span class="lineNum">     428</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
-<span id="L429"><span class="lineNum">     429</span> <span class="tlaUNC">           0 :                        &quot;constructor parameter count mismatch for type: &quot; +</span></span>
-<span id="L430"><span class="lineNum">     430</span> <span class="tlaUNC">           0 :                            userType-&gt;name());</span></span>
-<span id="L431"><span class="lineNum">     431</span>              : </span>
-<span id="L432"><span class="lineNum">     432</span> <span class="tlaUNC">           0 :   const auto &amp;consParams = cons-&gt;params().params();</span></span>
-<span id="L433"><span class="lineNum">     433</span> <span class="tlaUNC">           0 :   for (size_t i = 0; i &lt; consParams.size(); ++i) {</span></span>
-<span id="L434"><span class="lineNum">     434</span> <span class="tlaUNC">           0 :     auto paramType = consParams[i].second;</span></span>
-<span id="L435"><span class="lineNum">     435</span> <span class="tlaUNC">           0 :     auto argType = argTypes[i];</span></span>
-<span id="L436"><span class="lineNum">     436</span> <span class="tlaUNC">           0 :     if (!typeTable_-&gt;canAssign(paramType, argType))</span></span>
-<span id="L437"><span class="lineNum">     437</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L438"><span class="lineNum">     438</span> <span class="tlaUNC">           0 :                          &quot;argument &quot; + std::to_string(i) +</span></span>
-<span id="L439"><span class="lineNum">     439</span> <span class="tlaUNC">           0 :                              &quot; type mismatch in constructor call for type: &quot; +</span></span>
-<span id="L440"><span class="lineNum">     440</span> <span class="tlaUNC">           0 :                              userType-&gt;name());</span></span>
-<span id="L441"><span class="lineNum">     441</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L442"><span class="lineNum">     442</span>              : </span>
-<span id="L443"><span class="lineNum">     443</span> <span class="tlaUNC">           0 :   if (!node-&gt;replaceOfGenerics().empty()) {</span></span>
-<span id="L444"><span class="lineNum">     444</span> <span class="tlaUNC">           0 :     std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; genericArgs;</span></span>
-<span id="L445"><span class="lineNum">     445</span> <span class="tlaUNC">           0 :     for (const auto &amp;gen : node-&gt;replaceOfGenerics()) {</span></span>
-<span id="L446"><span class="lineNum">     446</span> <span class="tlaUNC">           0 :       if (insideDeclWithGenerics &amp;&amp;</span></span>
-<span id="L447"><span class="lineNum">     447</span> <span class="tlaUNC">           0 :           typeTable_-&gt;isGenericType(gen, currentGenericList_)) {</span></span>
-<span id="L448"><span class="lineNum">     448</span> <span class="tlaUNC">           0 :         genericArgs.push_back(gen);</span></span>
-<span id="L449"><span class="lineNum">     449</span> <span class="tlaUNC">           0 :       } else</span></span>
-<span id="L450"><span class="lineNum">     450</span> <span class="tlaUNC">           0 :         genericArgs.push_back(gen);</span></span>
-<span id="L451"><span class="lineNum">     451</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L452"><span class="lineNum">     452</span> <span class="tlaUNC">           0 :     const auto instance{</span></span>
-<span id="L453"><span class="lineNum">     453</span> <span class="tlaUNC">           0 :         std::make_shared&lt;GenericInstanceType&gt;(userType, genericArgs)};</span></span>
-<span id="L454"><span class="lineNum">     454</span> <span class="tlaUNC">           0 :     currentType_ = instance;</span></span>
-<span id="L455"><span class="lineNum">     455</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(instance);</span></span>
-<span id="L456"><span class="lineNum">     456</span> <span class="tlaUNC">           0 :     return instance;</span></span>
-<span id="L457"><span class="lineNum">     457</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L458"><span class="lineNum">     458</span> <span class="tlaUNC">           0 :   currentType_ = userType;</span></span>
-<span id="L459"><span class="lineNum">     459</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(userType);</span></span>
-<span id="L460"><span class="lineNum">     460</span> <span class="tlaUNC">           0 :   return userType;</span></span>
-<span id="L461"><span class="lineNum">     461</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L462"><span class="lineNum">     462</span>              : </span>
-<span id="L463"><span class="lineNum">     463</span>              : } // namespace nicole</span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaUNC">           0 :   auto typeFromTable = typeTable_-&gt;getType(node-&gt;userType()-&gt;name());</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaUNC">           0 :   if (!typeFromTable)</span></span>
+<span id="L399"><span class="lineNum">     399</span> <span class="tlaUNC">           0 :     return createError(typeFromTable.error());</span></span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaUNC">           0 :   auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(*typeFromTable);</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaUNC">           0 :   if (!userType)</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC">           0 :                        &quot;'this' must refer to a user-defined type&quot;);</span></span>
+<span id="L404"><span class="lineNum">     404</span>              : </span>
+<span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :   auto constType =</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :       std::make_shared&lt;ConstType&gt;(std::make_shared&lt;PointerType&gt;(userType));</span></span>
+<span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(constType);</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :   return std::make_shared&lt;ConstType&gt;(constType);</span></span>
+<span id="L409"><span class="lineNum">     409</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L410"><span class="lineNum">     410</span>              : </span>
+<span id="L411"><span class="lineNum">     411</span>              : /*</span>
+<span id="L412"><span class="lineNum">     412</span>              : - comprueba generics</span>
+<span id="L413"><span class="lineNum">     413</span>              : - comprueba argumentos</span>
+<span id="L414"><span class="lineNum">     414</span>              : - comprueba body</span>
+<span id="L415"><span class="lineNum">     415</span>              : */</span>
+<span id="L416"><span class="lineNum">     416</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_CONSTRUCTOR_CALL&quot;);</span></span>
+<span id="L420"><span class="lineNum">     420</span>              : </span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaUNC">           0 :   auto tempUserType = std::make_shared&lt;UserType&gt;(</span></span>
+<span id="L422"><span class="lineNum">     422</span> <span class="tlaUNC">           0 :       node-&gt;id(), nullptr, std::vector&lt;GenericParameter&gt;{});</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaUNC">           0 :   if (insideDeclWithGenerics &amp;&amp;</span></span>
+<span id="L424"><span class="lineNum">     424</span> <span class="tlaUNC">           0 :       typeTable_-&gt;isGenericType(tempUserType, currentGenericList_)) {</span></span>
+<span id="L425"><span class="lineNum">     425</span> <span class="tlaUNC">           0 :     if (!node-&gt;replaceOfGenerics().empty()) {</span></span>
+<span id="L426"><span class="lineNum">     426</span> <span class="tlaUNC">           0 :       std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; genericArgs;</span></span>
+<span id="L427"><span class="lineNum">     427</span> <span class="tlaUNC">           0 :       for (const auto &amp;gen : node-&gt;replaceOfGenerics()) {</span></span>
+<span id="L428"><span class="lineNum">     428</span> <span class="tlaUNC">           0 :         if (insideDeclWithGenerics &amp;&amp;</span></span>
+<span id="L429"><span class="lineNum">     429</span> <span class="tlaUNC">           0 :             typeTable_-&gt;isGenericType(gen, currentGenericList_)) {</span></span>
+<span id="L430"><span class="lineNum">     430</span> <span class="tlaUNC">           0 :           genericArgs.push_back(gen);</span></span>
+<span id="L431"><span class="lineNum">     431</span> <span class="tlaUNC">           0 :         } else</span></span>
+<span id="L432"><span class="lineNum">     432</span> <span class="tlaUNC">           0 :           genericArgs.push_back(gen);</span></span>
+<span id="L433"><span class="lineNum">     433</span> <span class="tlaUNC">           0 :       }</span></span>
+<span id="L434"><span class="lineNum">     434</span> <span class="tlaUNC">           0 :       const auto instance{</span></span>
+<span id="L435"><span class="lineNum">     435</span> <span class="tlaUNC">           0 :           std::make_shared&lt;GenericInstanceType&gt;(tempUserType, genericArgs)};</span></span>
+<span id="L436"><span class="lineNum">     436</span> <span class="tlaUNC">           0 :       currentType_ = instance;</span></span>
+<span id="L437"><span class="lineNum">     437</span> <span class="tlaUNC">           0 :       node-&gt;setReturnedFromAnalysis(instance);</span></span>
+<span id="L438"><span class="lineNum">     438</span> <span class="tlaUNC">           0 :       return instance;</span></span>
+<span id="L439"><span class="lineNum">     439</span> <span class="tlaUNC">           0 :     } else {</span></span>
+<span id="L440"><span class="lineNum">     440</span> <span class="tlaUNC">           0 :       currentType_ = tempUserType;</span></span>
+<span id="L441"><span class="lineNum">     441</span> <span class="tlaUNC">           0 :       node-&gt;setReturnedFromAnalysis(tempUserType);</span></span>
+<span id="L442"><span class="lineNum">     442</span> <span class="tlaUNC">           0 :       return tempUserType;</span></span>
+<span id="L443"><span class="lineNum">     443</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L444"><span class="lineNum">     444</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L445"><span class="lineNum">     445</span>              : </span>
+<span id="L446"><span class="lineNum">     446</span> <span class="tlaUNC">           0 :   std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; argTypes;</span></span>
+<span id="L447"><span class="lineNum">     447</span> <span class="tlaUNC">           0 :   for (const auto &amp;expr : node-&gt;parameters()) {</span></span>
+<span id="L448"><span class="lineNum">     448</span> <span class="tlaUNC">           0 :     auto res = expr-&gt;accept(*this);</span></span>
+<span id="L449"><span class="lineNum">     449</span> <span class="tlaUNC">           0 :     if (!res)</span></span>
+<span id="L450"><span class="lineNum">     450</span> <span class="tlaUNC">           0 :       return createError(res.error());</span></span>
+<span id="L451"><span class="lineNum">     451</span> <span class="tlaUNC">           0 :     argTypes.push_back(res.value());</span></span>
+<span id="L452"><span class="lineNum">     452</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L453"><span class="lineNum">     453</span>              : </span>
+<span id="L454"><span class="lineNum">     454</span> <span class="tlaUNC">           0 :   auto baseTypeExp = typeTable_-&gt;getType(node-&gt;id());</span></span>
+<span id="L455"><span class="lineNum">     455</span> <span class="tlaUNC">           0 :   if (!baseTypeExp)</span></span>
+<span id="L456"><span class="lineNum">     456</span> <span class="tlaUNC">           0 :     return createError(baseTypeExp.error());</span></span>
+<span id="L457"><span class="lineNum">     457</span> <span class="tlaUNC">           0 :   auto baseType = baseTypeExp.value();</span></span>
+<span id="L458"><span class="lineNum">     458</span>              : </span>
+<span id="L459"><span class="lineNum">     459</span> <span class="tlaUNC">           0 :   if (const auto enumType{std::dynamic_pointer_cast&lt;EnumType&gt;(baseType)}) {</span></span>
+<span id="L460"><span class="lineNum">     460</span> <span class="tlaUNC">           0 :     if (argTypes.size() != 1) {</span></span>
+<span id="L461"><span class="lineNum">     461</span> <span class="tlaUNC">           0 :       return createError(</span></span>
+<span id="L462"><span class="lineNum">     462</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
+<span id="L463"><span class="lineNum">     463</span> <span class="tlaUNC">           0 :           &quot;constructor call of a enum must have one argument of the same type&quot;);</span></span>
+<span id="L464"><span class="lineNum">     464</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L465"><span class="lineNum">     465</span> <span class="tlaUNC">           0 :     if (!typeTable_-&gt;canAssign(enumType, argTypes[0])) {</span></span>
+<span id="L466"><span class="lineNum">     466</span> <span class="tlaUNC">           0 :       return createError(</span></span>
+<span id="L467"><span class="lineNum">     467</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
+<span id="L468"><span class="lineNum">     468</span> <span class="tlaUNC">           0 :           &quot;constructor call of a enum must have one argument of the same type&quot;);</span></span>
+<span id="L469"><span class="lineNum">     469</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L470"><span class="lineNum">     470</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(enumType);</span></span>
+<span id="L471"><span class="lineNum">     471</span> <span class="tlaUNC">           0 :     return enumType;</span></span>
+<span id="L472"><span class="lineNum">     472</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L473"><span class="lineNum">     473</span>              : </span>
+<span id="L474"><span class="lineNum">     474</span> <span class="tlaUNC">           0 :   auto userType = std::dynamic_pointer_cast&lt;UserType&gt;(baseType);</span></span>
+<span id="L475"><span class="lineNum">     475</span> <span class="tlaUNC">           0 :   if (!userType)</span></span>
+<span id="L476"><span class="lineNum">     476</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L477"><span class="lineNum">     477</span> <span class="tlaUNC">           0 :                        &quot;constructor call id must refer to a user-defined type&quot;);</span></span>
+<span id="L478"><span class="lineNum">     478</span>              : </span>
+<span id="L479"><span class="lineNum">     479</span> <span class="tlaUNC">           0 :   auto cons = userType-&gt;constructor();</span></span>
+<span id="L480"><span class="lineNum">     480</span> <span class="tlaUNC">           0 :   if (!cons)</span></span>
+<span id="L481"><span class="lineNum">     481</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
+<span id="L482"><span class="lineNum">     482</span> <span class="tlaUNC">           0 :                        &quot;no constructor defined for type: &quot; + userType-&gt;name());</span></span>
+<span id="L483"><span class="lineNum">     483</span>              : </span>
+<span id="L484"><span class="lineNum">     484</span> <span class="tlaUNC">           0 :   if (cons-&gt;params().size() != argTypes.size())</span></span>
+<span id="L485"><span class="lineNum">     485</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::FUNCTION,</span></span>
+<span id="L486"><span class="lineNum">     486</span> <span class="tlaUNC">           0 :                        &quot;constructor parameter count mismatch for type: &quot; +</span></span>
+<span id="L487"><span class="lineNum">     487</span> <span class="tlaUNC">           0 :                            userType-&gt;name());</span></span>
+<span id="L488"><span class="lineNum">     488</span>              : </span>
+<span id="L489"><span class="lineNum">     489</span> <span class="tlaUNC">           0 :   const auto &amp;consParams = cons-&gt;params().params();</span></span>
+<span id="L490"><span class="lineNum">     490</span> <span class="tlaUNC">           0 :   for (size_t i = 0; i &lt; consParams.size(); ++i) {</span></span>
+<span id="L491"><span class="lineNum">     491</span> <span class="tlaUNC">           0 :     auto paramType = consParams[i].second;</span></span>
+<span id="L492"><span class="lineNum">     492</span> <span class="tlaUNC">           0 :     auto argType = argTypes[i];</span></span>
+<span id="L493"><span class="lineNum">     493</span> <span class="tlaUNC">           0 :     if (!typeTable_-&gt;canAssign(paramType, argType))</span></span>
+<span id="L494"><span class="lineNum">     494</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L495"><span class="lineNum">     495</span> <span class="tlaUNC">           0 :                          &quot;argument &quot; + std::to_string(i) +</span></span>
+<span id="L496"><span class="lineNum">     496</span> <span class="tlaUNC">           0 :                              &quot; type mismatch in constructor call for type: &quot; +</span></span>
+<span id="L497"><span class="lineNum">     497</span> <span class="tlaUNC">           0 :                              userType-&gt;name());</span></span>
+<span id="L498"><span class="lineNum">     498</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L499"><span class="lineNum">     499</span>              : </span>
+<span id="L500"><span class="lineNum">     500</span> <span class="tlaUNC">           0 :   if (!node-&gt;replaceOfGenerics().empty()) {</span></span>
+<span id="L501"><span class="lineNum">     501</span> <span class="tlaUNC">           0 :     std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; genericArgs;</span></span>
+<span id="L502"><span class="lineNum">     502</span> <span class="tlaUNC">           0 :     for (const auto &amp;gen : node-&gt;replaceOfGenerics()) {</span></span>
+<span id="L503"><span class="lineNum">     503</span> <span class="tlaUNC">           0 :       if (insideDeclWithGenerics &amp;&amp;</span></span>
+<span id="L504"><span class="lineNum">     504</span> <span class="tlaUNC">           0 :           typeTable_-&gt;isGenericType(gen, currentGenericList_)) {</span></span>
+<span id="L505"><span class="lineNum">     505</span> <span class="tlaUNC">           0 :         genericArgs.push_back(gen);</span></span>
+<span id="L506"><span class="lineNum">     506</span> <span class="tlaUNC">           0 :       } else</span></span>
+<span id="L507"><span class="lineNum">     507</span> <span class="tlaUNC">           0 :         genericArgs.push_back(gen);</span></span>
+<span id="L508"><span class="lineNum">     508</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L509"><span class="lineNum">     509</span> <span class="tlaUNC">           0 :     const auto instance{</span></span>
+<span id="L510"><span class="lineNum">     510</span> <span class="tlaUNC">           0 :         std::make_shared&lt;GenericInstanceType&gt;(userType, genericArgs)};</span></span>
+<span id="L511"><span class="lineNum">     511</span> <span class="tlaUNC">           0 :     currentType_ = instance;</span></span>
+<span id="L512"><span class="lineNum">     512</span> <span class="tlaUNC">           0 :     node-&gt;setReturnedFromAnalysis(instance);</span></span>
+<span id="L513"><span class="lineNum">     513</span> <span class="tlaUNC">           0 :     return instance;</span></span>
+<span id="L514"><span class="lineNum">     514</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L515"><span class="lineNum">     515</span> <span class="tlaUNC">           0 :   currentType_ = userType;</span></span>
+<span id="L516"><span class="lineNum">     516</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(userType);</span></span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaUNC">           0 :   return userType;</span></span>
+<span id="L518"><span class="lineNum">     518</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L519"><span class="lineNum">     519</span>              : </span>
+<span id="L520"><span class="lineNum">     520</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

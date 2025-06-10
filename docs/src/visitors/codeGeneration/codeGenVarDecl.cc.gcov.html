@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-03 17:20:49</td>
+            <td class="headerValue">2025-06-09 23:15:53</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -179,48 +179,49 @@
 <span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 : CodeGeneration::visit(const AST_VAR_CALL *node) const noexcept {</span></span>
 <span id="L118"><span class="lineNum">     118</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
 <span id="L119"><span class="lineNum">     119</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_VAR_CALL&quot;);</span></span>
-<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC">           0 :   if (insideStruct &amp;&amp; currentUserType_ &amp;&amp;</span></span>
-<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :       currentUserType_-&gt;hasAttribute(node-&gt;id())) {</span></span>
-<span id="L122"><span class="lineNum">     122</span>              :     // Recuperar el alloca de 'this'</span>
-<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 :     auto thisOrErr = currentScope_-&gt;getVariable(&quot;this&quot;);</span></span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :     if (!thisOrErr)</span></span>
-<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 :       return createError(thisOrErr.error());</span></span>
-<span id="L126"><span class="lineNum">     126</span>              : </span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :     auto *thisVal = (*thisOrErr)-&gt;address(); // llvm::Value*</span></span>
-<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 :     auto *thisAlloca = llvm::cast&lt;llvm::AllocaInst&gt;(thisVal);</span></span>
-<span id="L129"><span class="lineNum">     129</span>              :     // Cargar el puntero al objeto</span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 :     llvm::Value *thisPtr =</span></span>
-<span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC">           0 :         builder_.CreateLoad(thisAlloca-&gt;getAllocatedType()-&gt;getPointerTo(),</span></span>
-<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :                             thisAlloca, &quot;this.load&quot;);</span></span>
-<span id="L133"><span class="lineNum">     133</span>              : </span>
-<span id="L134"><span class="lineNum">     134</span>              :     // Calcular índice del campo en la struct</span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :     unsigned idx = static_cast&lt;unsigned&gt;(</span></span>
-<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :         currentUserType_-&gt;getAttribute(node-&gt;id())-&gt;position());</span></span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :     llvm::Value *indices[] = {builder_.getInt32(0), builder_.getInt32(idx)};</span></span>
-<span id="L138"><span class="lineNum">     138</span>              : </span>
-<span id="L139"><span class="lineNum">     139</span>              :     // Crear GEP para el campo</span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :     llvm::Value *fieldPtr =</span></span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :         builder_.CreateInBoundsGEP(*currentUserType_-&gt;llvmVersion(context_),</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :                                    thisPtr, indices, node-&gt;id() + &quot;.ptr&quot;);</span></span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :     resultChainedExpression_ = fieldPtr;</span></span>
-<span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 :     return fieldPtr;</span></span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L146"><span class="lineNum">     146</span>              : </span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :   std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt; varOrErr =</span></span>
-<span id="L148"><span class="lineNum">     148</span> <span class="tlaUNC">           0 :       currentScope_-&gt;getVariable(node-&gt;id());</span></span>
-<span id="L149"><span class="lineNum">     149</span> <span class="tlaUNC">           0 :   if (!varOrErr)</span></span>
-<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :     return createError(varOrErr.error());</span></span>
-<span id="L151"><span class="lineNum">     151</span>              : </span>
-<span id="L152"><span class="lineNum">     152</span> <span class="tlaUNC">           0 :   std::shared_ptr&lt;Variable&gt; varPtr = *varOrErr;</span></span>
-<span id="L153"><span class="lineNum">     153</span> <span class="tlaUNC">           0 :   llvm::AllocaInst *addr = varPtr-&gt;address();</span></span>
-<span id="L154"><span class="lineNum">     154</span> <span class="tlaUNC">           0 :   if (!addr)</span></span>
-<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::VALIDATE_TREE, &quot;variable has no address&quot;);</span></span>
-<span id="L156"><span class="lineNum">     156</span>              : </span>
-<span id="L157"><span class="lineNum">     157</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = addr;</span></span>
-<span id="L158"><span class="lineNum">     158</span> <span class="tlaUNC">           0 :   return addr;</span></span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L160"><span class="lineNum">     160</span>              : </span>
-<span id="L161"><span class="lineNum">     161</span>              : } // namespace nicole</span>
+<span id="L120"><span class="lineNum">     120</span>              :   </span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :   if (insideStruct &amp;&amp; currentUserType_ &amp;&amp;</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaUNC">           0 :       currentUserType_-&gt;hasAttribute(node-&gt;id())) {</span></span>
+<span id="L123"><span class="lineNum">     123</span>              :     // Recuperar el alloca de 'this'</span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :     auto thisOrErr = currentScope_-&gt;getVariable(&quot;this&quot;);</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 :     if (!thisOrErr)</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :       return createError(thisOrErr.error());</span></span>
+<span id="L127"><span class="lineNum">     127</span>              : </span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 :     auto *thisVal = (*thisOrErr)-&gt;address(); // llvm::Value*</span></span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :     auto *thisAlloca = llvm::cast&lt;llvm::AllocaInst&gt;(thisVal);</span></span>
+<span id="L130"><span class="lineNum">     130</span>              :     // Cargar el puntero al objeto</span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC">           0 :     llvm::Value *thisPtr =</span></span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :         builder_.CreateLoad(thisAlloca-&gt;getAllocatedType()-&gt;getPointerTo(),</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :                             thisAlloca, &quot;this.load&quot;);</span></span>
+<span id="L134"><span class="lineNum">     134</span>              : </span>
+<span id="L135"><span class="lineNum">     135</span>              :     // Calcular índice del campo en la struct</span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :     unsigned idx = static_cast&lt;unsigned&gt;(</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :         currentUserType_-&gt;getAttribute(node-&gt;id())-&gt;position());</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :     llvm::Value *indices[] = {builder_.getInt32(0), builder_.getInt32(idx)};</span></span>
+<span id="L139"><span class="lineNum">     139</span>              : </span>
+<span id="L140"><span class="lineNum">     140</span>              :     // Crear GEP para el campo</span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :     llvm::Value *fieldPtr =</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :         builder_.CreateInBoundsGEP(*currentUserType_-&gt;llvmVersion(context_),</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :                                    thisPtr, indices, node-&gt;id() + &quot;.ptr&quot;);</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 :     resultChainedExpression_ = fieldPtr;</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :     return fieldPtr;</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L147"><span class="lineNum">     147</span>              : </span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaUNC">           0 :   std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt; varOrErr =</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaUNC">           0 :       currentScope_-&gt;getVariable(node-&gt;id());</span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :   if (!varOrErr)</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :     return createError(varOrErr.error());</span></span>
+<span id="L152"><span class="lineNum">     152</span>              : </span>
+<span id="L153"><span class="lineNum">     153</span> <span class="tlaUNC">           0 :   std::shared_ptr&lt;Variable&gt; varPtr = *varOrErr;</span></span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaUNC">           0 :   llvm::AllocaInst *addr = varPtr-&gt;address();</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :   if (!addr)</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::VALIDATE_TREE, &quot;variable has no address&quot;);</span></span>
+<span id="L157"><span class="lineNum">     157</span>              : </span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaUNC">           0 :   resultChainedExpression_ = addr;</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :   return addr;</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

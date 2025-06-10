@@ -10,6 +10,7 @@
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/ExecutionEngine/MCJIT.h>
+#include <llvm/ExecutionEngine/Orc/ThreadSafeModule.h>
 #include <llvm/IR/Function.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
@@ -31,12 +32,12 @@ private:
   std::shared_ptr<TypeTable> typeTable_;
   Options options_;
   // Start LLVM
-  mutable llvm::LLVMContext context_;
-  mutable llvm::IRBuilder<> builder_{context_};
+  mutable std::unique_ptr<llvm::LLVMContext> context_{ std::make_unique<llvm::LLVMContext>() };
+  mutable llvm::IRBuilder<> builder_{*context_};
 
   // 2) Módulo, lo gestionamos con unique_ptr para que se limpie al final
   mutable std::unique_ptr<llvm::Module> module_{
-      std::make_unique<llvm::Module>("my_module", context_)};
+      std::make_unique<llvm::Module>("my_module", *context_)};
 
   // 3) Función main y bloque básico, punteros no propietarios
   mutable llvm::FunctionType *funcType_{nullptr};
@@ -81,9 +82,6 @@ private:
   // Devuelve el valor cargado (rvalue) de la expresión AST.
   std::expected<llvm::Value *, Error>
   emitRValue(const AST *node) const noexcept;
-
-  [[nodiscard]] std::expected<std::monostate, Error>
-  emitObjectFile(llvm::Module *module) const noexcept;
 
   mutable std::unordered_set<llvm::Value *> allocatedPtrs_;
   mutable llvm::Function *mallocFn_ = nullptr;
@@ -254,10 +252,8 @@ public:
   [[nodiscard]] std::expected<llvm::Value *, Error>
   visit(const Tree *tree) const noexcept override;
 
-  [[nodiscard]] std::expected<llvm::Value *, Error>
-  generate(const Tree *tree) const noexcept {
-    return visit(tree);
-  }
+  [[nodiscard]] std::expected<llvm::orc::ThreadSafeModule, Error>
+  generate(const Tree *tree) const noexcept;
 };
 
 } // namespace nicole

@@ -115,7 +115,7 @@ ValidateTree::visit(const AST_SUPER *node) const noexcept {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_SUPER");
   }
   if (!CheckPosition::hasEveryAncestorInOrder(node,
-                                              {AST_TYPE::DESTRUCTOR_DECL})) {
+                                              {AST_TYPE::CONSTRUCTOR_DECL})) {
     return createError(ERROR_TYPE::VALIDATE_TREE,
                        "invalid hierarchy for destructor decl");
   }

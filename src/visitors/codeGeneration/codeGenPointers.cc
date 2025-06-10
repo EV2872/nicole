@@ -13,9 +13,9 @@ namespace nicole {
 void CodeGeneration::ensureMallocFreeDeclared() const noexcept {
   if (!mallocFn_) {
     // void* malloc(size_t)
-    llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(context_);
+    llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(*context_);
     llvm::PointerType *voidPtr =
-        llvm::Type::getInt8Ty(context_)->getPointerTo();
+        llvm::Type::getInt8Ty(*context_)->getPointerTo();
     llvm::FunctionType *mallocFT =
         llvm::FunctionType::get(voidPtr, {i64Ty}, false);
     mallocFn_ = llvm::cast<llvm::Function>(
@@ -24,9 +24,9 @@ void CodeGeneration::ensureMallocFreeDeclared() const noexcept {
   if (!freeFn_) {
     // void free(void*)
     llvm::PointerType *voidPtr =
-        llvm::Type::getInt8Ty(context_)->getPointerTo();
+        llvm::Type::getInt8Ty(*context_)->getPointerTo();
     llvm::FunctionType *freeFT = llvm::FunctionType::get(
-        llvm::Type::getVoidTy(context_), {voidPtr}, false);
+        llvm::Type::getVoidTy(*context_), {voidPtr}, false);
     freeFn_ = llvm::cast<llvm::Function>(
         module_->getOrInsertFunction("free", freeFT).getCallee());
   }
@@ -70,7 +70,7 @@ CodeGeneration::visit(const AST_NEW *node) const noexcept {
   if (!typeOfNew)
     return createError(ERROR_TYPE::TYPE, "type returned is null");
   std::expected<llvm::Type *, Error> llvmTyOrErr =
-      typeOfNew->llvmVersion(context_);
+      typeOfNew->llvmVersion(*context_);
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
   llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A
@@ -139,7 +139,7 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
 
   // Hacer bitcast a i8* para pasar a free
   llvm::Value *i8Ptr = builder_.CreateBitCast(
-      ptrVal, llvm::Type::getInt8Ty(context_)->getPointerTo(),
+      ptrVal, llvm::Type::getInt8Ty(*context_)->getPointerTo(),
       "delete_bitcast");
 
   // Llamar a free(i8*)

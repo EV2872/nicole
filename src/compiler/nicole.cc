@@ -1,4 +1,6 @@
 #include "../../inc/compiler/nicole.h"
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
 #include <memory>
 
 namespace nicole {
@@ -92,11 +94,52 @@ Nicole::compile(const Options &options) const noexcept {
     (!analyzedSecondTime) { return createError(analyzedSecondTime.error());
     }
   */
+
+  const auto targetGenerator{TargetGenerator{}};
+  const auto target{targetGenerator.generate(options.arch(), options.os())};
+
+  auto context = std::make_unique<llvm::LLVMContext>();
+
   const nicole::CodeGeneration codeGenerator{functionTable, typeTable, options};
-  const std::expected<llvm::Value *, Error> generatedIR{
-      codeGenerator.generate((*tree).get())};
+  auto generatedIR{codeGenerator.generate((*tree).get())};
   if (!generatedIR) {
     return createError(generatedIR.error());
+  }
+
+  auto safeModule{std::move(generatedIR.value())};
+
+  if (options.optimize()) {
+    // Construyo un optimizador fresco para O3
+    nicole::Optimizer optimizer{target, llvm::OptimizationLevel::O3};
+    auto optimized = optimizer.optimize(std::move(safeModule));
+    if (!optimized) {
+      return createError(optimized.error());
+    }
+    safeModule = std::move(optimized.value());
+  }
+
+  if (options.printIR()) {
+    safeModule.getModuleUnlocked()->print(llvm::outs(), nullptr);
+  }
+
+  if (options.justInTime()) {
+    const auto jitErr{JIT::Create()};
+    if (!jitErr) {
+      return createError(jitErr.error());
+    }
+    const auto jit{jitErr.value().get()};
+    const auto addedModuled{jit->addModule(std::move(safeModule))};
+    const auto running{jit->run("main")};
+    if (!running) {
+      return createError(running.error());
+    }
+    return {};
+  }
+
+  Linker linker{options, target};
+  const auto linked{linker.link(std::move(safeModule))};
+  if (!linked) {
+    return createError(linked.error());
   }
 
   return {};

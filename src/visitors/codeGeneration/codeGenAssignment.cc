@@ -34,7 +34,7 @@ CodeGeneration::visit(const AST_ASSIGNMENT *node) const noexcept {
     }
   }
 
-  std::expected<llvm::Type *, Error> llvmTyOrErr = semTy->llvmVersion(context_);
+  std::expected<llvm::Type *, Error> llvmTyOrErr = semTy->llvmVersion(*context_);
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
   llvm::Type *dstTy = *llvmTyOrErr;

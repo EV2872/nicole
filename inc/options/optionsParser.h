@@ -1,25 +1,19 @@
 #ifndef OPTIONS_PARSER_H
 #define OPTIONS_PARSER_H
 
-#include "../errors.h"
+#include "../errors.h" // createError, ERROR_TYPE
 #include "options.h"
 #include <expected>
-#include <string_view>
-#include <vector>
+#include <llvm/Support/CommandLine.h>
 
 namespace nicole {
 
-class OptionsParser final {
-private:
-  OptionsParser() noexcept = delete;
-
-  [[nodiscard]] static bool isOption(const std::string_view argument) noexcept;
-
+class OptionsParser {
 public:
-  [[nodiscard]] static const std::expected<Options, Error>
-  parse(const std::vector<std::string_view> &arguments) noexcept;
+  // parsea argc/argv con LLVM CommandLine y devuelve Options o Error
+  static std::expected<Options, Error> parse(int argc, char **argv) noexcept;
 };
 
 } // namespace nicole
 
-#endif
+#endif // OPTIONS_PARSER_H

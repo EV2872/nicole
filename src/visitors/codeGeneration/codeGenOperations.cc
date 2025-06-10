@@ -119,11 +119,11 @@ CodeGeneration::visit(const AST_BINARY *node) const noexcept {
     case BasicKind::Str: {
       if (node->op().type() == TokenType::OPERATOR_ADD) {
         // Contexto y tipos LLVM
-        llvm::LLVMContext &C = context_;
-        llvm::Module &M = *module_;
-        llvm::Type *i8Ty = llvm::Type::getInt8Ty(C);
+        
+        
+        llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
         llvm::PointerType *i8Ptr = i8Ty->getPointerTo(); // i8*
-        llvm::Type *i64Ty = llvm::Type::getInt64Ty(C);
+        llvm::Type *i64Ty = llvm::Type::getInt64Ty(*context_);
 
         // Declarar strlen y malloc si no existen
         llvm::FunctionType *strlenFT =
@@ -131,9 +131,9 @@ CodeGeneration::visit(const AST_BINARY *node) const noexcept {
         llvm::FunctionType *mallocFT =
             llvm::FunctionType::get(i8Ptr, {i64Ty}, false);
         llvm::FunctionCallee strlenFn =
-            M.getOrInsertFunction("strlen", strlenFT);
+            module_->getOrInsertFunction("strlen", strlenFT);
         llvm::FunctionCallee mallocFn =
-            M.getOrInsertFunction("malloc", mallocFT);
+            module_->getOrInsertFunction("malloc", mallocFT);
 
         // Calcular longitudes de L y R
         llvm::Value *lenL = builder_.CreateCall(strlenFn, {L}, "lenL");
@@ -294,8 +294,8 @@ CodeGeneration::visit(const AST_UNARY *node) const noexcept {
       llvm::Value *ptr = *ptrOrErr; // debe ser algo tipo i32*
 
       // tipo entero LLVM
-      llvm::LLVMContext &C = context_;
-      llvm::Type *i32Ty = llvm::Type::getInt32Ty(C);
+      
+      llvm::Type *i32Ty = llvm::Type::getInt32Ty(*context_);
 
       // cargar el valor actual
       llvm::Value *oldVal = builder_.CreateLoad(i32Ty, ptr, "ldtmp");

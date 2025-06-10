@@ -25,11 +25,11 @@ CodeGeneration::visit(const AST_IF *node) const noexcept {
   llvm::Function *parent = builder_.GetInsertBlock()->getParent();
   std::string id = std::to_string(node->nodeId());
   llvm::BasicBlock *thenBB =
-      llvm::BasicBlock::Create(context_, "if_then" + id, parent);
+      llvm::BasicBlock::Create(*context_, "if_then" + id, parent);
   llvm::BasicBlock *elseBB =
-      llvm::BasicBlock::Create(context_, "if_else" + id, parent);
+      llvm::BasicBlock::Create(*context_, "if_else" + id, parent);
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "if_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "if_merge" + id, parent);
   currentMergeBlock_ = mergeBB;
 
   // salto condicional
@@ -96,9 +96,9 @@ CodeGeneration::visit(const AST_ELSE_IF *node) const noexcept {
   llvm::Function *parent = builder_.GetInsertBlock()->getParent();
   std::string id = std::to_string(node->nodeId());
   llvm::BasicBlock *thenBB =
-      llvm::BasicBlock::Create(context_, "elif_then" + id, parent);
+      llvm::BasicBlock::Create(*context_, "elif_then" + id, parent);
   llvm::BasicBlock *nextBB =
-      llvm::BasicBlock::Create(context_, "elif_next" + id, parent);
+      llvm::BasicBlock::Create(*context_, "elif_next" + id, parent);
 
   // CondBr al then o al siguiente (que puede ser otro elif o merge)
   llvm::BasicBlock *mergeBB = currentMergeBlock_;
@@ -134,7 +134,7 @@ CodeGeneration::visit(const AST_SWITCH *node) const noexcept {
 
   // Bloque final (merge)
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "switch_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "switch_merge" + id, parent);
 
   // Empujar destino de break para 'stop' dentro del switch
   breakTargets_.push(mergeBB);
@@ -142,7 +142,7 @@ CodeGeneration::visit(const AST_SWITCH *node) const noexcept {
   // Bloque por defecto (o salto directo a merge si no hay default)
   llvm::BasicBlock *defaultBB =
       node->defaultCase()
-          ? llvm::BasicBlock::Create(context_, "switch_default" + id, parent)
+          ? llvm::BasicBlock::Create(*context_, "switch_default" + id, parent)
           : mergeBB;
 
   // Crear la instrucción switch
@@ -164,7 +164,7 @@ CodeGeneration::visit(const AST_SWITCH *node) const noexcept {
     // Crear el BasicBlock para este case
     std::string caseNum = std::to_string(litVal->getZExtValue());
     llvm::BasicBlock *caseBB = llvm::BasicBlock::Create(
-        context_, "switch_case" + id + "_" + caseNum, parent);
+        *context_, "switch_case" + id + "_" + caseNum, parent);
 
     // Registrar el case en el switch
     sw->addCase(litVal, caseBB);
@@ -225,11 +225,11 @@ CodeGeneration::visit(const AST_TERNARY *node) const noexcept {
   llvm::Function *parent = builder_.GetInsertBlock()->getParent();
   std::string id = std::to_string(node->nodeId());
   llvm::BasicBlock *thenBB =
-      llvm::BasicBlock::Create(context_, "tern_then" + id, parent);
+      llvm::BasicBlock::Create(*context_, "tern_then" + id, parent);
   llvm::BasicBlock *elseBB =
-      llvm::BasicBlock::Create(context_, "tern_else" + id, parent);
+      llvm::BasicBlock::Create(*context_, "tern_else" + id, parent);
   llvm::BasicBlock *mergeBB =
-      llvm::BasicBlock::Create(context_, "tern_merge" + id, parent);
+      llvm::BasicBlock::Create(*context_, "tern_merge" + id, parent);
 
   builder_.CreateCondBr(condVal, thenBB, elseBB);
 

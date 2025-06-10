@@ -32,7 +32,7 @@ CodeGeneration::visit(const AST_AUTO_DECL *node) const noexcept {
   // builder_.SetInsertPoint(entry_, entry_->getFirstInsertionPt());
   // builder_.SetInsertPoint(entry_);
   std::expected<llvm::Type *, Error> llvmTyOrErr =
-      var.type()->llvmVersion(context_);
+      var.type()->llvmVersion(*context_);
   if (!llvmTyOrErr)
     return std::unexpected(llvmTyOrErr.error());
   llvm::Type *llvmTy = *llvmTyOrErr;
@@ -83,7 +83,7 @@ CodeGeneration::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
   llvm::IRBuilder<>::InsertPointGuard guard(builder_);
   // builder_.SetInsertPoint(entry_, entry_->getFirstInsertionPt());
   std::expected<llvm::Type *, Error> llvmTyOrErr =
-      node->varType()->llvmVersion(context_);
+      node->varType()->llvmVersion(*context_);
   if (!llvmTyOrErr)
     return std::unexpected(llvmTyOrErr.error());
   llvm::Type *llvmTy = *llvmTyOrErr;
@@ -139,7 +139,7 @@ CodeGeneration::visit(const AST_VAR_CALL *node) const noexcept {
 
     // Crear GEP para el campo
     llvm::Value *fieldPtr =
-        builder_.CreateInBoundsGEP(*currentUserType_->llvmVersion(context_),
+        builder_.CreateInBoundsGEP(*currentUserType_->llvmVersion(*context_),
                                    thisPtr, indices, node->id() + ".ptr");
     resultChainedExpression_ = fieldPtr;
     return fieldPtr;

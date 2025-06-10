@@ -126,13 +126,13 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
   for (const std::pair<std::string, std::shared_ptr<Type>> &p :
        node->parameters().params()) {
     std::expected<llvm::Type *, Error> tyOrErr =
-        p.second->llvmVersion(context_);
+        p.second->llvmVersion(*context_);
     if (!tyOrErr)
       return createError(tyOrErr.error());
     paramTys.push_back(*tyOrErr);
   }
   std::expected<llvm::Type *, Error> retTyOrErr =
-      node->returnType()->llvmVersion(context_);
+      node->returnType()->llvmVersion(*context_);
   if (!retTyOrErr)
     return createError(retTyOrErr.error());
   llvm::FunctionType *fnTy =
@@ -143,7 +143,7 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
   fn->setLinkage(llvm::GlobalValue::ExternalLinkage);
 
   // Reservar slots para parámetros y registrarlos
-  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(context_, "entry", fn);
+  llvm::BasicBlock *entryBB = llvm::BasicBlock::Create(*context_, "entry", fn);
   entry_ = entryBB;
   llvm::IRBuilder<> entryBuilder(entryBB);
   unsigned idx = 0;
@@ -192,7 +192,7 @@ CodeGeneration::visit(const AST_RETURN *node) const noexcept {
   }
   if (!node->expression() and isMain) {
     return builder_.CreateRet(llvm::ConstantInt::get(
-        *typeTable_->intType()->llvmVersion(context_), 0));
+        *typeTable_->intType()->llvmVersion(*context_), 0));
   }
   if (!node->expression()) {
     return builder_.CreateRetVoid();

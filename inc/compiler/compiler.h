@@ -10,6 +10,10 @@
 #include "../visitors/printTree/printTree.h"
 #include "../visitors/typeAnalysis/typeAnalysis.h"
 #include "../visitors/validateTree/validateTree.h"
+#include "jitEngine.h"
+#include "linker.h"
+#include "optimizer.h"
+#include "targetGenerator.h"
 #include <expected>
 #include <iostream>
 #include <memory>

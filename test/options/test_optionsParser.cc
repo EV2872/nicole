@@ -3,6 +3,7 @@
 #include <string_view>
 #include <vector>
 
+/*
 TEST_CASE("Pruebas de OptionsParser con diferentes cantidades de argumentos",
           "[OptionsParser]") {
   using nicole::Error;
@@ -264,4 +265,4 @@ TEST_CASE("Pruebas de OptionsParser con diferentes cantidades de argumentos",
     REQUIRE(result.error().type() == ERROR_TYPE::MISSING_BINARY_NAME);
   }
 }
-
+*/

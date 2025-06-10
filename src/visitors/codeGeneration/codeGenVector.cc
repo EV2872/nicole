@@ -21,21 +21,21 @@ CodeGeneration::visit(const AST_VECTOR *node) const noexcept {
   if (!vecType)
     return createError(ERROR_TYPE::TYPE, "AST_VECTOR no retorna VectorType");
   std::expected<llvm::Type *, Error> structOrErr =
-      vecType->llvmVersion(context_);
+      vecType->llvmVersion(*context_);
   if (!structOrErr)
     return createError(structOrErr.error());
   llvm::StructType *vecStruct = llvm::cast<llvm::StructType>(*structOrErr);
 
   // Tipo del elemento y número de entradas
   std::expected<llvm::Type *, Error> elemTyOrErr =
-      vecType->elementType()->llvmVersion(context_);
+      vecType->elementType()->llvmVersion(*context_);
   if (!elemTyOrErr)
     return createError(elemTyOrErr.error());
   llvm::Type *elemTy = *elemTyOrErr;
 
   size_t count = node->values().size();
   llvm::Value *numElems =
-      llvm::ConstantInt::get(llvm::Type::getInt64Ty(context_), count);
+      llvm::ConstantInt::get(llvm::Type::getInt64Ty(*context_), count);
 
   // Crear allocas en el bloque entry()
   llvm::AllocaInst *vecAlloca, *dataAlloca;
@@ -113,7 +113,7 @@ CodeGeneration::visit(const AST_INDEX *node) const noexcept {
     return createError(idxOrErr.error());
   llvm::Value *idxVal = *idxOrErr;
   if (idxVal->getType()->isIntegerTy(32)) {
-    idxVal = builder_.CreateSExt(idxVal, llvm::Type::getInt64Ty(context_),
+    idxVal = builder_.CreateSExt(idxVal, llvm::Type::getInt64Ty(*context_),
                                  "idx_to_i64");
   }
 
@@ -127,7 +127,7 @@ CodeGeneration::visit(const AST_INDEX *node) const noexcept {
           std::dynamic_pointer_cast<VectorType>(prevType)) {
     // Tipo del struct del vector
     std::expected<llvm::Type *, Error> structOrErr =
-        vecType->llvmVersion(context_);
+        vecType->llvmVersion(*context_);
     if (!structOrErr)
       return createError(structOrErr.error());
     llvm::StructType *vecStructTy = llvm::cast<llvm::StructType>(*structOrErr);
@@ -141,7 +141,7 @@ CodeGeneration::visit(const AST_INDEX *node) const noexcept {
 
     // Calcular GEP **sobre elemTy**, no sobre el struct
     std::expected<llvm::Type *, Error> elemTyOrErr =
-        vecType->elementType()->llvmVersion(context_);
+        vecType->elementType()->llvmVersion(*context_);
     if (!elemTyOrErr)
       return createError(elemTyOrErr.error());
     llvm::Type *elemTy = *elemTyOrErr;
@@ -165,7 +165,7 @@ CodeGeneration::visit(const AST_INDEX *node) const noexcept {
       basic && basic->baseKind() == BasicKind::Str) {
     // cargar el i8* de la variable
     llvm::Value *strPtr =
-        builder_.CreateLoad(llvm::Type::getInt8Ty(context_)->getPointerTo(),
+        builder_.CreateLoad(llvm::Type::getInt8Ty(*context_)->getPointerTo(),
                             basePtr, "load_str_ptr");
 
     llvm::Value *charPtr = builder_.CreateInBoundsGEP(
