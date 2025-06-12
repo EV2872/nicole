@@ -3,8 +3,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<Tree>, Error>
-TopDown::parse(const std::filesystem::path &entryFile) const noexcept {
+auto TopDown::parse(const std::filesystem::path &entryFile) const noexcept
+    -> std::expected<std::shared_ptr<Tree>, Error> {
   parsedFiles_.insert(entryFile);
 
   const std::expected<TokenStream, Error> tkStream{lexer_.analyze(entryFile)};
@@ -36,8 +36,8 @@ TopDown::parse(const std::filesystem::path &entryFile) const noexcept {
   return *tree;
 }
 
-const std::expected<std::shared_ptr<AST_BODY>, Error>
-TopDown::parseStart() const noexcept {
+auto TopDown::parseStart() const noexcept
+    -> std::expected<std::shared_ptr<AST_BODY>, Error> {
   std::vector<std::shared_ptr<AST_STATEMENT>> statements{};
 
   const std::expected<Token, Error> firsToken{tkStream_.current()};
@@ -67,8 +67,8 @@ TopDown::parseStart() const noexcept {
   return body;
 }
 
-const std::expected<std::shared_ptr<AST_BODY>, Error>
-TopDown::parseBody() const noexcept {
+auto TopDown::parseBody() const noexcept
+    -> std::expected<std::shared_ptr<AST_BODY>, Error> {
 
   const std::expected<Token, Error> firsToken{tkStream_.current()};
 
@@ -115,17 +115,19 @@ TopDown::parseBody() const noexcept {
   return body;
 }
 
-const std::expected<std::shared_ptr<AST_STATEMENT>, Error>
-TopDown::parseStatement() const noexcept {
+auto TopDown::parseStatement() const noexcept
+    -> std::expected<std::shared_ptr<AST_STATEMENT>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   // Función auxiliar para elegir la sentencia a parsear.
   auto parseStmt = [&]() -> std::expected<std::shared_ptr<AST>, Error> {
     // in case that it is an assignment
     if ((tkStream_.isTokenAheadBeforeSemicolon(TokenType::DOTDOT_ASSIGNMENT) ||
-        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_ADD) ||
-        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_SUB) ||
-        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_MULT) ||
-        tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_DIV)) and (firsToken->type() != TokenType::STRUCT)  and (firsToken->type() != TokenType::FUNCTION))
+         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_ADD) ||
+         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_SUB) ||
+         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_MULT) ||
+         tkStream_.isTokenAheadBeforeSemicolon(TokenType::SELF_DIV)) and
+        (firsToken->type() != TokenType::STRUCT) and
+        (firsToken->type() != TokenType::FUNCTION))
       return parseAssignment(false);
 
     // Se obtiene el tipo del token actual para decidir la rama de parseo.
@@ -173,8 +175,7 @@ TopDown::parseStatement() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *statement);
 }
 
-// topDown.cpp
-std::expected<std::monostate, Error> TopDown::tryEat() const noexcept {
+auto TopDown::tryEat() const noexcept -> std::expected<std::monostate, Error> {
   if (!tkStream_.eat())
     return createError(ERROR_TYPE::SINTAX,
                        "failed to eat " + tkStream_.current()->raw() + " at " +

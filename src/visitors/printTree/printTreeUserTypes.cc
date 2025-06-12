@@ -1,15 +1,15 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_attrAccess.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_constructorCall.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_methodCall.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_struct.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_this.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_STRUCT *node) const noexcept {
+auto PrintTree::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   }
@@ -79,8 +79,8 @@ PrintTree::visit(const AST_STRUCT *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto PrintTree::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
   }
@@ -92,8 +92,8 @@ PrintTree::visit(const AST_ATTR_ACCESS *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_METHOD_CALL *node) const noexcept {
+auto PrintTree::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -122,8 +122,8 @@ PrintTree::visit(const AST_METHOD_CALL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_METHOD_DECL *node) const noexcept {
+auto PrintTree::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
   }
@@ -144,8 +144,8 @@ PrintTree::visit(const AST_METHOD_DECL *node) const noexcept {
   result << indent_ << "Parameters:\n";
   increaseIndent();
   for (const auto &param : node->parameters()) {
-    result << indent_ << "Param: " << param.first << " type: " << param.second->toString()
-           << "\n";
+    result << indent_ << "Param: " << param.first
+           << " type: " << param.second->toString() << "\n";
   }
   decreaseIndent();
 
@@ -163,8 +163,8 @@ PrintTree::visit(const AST_METHOD_DECL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto PrintTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_DECL");
   }
@@ -208,8 +208,8 @@ PrintTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_SUPER *node) const noexcept {
+auto PrintTree::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_SUPER");
   }
@@ -234,8 +234,8 @@ PrintTree::visit(const AST_SUPER *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto PrintTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
   }
@@ -260,8 +260,8 @@ PrintTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_THIS *node) const noexcept {
+auto PrintTree::visit(const AST_THIS *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
@@ -270,8 +270,8 @@ PrintTree::visit(const AST_THIS *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto PrintTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
   }
@@ -300,4 +300,4 @@ PrintTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

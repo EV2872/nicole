@@ -5,20 +5,20 @@
 
 namespace nicole {
 
-bool TypeTable::has(const std::string &id) const noexcept {
+auto TypeTable::has(const std::string &id) const noexcept -> bool {
   return table_.count(id);
 }
 
-const std::expected<std::shared_ptr<Type>, Error>
-TypeTable::getType(const std::string &id) const noexcept {
+auto TypeTable::getType(const std::string &id) const noexcept
+    -> const std::expected<std::shared_ptr<Type>, Error> {
   if (has(id)) {
     return table_.at(id);
   }
   return createError(ERROR_TYPE::TYPE, "the type: " + id + " does not exists");
 }
 
-std::expected<std::monostate, Error>
-TypeTable::insert(const std::shared_ptr<Type> &type) noexcept {
+auto TypeTable::insert(const std::shared_ptr<Type> &type) noexcept
+    -> std::expected<std::monostate, Error> {
   if (has(type->toString())) {
     return createError(ERROR_TYPE::TYPE,
                        "the type: " + type->toString() + " already exists");
@@ -32,8 +32,8 @@ TypeTable::insert(const std::shared_ptr<Type> &type) noexcept {
   return {};
 }
 
-bool TypeTable::isPossibleType(
-    const std::shared_ptr<Type> &type) const noexcept {
+auto TypeTable::isPossibleType(const std::shared_ptr<Type> &type) const noexcept
+    -> bool {
   if (const auto &basicType = std::dynamic_pointer_cast<BasicType>(type)) {
     return true;
   } else if (const auto &voidType = std::dynamic_pointer_cast<VoidType>(type)) {
@@ -74,9 +74,9 @@ bool TypeTable::isPossibleType(
   return false;
 }
 
-bool TypeTable::isGenericType(
+auto TypeTable::isGenericType(
     const std::shared_ptr<Type> &type,
-    const std::vector<GenericParameter> &generics) const noexcept {
+    const std::vector<GenericParameter> &generics) const noexcept -> bool {
   if (std::dynamic_pointer_cast<PlaceHolder>(type))
     return true;
   if (const auto &vectorType = std::dynamic_pointer_cast<VectorType>(type)) {
@@ -116,33 +116,37 @@ bool TypeTable::isGenericType(
   return false;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeTable::isCompundUserType(const std::shared_ptr<Type> &type) const noexcept {
+auto TypeTable::isCompundUserType(const std::shared_ptr<Type> &type)
+    const noexcept -> std::expected<std::shared_ptr<Type>, Error> {
   // Const
   if (auto ct = std::dynamic_pointer_cast<ConstType>(type)) {
     auto inner = isCompundUserType(ct->baseType());
-    if (!inner) return createError(inner.error());
+    if (!inner)
+      return createError(inner.error());
     return std::make_shared<ConstType>(inner.value());
   }
 
   // Puntero
   if (auto pt = std::dynamic_pointer_cast<PointerType>(type)) {
     auto inner = isCompundUserType(pt->baseType());
-    if (!inner) return createError(inner.error());
+    if (!inner)
+      return createError(inner.error());
     return std::make_shared<PointerType>(inner.value());
   }
 
   // Vector
   if (auto vt = std::dynamic_pointer_cast<VectorType>(type)) {
     auto inner = isCompundUserType(vt->elementType());
-    if (!inner) return createError(inner.error());
+    if (!inner)
+      return createError(inner.error());
     return std::make_shared<VectorType>(inner.value());
   }
 
   // Instancia genérica de un UserType
   if (auto git = std::dynamic_pointer_cast<GenericInstanceType>(type)) {
     auto exists = getType(git->name());
-    if (!exists) return createError(exists.error());
+    if (!exists)
+      return createError(exists.error());
     // Asegurarse de que la definición base es un UserType
     if (!std::dynamic_pointer_cast<UserType>(exists.value()))
       return createError(ERROR_TYPE::TYPE,
@@ -154,7 +158,8 @@ TypeTable::isCompundUserType(const std::shared_ptr<Type> &type) const noexcept {
   // Tipo definido por el usuario
   if (auto ut = std::dynamic_pointer_cast<UserType>(type)) {
     auto exists = getType(ut->name());
-    if (!exists) return createError(exists.error());
+    if (!exists)
+      return createError(exists.error());
     if (!std::dynamic_pointer_cast<UserType>(exists.value()))
       return createError(ERROR_TYPE::TYPE,
                          "El tipo encontrado no es un UserType");
@@ -166,9 +171,8 @@ TypeTable::isCompundUserType(const std::shared_ptr<Type> &type) const noexcept {
                      "El tipo no es un tipo compuesto de usuario");
 }
 
-
-bool TypeTable::isCompundPlaceHolder(
-    const std::shared_ptr<Type> &type) const noexcept {
+auto TypeTable::isCompundPlaceHolder(
+    const std::shared_ptr<Type> &type) const noexcept -> bool {
   if (!type)
     return false;
   if (std::dynamic_pointer_cast<PlaceHolder>(type))
@@ -189,8 +193,8 @@ bool TypeTable::isCompundPlaceHolder(
   return false;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeTable::isCompundEnumType(const std::shared_ptr<Type> &type) const noexcept {
+auto TypeTable::isCompundEnumType(const std::shared_ptr<Type> &type)
+    const noexcept -> std::expected<std::shared_ptr<Type>, Error> {
   if (auto constType = std::dynamic_pointer_cast<ConstType>(type)) {
     auto baseRes = isCompundEnumType(constType->baseType());
     if (!baseRes)
@@ -241,9 +245,10 @@ TypeTable::isCompundEnumType(const std::shared_ptr<Type> &type) const noexcept {
   return createError(ERROR_TYPE::TYPE, "El tipo no es un Enum compuesto");
 }
 
-std::expected<std::shared_ptr<Type>, Error> TypeTable::isCompundGenericType(
+auto TypeTable::isCompundGenericType(
     const std::shared_ptr<Type> &type,
-    const std::vector<GenericParameter> &genericList) const noexcept {
+    const std::vector<GenericParameter> &genericList) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (auto constType = std::dynamic_pointer_cast<ConstType>(type)) {
     auto baseRes = isCompundGenericType(constType->baseType(), genericList);
     if (!baseRes)
@@ -296,8 +301,9 @@ std::expected<std::shared_ptr<Type>, Error> TypeTable::isCompundGenericType(
                      "El tipo no es un tipo compuesto genérico");
 }
 
-bool TypeTable::areSameType(const std::shared_ptr<Type> &type1,
-                            const std::shared_ptr<Type> &type2) const noexcept {
+auto TypeTable::areSameType(const std::shared_ptr<Type> &type1,
+                            const std::shared_ptr<Type> &type2) const noexcept
+    -> bool {
   // Si ambos apuntan al mismo objeto, son iguales.
   if (type1 == type2) {
     return true;
@@ -391,14 +397,15 @@ bool TypeTable::areSameType(const std::shared_ptr<Type> &type1,
   return type1->toString() == type2->toString();
 }
 
-bool TypeTable::canAssign(const std::shared_ptr<Type> &target,
-                          const std::shared_ptr<Type> &source) const noexcept {
+auto TypeTable::canAssign(const std::shared_ptr<Type> &target,
+                          const std::shared_ptr<Type> &source) const noexcept
+    -> bool {
   return canAssignImpl(target, source, false);
 }
 
-bool TypeTable::canAssignImpl(const std::shared_ptr<Type> &target,
+auto TypeTable::canAssignImpl(const std::shared_ptr<Type> &target,
                               const std::shared_ptr<Type> &source,
-                              bool pointerContext) const noexcept {
+                              bool pointerContext) const noexcept -> bool {
   if (areSameType(target, source))
     return true;
 
@@ -480,9 +487,9 @@ bool TypeTable::canAssignImpl(const std::shared_ptr<Type> &target,
   return false;
 }
 
-bool TypeTable::haveCommonAncestor(
+auto TypeTable::haveCommonAncestor(
     const std::shared_ptr<Type> &type1,
-    const std::shared_ptr<Type> &type2) const noexcept {
+    const std::shared_ptr<Type> &type2) const noexcept -> bool {
   // Solo tiene sentido para tipos de usuario (incluyendo GenericInstanceType,
   // que se tratan como UserType)
   auto user1 = std::dynamic_pointer_cast<UserType>(type1);
@@ -505,9 +512,9 @@ bool TypeTable::haveCommonAncestor(
 }
 
 // these two methods are still unfinished
-std::expected<std::shared_ptr<Type>, Error>
-TypeTable::applyUnaryOperator(const std::shared_ptr<Type> &operand,
-                              const TokenType op) const noexcept {
+auto TypeTable::applyUnaryOperator(const std::shared_ptr<Type> &operand,
+                                   const TokenType op) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!operand)
     return createError(ERROR_TYPE::TYPE, "operand is null");
 
@@ -614,10 +621,10 @@ TypeTable::applyUnaryOperator(const std::shared_ptr<Type> &operand,
                          t->toString());
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeTable::applyBinaryOperator(const std::shared_ptr<Type> &leftOperand,
-                               const std::shared_ptr<Type> &rightOperand,
-                               TokenType operatorToken) const noexcept {
+auto TypeTable::applyBinaryOperator(const std::shared_ptr<Type> &leftOperand,
+                                    const std::shared_ptr<Type> &rightOperand,
+                                    TokenType operatorToken) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   // Desenrollar los tipos constantes para trabajar con la representación base.
   std::shared_ptr<Type> leftResolvedType = leftOperand;
   std::shared_ptr<Type> rightResolvedType = rightOperand;
@@ -924,10 +931,11 @@ TypeTable::applyBinaryOperator(const std::shared_ptr<Type> &leftOperand,
           " and " + rightResolvedType->toString());
 }
 
-std::expected<std::shared_ptr<Type>, Error> TypeTable::applyGenericReplacements(
+auto TypeTable::applyGenericReplacements(
     const std::shared_ptr<Type> &type,
     const std::vector<GenericParameter> &genericParams,
-    const std::vector<std::shared_ptr<Type>> &replacements) const noexcept {
+    const std::vector<std::shared_ptr<Type>> &replacements) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!type) {
     return createError(ERROR_TYPE::TYPE, "null type in generic replacement");
   }

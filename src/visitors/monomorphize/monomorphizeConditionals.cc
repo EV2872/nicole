@@ -1,16 +1,16 @@
-#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_case.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_default.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_elseIf.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_if.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_switch.h"
 #include "../../../inc/parsingAnalysis/ast/conditionals/ast_ternary.h"
+#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include <variant>
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_IF *node) const noexcept {
+auto Monomorphize::visit(const AST_IF *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IF");
   }
@@ -37,8 +37,8 @@ Monomorphize::visit(const AST_IF *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_ELSE_IF *node) const noexcept {
+auto Monomorphize::visit(const AST_ELSE_IF *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ELSE_IF");
   }
@@ -53,8 +53,8 @@ Monomorphize::visit(const AST_ELSE_IF *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_SWITCH *node) const noexcept {
+auto Monomorphize::visit(const AST_SWITCH *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SWITCH");
   }
@@ -77,8 +77,8 @@ Monomorphize::visit(const AST_SWITCH *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_CASE *node) const noexcept {
+auto Monomorphize::visit(const AST_CASE *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CASE");
   }
@@ -93,8 +93,8 @@ Monomorphize::visit(const AST_CASE *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_DEFAULT *node) const noexcept {
+auto Monomorphize::visit(const AST_DEFAULT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEFAULT");
   }
@@ -105,8 +105,8 @@ Monomorphize::visit(const AST_DEFAULT *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_TERNARY *node) const noexcept {
+auto Monomorphize::visit(const AST_TERNARY *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_TERNARY");
   }
@@ -125,12 +125,12 @@ Monomorphize::visit(const AST_TERNARY *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_CONDITION *node) const noexcept {
+auto Monomorphize::visit(const AST_CONDITION *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CONDITION");
   }
   return node->condition()->accept(*this);
 }
 
-}
+} // namespace nicole

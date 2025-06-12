@@ -33,95 +33,97 @@ public:
         generics_{generics}, fatherType_{fatherType}, attributes_{attributes},
         methods_{methods}, constructor_{constructor}, destructor_{destructor} {}
 
-  [[nodiscard]] const std::string &id() const noexcept { return id_; }
+  [[nodiscard]] auto id() const noexcept -> const std::string & { return id_; }
 
-  [[nodiscard]] const std::vector<GenericParameter> &generics() const noexcept {
+  [[nodiscard]] auto generics() const noexcept
+      -> const std::vector<GenericParameter> & {
     return generics_;
   }
 
-  void
-  setGenerics(const std::vector<GenericParameter> &generics) const noexcept {
+  auto setGenerics(const std::vector<GenericParameter> &generics) const noexcept
+      -> void {
     generics_ = generics;
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &fatherType() const noexcept {
+  [[nodiscard]] auto fatherType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return fatherType_;
   }
 
-  [[nodiscard]] const std::string &mangledId() const noexcept {
+  [[nodiscard]] auto mangledId() const noexcept -> const std::string & {
     return mangledId_;
   }
 
-  void setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept {
+  auto setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept
+      -> void {
     fatherType_ = fatherType;
   }
 
-  [[nodiscard]] const Attributes &attributes() const noexcept {
+  [[nodiscard]] auto attributes() const noexcept -> const Attributes & {
     return attributes_;
   }
 
-  void setAttributes(const Attributes &attributes) const noexcept {
+  auto setAttributes(const Attributes &attributes) const noexcept -> void {
     attributes_ = attributes;
   }
 
-  [[nodiscard]] const std::vector<std::shared_ptr<AST_METHOD_DECL>> &
-  methods() const noexcept {
+  [[nodiscard]] auto methods() const noexcept
+      -> const std::vector<std::shared_ptr<AST_METHOD_DECL>> & {
     return methods_;
   }
 
-  void setMethods(const std::vector<std::shared_ptr<AST_METHOD_DECL>> &methods)
-      const noexcept {
+  auto setMethods(const std::vector<std::shared_ptr<AST_METHOD_DECL>> &methods)
+      const noexcept -> void {
     methods_ = methods;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_CONSTRUCTOR_DECL> &
-  constructor() const noexcept {
+  [[nodiscard]] auto constructor() const noexcept
+      -> const std::shared_ptr<AST_CONSTRUCTOR_DECL> & {
     return constructor_;
   }
 
-  void setConstructor(
-      const std::shared_ptr<AST_CONSTRUCTOR_DECL> &constructor) const noexcept {
+  auto setConstructor(const std::shared_ptr<AST_CONSTRUCTOR_DECL> &constructor)
+      const noexcept -> void {
     constructor_ = constructor;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_DESTRUCTOR_DECL> &
-  destructor() const noexcept {
+  [[nodiscard]] auto destructor() const noexcept
+      -> const std::shared_ptr<AST_DESTRUCTOR_DECL> & {
     return destructor_;
   }
 
-  void setDestructor(
-      const std::shared_ptr<AST_DESTRUCTOR_DECL> &destructor) const noexcept {
+  auto setDestructor(const std::shared_ptr<AST_DESTRUCTOR_DECL> &destructor)
+      const noexcept -> void {
     destructor_ = destructor;
   }
 
-  // Métodos accept existentes...
-  [[nodiscard]] std::expected<std::string, Error>
-  accept(const PrintTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const PrintTree &visitor) const noexcept
+      -> std::expected<std::string, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<bool, Error>
-  accept(const ValidateTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const ValidateTree &visitor) const noexcept
+      -> std::expected<bool, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const FillSemanticInfo &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const FillSemanticInfo &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  accept(const TypeAnalysis &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const TypeAnalysis &visitor) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const Monomorphize &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const Monomorphize &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value*, Error>
-  accept(const CodeGeneration &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const CodeGeneration &visitor) const noexcept
+      -> std::expected<llvm::Value *, Error> override {
     return visitor.visit(this);
   }
 

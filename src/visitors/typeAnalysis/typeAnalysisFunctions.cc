@@ -14,8 +14,8 @@ namespace nicole {
 - si no tiene generics debe existir una función con esos argumentos
 - retorna tipo de función
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_FUNC_CALL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_FUNC_CALL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_FUNC_CALL");
   }
@@ -82,8 +82,8 @@ TypeAnalysis::visit(const AST_FUNC_CALL *node) const noexcept {
 - body debe retornar un tipo compatible al tipo de la funcion
 - retorna el tipo NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_FUNC_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_FUNC_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_DECL");
 
@@ -129,8 +129,8 @@ TypeAnalysis::visit(const AST_FUNC_DECL *node) const noexcept {
 - si esta vacio retorna void
 - si no el tipo de la expresion
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_RETURN *node) const noexcept {
+auto TypeAnalysis::visit(const AST_RETURN *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_RETURN");
   }

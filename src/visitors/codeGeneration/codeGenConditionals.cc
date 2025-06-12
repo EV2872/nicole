@@ -10,8 +10,8 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_IF *node) const noexcept {
+auto CodeGeneration::visit(const AST_IF *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IF");
   }
@@ -82,8 +82,8 @@ CodeGeneration::visit(const AST_IF *node) const noexcept {
   return nullptr; // el if no produce un value útil por sí solo
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_ELSE_IF *node) const noexcept {
+auto CodeGeneration::visit(const AST_ELSE_IF *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ELSE_IF");
   std::expected<llvm::Value *, Error> condOrErr =
@@ -116,8 +116,8 @@ CodeGeneration::visit(const AST_ELSE_IF *node) const noexcept {
   return nullptr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_SWITCH *node) const noexcept {
+auto CodeGeneration::visit(const AST_SWITCH *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SWITCH");
 
@@ -197,20 +197,20 @@ CodeGeneration::visit(const AST_SWITCH *node) const noexcept {
   return nullptr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_CASE *node) const noexcept {
+auto CodeGeneration::visit(const AST_CASE *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   // Ya manejado en visit(AST_SWITCH*); aquí solo por completitud
   return node->body()->accept(*this);
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_DEFAULT *node) const noexcept {
+auto CodeGeneration::visit(const AST_DEFAULT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   // Similarmente, su cuerpo ya se generó en visit(AST_SWITCH*)
   return node->body()->accept(*this);
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_TERNARY *node) const noexcept {
+auto CodeGeneration::visit(const AST_TERNARY *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_TERNARY");
 
@@ -261,8 +261,8 @@ CodeGeneration::visit(const AST_TERNARY *node) const noexcept {
   return phi;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_CONDITION *node) const noexcept {
+auto CodeGeneration::visit(const AST_CONDITION *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CONDITION");
   }

@@ -1,8 +1,9 @@
 #ifndef GENERIC_PARAMETER_H
 #define GENERIC_PARAMETER_H
 
-#include <string>
+#include <cstddef>
 #include <functional>
+#include <string>
 
 namespace nicole {
 
@@ -13,13 +14,17 @@ private:
 public:
   explicit GenericParameter(const std::string &name) noexcept : name_{name} {}
 
-  [[nodiscard]] const std::string &name() const noexcept { return name_; }
+  [[nodiscard]] auto name() const noexcept -> const std::string & {
+    return name_;
+  }
 
-  [[nodiscard]] bool operator==(const GenericParameter &other) const noexcept {
+  [[nodiscard]] auto operator==(const GenericParameter &other) const noexcept
+      -> bool {
     return name_ == other.name_;
   }
 
-  [[nodiscard]] bool operator<(const GenericParameter &other) const noexcept {
+  [[nodiscard]] auto operator<(const GenericParameter &other) const noexcept
+      -> bool {
     return name_ < other.name_;
   }
 };
@@ -27,12 +32,12 @@ public:
 } // namespace nicole
 
 namespace std {
-    template<>
-    struct hash<nicole::GenericParameter> {
-        std::size_t operator()(const nicole::GenericParameter& obj) const noexcept {
-            return std::hash<std::string>{}(obj.name());
-        }
-    };
-}
+template <> struct hash<nicole::GenericParameter> {
+  auto operator()(const nicole::GenericParameter &obj) const noexcept
+      -> std::size_t {
+    return std::hash<std::string>{}(obj.name());
+  }
+};
+} // namespace std
 
 #endif

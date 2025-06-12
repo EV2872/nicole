@@ -1,16 +1,16 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_attrAccess.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_constructorCall.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_methodCall.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_struct.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_this.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statement / body / null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_STRUCT *node) const noexcept {
+auto ValidateTree::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   }
@@ -36,8 +36,8 @@ ValidateTree::visit(const AST_STRUCT *node) const noexcept {
 }
 
 // chained childs
-std::expected<bool, Error>
-ValidateTree::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto ValidateTree::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
   }
@@ -51,8 +51,8 @@ ValidateTree::visit(const AST_ATTR_ACCESS *node) const noexcept {
 }
 
 // chained childs
-std::expected<bool, Error>
-ValidateTree::visit(const AST_METHOD_CALL *node) const noexcept {
+auto ValidateTree::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -71,8 +71,8 @@ ValidateTree::visit(const AST_METHOD_CALL *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_METHOD_DECL *node) const noexcept {
+auto ValidateTree::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
   }
@@ -87,8 +87,8 @@ ValidateTree::visit(const AST_METHOD_DECL *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto ValidateTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_DECL");
   }
@@ -109,8 +109,8 @@ ValidateTree::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_SUPER *node) const noexcept {
+auto ValidateTree::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_SUPER");
   }
@@ -128,8 +128,8 @@ ValidateTree::visit(const AST_SUPER *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto ValidateTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
   }
@@ -145,8 +145,8 @@ ValidateTree::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
 }
 
 // func decl / struct
-std::expected<bool, Error>
-ValidateTree::visit(const AST_THIS *node) const noexcept {
+auto ValidateTree::visit(const AST_THIS *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
@@ -158,8 +158,8 @@ ValidateTree::visit(const AST_THIS *node) const noexcept {
 }
 
 // chained
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto ValidateTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
   }
@@ -176,4 +176,4 @@ ValidateTree::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

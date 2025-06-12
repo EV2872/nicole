@@ -95,7 +95,7 @@ enum class AST_TYPE : int {
 
 };
 
-[[nodiscard]] std::string astTypeToStr(const AST_TYPE type) noexcept;
+[[nodiscard]] auto astTypeToStr(const AST_TYPE type) noexcept -> std::string;
 
 } // namespace nicole
 

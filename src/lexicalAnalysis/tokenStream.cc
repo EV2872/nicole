@@ -2,7 +2,7 @@
 
 namespace nicole {
 
-const std::expected<std::monostate, Error> TokenStream::eat() noexcept {
+auto TokenStream::eat() noexcept -> std::expected<std::monostate, Error> {
   if (currentPos_ < tokens_.size()) {
     ++currentPos_;
     return std::expected<std::monostate, Error>{std::monostate{}};
@@ -10,39 +10,39 @@ const std::expected<std::monostate, Error> TokenStream::eat() noexcept {
   return createError(ERROR_TYPE::EAT, "invalid access to tokens while eating");
 }
 
-bool TokenStream::isEnd() const noexcept {
+auto TokenStream::isEnd() const noexcept -> bool {
   return currentPos_ == tokens_.size();
 }
 
-const std::expected<Token, Error> TokenStream::current() const noexcept {
+auto TokenStream::current() const noexcept -> std::expected<Token, Error> {
   if (currentPos_ < tokens_.size())
     return tokens_[currentPos_];
   return createError(ERROR_TYPE::CURRENT, "invalid access to tokens");
 }
 
-const std::expected<Token, Error>
-TokenStream::lookAhead(const size_t pos) const noexcept {
+auto TokenStream::lookAhead(const size_t pos) const noexcept
+    -> std::expected<Token, Error> {
   if (currentPos_ + pos < tokens_.size())
     return tokens_[currentPos_ + pos];
   return createError(ERROR_TYPE::LOOK_AHEAD, "invalid access to tokens");
 }
 
-const std::expected<Token, Error> TokenStream::lastRead() const noexcept {
+auto TokenStream::lastRead() const noexcept -> std::expected<Token, Error> {
   if (currentPos_ - 1 < tokens_.size())
     return tokens_[currentPos_ - 1];
   return createError(ERROR_TYPE::LAST_READ, "invalid access to tokens");
 }
 
-const std::expected<bool, Error>
-TokenStream::isCurrentTokenType(const TokenType type) const noexcept {
+auto TokenStream::isCurrentTokenType(const TokenType type) const noexcept
+    -> std::expected<bool, Error> {
   if (currentPos_ < tokens_.size())
     return tokens_[currentPos_].type() == type;
   return createError(ERROR_TYPE::IS_CURRENT_TOKEN_TYPE,
                      "invalid access to tokens");
 }
 
-bool TokenStream::isTokenAheadBeforeSemicolon(
-    const TokenType type) const noexcept {
+auto TokenStream::isTokenAheadBeforeSemicolon(
+    const TokenType type) const noexcept -> bool {
   bool foundToken{false};
   for (size_t i{currentPos_}; i < tokens_.size(); ++i) {
     Token tk{tokens_[i]};
@@ -57,9 +57,9 @@ bool TokenStream::isTokenAheadBeforeSemicolon(
   return foundToken;
 }
 
-const std::expected<std::monostate, Error>
-TokenStream::insertAfter(const TokenStream &tkStream,
-                         const size_t pos) noexcept {
+auto TokenStream::insertAfter(const TokenStream &tkStream,
+                              const size_t pos) noexcept
+    -> std::expected<std::monostate, Error> {
   if (pos == std::numeric_limits<int>::infinity()) {
     return createError(ERROR_TYPE::INSERT_AFTER,
                        "cannot insert after the given position");
@@ -69,7 +69,7 @@ TokenStream::insertAfter(const TokenStream &tkStream,
   return std::expected<std::monostate, Error>{std::monostate{}};
 }
 
-void TokenStream::shiftToSemicolon() noexcept {
+auto TokenStream::shiftToSemicolon() noexcept -> void {
   while (currentPos_ < size()) {
     if (tokens_[currentPos_].type() == TokenType::SEMICOLON) {
       break;
@@ -78,8 +78,9 @@ void TokenStream::shiftToSemicolon() noexcept {
   }
 }
 
-bool TokenStream::hasMatchingPairBefore(TokenType open,
-                                        TokenType until) const noexcept {
+auto TokenStream::hasMatchingPairBefore(TokenType open,
+                                        TokenType until) const noexcept
+    -> bool {
   size_t depth = 0;
   size_t i = currentPos_;
   while (i < tokens_.size()) {

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -64,8 +64,8 @@
 <span id="L2"><span class="lineNum">       2</span>              : </span>
 <span id="L3"><span class="lineNum">       3</span>              : namespace nicole {</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : const std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt;</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 : TopDown::parseIf() const noexcept {</span></span>
+<span id="L5"><span class="lineNum">       5</span>              : auto TopDown::parseIf() const noexcept</span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt; {</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -109,8 +109,8 @@
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :                            *condition, *bodyIf, elseIfs, *bodyElse);</span></span>
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L49"><span class="lineNum">      49</span>              : </span>
-<span id="L50"><span class="lineNum">      50</span>              : const std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;</span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 : TopDown::parseElseIf() const noexcept {</span></span>
+<span id="L50"><span class="lineNum">      50</span>              : auto TopDown::parseElseIf() const noexcept</span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt; {</span></span>
 <span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -133,8 +133,8 @@
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, *condition, *body);</span></span>
 <span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L73"><span class="lineNum">      73</span>              : </span>
-<span id="L74"><span class="lineNum">      74</span>              : const std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;</span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 : TopDown::parseSwitch() const noexcept {</span></span>
+<span id="L74"><span class="lineNum">      74</span>              : auto TopDown::parseSwitch() const noexcept</span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt; {</span></span>
 <span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L78"><span class="lineNum">      78</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -203,8 +203,8 @@
 <span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :       *defaultCase);</span></span>
 <span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L143"><span class="lineNum">     143</span>              : </span>
-<span id="L144"><span class="lineNum">     144</span>              : const std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt;</span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 : TopDown::parseCase() const noexcept {</span></span>
+<span id="L144"><span class="lineNum">     144</span>              : auto TopDown::parseCase() const noexcept</span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt; {</span></span>
 <span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L148"><span class="lineNum">     148</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -230,8 +230,8 @@
 <span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :                              *condition, *body);</span></span>
 <span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L170"><span class="lineNum">     170</span>              : </span>
-<span id="L171"><span class="lineNum">     171</span>              : const std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;</span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 : TopDown::parseDefault() const noexcept {</span></span>
+<span id="L171"><span class="lineNum">     171</span>              : auto TopDown::parseDefault() const noexcept</span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt; {</span></span>
 <span id="L173"><span class="lineNum">     173</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L174"><span class="lineNum">     174</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L175"><span class="lineNum">     175</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -245,8 +245,8 @@
 <span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, *body);</span></span>
 <span id="L184"><span class="lineNum">     184</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L185"><span class="lineNum">     185</span>              : </span>
-<span id="L186"><span class="lineNum">     186</span>              : const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 : TopDown::parseTernary() const noexcept {</span></span>
+<span id="L186"><span class="lineNum">     186</span>              : auto TopDown::parseTernary() const noexcept</span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt; {</span></span>
 <span id="L188"><span class="lineNum">     188</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L189"><span class="lineNum">     189</span>              :   // to avoid ambigious situations like (something) being treated like ternary</span>
 <span id="L190"><span class="lineNum">     190</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() == TokenType::LP and</span></span>
@@ -291,8 +291,8 @@
 <span id="L229"><span class="lineNum">     229</span> <span class="tlaUNC">           0 :   return parseOr();</span></span>
 <span id="L230"><span class="lineNum">     230</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L231"><span class="lineNum">     231</span>              : </span>
-<span id="L232"><span class="lineNum">     232</span>              : const std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;</span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 : TopDown::parseCondition(const bool isInsideFor) const noexcept {</span></span>
+<span id="L232"><span class="lineNum">     232</span>              : auto TopDown::parseCondition(const bool isInsideFor) const noexcept</span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt; {</span></span>
 <span id="L234"><span class="lineNum">     234</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L235"><span class="lineNum">     235</span> <span class="tlaUNC">           0 :   if (!isInsideFor) {</span></span>
 <span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :     if (tkStream_.current()-&gt;type() != TokenType::LP) {</span></span>

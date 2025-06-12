@@ -125,7 +125,8 @@ enum class TokenType {
   ALL
 };
 
-[[nodiscard]] std::string tokenTypeToString(const TokenType &tk) noexcept;
+[[nodiscard]] auto tokenTypeToString(const TokenType &tk) noexcept
+    -> std::string;
 
 } // namespace nicole
 

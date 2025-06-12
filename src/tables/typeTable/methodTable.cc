@@ -3,19 +3,19 @@
 
 namespace nicole {
 
-std::vector<Method>
-MethodTable::getMethods(const std::string &id) const noexcept {
+auto MethodTable::getMethods(const std::string &id) const noexcept
+    -> std::vector<Method> {
   if (table_.count(id)) {
     return table_.at(id);
   }
   return {};
 }
 
-void MethodTable::insert(const Method &method) noexcept {
+auto MethodTable::insert(const Method &method) noexcept -> void {
   table_[method.id()].push_back(method);
 }
 
-void MethodTable::print() const noexcept {
+auto MethodTable::print() const noexcept -> void {
   std::cout << "Methods:\n";
   for (const std::pair<const std::string, std::vector<nicole::Method>>
            &methods : table_) {
@@ -25,9 +25,9 @@ void MethodTable::print() const noexcept {
   }
 }
 
-std::expected<std::monostate, Error>
-MethodTable::setMethodReturnType(const std::string &id,
-                                 const std::shared_ptr<Type> &type) noexcept {
+auto MethodTable::setMethodReturnType(
+    const std::string &id, const std::shared_ptr<Type> &type) noexcept
+    -> std::expected<std::monostate, Error> {
   if (table_.find(id) == table_.end() || table_.at(id).empty()) {
     return createError(ERROR_TYPE::METHOD, "Method not found: " + id);
   }
@@ -36,9 +36,9 @@ MethodTable::setMethodReturnType(const std::string &id,
   return std::expected<std::monostate, Error>{std::monostate{}};
 }
 
-std::expected<std::monostate, Error>
-MethodTable::setMethodParameters(const std::string &id,
-                                 const Parameters &params) noexcept {
+auto MethodTable::setMethodParameters(const std::string &id,
+                                      const Parameters &params) noexcept
+    -> std::expected<std::monostate, Error> {
   if (table_.find(id) == table_.end() || table_.at(id).empty()) {
     return createError(ERROR_TYPE::METHOD, "Method not found: " + id);
   }
@@ -47,9 +47,9 @@ MethodTable::setMethodParameters(const std::string &id,
   return std::expected<std::monostate, Error>{std::monostate{}};
 }
 
-std::expected<std::monostate, Error> MethodTable::setMethodGenercis(
-    const std::string &id,
-    const std::vector<GenericParameter> &params) noexcept {
+auto MethodTable::setMethodGenercis(
+    const std::string &id, const std::vector<GenericParameter> &params) noexcept
+    -> std::expected<std::monostate, Error> {
   if (table_.find(id) == table_.end() || table_.at(id).empty()) {
     return createError(ERROR_TYPE::METHOD, "Method not found: " + id);
   }

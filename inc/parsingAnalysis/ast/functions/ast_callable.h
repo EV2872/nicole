@@ -15,7 +15,7 @@ public:
                         const std::string &id) noexcept
       : AST{nodeId, type, srcLoc}, id_{id} {}
 
-  [[nodiscard]] const std::string &id() const noexcept { return id_; }
+  [[nodiscard]] auto id() const noexcept -> const std::string & { return id_; }
 };
 
 } // namespace nicole

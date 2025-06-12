@@ -1,14 +1,14 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_autoDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_typedDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_varCall.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statement / body / not null or for
-std::expected<bool, Error>
-ValidateTree::visit(const AST_AUTO_DECL *node) const noexcept {
+auto ValidateTree::visit(const AST_AUTO_DECL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_AUTO_DECL");
   }
@@ -26,8 +26,8 @@ ValidateTree::visit(const AST_AUTO_DECL *node) const noexcept {
 }
 
 // statement / body / not null or for
-std::expected<bool, Error>
-ValidateTree::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
+auto ValidateTree::visit(const AST_VAR_TYPED_DECL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_TYPED_DECL");
   }
@@ -45,8 +45,8 @@ ValidateTree::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
 }
 
 // chained
-std::expected<bool, Error>
-ValidateTree::visit(const AST_VAR_CALL *node) const noexcept {
+auto ValidateTree::visit(const AST_VAR_CALL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_CALL");
   }
@@ -57,4 +57,4 @@ ValidateTree::visit(const AST_VAR_CALL *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

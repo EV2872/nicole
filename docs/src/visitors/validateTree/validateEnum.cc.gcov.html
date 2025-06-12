@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -60,16 +60,16 @@
               <td>
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
-<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/visitors/validateTree/validateTree.h&quot;</span>
-<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/enum/ast_enum.h&quot;</span>
-<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/ast/enum/ast_enumAccess.h&quot;</span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/parsingAnalysis/checkPosition.h&quot;</span>
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../../inc/parsingAnalysis/ast/enum/ast_enum.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;../../../inc/parsingAnalysis/ast/enum/ast_enumAccess.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;../../../inc/parsingAnalysis/checkPosition.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;../../../inc/visitors/validateTree/validateTree.h&quot;</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : namespace nicole {</span>
 <span id="L7"><span class="lineNum">       7</span>              : </span>
 <span id="L8"><span class="lineNum">       8</span>              : // statement / body / null</span>
-<span id="L9"><span class="lineNum">       9</span>              : std::expected&lt;bool, Error&gt;</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC tlaBgUNC">           0 : ValidateTree::visit(const AST_ENUM *node) const noexcept {</span></span>
+<span id="L9"><span class="lineNum">       9</span>              : auto ValidateTree::visit(const AST_ENUM *node) const noexcept</span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;bool, Error&gt; {</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ENUM&quot;);</span></span>
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -80,8 +80,8 @@
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   return true;</span></span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span>              : std::expected&lt;bool, Error&gt;</span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 : ValidateTree::visit(const AST_ENUM_ACCESS *node) const noexcept {</span></span>
+<span id="L21"><span class="lineNum">      21</span>              : auto ValidateTree::visit(const AST_ENUM_ACCESS *node) const noexcept</span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;bool, Error&gt; {</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ENUM_ACCESS&quot;);</span></span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -92,7 +92,7 @@
 <span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   return true;</span></span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
-<span id="L33"><span class="lineNum">      33</span>              : }</span>
+<span id="L33"><span class="lineNum">      33</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

@@ -17,25 +17,28 @@ private:
   std::unordered_map<std::string, std::vector<Function>> table_;
 
 public:
-  [[nodiscard]] std::vector<Function>
-  getFunctions(const std::string &id) const noexcept;
+  [[nodiscard]] auto getFunctions(const std::string &id) const noexcept
+      -> std::vector<Function>;
 
-  void insert(const Function &function) noexcept;
+  auto insert(const Function &function) noexcept -> void;
 
-  void print() const noexcept;
+  auto print() const noexcept -> void;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   setFuncReturnType(const std::string &id,
-                    const std::shared_ptr<Type> &type) noexcept;
+                    const std::shared_ptr<Type> &type) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  setFuncParameters(const std::string &id, const Parameters &params) noexcept;
+  [[nodiscard]] auto setFuncParameters(const std::string &id,
+                                       const Parameters &params) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] std::expected<std::string, Error>
-  nameMangling(const Function &type) const noexcept;
+  [[nodiscard]] auto nameMangling(const Function &type) const noexcept
+      -> std::expected<std::string, Error>;
 
-  [[nodiscard]] std::expected<std::string, Error>
-  nameManglingImpl(const Function &type, std::string &result) const noexcept;
+  [[nodiscard]] auto nameManglingImpl(const Function &type,
+                                      std::string &result) const noexcept
+      -> std::expected<std::string, Error>;
 };
 
 } // namespace nicole

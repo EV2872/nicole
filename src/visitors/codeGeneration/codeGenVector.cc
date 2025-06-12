@@ -10,8 +10,8 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_VECTOR *node) const noexcept {
+auto CodeGeneration::visit(const AST_VECTOR *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VECTOR");
 
@@ -97,8 +97,8 @@ CodeGeneration::visit(const AST_VECTOR *node) const noexcept {
   return vecAlloca;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_INDEX *node) const noexcept {
+auto CodeGeneration::visit(const AST_INDEX *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INDEX");
 

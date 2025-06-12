@@ -21,11 +21,11 @@ public:
       : AST_SUBRUTINE_DECL(nodeId, type, srcLoc, id, returnType, body),
         params_{params} {}
 
-  [[nodiscard]] const Parameters &parameters() const noexcept {
+  [[nodiscard]] auto parameters() const noexcept -> const Parameters & {
     return params_;
   }
 
-  void setParameters(const Parameters &params) const noexcept {
+  auto setParameters(const Parameters &params) const noexcept -> void {
     params_ = params;
   }
 };

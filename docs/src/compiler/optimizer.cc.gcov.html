@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">27</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -62,42 +62,50 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : #include &quot;../../inc/compiler/optimizer.h&quot;</span>
 <span id="L2"><span class="lineNum">       2</span>              : #include &lt;llvm/IR/Verifier.h&gt;</span>
-<span id="L3"><span class="lineNum">       3</span>              : #include &lt;llvm/Passes/OptimizationLevel.h&gt;</span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &lt;llvm/Passes/PassBuilder.h&gt;</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : namespace nicole {</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
-<span id="L6"><span class="lineNum">       6</span>              : namespace nicole {</span>
-<span id="L7"><span class="lineNum">       7</span>              : </span>
-<span id="L8"><span class="lineNum">       8</span>              : std::expected&lt;llvm::Module *, Error&gt;</span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC tlaBgUNC">           0 : Optimizer::optimize(llvm::Module *module) const noexcept {</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   if (targetMachine_ and module-&gt;getDataLayout().isDefault()) {</span></span>
+<span id="L6"><span class="lineNum">       6</span>              : auto Optimizer::optimize(llvm::orc::ThreadSafeModule TSM) noexcept</span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;llvm::orc::ThreadSafeModule, Error&gt; {</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   llvm::Module *module{TSM.getModuleUnlocked()};</span></span>
+<span id="L9"><span class="lineNum">       9</span>              :   // Si tenemos target y layout por defecto, lo asignamos:</span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   if (targetMachine_ &amp;&amp; module-&gt;getDataLayout().isDefault()) {</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     module-&gt;setDataLayout(targetMachine_-&gt;createDataLayout());</span></span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   llvm::PassBuilder PB{targetMachine_};</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :   PB.registerModuleAnalyses(MAM);</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   PB.registerCGSCCAnalyses(CGAM);</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :   PB.registerFunctionAnalyses(FAM);</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   PB.registerLoopAnalyses(LAM);</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);</span></span>
-<span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   if (llvm::verifyModule(*module, &amp;llvm::errs())) {</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :                        &quot;module verification failed before optimization&quot;);</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   llvm::ModulePassManager MPM =</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :       PB.buildPerModuleDefaultPipeline(optLevel_, true);</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   MPM.run(*module, MAM);</span></span>
-<span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   if (llvm::verifyModule(*module, &amp;llvm::errs())) {</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :                        &quot;module verification failed after optimization&quot;);</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   return module;</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span>              : } // namespace nicole</span>
+<span id="L14"><span class="lineNum">      14</span>              :   // Managers locales, recreados en cada llamada:</span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :   llvm::LoopAnalysisManager LAM;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   llvm::FunctionAnalysisManager FAM;</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :   llvm::CGSCCAnalysisManager CGAM;</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   llvm::ModuleAnalysisManager MAM;</span></span>
+<span id="L19"><span class="lineNum">      19</span>              : </span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   llvm::PassBuilder PB{targetMachine_.get()};</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   PB.registerModuleAnalyses(MAM);</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   PB.registerCGSCCAnalyses(CGAM);</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   PB.registerFunctionAnalyses(FAM);</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   PB.registerLoopAnalyses(LAM);</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);</span></span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span>              :   // Verificación antes</span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   if (llvm::verifyModule(*module, &amp;llvm::errs())) {</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :                        &quot;module verification failed before optimization&quot;);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L32"><span class="lineNum">      32</span>              : </span>
+<span id="L33"><span class="lineNum">      33</span>              :   // Pipeline por módulo</span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   auto MPM = PB.buildPerModuleDefaultPipeline(optLevel_, /*verifyEach=*/true);</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   MPM.run(*module, MAM);</span></span>
+<span id="L36"><span class="lineNum">      36</span>              : </span>
+<span id="L37"><span class="lineNum">      37</span>              :   // Verificación después</span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :   if (llvm::verifyModule(*module, &amp;llvm::errs())) {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :                        &quot;module verification failed after optimization&quot;);</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L42"><span class="lineNum">      42</span>              : </span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   return std::move(TSM); // RVO se encarga de mover correctamente</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L45"><span class="lineNum">      45</span>              : </span>
+<span id="L46"><span class="lineNum">      46</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

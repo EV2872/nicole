@@ -15,16 +15,17 @@ public:
   explicit PointerType(const std::shared_ptr<Type> &baseType)
       : baseType_{baseType} {}
 
-  [[nodiscard]] const std::shared_ptr<Type> &baseType() const noexcept {
+  [[nodiscard]] auto baseType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return baseType_;
   }
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     return baseType_->toString() + "*";
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     // Obtener el tipo LLVM del tipo base
     std::expected<llvm::Type *, Error> baseTyOrErr =
         baseType_->llvmVersion(context);

@@ -5,7 +5,7 @@
 
 namespace nicole {
 
-bool UserType::hasAttribute(const std::string &id) const noexcept {
+auto UserType::hasAttribute(const std::string &id) const noexcept -> bool {
   if (baseType_) {
     if (const std::shared_ptr<UserType> userType =
             std::dynamic_pointer_cast<UserType>(baseType_)) {
@@ -20,7 +20,7 @@ bool UserType::hasAttribute(const std::string &id) const noexcept {
   return false;
 }
 
-bool UserType::hasMethod(const Method &id) const noexcept {
+auto UserType::hasMethod(const Method &id) const noexcept -> bool {
   if (baseType_) {
     if (const std::shared_ptr<UserType> userType =
             std::dynamic_pointer_cast<UserType>(baseType_))
@@ -32,8 +32,8 @@ bool UserType::hasMethod(const Method &id) const noexcept {
   return false;
 }
 
-const std::expected<Attribute, Error>
-UserType::getAttribute(const std::string &id) const noexcept {
+auto UserType::getAttribute(const std::string &id) const noexcept
+    -> const std::expected<Attribute, Error> {
   if (attrTable_.has(id)) {
     return attrTable_.getAttribute(id);
   }
@@ -47,8 +47,8 @@ UserType::getAttribute(const std::string &id) const noexcept {
                      "the attribute: " + id + " does not exist in " + name_);
 }
 
-const std::expected<std::vector<Method>, Error>
-UserType::getMethods(const std::string &id) const noexcept {
+auto UserType::getMethods(const std::string &id) const noexcept
+    -> const std::expected<std::vector<Method>, Error> {
   std::vector<Method> combinedMethods;
   if (methodTable_.getMethods(id).size()) {
     std::vector<Method> childRes = methodTable_.getMethods(id);
@@ -75,8 +75,8 @@ UserType::getMethods(const std::string &id) const noexcept {
                      "the method: " + id + " does not exist in " + name_);
 }
 
-std::expected<std::monostate, Error>
-UserType::insertAttr(const Attribute &attr) const noexcept {
+auto UserType::insertAttr(const Attribute &attr) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (hasAttribute(attr.id())) {
     return createError(ERROR_TYPE::ATTR,
                        "the attribute: " + attr.id() + " already exists");
@@ -84,12 +84,12 @@ UserType::insertAttr(const Attribute &attr) const noexcept {
   return attrTable_.insert(attr);
 }
 
-void UserType::insertMethod(const Method &method) const noexcept {
+auto UserType::insertMethod(const Method &method) const noexcept -> void {
   methodTable_.insert(method);
 }
 
-std::expected<std::monostate, Error>
-UserType::setAttribute(const Attribute &attr) const noexcept {
+auto UserType::setAttribute(const Attribute &attr) const noexcept
+    -> std::expected<std::monostate, Error> {
   // Comprobar que el atributo existe en el UserType o en sus bases.
   if (!attrTable_.has(attr.id())) {
     return createError(ERROR_TYPE::ATTR, "Attribute: " + attr.id() +
@@ -99,8 +99,8 @@ UserType::setAttribute(const Attribute &attr) const noexcept {
   return attrTable_.setAttribute(attr);
 }
 
-bool UserType::isAboveInHearchy(
-    const std::shared_ptr<UserType> &type) const noexcept {
+auto UserType::isAboveInHearchy(
+    const std::shared_ptr<UserType> &type) const noexcept -> bool {
   std::shared_ptr<UserType> aux{baseType_};
   while (aux) {
     if (aux->name_ == type->name_) {
@@ -111,7 +111,7 @@ bool UserType::isAboveInHearchy(
   return false;
 }
 
-std::string UserType::toString() const noexcept {
+auto UserType::toString() const noexcept -> std::string {
   std::ostringstream oss;
   oss << name_;
   if (!genericParams_.empty()) {
@@ -129,8 +129,8 @@ std::string UserType::toString() const noexcept {
   return oss.str();
 }
 
-std::expected<llvm::Type *, Error>
-UserType::llvmVersion(llvm::LLVMContext &context) const noexcept {
+auto UserType::llvmVersion(llvm::LLVMContext &context) const noexcept
+    -> std::expected<llvm::Type *, Error> {
   llvm::StructType *st = llvm::StructType::getTypeByName(context, name_);
   if (!st) {
     st = llvm::StructType::create(context, name_);

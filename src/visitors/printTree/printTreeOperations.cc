@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_binary.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_unary.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_BINARY *node) const noexcept {
+auto PrintTree::visit(const AST_BINARY *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BINARY");
   }
@@ -27,8 +27,8 @@ PrintTree::visit(const AST_BINARY *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_UNARY *node) const noexcept {
+auto PrintTree::visit(const AST_UNARY *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_UNARY");
   }
@@ -44,4 +44,4 @@ PrintTree::visit(const AST_UNARY *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

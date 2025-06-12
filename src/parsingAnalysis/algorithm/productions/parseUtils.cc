@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_IMPORT>, Error>
-TopDown::parseImport() const noexcept {
+auto 
+TopDown::parseImport() const noexcept -> std::expected<std::shared_ptr<AST_IMPORT>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -43,8 +43,8 @@ TopDown::parseImport() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, currentFilePath);
 }
 
-const std::expected<std::shared_ptr<AST_PRINT>, Error>
-TopDown::parsePrint() const noexcept {
+auto 
+TopDown::parsePrint() const noexcept -> std::expected<std::shared_ptr<AST_PRINT>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());

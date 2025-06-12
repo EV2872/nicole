@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_binary.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_unary.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_BINARY *node) const noexcept {
+auto ValidateTree::visit(const AST_BINARY *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ADD");
   }
@@ -27,8 +27,8 @@ ValidateTree::visit(const AST_BINARY *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_UNARY *node) const noexcept {
+auto ValidateTree::visit(const AST_UNARY *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEG");
   }
@@ -44,4 +44,4 @@ ValidateTree::visit(const AST_UNARY *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

@@ -9,8 +9,8 @@
 
 namespace nicole {
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_BOOL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_BOOL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BOOL");
   }
@@ -19,8 +19,8 @@ TypeAnalysis::visit(const AST_BOOL *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_CHAR *node) const noexcept {
+auto TypeAnalysis::visit(const AST_CHAR *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CHAR");
   }
@@ -29,8 +29,8 @@ TypeAnalysis::visit(const AST_CHAR *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DOUBLE *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DOUBLE *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DOUBLE");
   }
@@ -39,8 +39,8 @@ TypeAnalysis::visit(const AST_DOUBLE *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_FLOAT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_FLOAT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FLOAT");
   }
@@ -49,8 +49,8 @@ TypeAnalysis::visit(const AST_FLOAT *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_INT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_INT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INT");
   }
@@ -59,8 +59,8 @@ TypeAnalysis::visit(const AST_INT *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_NULL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_NULL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NULL");
   }
@@ -69,8 +69,8 @@ TypeAnalysis::visit(const AST_NULL *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_STRING *node) const noexcept {
+auto TypeAnalysis::visit(const AST_STRING *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRING");
   }

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -70,12 +70,12 @@
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              : class NullType final : public Type {</span>
 <span id="L10"><span class="lineNum">      10</span>              : public:</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] std::string toString() const noexcept override {</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto toString() const noexcept -&gt; std::string override {</span></span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     return &quot;nullptr&quot;;</span></span>
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span>              :   [[nodiscard]] std::expected&lt;llvm::Type *, Error&gt;</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   llvmVersion(llvm::LLVMContext &amp;context) const noexcept override {</span></span>
+<span id="L15"><span class="lineNum">      15</span>              :   [[nodiscard]] auto llvmVersion(llvm::LLVMContext &amp;context) const noexcept</span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :       -&gt; std::expected&lt;llvm::Type *, Error&gt; override {</span></span>
 <span id="L17"><span class="lineNum">      17</span>              :     // Representamos nullptr como puntero genérico (i8*)</span>
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);</span></span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     llvm::PointerType *ptrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);</span></span>

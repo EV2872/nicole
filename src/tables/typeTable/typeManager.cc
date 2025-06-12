@@ -3,8 +3,9 @@
 
 namespace nicole {
 
-bool TypeManager::canAssign(const std::shared_ptr<Type> &dest,
-                            const std::shared_ptr<Type> &src) const noexcept {
+auto TypeManager::canAssign(const std::shared_ptr<Type> &dest,
+                            const std::shared_ptr<Type> &src) const noexcept
+    -> bool {
   // Caso 0: Si ambos punteros son iguales o alguno es nulo.
   if (dest == src) {
     return true;

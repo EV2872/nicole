@@ -19,12 +19,13 @@ public:
                     const std::shared_ptr<AST_BODY> &body) noexcept
       : AST(nodeId, type, srcLoc), condition_{condition}, body_{body} {}
 
-  [[nodiscard]] const std::shared_ptr<AST_CONDITION> &
-  condition() const noexcept {
+  [[nodiscard]] auto condition() const noexcept
+      -> const std::shared_ptr<AST_CONDITION> & {
     return condition_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 };

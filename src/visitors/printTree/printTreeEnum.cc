@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enum.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enumAccess.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_ENUM *node) const noexcept {
+auto PrintTree::visit(const AST_ENUM *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM");
   }
@@ -22,8 +22,8 @@ PrintTree::visit(const AST_ENUM *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_ENUM_ACCESS *node) const noexcept {
+auto PrintTree::visit(const AST_ENUM_ACCESS *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM_ACCESS");
   }
@@ -36,4 +36,4 @@ PrintTree::visit(const AST_ENUM_ACCESS *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

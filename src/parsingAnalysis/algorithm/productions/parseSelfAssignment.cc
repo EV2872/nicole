@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseAssignment(const bool insideFor) const noexcept {
+auto TopDown::parseAssignment(const bool insideFor) const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   const std::expected<std::shared_ptr<AST>, Error> left{parseOr()};
   if (!left || !*left) {

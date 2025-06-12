@@ -29,36 +29,45 @@ public:
       : Symbol{id}, generics_{generics}, params_{params},
         returnType_{returnType}, body_{body}, isVirtual_{isVirtual} {}
 
-  [[nodiscard]] const std::vector<GenericParameter> &generics() const noexcept {
+  [[nodiscard]] auto generics() const noexcept
+      -> const std::vector<GenericParameter> & {
     return generics_;
   }
 
-  [[nodiscard]] const Parameters &params() const noexcept { return params_; }
+  [[nodiscard]] auto params() const noexcept -> const Parameters & {
+    return params_;
+  }
 
-  [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
+  [[nodiscard]] auto returnType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 
-  [[nodiscard]] bool isVirtual() const noexcept { return isVirtual_; }
+  [[nodiscard]] auto isVirtual() const noexcept -> bool { return isVirtual_; }
 
-  void setInherit(const bool inherit) const noexcept { isInherited_ = inherit; }
+  auto setInherit(const bool inherit) const noexcept -> void {
+    isInherited_ = inherit;
+  }
 
-  [[nodiscard]] bool isInherited() const noexcept { return isInherited_; }
+  [[nodiscard]] auto isInherited() const noexcept -> bool {
+    return isInherited_;
+  }
 
-  void setReturnType(const std::shared_ptr<Type> &type) const noexcept {
+  auto setReturnType(const std::shared_ptr<Type> &type) const noexcept -> void {
     returnType_ = type;
   }
 
-  void setParameters(const Parameters &params) const noexcept {
+  auto setParameters(const Parameters &params) const noexcept -> void {
     params_ = params;
   }
 
-  void
-  setGenerics(const std::vector<GenericParameter> &generics) const noexcept {
+  auto setGenerics(const std::vector<GenericParameter> &generics) const noexcept
+      -> void {
     generics_ = generics;
   }
 };

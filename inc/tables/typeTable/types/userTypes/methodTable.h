@@ -15,23 +15,26 @@ private:
   mutable std::unordered_map<std::string, std::vector<Method>> table_;
 
 public:
-  [[nodiscard]] std::vector<Method>
-  getMethods(const std::string &id) const noexcept;
+  [[nodiscard]] auto getMethods(const std::string &id) const noexcept
+      -> std::vector<Method>;
 
-  void insert(const Method &method) noexcept;
+  auto insert(const Method &method) noexcept -> void;
 
-  void print() const noexcept;
+  auto print() const noexcept -> void;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   setMethodReturnType(const std::string &id,
-                      const std::shared_ptr<Type> &type) noexcept;
+                      const std::shared_ptr<Type> &type) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  setMethodParameters(const std::string &id, const Parameters &params) noexcept;
+  [[nodiscard]] auto setMethodParameters(const std::string &id,
+                                         const Parameters &params) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   setMethodGenercis(const std::string &id,
-                    const std::vector<GenericParameter> &generics) noexcept;
+                    const std::vector<GenericParameter> &generics) noexcept
+      -> std::expected<std::monostate, Error>;
 };
 
 } // namespace nicole

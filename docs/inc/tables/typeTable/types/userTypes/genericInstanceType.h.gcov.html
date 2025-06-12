@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -80,17 +80,17 @@
 <span id="L18"><span class="lineNum">      18</span>              : public:</span>
 <span id="L19"><span class="lineNum">      19</span>              :   GenericInstanceType(const std::shared_ptr&lt;UserType&gt; &amp;genericType,</span>
 <span id="L20"><span class="lineNum">      20</span>              :                       const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;args) noexcept</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC tlaBgUNC">           0 :       : UserType(*genericType),</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :         typeArgs_{args} {}</span></span>
-<span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span>              :   [[nodiscard]] const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp;</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   typeArgs() const noexcept {</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :     return typeArgs_;</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L28"><span class="lineNum">      28</span>              : </span>
-<span id="L29"><span class="lineNum">      29</span>              :   [[nodiscard]] std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L30"><span class="lineNum">      30</span>              :   setGenericReplacement(const std::size_t pos,</span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :                         const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC tlaBgUNC">           0 :       : UserType(*genericType), typeArgs_{args} {}</span></span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span>              :   [[nodiscard]] auto typeArgs() const noexcept</span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :       -&gt; const std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; &amp; {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     return typeArgs_;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span>              :   [[nodiscard]] auto</span>
+<span id="L29"><span class="lineNum">      29</span>              :   setGenericReplacement(const std::size_t pos,</span>
+<span id="L30"><span class="lineNum">      30</span>              :                         const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept</span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :       -&gt; std::expected&lt;std::monostate, Error&gt; {</span></span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :     if (pos &gt;= typeArgs_.size()) {</span></span>
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :       return createError(</span></span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :           ERROR_TYPE::TYPE,</span></span>
@@ -100,7 +100,7 @@
 <span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     return {};</span></span>
 <span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L40"><span class="lineNum">      40</span>              : </span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   [[nodiscard]] std::string toString() const noexcept override {</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   [[nodiscard]] auto toString() const noexcept -&gt; std::string override {</span></span>
 <span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :     std::ostringstream oss;</span></span>
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :     oss &lt;&lt; UserType::toString() &lt;&lt; &quot;&lt;&quot;;</span></span>
 <span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     for (size_t i = 0; i &lt; typeArgs_.size(); ++i) {</span></span>
@@ -112,33 +112,34 @@
 <span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :     return oss.str();</span></span>
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L52"><span class="lineNum">      52</span>              : </span>
-<span id="L53"><span class="lineNum">      53</span>              :   [[nodiscard]] std::expected&lt;llvm::Type*, Error&gt;</span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :   llvmVersion(llvm::LLVMContext &amp;context) const noexcept override {</span></span>
+<span id="L53"><span class="lineNum">      53</span>              :   [[nodiscard]] auto llvmVersion(llvm::LLVMContext &amp;context) const noexcept</span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :       -&gt; std::expected&lt;llvm::Type *, Error&gt; override {</span></span>
 <span id="L55"><span class="lineNum">      55</span>              :     // Recupera el struct opaco base por nombre</span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :     llvm::StructType *origStruct = llvm::StructType::getTypeByName(context, name());</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :     if (!origStruct) {</span></span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE, &quot;Unknown user type: &quot; + name());</span></span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L60"><span class="lineNum">      60</span>              :     // Si el struct es opaco, define su cuerpo con los argumentos de tipo</span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :     if (origStruct-&gt;isOpaque()) {</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :       std::vector&lt;llvm::Type*&gt; elements;</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :       elements.reserve(typeArgs_.size());</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :       for (const std::shared_ptr&lt;nicole::Type&gt; &amp;arg : typeArgs_) {</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :         std::expected&lt;llvm::Type *, Error&gt; tyOrErr = arg-&gt;llvmVersion(context);</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :         if (!tyOrErr) {</span></span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :           return createError(tyOrErr.error());</span></span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :         }</span></span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :         elements.push_back(*tyOrErr);</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :       }</span></span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :       origStruct-&gt;setBody(elements, /*isPacked=*/false);</span></span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :     return origStruct;</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L75"><span class="lineNum">      75</span>              : };</span>
-<span id="L76"><span class="lineNum">      76</span>              : </span>
-<span id="L77"><span class="lineNum">      77</span>              : } // namespace nicole</span>
-<span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span>              : #endif</span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :     llvm::StructType *origStruct =</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :         llvm::StructType::getTypeByName(context, name());</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :     if (!origStruct) {</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :       return createError(ERROR_TYPE::TYPE, &quot;Unknown user type: &quot; + name());</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L61"><span class="lineNum">      61</span>              :     // Si el struct es opaco, define su cuerpo con los argumentos de tipo</span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :     if (origStruct-&gt;isOpaque()) {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :       std::vector&lt;llvm::Type *&gt; elements;</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :       elements.reserve(typeArgs_.size());</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :       for (const std::shared_ptr&lt;nicole::Type&gt; &amp;arg : typeArgs_) {</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :         std::expected&lt;llvm::Type *, Error&gt; tyOrErr = arg-&gt;llvmVersion(context);</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :         if (!tyOrErr) {</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :           return createError(tyOrErr.error());</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :         }</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :         elements.push_back(*tyOrErr);</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :       }</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :       origStruct-&gt;setBody(elements, /*isPacked=*/false);</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :     return origStruct;</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L76"><span class="lineNum">      76</span>              : };</span>
+<span id="L77"><span class="lineNum">      77</span>              : </span>
+<span id="L78"><span class="lineNum">      78</span>              : } // namespace nicole</span>
+<span id="L79"><span class="lineNum">      79</span>              : </span>
+<span id="L80"><span class="lineNum">      80</span>              : #endif</span>
         </pre>
               </td>
             </tr>

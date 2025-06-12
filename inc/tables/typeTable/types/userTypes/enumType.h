@@ -19,20 +19,24 @@ public:
            const std::vector<std::string> &values) noexcept
       : name_(name), values_(values) {}
 
-  [[nodiscard]] const std::string &name() const noexcept { return name_; }
+  [[nodiscard]] auto name() const noexcept -> const std::string & {
+    return name_;
+  }
 
-  [[nodiscard]] const std::vector<std::string> &values() const noexcept {
+  [[nodiscard]] auto values() const noexcept
+      -> const std::vector<std::string> & {
     return values_;
   }
 
-  [[nodiscard]] bool
-  hasIdentifier(const std::string &identifier) const noexcept {
+  [[nodiscard]] auto hasIdentifier(const std::string &identifier) const noexcept
+      -> bool {
     return std::find(values_.begin(), values_.end(), identifier) !=
            values_.end();
   }
 
-  [[nodiscard]] std::expected<size_t, Error>
-  identifierToNumber(const std::string &identifier) const noexcept {
+  [[nodiscard]] auto
+  identifierToNumber(const std::string &identifier) const noexcept
+      -> std::expected<std::size_t, Error> {
     for (size_t i{0}; i < values_.size(); ++i) {
       if (identifier == values_[i]) {
         return i;
@@ -43,7 +47,7 @@ public:
                            "in enum: " + name_);
   }
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     std::ostringstream oss;
     oss << "enum " << name_ << " { ";
     for (size_t i = 0; i < values_.size(); ++i) {
@@ -56,8 +60,8 @@ public:
     return oss.str();
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     // Representamos enum como i32
     return llvm::Type::getInt32Ty(context);
   }

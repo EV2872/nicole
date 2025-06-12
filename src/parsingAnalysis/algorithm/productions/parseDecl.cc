@@ -3,8 +3,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseVarDecl(const bool insideFor) const noexcept {
+auto TopDown::parseVarDecl(const bool insideFor) const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   const Token token{*tkStream_.current()};
   std::string varName;
@@ -120,8 +120,8 @@ TopDown::parseVarDecl(const bool insideFor) const noexcept {
   }
 }
 
-const std::expected<std::shared_ptr<AST_DELETE>, Error>
-TopDown::parseDelete() const noexcept {
+auto TopDown::parseDelete() const noexcept
+    -> std::expected<std::shared_ptr<AST_DELETE>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());

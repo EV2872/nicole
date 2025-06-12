@@ -1,15 +1,15 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_doWhile.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_for.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_pass.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_stop.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_while.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_WHILE *node) const noexcept {
+auto PrintTree::visit(const AST_WHILE *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_WHILE");
   }
@@ -37,8 +37,8 @@ PrintTree::visit(const AST_WHILE *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_FOR *node) const noexcept {
+auto PrintTree::visit(const AST_FOR *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FOR");
   }
@@ -86,8 +86,8 @@ PrintTree::visit(const AST_FOR *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_DO_WHILE *node) const noexcept {
+auto PrintTree::visit(const AST_DO_WHILE *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DO_WHILE");
   }
@@ -111,8 +111,8 @@ PrintTree::visit(const AST_DO_WHILE *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_PASS *node) const noexcept {
+auto PrintTree::visit(const AST_PASS *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PASS");
   }
@@ -123,8 +123,8 @@ PrintTree::visit(const AST_PASS *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_STOP *node) const noexcept {
+auto PrintTree::visit(const AST_STOP *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STOP");
   }
@@ -135,4 +135,4 @@ PrintTree::visit(const AST_STOP *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

@@ -10,16 +10,17 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_BOOL *node) const noexcept {
+auto CodeGeneration::visit(const AST_BOOL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BOOL");
   }
-  return llvm::ConstantInt::get(llvm::Type::getInt1Ty(*context_), node->value());
+  return llvm::ConstantInt::get(llvm::Type::getInt1Ty(*context_),
+                                node->value());
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_CHAR *node) const noexcept {
+auto CodeGeneration::visit(const AST_CHAR *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CHAR");
   }
@@ -27,8 +28,8 @@ CodeGeneration::visit(const AST_CHAR *node) const noexcept {
                                 static_cast<uint64_t>(node->value()));
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_DOUBLE *node) const noexcept {
+auto CodeGeneration::visit(const AST_DOUBLE *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DOUBLE");
   }
@@ -36,8 +37,8 @@ CodeGeneration::visit(const AST_DOUBLE *node) const noexcept {
                                llvm::APFloat(node->value()));
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_FLOAT *node) const noexcept {
+auto CodeGeneration::visit(const AST_FLOAT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FLOAT");
   }
@@ -45,8 +46,8 @@ CodeGeneration::visit(const AST_FLOAT *node) const noexcept {
                                llvm::APFloat(node->value()));
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_INT *node) const noexcept {
+auto CodeGeneration::visit(const AST_INT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INT");
   }
@@ -54,8 +55,8 @@ CodeGeneration::visit(const AST_INT *node) const noexcept {
                                 static_cast<uint64_t>(node->value()), true);
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_NULL *node) const noexcept {
+auto CodeGeneration::visit(const AST_NULL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NULL");
   }
@@ -65,8 +66,8 @@ CodeGeneration::visit(const AST_NULL *node) const noexcept {
   return llvm::ConstantPointerNull::get(i8PtrTy);
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_STRING *node) const noexcept {
+auto CodeGeneration::visit(const AST_STRING *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRING");
   }

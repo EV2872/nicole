@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -64,7 +64,7 @@
 <span id="L2"><span class="lineNum">       2</span>              : </span>
 <span id="L3"><span class="lineNum">       3</span>              : namespace nicole {</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC tlaBgUNC">           0 : bool Scope::has(const std::string &amp;id) const noexcept {</span></span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC tlaBgUNC">           0 : auto Scope::has(const std::string &amp;id) const noexcept -&gt; bool {</span></span>
 <span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC">           0 :   if (table_.count(id)) {</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :     return true;</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -74,8 +74,8 @@
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   return false;</span></span>
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span>              : const std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt;</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 : Scope::getVariable(const std::string &amp;id) const noexcept {</span></span>
+<span id="L15"><span class="lineNum">      15</span>              : auto Scope::getVariable(const std::string &amp;id) const noexcept</span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     -&gt; const std::expected&lt;std::shared_ptr&lt;Variable&gt;, Error&gt; {</span></span>
 <span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :   if (table_.count(id)) {</span></span>
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     return table_.at(id);</span></span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -86,8 +86,8 @@
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :                      &quot;variable: &quot; + id + &quot; does not exist&quot;);</span></span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span>              : std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 : Scope::insert(const std::shared_ptr&lt;Variable&gt; &amp;variable) noexcept {</span></span>
+<span id="L27"><span class="lineNum">      27</span>              : auto Scope::insert(const std::shared_ptr&lt;Variable&gt; &amp;variable) noexcept</span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::monostate, Error&gt; {</span></span>
 <span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   if (!has(variable-&gt;id())) {</span></span>
 <span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :     table_.emplace(variable-&gt;id(), variable);</span></span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :     return {};</span></span>
@@ -96,14 +96,14 @@
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :                      &quot;the variable: &quot; + variable-&gt;id() + &quot; already exists&quot;);</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L36"><span class="lineNum">      36</span>              : </span>
-<span id="L37"><span class="lineNum">      37</span>              : void Scope::registerForDestruction(</span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     const std::shared_ptr&lt;Variable&gt; &amp;variable) noexcept {</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : auto Scope::registerForDestruction(</span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     const std::shared_ptr&lt;Variable&gt; &amp;variable) noexcept -&gt; void {</span></span>
 <span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :   registerForDestruction_.push_back(variable);</span></span>
 <span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
-<span id="L42"><span class="lineNum">      42</span>              : std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L43"><span class="lineNum">      43</span>              : Scope::setVariableType(const std::string &amp;id,</span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :                        const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept {</span></span>
+<span id="L42"><span class="lineNum">      42</span>              : auto Scope::setVariableType(const std::string &amp;id,</span>
+<span id="L43"><span class="lineNum">      43</span>              :                             const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept</span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::monostate, Error&gt; {</span></span>
 <span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   auto it = table_.find(id);</span></span>
 <span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :   if (it != table_.end()) {</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :     it-&gt;second-&gt;setType(type);</span></span>
@@ -116,22 +116,23 @@
 <span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :                      &quot;variable '&quot; + id + &quot;' does not exist&quot;);</span></span>
 <span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L56"><span class="lineNum">      56</span>              : </span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 : std::ostream &amp;operator&lt;&lt;(std::ostream &amp;os, const Scope &amp;scope) noexcept {</span></span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :   os &lt;&lt; &quot;Scope { &quot;;</span></span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :   for (auto it = scope.table_.cbegin(); it != scope.table_.cend(); ++it) {</span></span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     os &lt;&lt; it-&gt;first;</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :     if (std::next(it) != scope.table_.cend()) {</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :       os &lt;&lt; &quot;, &quot;;</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :     }</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :   os &lt;&lt; &quot; }&quot;;</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :   if (scope.father_) {</span></span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :     os &lt;&lt; &quot; -&gt; &quot; &lt;&lt; *scope.father_;</span></span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :   return os;</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L71"><span class="lineNum">      71</span>              : </span>
-<span id="L72"><span class="lineNum">      72</span>              : } // namespace nicole</span>
+<span id="L57"><span class="lineNum">      57</span>              : auto operator&lt;&lt;(std::ostream &amp;os, const Scope &amp;scope) noexcept</span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :     -&gt; std::ostream &amp; {</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :   os &lt;&lt; &quot;Scope { &quot;;</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :   for (auto it = scope.table_.cbegin(); it != scope.table_.cend(); ++it) {</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :     os &lt;&lt; it-&gt;first;</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :     if (std::next(it) != scope.table_.cend()) {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :       os &lt;&lt; &quot;, &quot;;</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 :   os &lt;&lt; &quot; }&quot;;</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :   if (scope.father_) {</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :     os &lt;&lt; &quot; -&gt; &quot; &lt;&lt; *scope.father_;</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :   return os;</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L72"><span class="lineNum">      72</span>              : </span>
+<span id="L73"><span class="lineNum">      73</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

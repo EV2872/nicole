@@ -1,5 +1,5 @@
-#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include "../../../inc/parsingAnalysis/ast/assignments/ast_assignment.h"
+#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include <memory>
 
 namespace nicole {
@@ -10,8 +10,8 @@ namespace nicole {
 - comprueba que sea asignable
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_ASSIGNMENT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_ASSIGNMENT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ASSIGNMENT");
   }
@@ -32,4 +32,4 @@ TypeAnalysis::visit(const AST_ASSIGNMENT *node) const noexcept {
   return typeTable_->noPropagateType();
 }
 
-}
+} // namespace nicole

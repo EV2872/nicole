@@ -19,46 +19,46 @@ public:
       const std::vector<std::shared_ptr<AST_STATEMENT>> &body) noexcept
       : AST(nodeId, AST_TYPE::BODY, srcLoc), body_{body} {}
 
-  [[nodiscard]] const std::vector<std::shared_ptr<AST_STATEMENT>> &
-  body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::vector<std::shared_ptr<AST_STATEMENT>> & {
     return body_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Scope> &scope() const noexcept {
+  [[nodiscard]] auto scope() const noexcept -> const std::shared_ptr<Scope> & {
     return scope_;
   }
 
-  void setScope(const std::shared_ptr<Scope> &scope) const noexcept {
+  auto setScope(const std::shared_ptr<Scope> &scope) const noexcept -> void {
     scope_ = scope;
   }
 
-  [[nodiscard]] std::expected<std::string, Error>
-  accept(const PrintTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const PrintTree &visitor) const noexcept
+      -> std::expected<std::string, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<bool, Error>
-  accept(const ValidateTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const ValidateTree &visitor) const noexcept
+      -> std::expected<bool, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const FillSemanticInfo &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const FillSemanticInfo &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  accept(const TypeAnalysis &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const TypeAnalysis &visitor) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const Monomorphize &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const Monomorphize &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value*, Error>
-  accept(const CodeGeneration &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const CodeGeneration &visitor) const noexcept
+      -> std::expected<llvm::Value *, Error> override {
     return visitor.visit(this);
   }
 };

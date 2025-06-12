@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -67,7 +67,7 @@
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : namespace nicole {</span>
 <span id="L7"><span class="lineNum">       7</span>              : </span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 : const Category Lexer::concatCategories() const noexcept {</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 : auto Lexer::concatCategories() const noexcept -&gt; const Category {</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   std::string pattern{&quot;&quot;};</span></span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   for (const Category &amp;category : categories_) {</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     pattern += category.rawPattern() + &quot;|&quot;;</span></span>
@@ -76,8 +76,8 @@
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   return Category{TokenType::ALL, pattern, false};</span></span>
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
-<span id="L17"><span class="lineNum">      17</span>              : const std::expected&lt;void, Error&gt;</span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 : Lexer::checkUnmatched(const std::vector&lt;Token&gt; &amp;tokens) const noexcept {</span></span>
+<span id="L17"><span class="lineNum">      17</span>              : auto Lexer::checkUnmatched(const std::vector&lt;Token&gt; &amp;tokens) const noexcept</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     -&gt; const std::expected&lt;void, Error&gt; {</span></span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   bool unmatchedFlag{false};</span></span>
 <span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   std::string everyUnmatched{&quot;Unmatched tokens:\n&quot;};</span></span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   for (const Token &amp;TOKEN : tokens) {</span></span>
@@ -92,8 +92,8 @@
 <span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :   return std::expected&lt;void, Error&gt;{};</span></span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
-<span id="L33"><span class="lineNum">      33</span>              : const std::expected&lt;std::string, Error&gt;</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 : Lexer::readFile(const std::filesystem::path &amp;fileName) const noexcept {</span></span>
+<span id="L33"><span class="lineNum">      33</span>              : auto Lexer::readFile(const std::filesystem::path &amp;fileName) const noexcept</span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :     -&gt; const std::expected&lt;std::string, Error&gt; {</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   const std::regex fileNameFormat{&quot;[a-zA-Z]+[a-zA-Z0-9]*\\.&quot; + extension_,</span></span>
 <span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :                                   std::regex_constants::optimize};</span></span>
 <span id="L37"><span class="lineNum">      37</span>              :   // method fileName returns just the file</span>
@@ -117,9 +117,9 @@
 <span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :   return text;</span></span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L57"><span class="lineNum">      57</span>              : </span>
-<span id="L58"><span class="lineNum">      58</span>              : const std::expected&lt;TokenStream, Error&gt;</span>
-<span id="L59"><span class="lineNum">      59</span>              : Lexer::analyze(const std::filesystem::path &amp;fileName,</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :                bool verbose) const noexcept {</span></span>
+<span id="L58"><span class="lineNum">      58</span>              : auto Lexer::analyze(const std::filesystem::path &amp;fileName,</span>
+<span id="L59"><span class="lineNum">      59</span>              :                     bool verbose) const noexcept</span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     -&gt; const std::expected&lt;TokenStream, Error&gt; {</span></span>
 <span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::string, Error&gt; TEXT{readFile(fileName)};</span></span>
 <span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC">           0 :   if (!TEXT) {</span></span>
 <span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :     return createError(TEXT.error());</span></span>

@@ -17,15 +17,15 @@ public:
                     std::size_t col) noexcept
       : file_{file}, row_{row}, col_{col} {};
 
-  [[nodiscard]] const std::filesystem::path &file() const noexcept {
+  [[nodiscard]] auto file() const noexcept -> const std::filesystem::path & {
     return file_;
   }
 
-  [[nodiscard]] std::size_t row() const noexcept { return row_; }
+  [[nodiscard]] auto row() const noexcept -> std::size_t { return row_; }
 
-  [[nodiscard]] std::size_t col() const noexcept { return col_; }
+  [[nodiscard]] auto col() const noexcept -> std::size_t { return col_; }
 
-  [[nodiscard]] bool operator<(const Location &loc) const noexcept {
+  [[nodiscard]] auto operator<(const Location &loc) const noexcept -> bool {
     if (row_ < loc.row_) {
       return true;
     }

@@ -1,11 +1,11 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/chained/ast_chained.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CHAINED *node) const noexcept {
+auto ValidateTree::visit(const AST_CHAINED *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CHAINED");
   }
@@ -26,4 +26,4 @@ ValidateTree::visit(const AST_CHAINED *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

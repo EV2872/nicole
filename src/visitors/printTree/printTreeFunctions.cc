@@ -1,13 +1,13 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/functions/ast_funcCall.h"
 #include "../../../inc/parsingAnalysis/ast/functions/ast_funcDecl.h"
 #include "../../../inc/parsingAnalysis/ast/functions/ast_return.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_FUNC_CALL *node) const noexcept {
+auto PrintTree::visit(const AST_FUNC_CALL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_FUNC_CALL");
   }
@@ -36,8 +36,8 @@ PrintTree::visit(const AST_FUNC_CALL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_FUNC_DECL *node) const noexcept {
+auto PrintTree::visit(const AST_FUNC_DECL *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_DECL");
   }
@@ -56,8 +56,8 @@ PrintTree::visit(const AST_FUNC_DECL *node) const noexcept {
   result << indent_ << "Parameters:\n";
   increaseIndent();
   for (const auto &param : node->parameters()) {
-    result << indent_ << "Param: " << param.first << " type: " << param.second->toString()
-           << "\n";
+    result << indent_ << "Param: " << param.first
+           << " type: " << param.second->toString() << "\n";
   }
   decreaseIndent();
 
@@ -75,8 +75,8 @@ PrintTree::visit(const AST_FUNC_DECL *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_RETURN *node) const noexcept {
+auto PrintTree::visit(const AST_RETURN *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_RETURN");
   }
@@ -96,4 +96,4 @@ PrintTree::visit(const AST_RETURN *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

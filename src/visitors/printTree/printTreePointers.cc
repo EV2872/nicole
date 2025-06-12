@@ -1,13 +1,13 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_delete.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_deref.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_DELETE *node) const noexcept {
+auto PrintTree::visit(const AST_DELETE *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
   }
@@ -23,8 +23,8 @@ PrintTree::visit(const AST_DELETE *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_NEW *node) const noexcept {
+auto PrintTree::visit(const AST_NEW *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
   }
@@ -40,8 +40,8 @@ PrintTree::visit(const AST_NEW *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_DEREF *node) const noexcept {
+auto PrintTree::visit(const AST_DEREF *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEREF");
   }
@@ -57,4 +57,4 @@ PrintTree::visit(const AST_DEREF *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

@@ -3,8 +3,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_ENUM>, Error>
-TopDown::parseEnum() const noexcept {
+auto TopDown::parseEnum() const noexcept
+    -> std::expected<std::shared_ptr<AST_ENUM>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -60,8 +60,8 @@ TopDown::parseEnum() const noexcept {
                              id.raw(), identifiers);
 }
 
-const std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error>
-TopDown::parseEnumAccess() const noexcept {
+auto TopDown::parseEnumAccess() const noexcept
+    -> std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   const Token id{*tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
@@ -91,8 +91,8 @@ TopDown::parseEnumAccess() const noexcept {
       identifier.raw());
 }
 
-const std::expected<std::shared_ptr<AST_STRUCT>, Error>
-TopDown::parseStructDecl() const noexcept {
+auto TopDown::parseStructDecl() const noexcept
+    -> std::expected<std::shared_ptr<AST_STRUCT>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -254,10 +254,10 @@ TopDown::parseStructDecl() const noexcept {
       *fatherType, Attributes{params}, methods, *constructor, *destructor);
 }
 
-const std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>, Error>
-TopDown::parseConstructorDecl(
+auto TopDown::parseConstructorDecl(
     const std::string &id_returnType, const std::shared_ptr<Type> &fatherType,
-    const std::vector<GenericParameter> &classGenerics) const noexcept {
+    const std::vector<GenericParameter> &classGenerics) const noexcept
+    -> std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -335,9 +335,9 @@ TopDown::parseConstructorDecl(
       *body);
 }
 
-const std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error>
-TopDown::parseDestructorDecl(const std::string &id,
-                             const bool isVirtual) const noexcept {
+auto TopDown::parseDestructorDecl(const std::string &id,
+                                  const bool isVirtual) const noexcept
+    -> std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -353,12 +353,13 @@ TopDown::parseDestructorDecl(const std::string &id,
                             : body.error());
   }
   return Builder::createDestructorDecl(
-      SourceLocation{*firsToken, *tkStream_.lastRead()}, id, std::make_shared<UserType>(id, nullptr,
-                                 std::vector<GenericParameter>{}),*body, isVirtual);
+      SourceLocation{*firsToken, *tkStream_.lastRead()}, id,
+      std::make_shared<UserType>(id, nullptr, std::vector<GenericParameter>{}),
+      *body, isVirtual);
 }
 
-const std::expected<std::shared_ptr<AST_METHOD_DECL>, Error>
-TopDown::parseMethodDecl(const bool isVirtual) const noexcept {
+auto TopDown::parseMethodDecl(const bool isVirtual) const noexcept
+    -> std::expected<std::shared_ptr<AST_METHOD_DECL>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());

@@ -12,8 +12,8 @@ namespace nicole {
 - si un elemento es un puntero userType debe comprobar que todos parten de una
 misma base
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_VECTOR *node) const noexcept {
+auto TypeAnalysis::visit(const AST_VECTOR *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VECTOR");
   }
@@ -60,8 +60,8 @@ TypeAnalysis::visit(const AST_VECTOR *node) const noexcept {
 - el value debe ser de tipo int
 - se apoya en currentType para deducir el tipo del elemento al que accede
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_INDEX *node) const noexcept {
+auto TypeAnalysis::visit(const AST_INDEX *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INDEX");
   }

@@ -17,9 +17,9 @@ metodos / llamadas a atributos / variables auto
 
 namespace nicole {
 
-std::vector<GenericParameter> TypeAnalysis::mergeGenericLists(
-    const std::vector<GenericParameter> &list,
-    const std::vector<GenericParameter> &list1) const noexcept {
+auto TypeAnalysis::mergeGenericLists(const std::vector<GenericParameter> &list,
+                                     const std::vector<GenericParameter> &list1)
+    const noexcept -> std::vector<GenericParameter> {
   std::vector<GenericParameter> result{};
   result.insert(result.end(), list.begin(), list.end());
   result.insert(result.end(), list1.begin(), list1.end());
@@ -29,8 +29,8 @@ std::vector<GenericParameter> TypeAnalysis::mergeGenericLists(
 /*
 - retorna el tipo de la expresion
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_STATEMENT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
@@ -48,8 +48,8 @@ TypeAnalysis::visit(const AST_STATEMENT *node) const noexcept {
 body anidados
 - si no encuentra nada retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_BODY *node) const noexcept {
+auto TypeAnalysis::visit(const AST_BODY *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -121,8 +121,8 @@ TypeAnalysis::visit(const AST_BODY *node) const noexcept {
 - comprueba que no hubo errores
 - retorna int / void
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const Tree *tree) const noexcept {
+auto TypeAnalysis::visit(const Tree *tree) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }

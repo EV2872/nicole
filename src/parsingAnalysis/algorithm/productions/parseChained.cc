@@ -5,8 +5,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_CHAINED>, Error>
-TopDown::parseChainedExpression() const noexcept {
+auto TopDown::parseChainedExpression() const noexcept
+    -> std::expected<std::shared_ptr<AST_CHAINED>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (tkStream_.current()->type() != TokenType::ID) {
     return createError(ERROR_TYPE::SINTAX, "Expected identifier at " +

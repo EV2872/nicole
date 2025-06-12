@@ -7,8 +7,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_ENUM *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_ENUM *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM");
   }
@@ -26,8 +26,8 @@ FillSemanticInfo::visit(const AST_ENUM *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_ENUM_ACCESS *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_ENUM_ACCESS *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM_ACCESS");
   }

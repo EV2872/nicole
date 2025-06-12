@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -66,8 +66,8 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : namespace nicole {</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span>              : const std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt;</span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 : TopDown::parseFuncDecl() const noexcept {</span></span>
+<span id="L7"><span class="lineNum">       7</span>              : auto TopDown::parseFuncDecl() const noexcept</span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt; {</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -129,7 +129,7 @@
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :       *params, *returnType, *body);</span></span>
 <span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 : const std::expected&lt;Parameters, Error&gt; TopDown::parseParams() const noexcept {</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 : auto TopDown::parseParams() const noexcept -&gt; std::expected&lt;Parameters, Error&gt; {</span></span>
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :   std::vector&lt;std::pair&lt;std::string, std::shared_ptr&lt;Type&gt;&gt;&gt; params{};</span></span>
 <span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :   while (tkStream_.currentPos() &lt; tkStream_.size() and</span></span>
 <span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :          tkStream_.current()-&gt;type() != TokenType::RP) {</span></span>
@@ -172,8 +172,8 @@
 <span id="L110"><span class="lineNum">     110</span> <span class="tlaUNC">           0 :   return Parameters{params};</span></span>
 <span id="L111"><span class="lineNum">     111</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L112"><span class="lineNum">     112</span>              : </span>
-<span id="L113"><span class="lineNum">     113</span>              : const std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt;</span>
-<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 : TopDown::parseReturn() const noexcept {</span></span>
+<span id="L113"><span class="lineNum">     113</span>              : auto TopDown::parseReturn() const noexcept</span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt; {</span></span>
 <span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L116"><span class="lineNum">     116</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>
@@ -195,8 +195,8 @@
 <span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, *value);</span></span>
 <span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L135"><span class="lineNum">     135</span>              : </span>
-<span id="L136"><span class="lineNum">     136</span>              : const std::expected&lt;std::vector&lt;std::shared_ptr&lt;Type&gt;&gt;, Error&gt;</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 : TopDown::parseReplacementOfGenerics() const noexcept {</span></span>
+<span id="L136"><span class="lineNum">     136</span>              : auto TopDown::parseReplacementOfGenerics() const noexcept</span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::vector&lt;std::shared_ptr&lt;Type&gt;&gt;, Error&gt; {</span></span>
 <span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :   std::vector&lt;std::shared_ptr&lt;Type&gt;&gt; replacemments{};</span></span>
 <span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() == TokenType::OPERATOR_SMALLER and</span></span>
 <span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :       tkStream_.hasMatchingPairBefore(TokenType::OPERATOR_SMALLER,</span></span>

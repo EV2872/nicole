@@ -8,12 +8,12 @@ namespace nicole {
 
 class BreakType final : public Type {
 public:
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     return "breakType";
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     return createError(ERROR_TYPE::TYPE, "invalid llvm conversion");
   }
 };

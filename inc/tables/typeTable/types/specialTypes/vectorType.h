@@ -15,16 +15,17 @@ public:
   explicit VectorType(const std::shared_ptr<Type> &elementType)
       : elementType_{elementType} {}
 
-  [[nodiscard]] const std::shared_ptr<Type> &elementType() const noexcept {
+  [[nodiscard]] auto elementType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return elementType_;
   }
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     return "vector<" + elementType_->toString() + ">";
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     // Obtener el tipo LLVM correspondiente al tipo de elemento
     std::expected<llvm::Type *, Error> elemOrErr =
         elementType_->llvmVersion(context);

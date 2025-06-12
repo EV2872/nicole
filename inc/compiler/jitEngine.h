@@ -17,15 +17,14 @@ class JIT {
       : lljit_(std::move(jit)) {}
 
 public:
-  static std::expected<std::unique_ptr<JIT>, Error> Create() noexcept;
+  [[nodiscard]] static auto Create() noexcept
+      -> std::expected<std::unique_ptr<JIT>, Error>;
 
-  // Añade un ThreadSafeModule al JIT
-  [[nodiscard]] std::expected<std::monostate, Error>
-  addModule(llvm::orc::ThreadSafeModule tsm) noexcept;
+  [[nodiscard]] auto addModule(llvm::orc::ThreadSafeModule tsm) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  // Ejecuta la función 'fnName' y devuelve su entero de retorno
-  [[nodiscard]] std::expected<int, Error>
-  run(const std::string &fnName) noexcept;
+  [[nodiscard]] auto run(const std::string &fnName) noexcept
+      -> std::expected<int, Error>;
 };
 
 } // namespace nicole

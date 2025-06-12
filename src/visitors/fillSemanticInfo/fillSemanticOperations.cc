@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/fillSemanticInfo/fillSemanticInfo.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_binary.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_unary.h"
+#include "../../../inc/visitors/fillSemanticInfo/fillSemanticInfo.h"
 #include <variant>
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_BINARY *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_BINARY *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BINARY");
   }
@@ -21,12 +21,12 @@ FillSemanticInfo::visit(const AST_BINARY *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_UNARY *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_UNARY *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_UNARY");
   }
   return node->value()->accept(*this);
 }
 
-}
+} // namespace nicole

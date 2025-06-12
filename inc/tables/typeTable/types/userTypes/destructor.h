@@ -17,18 +17,22 @@ private:
   std::shared_ptr<AST_BODY> body_;
 
 public:
-  explicit Destructor(const std::string &id, const std::shared_ptr<AST_BODY> &body) noexcept
+  explicit Destructor(const std::string &id,
+                      const std::shared_ptr<AST_BODY> &body) noexcept
       : Symbol{id}, returnType_{std::make_shared<VoidType>()}, body_{body} {}
 
-  [[nodiscard]] const std::vector<GenericParameter> &generics() const noexcept {
+  [[nodiscard]] auto generics() const noexcept
+      -> const std::vector<GenericParameter> & {
     return generics_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
+  [[nodiscard]] auto returnType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 };

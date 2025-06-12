@@ -5,14 +5,14 @@
 
 namespace nicole {
 
-void VirtualTable::addSlot(llvm::Function *fn) {
+auto VirtualTable::addSlot(llvm::Function *fn) noexcept -> void {
   // Todas las funciones deben ser constantes conocidas en tiempo de compilación
   entries_.push_back(llvm::ConstantExpr::getBitCast(fn, fn->getType()));
 }
 
-llvm::GlobalVariable *VirtualTable::getOrCreateGV(llvm::Module &M,
-                                                  const std::string &typeName,
-                                                  llvm::FunctionType *slotTy) {
+auto VirtualTable::getOrCreateGV(llvm::Module &M, const std::string &typeName,
+                                 llvm::FunctionType *slotTy) noexcept
+    -> llvm::GlobalVariable * {
   if (gv_)
     return gv_;
 

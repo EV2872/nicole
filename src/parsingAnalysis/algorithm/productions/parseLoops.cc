@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_WHILE>, Error>
-TopDown::parseWhile() const noexcept {
+auto TopDown::parseWhile() const noexcept
+    -> std::expected<std::shared_ptr<AST_WHILE>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -23,8 +23,8 @@ TopDown::parseWhile() const noexcept {
                               *condition, *body);
 }
 
-const std::expected<std::shared_ptr<AST_FOR>, Error>
-TopDown::parseFor() const noexcept {
+auto TopDown::parseFor() const noexcept
+    -> std::expected<std::shared_ptr<AST_FOR>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -126,8 +126,8 @@ TopDown::parseFor() const noexcept {
                             init, *condition, update, *body);
 }
 
-const std::expected<std::shared_ptr<AST_DO_WHILE>, Error>
-TopDown::parseDoWhile() const noexcept {
+auto TopDown::parseDoWhile() const noexcept
+    -> std::expected<std::shared_ptr<AST_DO_WHILE>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -161,8 +161,8 @@ TopDown::parseDoWhile() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *body, *condition);
 }
 
-const std::expected<std::shared_ptr<AST_PASS>, Error>
-TopDown::parsePass() const noexcept {
+auto TopDown::parsePass() const noexcept
+    -> std::expected<std::shared_ptr<AST_PASS>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -174,8 +174,8 @@ TopDown::parsePass() const noexcept {
   return Builder::createPass(SourceLocation{*firsToken, *tkStream_.lastRead()});
 }
 
-const std::expected<std::shared_ptr<AST_STOP>, Error>
-TopDown::parseStop() const noexcept {
+auto TopDown::parseStop() const noexcept
+    -> std::expected<std::shared_ptr<AST_STOP>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());

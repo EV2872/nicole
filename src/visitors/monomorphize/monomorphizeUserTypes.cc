@@ -17,8 +17,8 @@ Segundo los atributos
 Tercero el constructor
 Cuarto los metodos
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_STRUCT *node) const noexcept {
+auto Monomorphize::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   }
@@ -45,8 +45,8 @@ Monomorphize::visit(const AST_STRUCT *node) const noexcept {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto Monomorphize::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
   }
@@ -56,8 +56,8 @@ Monomorphize::visit(const AST_ATTR_ACCESS *node) const noexcept {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_METHOD_CALL *node) const noexcept {
+auto Monomorphize::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -70,8 +70,8 @@ Monomorphize::visit(const AST_METHOD_CALL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_METHOD_DECL *node) const noexcept {
+auto Monomorphize::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
   }
@@ -82,8 +82,8 @@ Monomorphize::visit(const AST_METHOD_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto Monomorphize::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_DECL");
   }
@@ -103,8 +103,8 @@ Monomorphize::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_SUPER *node) const noexcept {
+auto Monomorphize::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SUPER");
   }
@@ -117,8 +117,8 @@ Monomorphize::visit(const AST_SUPER *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto Monomorphize::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
   }
@@ -129,8 +129,8 @@ Monomorphize::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_THIS *node) const noexcept {
+auto Monomorphize::visit(const AST_THIS *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
@@ -140,8 +140,8 @@ Monomorphize::visit(const AST_THIS *node) const noexcept {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto Monomorphize::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
   }

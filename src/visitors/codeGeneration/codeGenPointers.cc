@@ -1,5 +1,5 @@
-#include "../../../inc/parsingAnalysis/ast/pointer/ast_delete.h"
 #include "../../../inc/parsingAnalysis/ast/chained/ast_chained.h"
+#include "../../../inc/parsingAnalysis/ast/pointer/ast_delete.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_deref.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
 #include "../../../inc/parsingAnalysis/ast/userTypes/ast_constructorCall.h"
@@ -10,7 +10,7 @@
 
 namespace nicole {
 
-void CodeGeneration::ensureMallocFreeDeclared() const noexcept {
+auto CodeGeneration::ensureMallocFreeDeclared() const noexcept -> void {
   if (!mallocFn_) {
     // void* malloc(size_t)
     llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(*context_);
@@ -32,8 +32,8 @@ void CodeGeneration::ensureMallocFreeDeclared() const noexcept {
   }
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_NEW *node) const noexcept {
+auto CodeGeneration::visit(const AST_NEW *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
 
@@ -42,26 +42,32 @@ CodeGeneration::visit(const AST_NEW *node) const noexcept {
 
   // Identificar el nodo de constructor, bien directo o dentro de un AST_CHAINED
   const AST_CONSTRUCTOR_CALL *ctorNode = nullptr;
-  if (auto directCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(node->value().get())) {
+  if (auto directCtor =
+          dynamic_cast<const AST_CONSTRUCTOR_CALL *>(node->value().get())) {
     // caso 2.a) new A{...} → value() es directamente AST_CONSTRUCTOR_CALL
     ctorNode = directCtor;
-  } else if (auto chained = dynamic_cast<const AST_CHAINED *>(node->value().get())) {
-    // caso 2.b) new (A{...}.algo) → value() es AST_CHAINED cuyo base() debe ser AST_CONSTRUCTOR_CALL
+  } else if (auto chained =
+                 dynamic_cast<const AST_CHAINED *>(node->value().get())) {
+    // caso 2.b) new (A{...}.algo) → value() es AST_CHAINED cuyo base() debe ser
+    // AST_CONSTRUCTOR_CALL
     auto basePtr = chained->base().get();
     if (auto baseCtor = dynamic_cast<const AST_CONSTRUCTOR_CALL *>(basePtr)) {
       // verificar que no haya otras operaciones encadenadas
       if (!chained->operations().empty()) {
         return createError(ERROR_TYPE::TYPE,
-                           "AST_NEW: las operaciones encadenadas tras el constructor no están permitidas");
+                           "AST_NEW: las operaciones encadenadas tras el "
+                           "constructor no están permitidas");
       }
       ctorNode = baseCtor;
     } else {
       return createError(ERROR_TYPE::TYPE,
-                         "AST_NEW: se esperaba que el base de AST_CHAINED fuera un constructor");
+                         "AST_NEW: se esperaba que el base de AST_CHAINED "
+                         "fuera un constructor");
     }
   } else {
     return createError(ERROR_TYPE::TYPE,
-                       "AST_NEW: se esperaba un AST_CONSTRUCTOR_CALL (directo o en AST_CHAINED)");
+                       "AST_NEW: se esperaba un AST_CONSTRUCTOR_CALL (directo "
+                       "o en AST_CHAINED)");
   }
 
   // Ahora ya sabemos que 'ctorNode' apunta al AST_CONSTRUCTOR_CALL correcto.
@@ -112,13 +118,14 @@ CodeGeneration::visit(const AST_NEW *node) const noexcept {
 
   // Actualizar chaining y tipo resultante
   resultChainedExpression_ = typedPtr;
-  currentType = typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining
+  currentType =
+      typeOfNew; // aunque el ctor sea A, aquí queremos A* en el chaining
 
   return typedPtr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_DELETE *node) const noexcept {
+auto CodeGeneration::visit(const AST_DELETE *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
 
@@ -126,7 +133,7 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
   auto addrOrErr = emitLValue(node->value().get());
   if (!addrOrErr)
     return createError(addrOrErr.error());
-  llvm::Value *varAddr = *addrOrErr;  
+  llvm::Value *varAddr = *addrOrErr;
 
   // Evaluar el subnodo 'value' en modo rvalue: debe ser un puntero a liberar
   auto ptrOrErr = emitRValue(node->value().get());
@@ -146,7 +153,7 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
   builder_.CreateCall(freeFn_, i8Ptr);
 
   // Ahora guardar un null del mismo tipo en la variable
-  llvm::PointerType *ptrTy = 
+  llvm::PointerType *ptrTy =
       llvm::cast<llvm::PointerType>(ptrVal->getType()); // T*
   llvm::Constant *nullConst = llvm::Constant::getNullValue(ptrTy);
   builder_.CreateStore(nullConst, varAddr);
@@ -155,10 +162,8 @@ CodeGeneration::visit(const AST_DELETE *node) const noexcept {
   return nullptr;
 }
 
-
-// ---------------------- AST_DEREF ----------------------
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_DEREF *node) const noexcept {
+auto CodeGeneration::visit(const AST_DEREF *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEREF");
 

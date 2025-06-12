@@ -11,7 +11,8 @@ namespace nicole {
 class OptionsParser {
 public:
   // parsea argc/argv con LLVM CommandLine y devuelve Options o Error
-  static std::expected<Options, Error> parse(int argc, char **argv) noexcept;
+  [[nodiscard]] static auto parse(int argc, char **argv) noexcept
+      -> std::expected<Options, Error>;
 };
 
 } // namespace nicole

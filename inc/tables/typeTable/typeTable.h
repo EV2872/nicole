@@ -44,107 +44,118 @@ private:
 
   std::shared_ptr<BreakType> breakType_{std::make_shared<BreakType>()};
 
-  bool canAssignImpl(const std::shared_ptr<Type> &target,
-                     const std::shared_ptr<Type> &source,
-                     bool pointerContext) const noexcept;
+  [[nodiscard]] auto canAssignImpl(const std::shared_ptr<Type> &target,
+                                   const std::shared_ptr<Type> &source,
+                                   bool pointerContext) const noexcept -> bool;
 
 public:
-  [[nodiscard]] const std::shared_ptr<NullType> &null() const noexcept {
+  [[nodiscard]] auto null() const noexcept
+      -> const std::shared_ptr<NullType> & {
     return null_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &boolType() const noexcept {
+  [[nodiscard]] auto boolType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return *getType("bool");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &intType() const noexcept {
+  [[nodiscard]] auto intType() const noexcept -> const std::shared_ptr<Type> & {
     return *getType("int");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &floatType() const noexcept {
+  [[nodiscard]] auto floatType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return *getType("float");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &doubleType() const noexcept {
+  [[nodiscard]] auto doubleType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return *getType("double");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &charType() const noexcept {
+  [[nodiscard]] auto charType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return *getType("char");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &strType() const noexcept {
+  [[nodiscard]] auto strType() const noexcept -> const std::shared_ptr<Type> & {
     return *getType("str");
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &voidType() const noexcept {
+  [[nodiscard]] auto voidType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return *getType("void");
   }
 
-  [[nodiscard]] const std::shared_ptr<NoPropagateType> &
-  noPropagateType() const noexcept {
+  [[nodiscard]] auto noPropagateType() const noexcept
+      -> const std::shared_ptr<NoPropagateType> & {
     return noPropagate_;
   }
 
-  [[nodiscard]] const std::shared_ptr<BreakType> &breakType() const noexcept {
+  [[nodiscard]] auto breakType() const noexcept
+      -> const std::shared_ptr<BreakType> & {
     return breakType_;
   }
 
-  [[nodiscard]] bool has(const std::string &id) const noexcept;
+  [[nodiscard]] auto has(const std::string &id) const noexcept -> bool;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<Type>, Error>
-  getType(const std::string &id) const noexcept;
+  [[nodiscard]] auto getType(const std::string &id) const noexcept
+      -> const std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  insert(const std::shared_ptr<Type> &type) noexcept;
+  [[nodiscard]] auto insert(const std::shared_ptr<Type> &type) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] bool
-  isPossibleType(const std::shared_ptr<Type> &type) const noexcept;
+  [[nodiscard]] auto
+  isPossibleType(const std::shared_ptr<Type> &type) const noexcept -> bool;
 
-  [[nodiscard]] bool
+  [[nodiscard]] auto
   isGenericType(const std::shared_ptr<Type> &type,
-                const std::vector<GenericParameter> &generics) const noexcept;
+                const std::vector<GenericParameter> &generics) const noexcept
+      -> bool;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  isCompundEnumType(const std::shared_ptr<Type> &type) const noexcept;
+  [[nodiscard]] auto
+  isCompundEnumType(const std::shared_ptr<Type> &type) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  isCompundUserType(const std::shared_ptr<Type> &type) const noexcept;
+  [[nodiscard]] auto
+  isCompundUserType(const std::shared_ptr<Type> &type) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  isCompundGenericType(
-      const std::shared_ptr<Type> &type,
-      const std::vector<GenericParameter> &list) const noexcept;
+  [[nodiscard]] auto
+  isCompundGenericType(const std::shared_ptr<Type> &type,
+                       const std::vector<GenericParameter> &list) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] bool
-  isCompundPlaceHolder(const std::shared_ptr<Type> &type) const noexcept;
+  [[nodiscard]] auto
+  isCompundPlaceHolder(const std::shared_ptr<Type> &type) const noexcept
+      -> bool;
 
-  [[nodiscard]] bool
+  [[nodiscard]] auto
   areSameType(const std::shared_ptr<Type> &type1,
-              const std::shared_ptr<Type> &type2) const noexcept;
+              const std::shared_ptr<Type> &type2) const noexcept -> bool;
 
-  [[nodiscard]] bool
+  [[nodiscard]] auto
   canAssign(const std::shared_ptr<Type> &target,
-            const std::shared_ptr<Type> &source) const noexcept;
+            const std::shared_ptr<Type> &source) const noexcept -> bool;
 
-  [[nodiscard]] bool
+  [[nodiscard]] auto
   haveCommonAncestor(const std::shared_ptr<Type> &type1,
-                     const std::shared_ptr<Type> &type2) const noexcept;
+                     const std::shared_ptr<Type> &type2) const noexcept -> bool;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  applyUnaryOperator(const std::shared_ptr<Type> &operand,
-                     const TokenType op) const noexcept;
+  [[nodiscard]] auto applyUnaryOperator(const std::shared_ptr<Type> &operand,
+                                        const TokenType op) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  applyBinaryOperator(const std::shared_ptr<Type> &left,
-                      const std::shared_ptr<Type> &right,
-                      TokenType op) const noexcept;
+  [[nodiscard]] auto applyBinaryOperator(const std::shared_ptr<Type> &left,
+                                         const std::shared_ptr<Type> &right,
+                                         TokenType op) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  applyGenericReplacements(
+  [[nodiscard]] auto applyGenericReplacements(
       const std::shared_ptr<Type> &type,
       const std::vector<GenericParameter> &genericParams,
-      const std::vector<std::shared_ptr<Type>> &replacements) const noexcept;
+      const std::vector<std::shared_ptr<Type>> &replacements) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 };
 
 } // namespace nicole

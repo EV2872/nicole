@@ -15,9 +15,9 @@ private:
 public:
   explicit BasicType(const BasicKind k) noexcept : kind_(k) {}
 
-  [[nodiscard]] BasicKind baseKind() const noexcept { return kind_; }
+  [[nodiscard]] auto baseKind() const noexcept -> BasicKind { return kind_; }
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     switch (kind_) {
     case BasicKind::Bool:
       return "bool";
@@ -34,8 +34,8 @@ public:
     }
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     switch (kind_) {
     case BasicKind::Bool:
       return llvm::Type::getInt1Ty(context);

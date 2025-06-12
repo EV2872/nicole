@@ -7,10 +7,11 @@ namespace nicole {
 
 class Nicole final : public Compiler {
 public:
-    explicit Nicole(const std::shared_ptr<Sintax> &sintax) noexcept : Compiler(sintax) {}
+  explicit Nicole(const std::shared_ptr<Sintax> &sintax) noexcept
+      : Compiler(sintax) {}
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  compile(const Options &options) const noexcept override;
+  [[nodiscard]] auto compile(const Options &options) const noexcept
+      -> std::expected<std::monostate, Error> override;
 };
 
 } // namespace nicole

@@ -11,7 +11,6 @@
 #include <llvm/Target/TargetMachine.h>
 #include <variant>
 
-
 namespace nicole {
 
 enum OPT_LEVEL { DEFAULT, MEDIUM, AGGRESSIVE };
@@ -19,21 +18,22 @@ enum OPT_LEVEL { DEFAULT, MEDIUM, AGGRESSIVE };
 class Linker final {
 private:
   Options options_;
-  llvm::LLVMTargetMachine *targetMachine_;
+  std::shared_ptr<llvm::TargetMachine> targetMachine_;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  emitObjectFile(llvm::orc::ThreadSafeModule safeModule) const noexcept;
+  [[nodiscard]] auto
+  emitObjectFile(llvm::orc::ThreadSafeModule safeModule) const noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  removeObjectFile() const noexcept;
+  [[nodiscard]] auto removeObjectFile() const noexcept
+      -> std::expected<std::monostate, Error>;
 
 public:
   explicit Linker(const Options &options,
-                  llvm::LLVMTargetMachine *targetMachine) noexcept
+                  std::shared_ptr<llvm::TargetMachine> targetMachine) noexcept
       : options_{options}, targetMachine_{targetMachine} {}
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  link(llvm::orc::ThreadSafeModule safeModule) const noexcept;
+  [[nodiscard]] auto link(llvm::orc::ThreadSafeModule safeModule) const noexcept
+      -> std::expected<std::monostate, Error>;
 };
 
 } // namespace nicole

@@ -10,8 +10,8 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
+auto CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_CALL");
   // 1) Evaluar argumentos
@@ -102,8 +102,8 @@ CodeGeneration::visit(const AST_FUNC_CALL *node) const noexcept {
   return ci;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
+auto CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_DECL");
   if (node->generics().size()) {
@@ -185,8 +185,8 @@ CodeGeneration::visit(const AST_FUNC_DECL *node) const noexcept {
   return fn;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_RETURN *node) const noexcept {
+auto CodeGeneration::visit(const AST_RETURN *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_RETURN");
   }
@@ -205,8 +205,8 @@ CodeGeneration::visit(const AST_RETURN *node) const noexcept {
   return builder_.CreateRet(*result);
 }
 
-std::expected<std::string, Error>
-CodeGeneration::nameManglingFunctionDecl(const Function &func) const noexcept {
+auto CodeGeneration::nameManglingFunctionDecl(
+    const Function &func) const noexcept -> std::expected<std::string, Error> {
   if (options_.validateTree() and func.id() == "main") {
     return "$_main";
   }

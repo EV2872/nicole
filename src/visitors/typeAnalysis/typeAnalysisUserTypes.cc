@@ -17,8 +17,8 @@ namespace nicole {
 - comprobar destructor
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_STRUCT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   }
@@ -67,8 +67,8 @@ TypeAnalysis::visit(const AST_STRUCT *node) const noexcept {
 - comprobar que sea genric
 - se apoya en currentType para saber si el atributo existe y retorna el tipo
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto TypeAnalysis::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
   }
@@ -108,8 +108,8 @@ TypeAnalysis::visit(const AST_ATTR_ACCESS *node) const noexcept {
 - se apoya en currentType para saber si el metodo existe y retorna el tipo
 - igual que funcion
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_METHOD_CALL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -186,8 +186,8 @@ TypeAnalysis::visit(const AST_METHOD_CALL *node) const noexcept {
 /*
 - igual que funcion
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_METHOD_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
   }
@@ -231,8 +231,8 @@ TypeAnalysis::visit(const AST_METHOD_DECL *node) const noexcept {
 /*
 - igual que funcion
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_DECL");
   }
@@ -275,8 +275,8 @@ TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
 - retorna el tipo del padre
 - comprobar generics y argumentos
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
+auto TypeAnalysis::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SUPER");
   }
@@ -289,7 +289,8 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
   if (!realFatherType) {
     return createError(realFatherType.error());
   }
-  const auto conversionType{std::dynamic_pointer_cast<UserType>(*realFatherType)};
+  const auto conversionType{
+      std::dynamic_pointer_cast<UserType>(*realFatherType)};
   const auto fatherConstructor{conversionType->constructor()};
 
   if (!fatherConstructor) {
@@ -303,10 +304,9 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
   }
 
   if (fatherConstructor->params().size() != node->arguments().size()) {
-    return createError(
-        ERROR_TYPE::TYPE,
-        "there is a mismatch between the "
-        "number of arguments in super and the constructor decl");
+    return createError(ERROR_TYPE::TYPE,
+                       "there is a mismatch between the "
+                       "number of arguments in super and the constructor decl");
   }
 
   const auto fatherCtrParameters{fatherConstructor->params()};
@@ -370,8 +370,8 @@ TypeAnalysis::visit(const AST_SUPER *node) const noexcept {
 - comprobar body
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
   }
@@ -386,8 +386,8 @@ TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
 /*
 - retorna el tipo de la clase envuelto en un puntero const?
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_THIS *node) const noexcept {
+auto TypeAnalysis::visit(const AST_THIS *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
@@ -413,8 +413,8 @@ TypeAnalysis::visit(const AST_THIS *node) const noexcept {
 - comprueba argumentos
 - comprueba body
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
 

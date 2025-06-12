@@ -14,7 +14,7 @@
 
 namespace nicole {
 
-class AST {
+class AST : public std::enable_shared_from_this<AST> {
 private:
   long long unsigned nodeId_;
   AST_TYPE type_;
@@ -29,49 +29,53 @@ public:
 
   virtual ~AST() noexcept = default;
 
-  [[nodiscard]] long long unsigned nodeId() const noexcept { return nodeId_; }
+  [[nodiscard]] auto nodeId() const noexcept -> long long unsigned {
+    return nodeId_;
+  }
 
-  [[nodiscard]] AST_TYPE type() const noexcept { return type_; }
+  [[nodiscard]] auto type() const noexcept -> AST_TYPE { return type_; }
 
-  [[nodiscard]] const std::shared_ptr<AST> father() const noexcept {
+  [[nodiscard]] auto father() const noexcept -> const std::shared_ptr<AST> {
     return father_.lock();
   }
 
-  [[nodiscard]] const SourceLocation &srcLoc() const noexcept {
+  [[nodiscard]] auto srcLoc() const noexcept -> const SourceLocation & {
     return srcLoc_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &
-  returnedFromTypeAnalysis() const noexcept {
+  [[nodiscard]] auto returnedFromTypeAnalysis() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnedFromTypeAnalysis_;
   }
 
-  void setFather(const std::shared_ptr<AST> &father) noexcept {
+  auto setFather(const std::shared_ptr<AST> &father) noexcept -> void {
     father_ = father;
   }
 
-  void
-  setReturnedFromAnalysis(const std::shared_ptr<Type> &type) const noexcept {
+  auto setReturnedFromAnalysis(const std::shared_ptr<Type> &type) const noexcept
+      -> void {
     returnedFromTypeAnalysis_ = type;
   }
 
-  [[nodiscard]] virtual std::expected<std::string, Error>
-  accept(const PrintTree &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto accept(const PrintTree &visitor) const noexcept
+      -> std::expected<std::string, Error> = 0;
 
-  [[nodiscard]] virtual std::expected<bool, Error>
-  accept(const ValidateTree &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto accept(const ValidateTree &visitor) const noexcept
+      -> std::expected<bool, Error> = 0;
 
-  [[nodiscard]] virtual std::expected<std::monostate, Error>
-  accept(const FillSemanticInfo &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto
+  accept(const FillSemanticInfo &visitor) const noexcept
+      -> std::expected<std::monostate, Error> = 0;
 
-  [[nodiscard]] virtual std::expected<std::shared_ptr<Type>, Error>
-  accept(const TypeAnalysis &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto accept(const TypeAnalysis &visitor) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error> = 0;
 
-  [[nodiscard]] virtual std::expected<std::monostate, Error>
-  accept(const Monomorphize &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto accept(const Monomorphize &visitor) const noexcept
+      -> std::expected<std::monostate, Error> = 0;
 
-  [[nodiscard]] virtual std::expected<llvm::Value*, Error>
-  accept(const CodeGeneration &visitor) const noexcept = 0;
+  [[nodiscard]] virtual auto
+  accept(const CodeGeneration &visitor) const noexcept
+      -> std::expected<llvm::Value *, Error> = 0;
 };
 
 } // namespace nicole

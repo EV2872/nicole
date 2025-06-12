@@ -8,9 +8,10 @@
 
 namespace nicole {
 
-std::vector<std::pair<llvm::Value *, std::string>> printParameters(
+auto printParameters(
     const std::vector<std::pair<llvm::Value *, std::shared_ptr<Type>>> &values,
-    llvm::LLVMContext &context, llvm::IRBuilder<> &builder) {
+    llvm::LLVMContext &context, llvm::IRBuilder<> &builder) noexcept
+    -> std::vector<std::pair<llvm::Value *, std::string>> {
   std::vector<std::pair<llvm::Value *, std::string>> out;
   out.reserve(values.size());
 
@@ -19,7 +20,7 @@ std::vector<std::pair<llvm::Value *, std::string>> printParameters(
   llvm::Type *i8PtrTy = i8Ty->getPointerTo(/*AddressSpace=*/0);
 
   for (auto value : values) {
-    llvm::Value *origVal{value.first}; 
+    llvm::Value *origVal{value.first};
     if (!origVal)
       llvm::report_fatal_error("Failed to evaluate expression for print.");
 
@@ -57,8 +58,8 @@ std::vector<std::pair<llvm::Value *, std::string>> printParameters(
   return out;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_PRINT *node) const noexcept {
+auto CodeGeneration::visit(const AST_PRINT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PRINT");
   }
@@ -104,8 +105,8 @@ CodeGeneration::visit(const AST_PRINT *node) const noexcept {
   return call;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_IMPORT *node) const noexcept {
+auto CodeGeneration::visit(const AST_IMPORT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IMPORT");
   }

@@ -10,8 +10,8 @@ namespace nicole {
 - value debe ser un puntero y que este en la tabla de memoria dinamica
 - retorna NoPropagate
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DELETE *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DELETE *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
 
@@ -60,8 +60,8 @@ TypeAnalysis::visit(const AST_DELETE *node) const noexcept {
 - envuelve en un puntero la expression y lo retorna, debe ser constructor o
 primitiva
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_NEW *node) const noexcept {
+auto TypeAnalysis::visit(const AST_NEW *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
   }
@@ -91,8 +91,8 @@ TypeAnalysis::visit(const AST_NEW *node) const noexcept {
 /*
 - la expresion debe ser un puntero y retorna el tipo al que apunta
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DEREF *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DEREF *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEREF");
   }

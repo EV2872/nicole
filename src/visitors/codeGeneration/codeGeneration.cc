@@ -30,8 +30,8 @@ metodos / llamadas a atributos / variables auto
 
 namespace nicole {
 
-std::expected<std::string, Error>
-CodeGeneration::nameMangling(const std::shared_ptr<Type> &type) const noexcept {
+auto CodeGeneration::nameMangling(const std::shared_ptr<Type> &type)
+    const noexcept -> std::expected<std::string, Error> {
   std::string mangled{};
   std::expected<std::string, Error> res = nameManglingImpl(type, mangled);
   if (!res)
@@ -42,9 +42,9 @@ CodeGeneration::nameMangling(const std::shared_ptr<Type> &type) const noexcept {
   return mangled;
 }
 
-std::expected<std::string, Error>
-CodeGeneration::nameManglingImpl(const std::shared_ptr<Type> &type,
-                                 std::string &result) const noexcept {
+auto CodeGeneration::nameManglingImpl(const std::shared_ptr<Type> &type,
+                                      std::string &result) const noexcept
+    -> std::expected<std::string, Error> {
   if (!type)
     return createError(ERROR_TYPE::TYPE, "null type in name mangling");
 
@@ -116,10 +116,10 @@ CodeGeneration::nameManglingImpl(const std::shared_ptr<Type> &type,
   return result;
 }
 
-std::expected<std::string, Error>
-CodeGeneration::nameManglingFunction(const Function &func,
-                                     const std::vector<std::shared_ptr<Type>>
-                                         &genericReplacements) const noexcept {
+auto CodeGeneration::nameManglingFunction(
+    const Function &func,
+    const std::vector<std::shared_ptr<Type>> &genericReplacements)
+    const noexcept -> std::expected<std::string, Error> {
   std::string mangled{"$"};
   std::expected<std::string, Error> res =
       nameManglingFunctionImpl(func, genericReplacements, mangled);
@@ -128,10 +128,10 @@ CodeGeneration::nameManglingFunction(const Function &func,
   return mangled;
 }
 
-std::expected<std::string, Error> CodeGeneration::nameManglingFunctionImpl(
+auto CodeGeneration::nameManglingFunctionImpl(
     const Function &func,
     const std::vector<std::shared_ptr<Type>> &genericReplacements,
-    std::string &result) const noexcept {
+    std::string &result) const noexcept -> std::expected<std::string, Error> {
   result += '_';
   result += func.id();
 
@@ -161,13 +161,13 @@ std::expected<std::string, Error> CodeGeneration::nameManglingFunctionImpl(
   return result;
 }
 
-bool isVectorElement(const AST *node) noexcept {
+auto isVectorElement(const AST *node) noexcept -> bool {
   return dynamic_cast<const AST_INDEX *>(node) != nullptr;
 }
 
 // EMIT LVALUE: simplemente delega al visitor y devuelve la dirección
-std::expected<llvm::Value *, Error>
-CodeGeneration::emitLValue(const AST *node) const noexcept {
+auto CodeGeneration::emitLValue(const AST *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST for lvalue");
   // asumimos que el visit de ese nodo produce *siempre* un
@@ -176,8 +176,8 @@ CodeGeneration::emitLValue(const AST *node) const noexcept {
 }
 
 // EMIT RVALUE: carga una vez la dirección devuelta por emitLValue
-std::expected<llvm::Value *, Error>
-CodeGeneration::emitRValue(const AST *node) const noexcept {
+auto CodeGeneration::emitRValue(const AST *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   std::expected<llvm::Value *, Error> valOrErr = emitLValue(node);
   if (!valOrErr)
     return createError(valOrErr.error());
@@ -228,16 +228,16 @@ CodeGeneration::emitRValue(const AST *node) const noexcept {
   return val;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_STATEMENT *node) const noexcept {
+auto CodeGeneration::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
   return node->expression()->accept(*this);
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_BODY *node) const noexcept {
+auto CodeGeneration::visit(const AST_BODY *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -280,8 +280,8 @@ CodeGeneration::visit(const AST_BODY *node) const noexcept {
   return lastValue;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const Tree *tree) const noexcept {
+auto CodeGeneration::visit(const Tree *tree) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }
@@ -343,8 +343,8 @@ CodeGeneration::visit(const Tree *tree) const noexcept {
   return nullptr;
 }
 
-std::expected<llvm::orc::ThreadSafeModule, Error>
-CodeGeneration::generate(const Tree *tree) const noexcept {
+auto CodeGeneration::generate(const Tree *tree) const noexcept
+    -> std::expected<llvm::orc::ThreadSafeModule, Error> {
   const auto result{visit(tree)};
   if (!result) {
     return createError(result.error());

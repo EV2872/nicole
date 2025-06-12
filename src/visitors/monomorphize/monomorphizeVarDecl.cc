@@ -1,7 +1,7 @@
-#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_autoDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_typedDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_varCall.h"
+#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include <variant>
 
 namespace nicole {
@@ -9,8 +9,8 @@ namespace nicole {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_AUTO_DECL *node) const noexcept {
+auto Monomorphize::visit(const AST_AUTO_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_AUTO_DECL");
   }
@@ -19,7 +19,6 @@ Monomorphize::visit(const AST_AUTO_DECL *node) const noexcept {
     return createError(result.error());
   }
   if (insideDeclWithGenerics) {
-
   }
   return {};
 }
@@ -27,8 +26,8 @@ Monomorphize::visit(const AST_AUTO_DECL *node) const noexcept {
 /*
 Needs to be monomporhized
 */
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
+auto Monomorphize::visit(const AST_VAR_TYPED_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_TYPED_DECL");
   }
@@ -41,12 +40,12 @@ Monomorphize::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_VAR_CALL *node) const noexcept {
+auto Monomorphize::visit(const AST_VAR_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_CALL");
   }
   return {};
 }
 
-}
+} // namespace nicole

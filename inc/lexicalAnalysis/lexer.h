@@ -17,26 +17,29 @@ private:
   std::string extension_;
 
   // makes a category that matches with every token of our sintax
-  [[nodiscard]] const Category concatCategories() const noexcept;
+  [[nodiscard]] auto concatCategories() const noexcept -> const Category;
 
-  [[nodiscard]] const std::expected<std::string, Error>
-  readFile(const std::filesystem::path &fileName) const noexcept;
+  [[nodiscard]] auto
+  readFile(const std::filesystem::path &fileName) const noexcept
+      -> const std::expected<std::string, Error>;
 
-  [[nodiscard]] const std::expected<void, Error>
-  checkUnmatched(const std::vector<Token> &tokens) const noexcept;
+  [[nodiscard]] auto
+  checkUnmatched(const std::vector<Token> &tokens) const noexcept
+      -> const std::expected<void, Error>;
 
 public:
   explicit Lexer(const std::vector<Category> &categories,
                  const std::string &extension) noexcept
       : categories_{categories}, extension_{extension} {};
 
-  [[nodiscard]] const std::vector<Category> &categories() const noexcept {
+  [[nodiscard]] auto categories() const noexcept
+      -> const std::vector<Category> & {
     return categories_;
   }
 
-  [[nodiscard]] const std::expected<TokenStream, Error>
-  analyze(const std::filesystem::path &fileName,
-          bool verbose = false) const noexcept;
+  [[nodiscard]] auto analyze(const std::filesystem::path &fileName,
+                             bool verbose = false) const noexcept
+      -> const std::expected<TokenStream, Error>;
 };
 
 } // namespace nicole

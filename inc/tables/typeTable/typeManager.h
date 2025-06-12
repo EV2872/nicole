@@ -14,8 +14,9 @@ public:
   explicit TypeManager(const std::shared_ptr<TypeTable> &typeTable) noexcept
       : typeTable_{typeTable} {}
 
-  bool canAssign(const std::shared_ptr<Type> &dest,
-                              const std::shared_ptr<Type> &src) const noexcept;
+  [[nodiscard]] auto canAssign(const std::shared_ptr<Type> &dest,
+                               const std::shared_ptr<Type> &src) const noexcept
+      -> bool;
 };
 
 } // namespace nicole

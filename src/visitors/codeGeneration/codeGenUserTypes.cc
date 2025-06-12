@@ -7,8 +7,8 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_STRUCT *node) const noexcept {
+auto CodeGeneration::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   if (!options_.validateTree())
@@ -60,8 +60,8 @@ CodeGeneration::visit(const AST_STRUCT *node) const noexcept {
   return nullptr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto CodeGeneration::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
 
@@ -104,8 +104,8 @@ CodeGeneration::visit(const AST_ATTR_ACCESS *node) const noexcept {
   return fieldPtr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_METHOD_CALL *node) const noexcept {
+auto CodeGeneration::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -118,8 +118,8 @@ CodeGeneration::visit(const AST_METHOD_CALL *node) const noexcept {
   return {};
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_METHOD_DECL *node) const noexcept {
+auto CodeGeneration::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
   }
@@ -130,8 +130,8 @@ CodeGeneration::visit(const AST_METHOD_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CONSTRUCTOR_DECL");
   std::shared_ptr<Scope> parentScope = currentScope_;
@@ -225,8 +225,8 @@ CodeGeneration::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   return fn;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_SUPER *node) const noexcept {
+auto CodeGeneration::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SUPER");
 
@@ -235,7 +235,7 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
   if (!varOrErr)
     return createError(ERROR_TYPE::VARIABLE, "no local 'this' in scope");
   auto thisVar = *varOrErr;
-  llvm::AllocaInst *slot = thisVar->address();  // T** slot
+  llvm::AllocaInst *slot = thisVar->address(); // T** slot
   // Cargamos T* thisPtr = load T*, T** slot
   llvm::Value *thisPtr =
       builder_.CreateLoad(slot->getAllocatedType(), slot, "super_this");
@@ -260,16 +260,16 @@ CodeGeneration::visit(const AST_SUPER *node) const noexcept {
   // Llamar al constructor base
   llvm::Function *ctorFn = module_->getFunction(ctorName);
   if (!ctorFn)
-    return createError(ERROR_TYPE::FUNCTION, "super ctor not found: " + ctorName);
+    return createError(ERROR_TYPE::FUNCTION,
+                       "super ctor not found: " + ctorName);
   builder_.CreateCall(ctorFn, callArgs);
 
   // super no produce valor de chaining
   return nullptr;
 }
 
-
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
 
@@ -277,7 +277,8 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   std::shared_ptr<Scope> parentScope = currentScope_;
   currentScope_ = node->body()->scope();
 
-  // El destructor siempre retorna void y solo recibe “this” (puntero a la struct).
+  // El destructor siempre retorna void y solo recibe “this” (puntero a la
+  // struct).
   llvm::Type *retTy = llvm::Type::getVoidTy(*context_);
 
   // Recuperar el UserType (el tipo de la struct a destruir)
@@ -285,7 +286,8 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   if (!userStTy)
     return createError(ERROR_TYPE::TYPE, "destructor no retorna UserType");
 
-  std::expected<llvm::Type *, Error> structOrErr = userStTy->llvmVersion(*context_);
+  std::expected<llvm::Type *, Error> structOrErr =
+      userStTy->llvmVersion(*context_);
   if (!structOrErr)
     return createError(structOrErr.error());
 
@@ -333,11 +335,11 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
     return createError(bodyOrErr.error());
 
   auto ut = std::dynamic_pointer_cast<UserType>(node->returnType());
-  auto structTyOrErr = ut->llvmVersion(*context_);  
+  auto structTyOrErr = ut->llvmVersion(*context_);
   // structTyOrErr es %B (LLVM StructType*)
   llvm::StructType *llvmStTy = llvm::cast<llvm::StructType>(*structTyOrErr);
 
-  const auto &attrs = ut->attributes();  
+  const auto &attrs = ut->attributes();
   for (auto it = attrs.rbegin(); it != attrs.rend(); ++it) {
     const auto &attr = *it;
     // Obtener “this” (el primer argumento de $_dtor_B, p.ej. %B* %this)
@@ -346,11 +348,8 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
 
     // GEP para &this->campo
     llvm::Value *fieldPtr = builder_.CreateStructGEP(
-        llvmStTy,
-        thisPtr,
-        static_cast<unsigned int>(attr.position()),
-        attr.id()
-    );
+        llvmStTy, thisPtr, static_cast<unsigned int>(attr.position()),
+        attr.id());
 
     // Llamar al destructor del tipo de ese campo
     auto fieldType = std::dynamic_pointer_cast<UserType>(attr.type());
@@ -359,7 +358,7 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
       llvm::Function *dtorFn = module_->getFunction(dtorName);
       if (dtorFn) {
         // Para un miembro by-value, basta pasar &this->campo:
-        builder_.CreateCall(dtorFn, { fieldPtr });
+        builder_.CreateCall(dtorFn, {fieldPtr});
       }
     }
   }
@@ -372,21 +371,19 @@ CodeGeneration::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
     builder_.CreateRetVoid();
   }
 
-
   return fn;
 }
 
-
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_THIS *node) const noexcept {
+auto CodeGeneration::visit(const AST_THIS *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
   return {};
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto CodeGeneration::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
 

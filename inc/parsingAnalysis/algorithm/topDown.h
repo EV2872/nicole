@@ -12,148 +12,149 @@ namespace nicole {
 
 class TopDown final : public Parser {
 private:
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_BODY>, Error>
-  parseStart() const noexcept;
+  [[nodiscard]] auto parseStart() const noexcept
+      -> std::expected<std::shared_ptr<AST_BODY>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<Type>, Error>
-  parseType() const noexcept;
+  [[nodiscard]] auto parseType() const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<Type>, Error>
-  parsePrimaryType() const noexcept;
+  [[nodiscard]] auto parsePrimaryType() const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error>;
 
-  [[nodiscard]] const std::expected<std::vector<GenericParameter>, Error>
-  parseGenerics() const noexcept;
+  [[nodiscard]] auto parseGenerics() const noexcept
+      -> std::expected<std::vector<GenericParameter>, Error>;
 
-  [[nodiscard]] const std::expected<std::vector<std::shared_ptr<Type>>, Error>
-  parseReplacementOfGenerics() const noexcept;
+  [[nodiscard]] auto parseReplacementOfGenerics() const noexcept
+      -> std::expected<std::vector<std::shared_ptr<Type>>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_BODY>, Error>
-  parseBody() const noexcept;
+  [[nodiscard]] auto parseBody() const noexcept
+      -> std::expected<std::shared_ptr<AST_BODY>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_STATEMENT>, Error>
-  parseStatement() const noexcept;
+  [[nodiscard]] auto parseStatement() const noexcept
+      -> std::expected<std::shared_ptr<AST_STATEMENT>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_ENUM>, Error>
-  parseEnum() const noexcept;
+  [[nodiscard]] auto parseEnum() const noexcept
+      -> std::expected<std::shared_ptr<AST_ENUM>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error>
-  parseEnumAccess() const noexcept;
+  [[nodiscard]] auto parseEnumAccess() const noexcept
+      -> std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_STRUCT>, Error>
-  parseStructDecl() const noexcept;
+  [[nodiscard]] auto parseStructDecl() const noexcept
+      -> std::expected<std::shared_ptr<AST_STRUCT>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>,
-                                    Error>
-  parseConstructorDecl(
+  [[nodiscard]] auto parseConstructorDecl(
       const std::string &id_returnType, const std::shared_ptr<Type> &fatherType,
-      const std::vector<GenericParameter> &classGenerics) const noexcept;
+      const std::vector<GenericParameter> &classGenerics) const noexcept
+      -> std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error>
-  parseDestructorDecl(const std::string &id,
-                      const bool isVirtual) const noexcept;
+  [[nodiscard]] auto parseDestructorDecl(const std::string &id,
+                                         const bool isVirtual) const noexcept
+      -> std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_METHOD_DECL>, Error>
-  parseMethodDecl(const bool isVirtual) const noexcept;
+  [[nodiscard]] auto parseMethodDecl(const bool isVirtual) const noexcept
+      -> std::expected<std::shared_ptr<AST_METHOD_DECL>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_DELETE>, Error>
-  parseDelete() const noexcept;
+  [[nodiscard]] auto parseDelete() const noexcept
+      -> std::expected<std::shared_ptr<AST_DELETE>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_FUNC_DECL>, Error>
-  parseFuncDecl() const noexcept;
+  [[nodiscard]] auto parseFuncDecl() const noexcept
+      -> std::expected<std::shared_ptr<AST_FUNC_DECL>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_RETURN>, Error>
-  parseReturn() const noexcept;
+  [[nodiscard]] auto parseReturn() const noexcept
+      -> std::expected<std::shared_ptr<AST_RETURN>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_IMPORT>, Error>
-  parseImport() const noexcept;
+  [[nodiscard]] auto parseImport() const noexcept
+      -> std::expected<std::shared_ptr<AST_IMPORT>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_PRINT>, Error>
-  parsePrint() const noexcept;
+  [[nodiscard]] auto parsePrint() const noexcept
+      -> std::expected<std::shared_ptr<AST_PRINT>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_WHILE>, Error>
-  parseWhile() const noexcept;
+  [[nodiscard]] auto parseWhile() const noexcept
+      -> std::expected<std::shared_ptr<AST_WHILE>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_FOR>, Error>
-  parseFor() const noexcept;
+  [[nodiscard]] auto parseFor() const noexcept
+      -> std::expected<std::shared_ptr<AST_FOR>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_PASS>, Error>
-  parsePass() const noexcept;
+  [[nodiscard]] auto parsePass() const noexcept
+      -> std::expected<std::shared_ptr<AST_PASS>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_STOP>, Error>
-  parseStop() const noexcept;
+  [[nodiscard]] auto parseStop() const noexcept
+      -> std::expected<std::shared_ptr<AST_STOP>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_DO_WHILE>, Error>
-  parseDoWhile() const noexcept;
+  [[nodiscard]] auto parseDoWhile() const noexcept
+      -> std::expected<std::shared_ptr<AST_DO_WHILE>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_IF>, Error>
-  parseIf() const noexcept;
+  [[nodiscard]] auto parseIf() const noexcept
+      -> std::expected<std::shared_ptr<AST_IF>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_ELSE_IF>, Error>
-  parseElseIf() const noexcept;
+  [[nodiscard]] auto parseElseIf() const noexcept
+      -> std::expected<std::shared_ptr<AST_ELSE_IF>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_SWITCH>, Error>
-  parseSwitch() const noexcept;
+  [[nodiscard]] auto parseSwitch() const noexcept
+      -> std::expected<std::shared_ptr<AST_SWITCH>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_CASE>, Error>
-  parseCase() const noexcept;
+  [[nodiscard]] auto parseCase() const noexcept
+      -> std::expected<std::shared_ptr<AST_CASE>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_DEFAULT>, Error>
-  parseDefault() const noexcept;
+  [[nodiscard]] auto parseDefault() const noexcept
+      -> std::expected<std::shared_ptr<AST_DEFAULT>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseAssignment(const bool insideFor) const noexcept;
+  [[nodiscard]] auto parseAssignment(const bool insideFor) const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseVarDecl(const bool insideFor) const noexcept;
+  [[nodiscard]] auto parseVarDecl(const bool insideFor) const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseTernary() const noexcept;
+  [[nodiscard]] auto parseTernary() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_CONDITION>, Error>
-  parseCondition(const bool isInsideFor) const noexcept;
+  [[nodiscard]] auto parseCondition(const bool isInsideFor) const noexcept
+      -> std::expected<std::shared_ptr<AST_CONDITION>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseOr() const noexcept;
+  [[nodiscard]] auto parseOr() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseAnd() const noexcept;
+  [[nodiscard]] auto parseAnd() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseEqual_NotEqual() const noexcept;
+  [[nodiscard]] auto parseEqual_NotEqual() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseCompare() const noexcept;
+  [[nodiscard]] auto parseCompare() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseAdd_Sub() const noexcept;
+  [[nodiscard]] auto parseAdd_Sub() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseMult_Div_Module() const noexcept;
+  [[nodiscard]] auto parseMult_Div_Module() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST>, Error>
-  parseFactor() const noexcept;
+  [[nodiscard]] auto parseFactor() const noexcept
+      -> std::expected<std::shared_ptr<AST>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_VECTOR>, Error>
-  parseVector() const noexcept;
+  [[nodiscard]] auto parseVector() const noexcept
+      -> std::expected<std::shared_ptr<AST_VECTOR>, Error>;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<AST_CHAINED>, Error>
-  parseChainedExpression() const noexcept;
+  [[nodiscard]] auto parseChainedExpression() const noexcept
+      -> std::expected<std::shared_ptr<AST_CHAINED>, Error>;
 
-  [[nodiscard]] const std::expected<Parameters, Error>
-  parseParams() const noexcept;
+  [[nodiscard]] auto parseParams() const noexcept
+      -> std::expected<Parameters, Error>;
 
-  [[nodiscard]] const std::expected<std::vector<std::shared_ptr<AST>>, Error>
-  parseArguments(std::pair<TokenType, TokenType> delimiters,
-                 const bool canBeEmpty) const noexcept;
+  [[nodiscard]] auto parseArguments(std::pair<TokenType, TokenType> delimiters,
+                                    const bool canBeEmpty) const noexcept
+      -> std::expected<std::vector<std::shared_ptr<AST>>, Error>;
 
-  std::expected<std::monostate, Error> tryEat() const noexcept;
+  [[nodiscard]] auto tryEat() const noexcept
+      -> std::expected<std::monostate, Error>;
 
 public:
   explicit TopDown(const std::shared_ptr<Sintax> &sintax) noexcept
       : Parser{sintax} {}
 
-  [[nodiscard]] const std::expected<std::shared_ptr<Tree>, Error>
-  parse(const std::filesystem::path &entryFile) const noexcept override;
+  [[nodiscard]] auto
+  parse(const std::filesystem::path &entryFile) const noexcept
+      -> std::expected<std::shared_ptr<Tree>, Error> override;
 };
 
 } // namespace nicole

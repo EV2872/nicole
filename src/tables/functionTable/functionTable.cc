@@ -3,19 +3,19 @@
 
 namespace nicole {
 
-std::vector<Function>
-FunctionTable::getFunctions(const std::string &id) const noexcept {
+auto FunctionTable::getFunctions(const std::string &id) const noexcept
+    -> std::vector<Function> {
   if (table_.count(id)) {
     return table_.at(id);
   }
   return {};
 }
 
-void FunctionTable::insert(const Function &function) noexcept {
+auto FunctionTable::insert(const Function &function) noexcept -> void {
   table_[function.id()].push_back(function);
 }
 
-void FunctionTable::print() const noexcept {
+auto FunctionTable::print() const noexcept -> void {
   std::cout << "Functions:\n";
   for (const std::pair<const std::string, std::vector<nicole::Function>>
            &functions : table_) {
@@ -25,9 +25,9 @@ void FunctionTable::print() const noexcept {
   }
 }
 
-std::expected<std::monostate, Error>
-FunctionTable::setFuncReturnType(const std::string &id,
-                                 const std::shared_ptr<Type> &type) noexcept {
+auto FunctionTable::setFuncReturnType(
+    const std::string &id, const std::shared_ptr<Type> &type) noexcept
+    -> std::expected<std::monostate, Error> {
   // Comprobar que existe alguna función con ese id.
   if (table_.find(id) == table_.end() || table_.at(id).empty()) {
     return createError(ERROR_TYPE::FUNCTION, "Function not found: " + id);
@@ -37,9 +37,9 @@ FunctionTable::setFuncReturnType(const std::string &id,
   return std::expected<std::monostate, Error>{std::monostate{}};
 }
 
-std::expected<std::monostate, Error>
-FunctionTable::setFuncParameters(const std::string &id,
-                                 const Parameters &type) noexcept {
+auto FunctionTable::setFuncParameters(const std::string &id,
+                                      const Parameters &type) noexcept
+    -> std::expected<std::monostate, Error> {
   // Comprobar que existe alguna función con ese id.
   if (table_.find(id) == table_.end() || table_.at(id).empty()) {
     return createError(ERROR_TYPE::FUNCTION, "Function not found: " + id);
@@ -50,15 +50,15 @@ FunctionTable::setFuncParameters(const std::string &id,
   return std::expected<std::monostate, Error>{std::monostate{}};
 }
 
-std::expected<std::string, Error>
-FunctionTable::nameMangling(const Function &type) const noexcept {
+auto FunctionTable::nameMangling(const Function &type) const noexcept
+    -> std::expected<std::string, Error> {
   std::string result{"$"};
   return nameManglingImpl(type, result);
 }
 
-std::expected<std::string, Error>
-FunctionTable::nameManglingImpl(const Function &type,
-                                std::string &result) const noexcept {
+auto FunctionTable::nameManglingImpl(const Function &type,
+                                     std::string &result) const noexcept
+    -> std::expected<std::string, Error> {
   if (type.returnType()) {
   }
   return result;

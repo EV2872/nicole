@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -74,153 +74,154 @@
 <span id="L12"><span class="lineNum">      12</span>              : </span>
 <span id="L13"><span class="lineNum">      13</span>              : class TopDown final : public Parser {</span>
 <span id="L14"><span class="lineNum">      14</span>              : private:</span>
-<span id="L15"><span class="lineNum">      15</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;</span>
-<span id="L16"><span class="lineNum">      16</span>              :   parseStart() const noexcept;</span>
+<span id="L15"><span class="lineNum">      15</span>              :   [[nodiscard]] auto parseStart() const noexcept</span>
+<span id="L16"><span class="lineNum">      16</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;;</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L19"><span class="lineNum">      19</span>              :   parseType() const noexcept;</span>
+<span id="L18"><span class="lineNum">      18</span>              :   [[nodiscard]] auto parseType() const noexcept</span>
+<span id="L19"><span class="lineNum">      19</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;;</span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L22"><span class="lineNum">      22</span>              :   parsePrimaryType() const noexcept;</span>
+<span id="L21"><span class="lineNum">      21</span>              :   [[nodiscard]] auto parsePrimaryType() const noexcept</span>
+<span id="L22"><span class="lineNum">      22</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;;</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span>              :   [[nodiscard]] const std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt;</span>
-<span id="L25"><span class="lineNum">      25</span>              :   parseGenerics() const noexcept;</span>
+<span id="L24"><span class="lineNum">      24</span>              :   [[nodiscard]] auto parseGenerics() const noexcept</span>
+<span id="L25"><span class="lineNum">      25</span>              :       -&gt; std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt;;</span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span>              :   [[nodiscard]] const std::expected&lt;std::vector&lt;std::shared_ptr&lt;Type&gt;&gt;, Error&gt;</span>
-<span id="L28"><span class="lineNum">      28</span>              :   parseReplacementOfGenerics() const noexcept;</span>
+<span id="L27"><span class="lineNum">      27</span>              :   [[nodiscard]] auto parseReplacementOfGenerics() const noexcept</span>
+<span id="L28"><span class="lineNum">      28</span>              :       -&gt; std::expected&lt;std::vector&lt;std::shared_ptr&lt;Type&gt;&gt;, Error&gt;;</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;</span>
-<span id="L31"><span class="lineNum">      31</span>              :   parseBody() const noexcept;</span>
+<span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] auto parseBody() const noexcept</span>
+<span id="L31"><span class="lineNum">      31</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_BODY&gt;, Error&gt;;</span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
-<span id="L33"><span class="lineNum">      33</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_STATEMENT&gt;, Error&gt;</span>
-<span id="L34"><span class="lineNum">      34</span>              :   parseStatement() const noexcept;</span>
+<span id="L33"><span class="lineNum">      33</span>              :   [[nodiscard]] auto parseStatement() const noexcept</span>
+<span id="L34"><span class="lineNum">      34</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_STATEMENT&gt;, Error&gt;;</span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_ENUM&gt;, Error&gt;</span>
-<span id="L37"><span class="lineNum">      37</span>              :   parseEnum() const noexcept;</span>
+<span id="L36"><span class="lineNum">      36</span>              :   [[nodiscard]] auto parseEnum() const noexcept</span>
+<span id="L37"><span class="lineNum">      37</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_ENUM&gt;, Error&gt;;</span>
 <span id="L38"><span class="lineNum">      38</span>              : </span>
-<span id="L39"><span class="lineNum">      39</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_ENUM_ACCESS&gt;, Error&gt;</span>
-<span id="L40"><span class="lineNum">      40</span>              :   parseEnumAccess() const noexcept;</span>
+<span id="L39"><span class="lineNum">      39</span>              :   [[nodiscard]] auto parseEnumAccess() const noexcept</span>
+<span id="L40"><span class="lineNum">      40</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_ENUM_ACCESS&gt;, Error&gt;;</span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
-<span id="L42"><span class="lineNum">      42</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_STRUCT&gt;, Error&gt;</span>
-<span id="L43"><span class="lineNum">      43</span>              :   parseStructDecl() const noexcept;</span>
+<span id="L42"><span class="lineNum">      42</span>              :   [[nodiscard]] auto parseStructDecl() const noexcept</span>
+<span id="L43"><span class="lineNum">      43</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_STRUCT&gt;, Error&gt;;</span>
 <span id="L44"><span class="lineNum">      44</span>              : </span>
-<span id="L45"><span class="lineNum">      45</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt;,</span>
-<span id="L46"><span class="lineNum">      46</span>              :                                     Error&gt;</span>
-<span id="L47"><span class="lineNum">      47</span>              :   parseConstructorDecl(</span>
-<span id="L48"><span class="lineNum">      48</span>              :       const std::string &amp;id_returnType, const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
-<span id="L49"><span class="lineNum">      49</span>              :       const std::vector&lt;GenericParameter&gt; &amp;classGenerics) const noexcept;</span>
-<span id="L50"><span class="lineNum">      50</span>              : </span>
-<span id="L51"><span class="lineNum">      51</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt;, Error&gt;</span>
-<span id="L52"><span class="lineNum">      52</span>              :   parseDestructorDecl(const std::string &amp;id,</span>
-<span id="L53"><span class="lineNum">      53</span>              :                       const bool isVirtual) const noexcept;</span>
-<span id="L54"><span class="lineNum">      54</span>              : </span>
-<span id="L55"><span class="lineNum">      55</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;</span>
-<span id="L56"><span class="lineNum">      56</span>              :   parseMethodDecl(const bool isVirtual) const noexcept;</span>
-<span id="L57"><span class="lineNum">      57</span>              : </span>
-<span id="L58"><span class="lineNum">      58</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_DELETE&gt;, Error&gt;</span>
-<span id="L59"><span class="lineNum">      59</span>              :   parseDelete() const noexcept;</span>
-<span id="L60"><span class="lineNum">      60</span>              : </span>
-<span id="L61"><span class="lineNum">      61</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt;</span>
-<span id="L62"><span class="lineNum">      62</span>              :   parseFuncDecl() const noexcept;</span>
-<span id="L63"><span class="lineNum">      63</span>              : </span>
-<span id="L64"><span class="lineNum">      64</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt;</span>
-<span id="L65"><span class="lineNum">      65</span>              :   parseReturn() const noexcept;</span>
-<span id="L66"><span class="lineNum">      66</span>              : </span>
-<span id="L67"><span class="lineNum">      67</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_IMPORT&gt;, Error&gt;</span>
-<span id="L68"><span class="lineNum">      68</span>              :   parseImport() const noexcept;</span>
-<span id="L69"><span class="lineNum">      69</span>              : </span>
-<span id="L70"><span class="lineNum">      70</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_PRINT&gt;, Error&gt;</span>
-<span id="L71"><span class="lineNum">      71</span>              :   parsePrint() const noexcept;</span>
-<span id="L72"><span class="lineNum">      72</span>              : </span>
-<span id="L73"><span class="lineNum">      73</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_WHILE&gt;, Error&gt;</span>
-<span id="L74"><span class="lineNum">      74</span>              :   parseWhile() const noexcept;</span>
-<span id="L75"><span class="lineNum">      75</span>              : </span>
-<span id="L76"><span class="lineNum">      76</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_FOR&gt;, Error&gt;</span>
-<span id="L77"><span class="lineNum">      77</span>              :   parseFor() const noexcept;</span>
-<span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_PASS&gt;, Error&gt;</span>
-<span id="L80"><span class="lineNum">      80</span>              :   parsePass() const noexcept;</span>
-<span id="L81"><span class="lineNum">      81</span>              : </span>
-<span id="L82"><span class="lineNum">      82</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_STOP&gt;, Error&gt;</span>
-<span id="L83"><span class="lineNum">      83</span>              :   parseStop() const noexcept;</span>
-<span id="L84"><span class="lineNum">      84</span>              : </span>
-<span id="L85"><span class="lineNum">      85</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_DO_WHILE&gt;, Error&gt;</span>
-<span id="L86"><span class="lineNum">      86</span>              :   parseDoWhile() const noexcept;</span>
-<span id="L87"><span class="lineNum">      87</span>              : </span>
-<span id="L88"><span class="lineNum">      88</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt;</span>
-<span id="L89"><span class="lineNum">      89</span>              :   parseIf() const noexcept;</span>
-<span id="L90"><span class="lineNum">      90</span>              : </span>
-<span id="L91"><span class="lineNum">      91</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;</span>
-<span id="L92"><span class="lineNum">      92</span>              :   parseElseIf() const noexcept;</span>
-<span id="L93"><span class="lineNum">      93</span>              : </span>
-<span id="L94"><span class="lineNum">      94</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;</span>
-<span id="L95"><span class="lineNum">      95</span>              :   parseSwitch() const noexcept;</span>
-<span id="L96"><span class="lineNum">      96</span>              : </span>
-<span id="L97"><span class="lineNum">      97</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt;</span>
-<span id="L98"><span class="lineNum">      98</span>              :   parseCase() const noexcept;</span>
-<span id="L99"><span class="lineNum">      99</span>              : </span>
-<span id="L100"><span class="lineNum">     100</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;</span>
-<span id="L101"><span class="lineNum">     101</span>              :   parseDefault() const noexcept;</span>
-<span id="L102"><span class="lineNum">     102</span>              : </span>
-<span id="L103"><span class="lineNum">     103</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L104"><span class="lineNum">     104</span>              :   parseAssignment(const bool insideFor) const noexcept;</span>
-<span id="L105"><span class="lineNum">     105</span>              : </span>
-<span id="L106"><span class="lineNum">     106</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L107"><span class="lineNum">     107</span>              :   parseVarDecl(const bool insideFor) const noexcept;</span>
-<span id="L108"><span class="lineNum">     108</span>              : </span>
-<span id="L109"><span class="lineNum">     109</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L110"><span class="lineNum">     110</span>              :   parseTernary() const noexcept;</span>
-<span id="L111"><span class="lineNum">     111</span>              : </span>
-<span id="L112"><span class="lineNum">     112</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;</span>
-<span id="L113"><span class="lineNum">     113</span>              :   parseCondition(const bool isInsideFor) const noexcept;</span>
-<span id="L114"><span class="lineNum">     114</span>              : </span>
-<span id="L115"><span class="lineNum">     115</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L116"><span class="lineNum">     116</span>              :   parseOr() const noexcept;</span>
-<span id="L117"><span class="lineNum">     117</span>              : </span>
-<span id="L118"><span class="lineNum">     118</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L119"><span class="lineNum">     119</span>              :   parseAnd() const noexcept;</span>
-<span id="L120"><span class="lineNum">     120</span>              : </span>
-<span id="L121"><span class="lineNum">     121</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L122"><span class="lineNum">     122</span>              :   parseEqual_NotEqual() const noexcept;</span>
-<span id="L123"><span class="lineNum">     123</span>              : </span>
-<span id="L124"><span class="lineNum">     124</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L125"><span class="lineNum">     125</span>              :   parseCompare() const noexcept;</span>
-<span id="L126"><span class="lineNum">     126</span>              : </span>
-<span id="L127"><span class="lineNum">     127</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L128"><span class="lineNum">     128</span>              :   parseAdd_Sub() const noexcept;</span>
-<span id="L129"><span class="lineNum">     129</span>              : </span>
-<span id="L130"><span class="lineNum">     130</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L131"><span class="lineNum">     131</span>              :   parseMult_Div_Module() const noexcept;</span>
-<span id="L132"><span class="lineNum">     132</span>              : </span>
-<span id="L133"><span class="lineNum">     133</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L134"><span class="lineNum">     134</span>              :   parseFactor() const noexcept;</span>
-<span id="L135"><span class="lineNum">     135</span>              : </span>
-<span id="L136"><span class="lineNum">     136</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt;</span>
-<span id="L137"><span class="lineNum">     137</span>              :   parseVector() const noexcept;</span>
-<span id="L138"><span class="lineNum">     138</span>              : </span>
-<span id="L139"><span class="lineNum">     139</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;AST_CHAINED&gt;, Error&gt;</span>
-<span id="L140"><span class="lineNum">     140</span>              :   parseChainedExpression() const noexcept;</span>
-<span id="L141"><span class="lineNum">     141</span>              : </span>
-<span id="L142"><span class="lineNum">     142</span>              :   [[nodiscard]] const std::expected&lt;Parameters, Error&gt;</span>
-<span id="L143"><span class="lineNum">     143</span>              :   parseParams() const noexcept;</span>
-<span id="L144"><span class="lineNum">     144</span>              : </span>
-<span id="L145"><span class="lineNum">     145</span>              :   [[nodiscard]] const std::expected&lt;std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;, Error&gt;</span>
-<span id="L146"><span class="lineNum">     146</span>              :   parseArguments(std::pair&lt;TokenType, TokenType&gt; delimiters,</span>
-<span id="L147"><span class="lineNum">     147</span>              :                  const bool canBeEmpty) const noexcept;</span>
-<span id="L148"><span class="lineNum">     148</span>              : </span>
-<span id="L149"><span class="lineNum">     149</span>              :   std::expected&lt;std::monostate, Error&gt; tryEat() const noexcept;</span>
+<span id="L45"><span class="lineNum">      45</span>              :   [[nodiscard]] auto parseConstructorDecl(</span>
+<span id="L46"><span class="lineNum">      46</span>              :       const std::string &amp;id_returnType, const std::shared_ptr&lt;Type&gt; &amp;fatherType,</span>
+<span id="L47"><span class="lineNum">      47</span>              :       const std::vector&lt;GenericParameter&gt; &amp;classGenerics) const noexcept</span>
+<span id="L48"><span class="lineNum">      48</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_CONSTRUCTOR_DECL&gt;, Error&gt;;</span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span>              :   [[nodiscard]] auto parseDestructorDecl(const std::string &amp;id,</span>
+<span id="L51"><span class="lineNum">      51</span>              :                                          const bool isVirtual) const noexcept</span>
+<span id="L52"><span class="lineNum">      52</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_DESTRUCTOR_DECL&gt;, Error&gt;;</span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              :   [[nodiscard]] auto parseMethodDecl(const bool isVirtual) const noexcept</span>
+<span id="L55"><span class="lineNum">      55</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_METHOD_DECL&gt;, Error&gt;;</span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              :   [[nodiscard]] auto parseDelete() const noexcept</span>
+<span id="L58"><span class="lineNum">      58</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_DELETE&gt;, Error&gt;;</span>
+<span id="L59"><span class="lineNum">      59</span>              : </span>
+<span id="L60"><span class="lineNum">      60</span>              :   [[nodiscard]] auto parseFuncDecl() const noexcept</span>
+<span id="L61"><span class="lineNum">      61</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_FUNC_DECL&gt;, Error&gt;;</span>
+<span id="L62"><span class="lineNum">      62</span>              : </span>
+<span id="L63"><span class="lineNum">      63</span>              :   [[nodiscard]] auto parseReturn() const noexcept</span>
+<span id="L64"><span class="lineNum">      64</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_RETURN&gt;, Error&gt;;</span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span>              :   [[nodiscard]] auto parseImport() const noexcept</span>
+<span id="L67"><span class="lineNum">      67</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_IMPORT&gt;, Error&gt;;</span>
+<span id="L68"><span class="lineNum">      68</span>              : </span>
+<span id="L69"><span class="lineNum">      69</span>              :   [[nodiscard]] auto parsePrint() const noexcept</span>
+<span id="L70"><span class="lineNum">      70</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_PRINT&gt;, Error&gt;;</span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span>              :   [[nodiscard]] auto parseWhile() const noexcept</span>
+<span id="L73"><span class="lineNum">      73</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_WHILE&gt;, Error&gt;;</span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span>              :   [[nodiscard]] auto parseFor() const noexcept</span>
+<span id="L76"><span class="lineNum">      76</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_FOR&gt;, Error&gt;;</span>
+<span id="L77"><span class="lineNum">      77</span>              : </span>
+<span id="L78"><span class="lineNum">      78</span>              :   [[nodiscard]] auto parsePass() const noexcept</span>
+<span id="L79"><span class="lineNum">      79</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_PASS&gt;, Error&gt;;</span>
+<span id="L80"><span class="lineNum">      80</span>              : </span>
+<span id="L81"><span class="lineNum">      81</span>              :   [[nodiscard]] auto parseStop() const noexcept</span>
+<span id="L82"><span class="lineNum">      82</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_STOP&gt;, Error&gt;;</span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span>              :   [[nodiscard]] auto parseDoWhile() const noexcept</span>
+<span id="L85"><span class="lineNum">      85</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_DO_WHILE&gt;, Error&gt;;</span>
+<span id="L86"><span class="lineNum">      86</span>              : </span>
+<span id="L87"><span class="lineNum">      87</span>              :   [[nodiscard]] auto parseIf() const noexcept</span>
+<span id="L88"><span class="lineNum">      88</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_IF&gt;, Error&gt;;</span>
+<span id="L89"><span class="lineNum">      89</span>              : </span>
+<span id="L90"><span class="lineNum">      90</span>              :   [[nodiscard]] auto parseElseIf() const noexcept</span>
+<span id="L91"><span class="lineNum">      91</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_ELSE_IF&gt;, Error&gt;;</span>
+<span id="L92"><span class="lineNum">      92</span>              : </span>
+<span id="L93"><span class="lineNum">      93</span>              :   [[nodiscard]] auto parseSwitch() const noexcept</span>
+<span id="L94"><span class="lineNum">      94</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_SWITCH&gt;, Error&gt;;</span>
+<span id="L95"><span class="lineNum">      95</span>              : </span>
+<span id="L96"><span class="lineNum">      96</span>              :   [[nodiscard]] auto parseCase() const noexcept</span>
+<span id="L97"><span class="lineNum">      97</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_CASE&gt;, Error&gt;;</span>
+<span id="L98"><span class="lineNum">      98</span>              : </span>
+<span id="L99"><span class="lineNum">      99</span>              :   [[nodiscard]] auto parseDefault() const noexcept</span>
+<span id="L100"><span class="lineNum">     100</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_DEFAULT&gt;, Error&gt;;</span>
+<span id="L101"><span class="lineNum">     101</span>              : </span>
+<span id="L102"><span class="lineNum">     102</span>              :   [[nodiscard]] auto parseAssignment(const bool insideFor) const noexcept</span>
+<span id="L103"><span class="lineNum">     103</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span>              :   [[nodiscard]] auto parseVarDecl(const bool insideFor) const noexcept</span>
+<span id="L106"><span class="lineNum">     106</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L107"><span class="lineNum">     107</span>              : </span>
+<span id="L108"><span class="lineNum">     108</span>              :   [[nodiscard]] auto parseTernary() const noexcept</span>
+<span id="L109"><span class="lineNum">     109</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L110"><span class="lineNum">     110</span>              : </span>
+<span id="L111"><span class="lineNum">     111</span>              :   [[nodiscard]] auto parseCondition(const bool isInsideFor) const noexcept</span>
+<span id="L112"><span class="lineNum">     112</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_CONDITION&gt;, Error&gt;;</span>
+<span id="L113"><span class="lineNum">     113</span>              : </span>
+<span id="L114"><span class="lineNum">     114</span>              :   [[nodiscard]] auto parseOr() const noexcept</span>
+<span id="L115"><span class="lineNum">     115</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L116"><span class="lineNum">     116</span>              : </span>
+<span id="L117"><span class="lineNum">     117</span>              :   [[nodiscard]] auto parseAnd() const noexcept</span>
+<span id="L118"><span class="lineNum">     118</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L119"><span class="lineNum">     119</span>              : </span>
+<span id="L120"><span class="lineNum">     120</span>              :   [[nodiscard]] auto parseEqual_NotEqual() const noexcept</span>
+<span id="L121"><span class="lineNum">     121</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L122"><span class="lineNum">     122</span>              : </span>
+<span id="L123"><span class="lineNum">     123</span>              :   [[nodiscard]] auto parseCompare() const noexcept</span>
+<span id="L124"><span class="lineNum">     124</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L125"><span class="lineNum">     125</span>              : </span>
+<span id="L126"><span class="lineNum">     126</span>              :   [[nodiscard]] auto parseAdd_Sub() const noexcept</span>
+<span id="L127"><span class="lineNum">     127</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L128"><span class="lineNum">     128</span>              : </span>
+<span id="L129"><span class="lineNum">     129</span>              :   [[nodiscard]] auto parseMult_Div_Module() const noexcept</span>
+<span id="L130"><span class="lineNum">     130</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L131"><span class="lineNum">     131</span>              : </span>
+<span id="L132"><span class="lineNum">     132</span>              :   [[nodiscard]] auto parseFactor() const noexcept</span>
+<span id="L133"><span class="lineNum">     133</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;;</span>
+<span id="L134"><span class="lineNum">     134</span>              : </span>
+<span id="L135"><span class="lineNum">     135</span>              :   [[nodiscard]] auto parseVector() const noexcept</span>
+<span id="L136"><span class="lineNum">     136</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt;;</span>
+<span id="L137"><span class="lineNum">     137</span>              : </span>
+<span id="L138"><span class="lineNum">     138</span>              :   [[nodiscard]] auto parseChainedExpression() const noexcept</span>
+<span id="L139"><span class="lineNum">     139</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;AST_CHAINED&gt;, Error&gt;;</span>
+<span id="L140"><span class="lineNum">     140</span>              : </span>
+<span id="L141"><span class="lineNum">     141</span>              :   [[nodiscard]] auto parseParams() const noexcept</span>
+<span id="L142"><span class="lineNum">     142</span>              :       -&gt; std::expected&lt;Parameters, Error&gt;;</span>
+<span id="L143"><span class="lineNum">     143</span>              : </span>
+<span id="L144"><span class="lineNum">     144</span>              :   [[nodiscard]] auto parseArguments(std::pair&lt;TokenType, TokenType&gt; delimiters,</span>
+<span id="L145"><span class="lineNum">     145</span>              :                                     const bool canBeEmpty) const noexcept</span>
+<span id="L146"><span class="lineNum">     146</span>              :       -&gt; std::expected&lt;std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;, Error&gt;;</span>
+<span id="L147"><span class="lineNum">     147</span>              : </span>
+<span id="L148"><span class="lineNum">     148</span>              :   [[nodiscard]] auto tryEat() const noexcept</span>
+<span id="L149"><span class="lineNum">     149</span>              :       -&gt; std::expected&lt;std::monostate, Error&gt;;</span>
 <span id="L150"><span class="lineNum">     150</span>              : </span>
 <span id="L151"><span class="lineNum">     151</span>              : public:</span>
 <span id="L152"><span class="lineNum">     152</span>              :   explicit TopDown(const std::shared_ptr&lt;Sintax&gt; &amp;sintax) noexcept</span>
 <span id="L153"><span class="lineNum">     153</span> <span class="tlaUNC tlaBgUNC">           0 :       : Parser{sintax} {}</span></span>
 <span id="L154"><span class="lineNum">     154</span>              : </span>
-<span id="L155"><span class="lineNum">     155</span>              :   [[nodiscard]] const std::expected&lt;std::shared_ptr&lt;Tree&gt;, Error&gt;</span>
-<span id="L156"><span class="lineNum">     156</span>              :   parse(const std::filesystem::path &amp;entryFile) const noexcept override;</span>
-<span id="L157"><span class="lineNum">     157</span>              : };</span>
-<span id="L158"><span class="lineNum">     158</span>              : </span>
-<span id="L159"><span class="lineNum">     159</span>              : } // namespace nicole</span>
-<span id="L160"><span class="lineNum">     160</span>              : </span>
-<span id="L161"><span class="lineNum">     161</span>              : #endif</span>
+<span id="L155"><span class="lineNum">     155</span>              :   [[nodiscard]] auto</span>
+<span id="L156"><span class="lineNum">     156</span>              :   parse(const std::filesystem::path &amp;entryFile) const noexcept</span>
+<span id="L157"><span class="lineNum">     157</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;Tree&gt;, Error&gt; override;</span>
+<span id="L158"><span class="lineNum">     158</span>              : };</span>
+<span id="L159"><span class="lineNum">     159</span>              : </span>
+<span id="L160"><span class="lineNum">     160</span>              : } // namespace nicole</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              : #endif</span>
         </pre>
               </td>
             </tr>

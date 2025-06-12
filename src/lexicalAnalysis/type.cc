@@ -2,7 +2,7 @@
 
 namespace nicole {
 
-std::string tokenTypeToString(const TokenType &tk) noexcept {
+auto tokenTypeToString(const TokenType &tk) noexcept -> std::string {
   switch (tk) {
   case TokenType::SPACE:
     return "SPACE";

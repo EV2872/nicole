@@ -4,8 +4,8 @@
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_STATEMENT *node) const noexcept {
+auto PrintTree::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
@@ -21,8 +21,8 @@ PrintTree::visit(const AST_STATEMENT *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_BODY *node) const noexcept {
+auto PrintTree::visit(const AST_BODY *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -40,8 +40,8 @@ PrintTree::visit(const AST_BODY *node) const noexcept {
   return result.str();
 }
 
-std::expected<std::string, Error>
-PrintTree::visit(const Tree *tree) const noexcept {
+auto PrintTree::visit(const Tree *tree) const noexcept
+    -> std::expected<std::string, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }

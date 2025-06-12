@@ -6,16 +6,16 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_ENUM *node) const noexcept {
+auto CodeGeneration::visit(const AST_ENUM *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM");
   }
   return nullptr;
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_ENUM_ACCESS *node) const noexcept {
+auto CodeGeneration::visit(const AST_ENUM_ACCESS *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM_ACCESS");
   }

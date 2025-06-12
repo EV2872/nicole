@@ -20,8 +20,9 @@ public:
 
   virtual ~Parser() noexcept = default;
 
-  [[nodiscard]] virtual const std::expected<std::shared_ptr<Tree>, Error>
-  parse(const std::filesystem::path &entryFile) const noexcept = 0;
+  [[nodiscard]] virtual auto
+  parse(const std::filesystem::path &entryFile) const noexcept
+      -> std::expected<std::shared_ptr<Tree>, Error> = 0;
 };
 
 } // namespace nicole

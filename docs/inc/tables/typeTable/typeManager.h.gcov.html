@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -76,13 +76,14 @@
 <span id="L14"><span class="lineNum">      14</span>              :   explicit TypeManager(const std::shared_ptr&lt;TypeTable&gt; &amp;typeTable) noexcept</span>
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC tlaBgUNC">           0 :       : typeTable_{typeTable} {}</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
-<span id="L17"><span class="lineNum">      17</span>              :   bool canAssign(const std::shared_ptr&lt;Type&gt; &amp;dest,</span>
-<span id="L18"><span class="lineNum">      18</span>              :                               const std::shared_ptr&lt;Type&gt; &amp;src) const noexcept;</span>
-<span id="L19"><span class="lineNum">      19</span>              : };</span>
-<span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span>              : } // namespace nicole</span>
-<span id="L22"><span class="lineNum">      22</span>              : </span>
-<span id="L23"><span class="lineNum">      23</span>              : #endif</span>
+<span id="L17"><span class="lineNum">      17</span>              :   [[nodiscard]] auto canAssign(const std::shared_ptr&lt;Type&gt; &amp;dest,</span>
+<span id="L18"><span class="lineNum">      18</span>              :                                const std::shared_ptr&lt;Type&gt; &amp;src) const noexcept</span>
+<span id="L19"><span class="lineNum">      19</span>              :       -&gt; bool;</span>
+<span id="L20"><span class="lineNum">      20</span>              : };</span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span>              : } // namespace nicole</span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              : #endif</span>
         </pre>
               </td>
             </tr>

@@ -44,7 +44,8 @@ enum class ERROR_TYPE {
   VALIDATE_TREE
 };
 
-[[nodiscard]] inline std::string errorToStr(const ERROR_TYPE type) noexcept {
+[[nodiscard]] inline auto errorToStr(const ERROR_TYPE type) noexcept
+    -> std::string {
   switch (type) {
   // Options
   case ERROR_TYPE::MISSING_ARGUMENTS:
@@ -124,22 +125,26 @@ public:
   explicit Error(const ERROR_TYPE type, const std::string &info) noexcept
       : type_{type}, info_{info} {}
 
-  [[nodiscard]] ERROR_TYPE type() const noexcept { return type_; }
+  [[nodiscard]] auto type() const noexcept -> ERROR_TYPE { return type_; }
 
-  [[nodiscard]] const std::string &info() const noexcept { return info_; }
+  [[nodiscard]] auto info() const noexcept -> const std::string & {
+    return info_;
+  }
 
-  friend std::ostream &operator<<(std::ostream &os,
-                                  const Error &error) noexcept {
+  friend auto operator<<(std::ostream &os, const Error &error) noexcept
+      -> std::ostream & {
     return os << "Error " << errorToStr(error.type_) << ": " << error.info_;
   }
 };
 
-[[nodiscard]] inline std::unexpected<Error> createError(const ERROR_TYPE type,
-                                const std::string &info) noexcept {
+[[nodiscard]] inline auto createError(const ERROR_TYPE type,
+                                      const std::string &info) noexcept
+    -> std::unexpected<Error> {
   return std::unexpected{Error{type, info}};
 }
 
-[[nodiscard]] inline std::unexpected<Error> createError(const Error &error) noexcept {
+[[nodiscard]] inline auto createError(const Error &error) noexcept
+    -> std::unexpected<Error> {
   return std::unexpected{error};
 }
 

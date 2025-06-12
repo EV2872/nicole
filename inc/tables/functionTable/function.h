@@ -30,43 +30,50 @@ public:
       : Symbol{id}, generics_{generics}, params_{params},
         returnType_{returnType}, body_{body} {}
 
-  [[nodiscard]] const std::vector<GenericParameter> &generics() const noexcept {
+  [[nodiscard]] auto generics() const noexcept
+      -> const std::vector<GenericParameter> & {
     return generics_;
   }
 
-  [[nodiscard]] const Parameters &params() const noexcept { return params_; }
+  [[nodiscard]] auto params() const noexcept -> const Parameters & {
+    return params_;
+  }
 
-  [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
+  [[nodiscard]] auto returnType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 
-  [[nodiscard]] const AST_FUNC_DECL *declReference() const noexcept {
+  [[nodiscard]] auto declReference() const noexcept -> const AST_FUNC_DECL * {
     return declReference_;
   }
 
-  [[nodiscard]] const std::shared_ptr<llvm::Function> &
-  llvmVersion() const noexcept {
+  [[nodiscard]] auto llvmVersion() const noexcept
+      -> const std::shared_ptr<llvm::Function> & {
     return llvmVersion_;
   }
 
-  void setDeclReference(const AST_FUNC_DECL *declReference) const noexcept {
+  auto setDeclReference(const AST_FUNC_DECL *declReference) const noexcept
+      -> void {
     declReference_ = declReference;
   }
 
-  void
-  setLlvmVersion(const std::shared_ptr<llvm::Function> &llvmVersion) noexcept {
+  auto
+  setLlvmVersion(const std::shared_ptr<llvm::Function> &llvmVersion) noexcept
+      -> void {
     llvmVersion_ = llvmVersion;
   }
 
-  void setReturnType(const std::shared_ptr<Type> &type) const noexcept {
+  auto setReturnType(const std::shared_ptr<Type> &type) const noexcept -> void {
     returnType_ = type;
   }
 
-  void setParameters(const Parameters &params) const noexcept {
+  auto setParameters(const Parameters &params) const noexcept -> void {
     params_ = params;
   }
 };

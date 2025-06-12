@@ -17,23 +17,28 @@ private:
   NameMangler() noexcept = delete;
 
 public:
-  [[nodiscard]] static std::expected<std::string, Error>
-  mangleFunction(const std::shared_ptr<AST_FUNC_DECL> &node) noexcept;
+  [[nodiscard]] static auto
+  mangleFunction(const std::shared_ptr<AST_FUNC_DECL> &node) noexcept
+      -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static std::expected<std::string, Error>
-  mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept;
+  [[nodiscard]] static auto
+  mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept
+      -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static std::expected<std::string, Error>
+  [[nodiscard]] static auto
   mangleConstructor(const std::shared_ptr<AST_CONSTRUCTOR_DECL> &node,
-                    const std::string &constructorOwner) noexcept;
+                    const std::string &constructorOwner) noexcept
+      -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static std::expected<std::string, Error>
+  [[nodiscard]] static auto
   mangleDestructor(const std::shared_ptr<AST_DESTRUCTOR_DECL> &node,
-                   const std::string &desstructorOwner) noexcept;
+                   const std::string &desstructorOwner) noexcept
+      -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static std::expected<std::string, Error>
+  [[nodiscard]] static auto
   mangleMethod(const std::shared_ptr<AST_METHOD_DECL> &node,
-               const std::string &methodOwner) noexcept;
+               const std::string &methodOwner) noexcept
+      -> std::expected<std::string, Error>;
 };
 
 } // namespace nicole

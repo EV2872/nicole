@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">271</td>
+            <td class="headerCovTableEntry">272</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -78,8 +78,8 @@
 <span id="L16"><span class="lineNum">      16</span>              : - else if lo mismo que if</span>
 <span id="L17"><span class="lineNum">      17</span>              : - else lo mismo que body</span>
 <span id="L18"><span class="lineNum">      18</span>              : */</span>
-<span id="L19"><span class="lineNum">      19</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC tlaBgUNC">           0 : TypeAnalysis::visit(const AST_IF *node) const noexcept {</span></span>
+<span id="L19"><span class="lineNum">      19</span>              : auto TypeAnalysis::visit(const AST_IF *node) const noexcept</span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_IF&quot;);</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -158,8 +158,8 @@
 <span id="L96"><span class="lineNum">      96</span>              : /*</span>
 <span id="L97"><span class="lineNum">      97</span>              : - lo mismo que if</span>
 <span id="L98"><span class="lineNum">      98</span>              : */</span>
-<span id="L99"><span class="lineNum">      99</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_ELSE_IF *node) const noexcept {</span></span>
+<span id="L99"><span class="lineNum">      99</span>              : auto TypeAnalysis::visit(const AST_ELSE_IF *node) const noexcept</span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ELSE_IF&quot;);</span></span>
 <span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -201,8 +201,8 @@
 <span id="L139"><span class="lineNum">     139</span>              : - match solo bool, int, char</span>
 <span id="L140"><span class="lineNum">     140</span>              : - Lo mismo que if</span>
 <span id="L141"><span class="lineNum">     141</span>              : */</span>
-<span id="L142"><span class="lineNum">     142</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_SWITCH *node) const noexcept {</span></span>
+<span id="L142"><span class="lineNum">     142</span>              : auto TypeAnalysis::visit(const AST_SWITCH *node) const noexcept</span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_SWITCH&quot;);</span></span>
 <span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -274,8 +274,8 @@
 <span id="L212"><span class="lineNum">     212</span>              : - match solo bool, int char</span>
 <span id="L213"><span class="lineNum">     213</span>              : - igual que body</span>
 <span id="L214"><span class="lineNum">     214</span>              : */</span>
-<span id="L215"><span class="lineNum">     215</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CASE *node) const noexcept {</span></span>
+<span id="L215"><span class="lineNum">     215</span>              : auto TypeAnalysis::visit(const AST_CASE *node) const noexcept</span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L217"><span class="lineNum">     217</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L218"><span class="lineNum">     218</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_CASE&quot;);</span></span>
 <span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -318,8 +318,8 @@
 <span id="L256"><span class="lineNum">     256</span>              : /*</span>
 <span id="L257"><span class="lineNum">     257</span>              : - igual que body</span>
 <span id="L258"><span class="lineNum">     258</span>              : */</span>
-<span id="L259"><span class="lineNum">     259</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_DEFAULT *node) const noexcept {</span></span>
+<span id="L259"><span class="lineNum">     259</span>              : auto TypeAnalysis::visit(const AST_DEFAULT *node) const noexcept</span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L262"><span class="lineNum">     262</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_DEFAULT&quot;);</span></span>
 <span id="L263"><span class="lineNum">     263</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -341,8 +341,8 @@
 <span id="L279"><span class="lineNum">     279</span>              : - condtion debe ser bool</span>
 <span id="L280"><span class="lineNum">     280</span>              : - first y second no pueden ser breakType</span>
 <span id="L281"><span class="lineNum">     281</span>              :  */</span>
-<span id="L282"><span class="lineNum">     282</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_TERNARY *node) const noexcept {</span></span>
+<span id="L282"><span class="lineNum">     282</span>              : auto TypeAnalysis::visit(const AST_TERNARY *node) const noexcept</span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L284"><span class="lineNum">     284</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_TERNARY&quot;);</span></span>
 <span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -399,8 +399,8 @@
 <span id="L337"><span class="lineNum">     337</span>              : /*</span>
 <span id="L338"><span class="lineNum">     338</span>              : - debe retornar bool</span>
 <span id="L339"><span class="lineNum">     339</span>              : */</span>
-<span id="L340"><span class="lineNum">     340</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L341"><span class="lineNum">     341</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CONDITION *node) const noexcept {</span></span>
+<span id="L340"><span class="lineNum">     340</span>              : auto TypeAnalysis::visit(const AST_CONDITION *node) const noexcept</span>
+<span id="L341"><span class="lineNum">     341</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L342"><span class="lineNum">     342</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_CONDITION&quot;);</span></span>
 <span id="L344"><span class="lineNum">     344</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -423,14 +423,15 @@
 <span id="L361"><span class="lineNum">     361</span> <span class="tlaUNC">           0 :       !typeTable_-&gt;areSameType(condType, typeTable_-&gt;boolType()) &amp;&amp;</span></span>
 <span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :       !typeTable_-&gt;areSameType(condType, typeTable_-&gt;intType()) &amp;&amp;</span></span>
 <span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :       !typeTable_-&gt;areSameType(condType, typeTable_-&gt;charType()) &amp;&amp; !isEnum) {</span></span>
-<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :                        &quot;condition must be a ptr, bool, int, char, or enum(in a switch)&quot;);</span></span>
-<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(condType);</span></span>
-<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :   return condType;</span></span>
-<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 : }</span></span>
-<span id="L370"><span class="lineNum">     370</span>              : </span>
-<span id="L371"><span class="lineNum">     371</span>              : } // namespace nicole</span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :     return createError(</span></span>
+<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :         ERROR_TYPE::TYPE,</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :         &quot;condition must be a ptr, bool, int, char, or enum(in a switch)&quot;);</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :   node-&gt;setReturnedFromAnalysis(condType);</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :   return condType;</span></span>
+<span id="L370"><span class="lineNum">     370</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L371"><span class="lineNum">     371</span>              : </span>
+<span id="L372"><span class="lineNum">     372</span>              : } // namespace nicole</span>
         </pre>
               </td>
             </tr>

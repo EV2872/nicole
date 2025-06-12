@@ -2,7 +2,7 @@
 
 namespace nicole {
 
-bool Scope::has(const std::string &id) const noexcept {
+auto Scope::has(const std::string &id) const noexcept -> bool {
   if (table_.count(id)) {
     return true;
   }
@@ -12,8 +12,8 @@ bool Scope::has(const std::string &id) const noexcept {
   return false;
 }
 
-const std::expected<std::shared_ptr<Variable>, Error>
-Scope::getVariable(const std::string &id) const noexcept {
+auto Scope::getVariable(const std::string &id) const noexcept
+    -> const std::expected<std::shared_ptr<Variable>, Error> {
   if (table_.count(id)) {
     return table_.at(id);
   }
@@ -24,8 +24,8 @@ Scope::getVariable(const std::string &id) const noexcept {
                      "variable: " + id + " does not exist");
 }
 
-std::expected<std::monostate, Error>
-Scope::insert(const std::shared_ptr<Variable> &variable) noexcept {
+auto Scope::insert(const std::shared_ptr<Variable> &variable) noexcept
+    -> std::expected<std::monostate, Error> {
   if (!has(variable->id())) {
     table_.emplace(variable->id(), variable);
     return {};
@@ -34,14 +34,14 @@ Scope::insert(const std::shared_ptr<Variable> &variable) noexcept {
                      "the variable: " + variable->id() + " already exists");
 }
 
-void Scope::registerForDestruction(
-    const std::shared_ptr<Variable> &variable) noexcept {
+auto Scope::registerForDestruction(
+    const std::shared_ptr<Variable> &variable) noexcept -> void {
   registerForDestruction_.push_back(variable);
 }
 
-std::expected<std::monostate, Error>
-Scope::setVariableType(const std::string &id,
-                       const std::shared_ptr<Type> &type) const noexcept {
+auto Scope::setVariableType(const std::string &id,
+                            const std::shared_ptr<Type> &type) const noexcept
+    -> std::expected<std::monostate, Error> {
   auto it = table_.find(id);
   if (it != table_.end()) {
     it->second->setType(type);
@@ -54,7 +54,8 @@ Scope::setVariableType(const std::string &id,
                      "variable '" + id + "' does not exist");
 }
 
-std::ostream &operator<<(std::ostream &os, const Scope &scope) noexcept {
+auto operator<<(std::ostream &os, const Scope &scope) noexcept
+    -> std::ostream & {
   os << "Scope { ";
   for (auto it = scope.table_.cbegin(); it != scope.table_.cend(); ++it) {
     os << it->first;

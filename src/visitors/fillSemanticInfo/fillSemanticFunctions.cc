@@ -7,8 +7,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_FUNC_CALL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_FUNC_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_FUNC_CALL");
 
@@ -57,8 +57,8 @@ FillSemanticInfo::visit(const AST_FUNC_CALL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_FUNC_DECL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_FUNC_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_DECL");
   const Function newFunction{node->id(), node->generics(), node->parameters(),
@@ -143,8 +143,8 @@ FillSemanticInfo::visit(const AST_FUNC_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_RETURN *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_RETURN *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_RETURN");
   }

@@ -23,32 +23,33 @@ public:
   explicit Scope(const std::shared_ptr<Scope> &father) noexcept
       : father_{father} {}
 
-  [[nodiscard]] const std::shared_ptr<Scope> &father() const noexcept {
+  [[nodiscard]] auto father() const noexcept -> const std::shared_ptr<Scope> & {
     return father_;
   }
 
-  [[nodiscard]] bool has(const std::string &id) const noexcept;
+  [[nodiscard]] auto has(const std::string &id) const noexcept -> bool;
 
-  [[nodiscard]] const std::expected<std::shared_ptr<Variable>, Error>
-  getVariable(const std::string &id) const noexcept;
+  [[nodiscard]] auto getVariable(const std::string &id) const noexcept
+      -> const std::expected<std::shared_ptr<Variable>, Error>;
 
-  [[nodiscard]] const std::vector<std::shared_ptr<Variable>> &
-  registeredForDestruction() const noexcept {
+  [[nodiscard]] auto registeredForDestruction() const noexcept
+      -> const std::vector<std::shared_ptr<Variable>> & {
     return registerForDestruction_;
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  insert(const std::shared_ptr<Variable> &variable) noexcept;
+  [[nodiscard]] auto insert(const std::shared_ptr<Variable> &variable) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  void
-  registerForDestruction(const std::shared_ptr<Variable> &variable) noexcept;
+  auto
+  registerForDestruction(const std::shared_ptr<Variable> &variable) noexcept
+      -> void;
 
-  std::expected<std::monostate, Error>
-  setVariableType(const std::string &id,
-                  const std::shared_ptr<Type> &type) const noexcept;
+  auto setVariableType(const std::string &id,
+                       const std::shared_ptr<Type> &type) const noexcept
+      -> std::expected<std::monostate, Error>;
 
-  friend std::ostream &operator<<(std::ostream &os,
-                                  const Scope &scope) noexcept;
+  friend auto operator<<(std::ostream &os, const Scope &scope) noexcept
+      -> std::ostream &;
 
 }; // namespace nicole
 

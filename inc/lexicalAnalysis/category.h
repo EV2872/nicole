@@ -5,6 +5,7 @@
 
 #include "regexWrapper.h"
 #include "token.h"
+#include "type.h"
 
 namespace nicole {
 
@@ -20,20 +21,20 @@ public:
                     const bool skip) noexcept
       : type_{type}, pattern_{matcher}, skip_{skip} {};
 
-  [[nodiscard]] TokenType type() const noexcept { return type_; }
+  [[nodiscard]] auto type() const noexcept -> TokenType { return type_; }
 
-  [[nodiscard]] const RegexWrapper &pattern() const noexcept {
+  [[nodiscard]] auto pattern() const noexcept -> const RegexWrapper & {
     return pattern_;
   }
 
-  [[nodiscard]] const std::string rawPattern() const noexcept {
+  [[nodiscard]] auto rawPattern() const noexcept -> const std::string & {
     return pattern_.str();
   }
 
   // to know if it must be skipped like comments
-  [[nodiscard]] bool skip() const noexcept { return skip_; }
+  [[nodiscard]] auto skip() const noexcept -> bool { return skip_; }
 
-  [[nodiscard]] bool matchToken(const Token &token) const noexcept {
+  [[nodiscard]] auto matchToken(const Token &token) const noexcept -> bool {
     return pattern_.match(token.raw());
   };
 };

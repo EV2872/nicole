@@ -19,39 +19,40 @@ public:
       : AST(nodeId, AST_TYPE::ENUM, srcLoc), id_{id},
         enumIdentifiers_{enumIdentifiers} {}
 
-  [[nodiscard]] const std::string &id() const noexcept { return id_; }
+  [[nodiscard]] auto id() const noexcept -> const std::string & { return id_; }
 
-  [[nodiscard]] const std::vector<std::string> &identifiers() const noexcept {
+  [[nodiscard]] auto identifiers() const noexcept
+      -> const std::vector<std::string> & {
     return enumIdentifiers_;
   }
 
-  [[nodiscard]] std::expected<std::string, Error>
-  accept(const PrintTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const PrintTree &visitor) const noexcept
+      -> std::expected<std::string, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<bool, Error>
-  accept(const ValidateTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const ValidateTree &visitor) const noexcept
+      -> std::expected<bool, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const FillSemanticInfo &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const FillSemanticInfo &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  accept(const TypeAnalysis &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const TypeAnalysis &visitor) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const Monomorphize &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const Monomorphize &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value*, Error>
-  accept(const CodeGeneration &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const CodeGeneration &visitor) const noexcept
+      -> std::expected<llvm::Value *, Error> override {
     return visitor.visit(this);
   }
 };

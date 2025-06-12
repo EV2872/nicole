@@ -1,13 +1,13 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/utils/ast_import.h"
 #include "../../../inc/parsingAnalysis/ast/utils/ast_print.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_PRINT *node) const noexcept {
+auto ValidateTree::visit(const AST_PRINT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PRINT");
   }
@@ -25,8 +25,8 @@ ValidateTree::visit(const AST_PRINT *node) const noexcept {
 }
 
 // statement / body / null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_IMPORT *node) const noexcept {
+auto ValidateTree::visit(const AST_IMPORT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IMPORT");
   }
@@ -37,4 +37,4 @@ ValidateTree::visit(const AST_IMPORT *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

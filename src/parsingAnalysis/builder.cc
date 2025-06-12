@@ -3,14 +3,15 @@
 
 namespace nicole {
 
-std::expected<std::shared_ptr<AST_BOOL>, Error>
-Builder::createBool(const SourceLocation &srcLoc, const bool value) noexcept {
+auto Builder::createBool(const SourceLocation &srcLoc,
+                         const bool value) noexcept
+    -> std::expected<std::shared_ptr<AST_BOOL>, Error> {
   return std::make_shared<AST_BOOL>(generateNextId(), srcLoc, value);
 }
 
-std::expected<std::shared_ptr<AST_CHAR>, Error>
-Builder::createChar(const SourceLocation &srcLoc,
-                    const std::string &value) noexcept {
+auto Builder::createChar(const SourceLocation &srcLoc,
+                         const std::string &value) noexcept
+    -> std::expected<std::shared_ptr<AST_CHAR>, Error> {
   const std::string strNoQuotes{value.substr(1, value.size() - 2)};
   char result;
   if (strNoQuotes.size() == 1) {
@@ -36,30 +37,31 @@ Builder::createChar(const SourceLocation &srcLoc,
   return std::make_shared<AST_CHAR>(generateNextId(), srcLoc, result);
 }
 
-std::expected<std::shared_ptr<AST_DOUBLE>, Error>
-Builder::createDouble(const SourceLocation &srcLoc,
-                      const double value) noexcept {
+auto Builder::createDouble(const SourceLocation &srcLoc,
+                           const double value) noexcept
+    -> std::expected<std::shared_ptr<AST_DOUBLE>, Error> {
   return std::make_shared<AST_DOUBLE>(generateNextId(), srcLoc, value);
 }
 
-std::expected<std::shared_ptr<AST_FLOAT>, Error>
-Builder::createFloat(const SourceLocation &srcLoc, const float value) noexcept {
+auto Builder::createFloat(const SourceLocation &srcLoc,
+                          const float value) noexcept
+    -> std::expected<std::shared_ptr<AST_FLOAT>, Error> {
   return std::make_shared<AST_FLOAT>(generateNextId(), srcLoc, value);
 }
 
-std::expected<std::shared_ptr<AST_INT>, Error>
-Builder::createInt(const SourceLocation &srcLoc, const int value) noexcept {
+auto Builder::createInt(const SourceLocation &srcLoc, const int value) noexcept
+    -> std::expected<std::shared_ptr<AST_INT>, Error> {
   return std::make_shared<AST_INT>(generateNextId(), srcLoc, value);
 }
 
-std::expected<std::shared_ptr<AST_NULL>, Error>
-Builder::createNull(const SourceLocation &srcLoc) noexcept {
+auto Builder::createNull(const SourceLocation &srcLoc) noexcept
+    -> std::expected<std::shared_ptr<AST_NULL>, Error> {
   return std::make_shared<AST_NULL>(generateNextId(), srcLoc);
 }
 
-std::expected<std::shared_ptr<AST_STRING>, Error>
-Builder::createString(const SourceLocation &srcLoc,
-                      const std::string value) noexcept {
+auto Builder::createString(const SourceLocation &srcLoc,
+                           const std::string value) noexcept
+    -> std::expected<std::shared_ptr<AST_STRING>, Error> {
   std::string result;
   if (value.size() < 2) {
     return createError(ERROR_TYPE::SINTAX, "ill formed string");
@@ -92,9 +94,10 @@ Builder::createString(const SourceLocation &srcLoc,
   return std::make_shared<AST_STRING>(generateNextId(), srcLoc, result);
 }
 
-std::expected<std::shared_ptr<AST_VECTOR>, Error>
-Builder::createVector(const SourceLocation &srcLoc,
-                      const std::vector<std::shared_ptr<AST>> values) noexcept {
+auto Builder::createVector(
+    const SourceLocation &srcLoc,
+    const std::vector<std::shared_ptr<AST>> values) noexcept
+    -> std::expected<std::shared_ptr<AST_VECTOR>, Error> {
   const std::shared_ptr<AST_VECTOR> astVector{
       std::make_shared<AST_VECTOR>(generateNextId(), srcLoc, values)};
   const std::vector<std::shared_ptr<AST>> &expressions{astVector->values()};
@@ -106,9 +109,9 @@ Builder::createVector(const SourceLocation &srcLoc,
   return astVector;
 }
 
-std::expected<std::shared_ptr<AST_INDEX>, Error>
-Builder::createIndex(const SourceLocation &srcLoc,
-                     const std::shared_ptr<AST> value) noexcept {
+auto Builder::createIndex(const SourceLocation &srcLoc,
+                          const std::shared_ptr<AST> value) noexcept
+    -> std::expected<std::shared_ptr<AST_INDEX>, Error> {
   const std::shared_ptr<AST_INDEX> astIndex{
       std::make_shared<AST_INDEX>(generateNextId(), srcLoc, value)};
   if (value) {
@@ -117,9 +120,9 @@ Builder::createIndex(const SourceLocation &srcLoc,
   return astIndex;
 }
 
-std::expected<std::shared_ptr<AST_DELETE>, Error>
-Builder::createDelete(const SourceLocation &srcLoc,
-                      const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createDelete(const SourceLocation &srcLoc,
+                           const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_DELETE>, Error> {
   const std::shared_ptr<AST_DELETE> astDelete{
       std::make_shared<AST_DELETE>(generateNextId(), srcLoc, value)};
   if (value) {
@@ -128,9 +131,9 @@ Builder::createDelete(const SourceLocation &srcLoc,
   return astDelete;
 }
 
-std::expected<std::shared_ptr<AST_NEW>, Error>
-Builder::createNew(const SourceLocation &srcLoc,
-                   const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createNew(const SourceLocation &srcLoc,
+                        const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_NEW>, Error> {
   const std::shared_ptr<AST_NEW> astNew{
       std::make_shared<AST_NEW>(generateNextId(), srcLoc, value)};
   if (value) {
@@ -139,9 +142,9 @@ Builder::createNew(const SourceLocation &srcLoc,
   return astNew;
 }
 
-std::expected<std::shared_ptr<AST_DEREF>, Error>
-Builder::createDeref(const SourceLocation &srcLoc,
-                     const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createDeref(const SourceLocation &srcLoc,
+                          const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_DEREF>, Error> {
   const std::shared_ptr<AST_DEREF> astDeref{
       std::make_shared<AST_DEREF>(generateNextId(), srcLoc, value)};
   if (value) {
@@ -150,10 +153,10 @@ Builder::createDeref(const SourceLocation &srcLoc,
   return astDeref;
 }
 
-std::expected<std::shared_ptr<AST_BINARY>, Error>
-Builder::createBinary(const SourceLocation &srcLoc, const Token &op,
-                      const std::shared_ptr<AST> &left,
-                      const std::shared_ptr<AST> &right) noexcept {
+auto Builder::createBinary(const SourceLocation &srcLoc, const Token &op,
+                           const std::shared_ptr<AST> &left,
+                           const std::shared_ptr<AST> &right) noexcept
+    -> std::expected<std::shared_ptr<AST_BINARY>, Error> {
   const std::shared_ptr<AST_BINARY> astBinary{
       std::make_shared<AST_BINARY>(generateNextId(), srcLoc, op, left, right)};
   if (left) {
@@ -165,9 +168,9 @@ Builder::createBinary(const SourceLocation &srcLoc, const Token &op,
   return astBinary;
 }
 
-std::expected<std::shared_ptr<AST_UNARY>, Error>
-Builder::createUnary(const SourceLocation &srcLoc, const Token &op,
-                     const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createUnary(const SourceLocation &srcLoc, const Token &op,
+                          const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_UNARY>, Error> {
   const std::shared_ptr<AST_UNARY> astUnary{
       std::make_shared<AST_UNARY>(generateNextId(), srcLoc, op, value)};
   if (value) {
@@ -176,10 +179,10 @@ Builder::createUnary(const SourceLocation &srcLoc, const Token &op,
   return astUnary;
 }
 
-std::expected<std::shared_ptr<AST_ASSIGNMENT>, Error>
-Builder::createAssignment(const SourceLocation &srcLoc, const Token &op,
-                          const std::shared_ptr<AST> &left,
-                          const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createAssignment(const SourceLocation &srcLoc, const Token &op,
+                               const std::shared_ptr<AST> &left,
+                               const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_ASSIGNMENT>, Error> {
   const std::shared_ptr<AST_ASSIGNMENT> astSelfAssignment{
       std::make_shared<AST_ASSIGNMENT>(generateNextId(), srcLoc, op, left,
                                        value)};
@@ -192,9 +195,10 @@ Builder::createAssignment(const SourceLocation &srcLoc, const Token &op,
   return astSelfAssignment;
 }
 
-std::expected<std::shared_ptr<AST_PRINT>, Error>
-Builder::createPrint(const SourceLocation &srcLoc,
-                     const std::vector<std::shared_ptr<AST>> &values) noexcept {
+auto Builder::createPrint(
+    const SourceLocation &srcLoc,
+    const std::vector<std::shared_ptr<AST>> &values) noexcept
+    -> std::expected<std::shared_ptr<AST_PRINT>, Error> {
   const std::shared_ptr<AST_PRINT> astPrint{
       std::make_shared<AST_PRINT>(generateNextId(), srcLoc, values)};
   const std::vector<std::shared_ptr<AST>> &values__{astPrint->values()};
@@ -206,17 +210,17 @@ Builder::createPrint(const SourceLocation &srcLoc,
   return astPrint;
 }
 
-std::expected<std::shared_ptr<AST_IMPORT>, Error>
-Builder::createImport(const SourceLocation &srcLoc,
-                      const std::filesystem::path &path) noexcept {
+auto Builder::createImport(const SourceLocation &srcLoc,
+                           const std::filesystem::path &path) noexcept
+    -> std::expected<std::shared_ptr<AST_IMPORT>, Error> {
   const std::shared_ptr<AST_IMPORT> astImport{
       std::make_shared<AST_IMPORT>(generateNextId(), srcLoc, path)};
   return astImport;
 }
 
-std::expected<std::shared_ptr<AST_STATEMENT>, Error>
-Builder::createStatement(const SourceLocation &srcLoc,
-                         const std::shared_ptr<AST> &expression) noexcept {
+auto Builder::createStatement(const SourceLocation &srcLoc,
+                              const std::shared_ptr<AST> &expression) noexcept
+    -> std::expected<std::shared_ptr<AST_STATEMENT>, Error> {
   const std::shared_ptr<AST_STATEMENT> astStatement{
       std::make_shared<AST_STATEMENT>(generateNextId(), srcLoc, expression)};
   if (expression) {
@@ -225,9 +229,10 @@ Builder::createStatement(const SourceLocation &srcLoc,
   return astStatement;
 }
 
-std::expected<std::shared_ptr<AST_BODY>, Error> Builder::createBody(
+auto Builder::createBody(
     const SourceLocation &srcLoc,
-    const std::vector<std::shared_ptr<AST_STATEMENT>> &body) noexcept {
+    const std::vector<std::shared_ptr<AST_STATEMENT>> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_BODY>, Error> {
   const std::shared_ptr<AST_BODY> astBody{
       std::make_shared<AST_BODY>(generateNextId(), srcLoc, body)};
   const std::vector<std::shared_ptr<AST_STATEMENT>> &statements{
@@ -240,10 +245,10 @@ std::expected<std::shared_ptr<AST_BODY>, Error> Builder::createBody(
   return astBody;
 }
 
-std::expected<std::shared_ptr<AST_WHILE>, Error>
-Builder::createWhile(const SourceLocation &srcLoc,
-                     const std::shared_ptr<AST_CONDITION> &condition,
-                     const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createWhile(const SourceLocation &srcLoc,
+                          const std::shared_ptr<AST_CONDITION> &condition,
+                          const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_WHILE>, Error> {
   const std::shared_ptr<AST_WHILE> astWhile{
       std::make_shared<AST_WHILE>(generateNextId(), srcLoc, condition, body)};
   if (condition) {
@@ -255,12 +260,12 @@ Builder::createWhile(const SourceLocation &srcLoc,
   return astWhile;
 }
 
-std::expected<std::shared_ptr<AST_FOR>, Error>
-Builder::createFor(const SourceLocation &srcLoc,
-                   const std::vector<std::shared_ptr<AST>> &init,
-                   const std::shared_ptr<AST_CONDITION> &condition,
-                   const std::vector<std::shared_ptr<AST>> &update,
-                   const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createFor(const SourceLocation &srcLoc,
+                        const std::vector<std::shared_ptr<AST>> &init,
+                        const std::shared_ptr<AST_CONDITION> &condition,
+                        const std::vector<std::shared_ptr<AST>> &update,
+                        const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_FOR>, Error> {
   const std::shared_ptr<AST_FOR> astFor{std::make_shared<AST_FOR>(
       generateNextId(), srcLoc, init, condition, update, body)};
   const std::vector<std::shared_ptr<AST>> &init__{astFor->init()};
@@ -284,9 +289,10 @@ Builder::createFor(const SourceLocation &srcLoc,
   return astFor;
 }
 
-std::expected<std::shared_ptr<AST_DO_WHILE>, Error> Builder::createDoWhile(
+auto Builder::createDoWhile(
     const SourceLocation &srcLoc, const std::shared_ptr<AST_BODY> &body,
-    const std::shared_ptr<AST_CONDITION> &condition) noexcept {
+    const std::shared_ptr<AST_CONDITION> &condition) noexcept
+    -> std::expected<std::shared_ptr<AST_DO_WHILE>, Error> {
   const std::shared_ptr<AST_DO_WHILE> astDoWhile{std::make_shared<AST_DO_WHILE>(
       generateNextId(), srcLoc, body, condition)};
   if (condition) {
@@ -298,26 +304,26 @@ std::expected<std::shared_ptr<AST_DO_WHILE>, Error> Builder::createDoWhile(
   return astDoWhile;
 }
 
-std::expected<std::shared_ptr<AST_PASS>, Error>
-Builder::createPass(const SourceLocation &srcLoc) noexcept {
+auto Builder::createPass(const SourceLocation &srcLoc) noexcept
+    -> std::expected<std::shared_ptr<AST_PASS>, Error> {
   const std::shared_ptr<AST_PASS> astPass{
       std::make_shared<AST_PASS>(generateNextId(), srcLoc)};
   return astPass;
 }
 
-std::expected<std::shared_ptr<AST_STOP>, Error>
-Builder::createStop(const SourceLocation &srcLoc) noexcept {
+auto Builder::createStop(const SourceLocation &srcLoc) noexcept
+    -> std::expected<std::shared_ptr<AST_STOP>, Error> {
   const std::shared_ptr<AST_STOP> astStop{
       std::make_shared<AST_STOP>(generateNextId(), srcLoc)};
   return astStop;
 }
 
-std::expected<std::shared_ptr<AST_IF>, Error>
-Builder::createIf(const SourceLocation &srcLoc,
-                  const std::shared_ptr<AST_CONDITION> &condition,
-                  const std::shared_ptr<AST_BODY> &body,
-                  const std::vector<std::shared_ptr<AST_ELSE_IF>> &elseIf,
-                  const std::shared_ptr<AST_BODY> &elseBody) noexcept {
+auto Builder::createIf(const SourceLocation &srcLoc,
+                       const std::shared_ptr<AST_CONDITION> &condition,
+                       const std::shared_ptr<AST_BODY> &body,
+                       const std::vector<std::shared_ptr<AST_ELSE_IF>> &elseIf,
+                       const std::shared_ptr<AST_BODY> &elseBody) noexcept
+    -> std::expected<std::shared_ptr<AST_IF>, Error> {
   const std::shared_ptr<AST_IF> astIf{std::make_shared<AST_IF>(
       generateNextId(), srcLoc, condition, body, elseIf, elseBody)};
   if (condition) {
@@ -338,10 +344,10 @@ Builder::createIf(const SourceLocation &srcLoc,
   return astIf;
 }
 
-std::expected<std::shared_ptr<AST_ELSE_IF>, Error>
-Builder::createElseIf(const SourceLocation &srcLoc,
-                      const std::shared_ptr<AST_CONDITION> &condition,
-                      const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createElseIf(const SourceLocation &srcLoc,
+                           const std::shared_ptr<AST_CONDITION> &condition,
+                           const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_ELSE_IF>, Error> {
   const std::shared_ptr<AST_ELSE_IF> astIf{
       std::make_shared<AST_ELSE_IF>(generateNextId(), srcLoc, condition, body)};
   if (condition) {
@@ -353,11 +359,12 @@ Builder::createElseIf(const SourceLocation &srcLoc,
   return astIf;
 }
 
-std::expected<std::shared_ptr<AST_SWITCH>, Error>
-Builder::createSwitch(const SourceLocation &srcLoc,
-                      const std::shared_ptr<AST_CONDITION> &condition,
-                      const std::vector<std::shared_ptr<AST_CASE>> &cases,
-                      const std::shared_ptr<AST_DEFAULT> &default_) noexcept {
+auto Builder::createSwitch(
+    const SourceLocation &srcLoc,
+    const std::shared_ptr<AST_CONDITION> &condition,
+    const std::vector<std::shared_ptr<AST_CASE>> &cases,
+    const std::shared_ptr<AST_DEFAULT> &default_) noexcept
+    -> std::expected<std::shared_ptr<AST_SWITCH>, Error> {
   const std::shared_ptr<AST_SWITCH> astSwitch{std::make_shared<AST_SWITCH>(
       generateNextId(), srcLoc, condition, cases, default_)};
   if (condition) {
@@ -375,10 +382,10 @@ Builder::createSwitch(const SourceLocation &srcLoc,
   return astSwitch;
 }
 
-std::expected<std::shared_ptr<AST_CASE>, Error>
-Builder::createCase(const SourceLocation &srcLoc,
-                    const std::shared_ptr<AST> &match,
-                    const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createCase(const SourceLocation &srcLoc,
+                         const std::shared_ptr<AST> &match,
+                         const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_CASE>, Error> {
   const std::shared_ptr<AST_CASE> astCase{
       std::make_shared<AST_CASE>(generateNextId(), srcLoc, match, body)};
   if (match) {
@@ -390,9 +397,9 @@ Builder::createCase(const SourceLocation &srcLoc,
   return astCase;
 }
 
-std::expected<std::shared_ptr<AST_DEFAULT>, Error>
-Builder::createDefault(const SourceLocation &srcLoc,
-                       const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createDefault(const SourceLocation &srcLoc,
+                            const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_DEFAULT>, Error> {
   const std::shared_ptr<AST_DEFAULT> astDefault{
       std::make_shared<AST_DEFAULT>(generateNextId(), srcLoc, body)};
   if (body) {
@@ -401,11 +408,11 @@ Builder::createDefault(const SourceLocation &srcLoc,
   return astDefault;
 }
 
-std::expected<std::shared_ptr<AST_TERNARY>, Error>
-Builder::createTernary(const SourceLocation &srcLoc,
-                       const std::shared_ptr<AST_CONDITION> &condition,
-                       const std::shared_ptr<AST> &first,
-                       const std::shared_ptr<AST> &second) noexcept {
+auto Builder::createTernary(const SourceLocation &srcLoc,
+                            const std::shared_ptr<AST_CONDITION> &condition,
+                            const std::shared_ptr<AST> &first,
+                            const std::shared_ptr<AST> &second) noexcept
+    -> std::expected<std::shared_ptr<AST_TERNARY>, Error> {
   const std::shared_ptr<AST_TERNARY> astTernanry{std::make_shared<AST_TERNARY>(
       generateNextId(), srcLoc, condition, first, second)};
   if (condition) {
@@ -420,9 +427,9 @@ Builder::createTernary(const SourceLocation &srcLoc,
   return astTernanry;
 }
 
-std::expected<std::shared_ptr<AST_CONDITION>, Error>
-Builder::createCondition(const SourceLocation &srcLoc,
-                         const std::shared_ptr<AST> &expression) noexcept {
+auto Builder::createCondition(const SourceLocation &srcLoc,
+                              const std::shared_ptr<AST> &expression) noexcept
+    -> std::expected<std::shared_ptr<AST_CONDITION>, Error> {
   const std::shared_ptr<AST_CONDITION> astCondition{
       std::make_shared<AST_CONDITION>(generateNextId(), srcLoc, expression)};
   if (expression) {
@@ -431,10 +438,11 @@ Builder::createCondition(const SourceLocation &srcLoc,
   return astCondition;
 }
 
-std::expected<std::shared_ptr<AST_FUNC_CALL>, Error> Builder::createFunCall(
+auto Builder::createFunCall(
     const SourceLocation &srcLoc, const std::string &id,
     const std::vector<std::shared_ptr<Type>> &replaceOfGenerics,
-    const std::vector<std::shared_ptr<AST>> &parameters) noexcept {
+    const std::vector<std::shared_ptr<AST>> &parameters) noexcept
+    -> std::expected<std::shared_ptr<AST_FUNC_CALL>, Error> {
   const std::shared_ptr<AST_FUNC_CALL> astFuncCall{
       std::make_shared<AST_FUNC_CALL>(generateNextId(), srcLoc, id,
                                       replaceOfGenerics, parameters)};
@@ -448,12 +456,13 @@ std::expected<std::shared_ptr<AST_FUNC_CALL>, Error> Builder::createFunCall(
   return astFuncCall;
 }
 
-std::expected<std::shared_ptr<AST_FUNC_DECL>, Error>
-Builder::createFuncDecl(const SourceLocation &srcLoc, const std::string &id,
-                        const std::vector<GenericParameter> &generics,
-                        const Parameters &params,
-                        const std::shared_ptr<Type> &returnType,
-                        const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createFuncDecl(const SourceLocation &srcLoc,
+                             const std::string &id,
+                             const std::vector<GenericParameter> &generics,
+                             const Parameters &params,
+                             const std::shared_ptr<Type> &returnType,
+                             const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_FUNC_DECL>, Error> {
   const std::shared_ptr<AST_FUNC_DECL> astFuncDecl{
       std::make_shared<AST_FUNC_DECL>(generateNextId(), srcLoc, id, generics,
                                       params, returnType, body)};
@@ -463,9 +472,9 @@ Builder::createFuncDecl(const SourceLocation &srcLoc, const std::string &id,
   return astFuncDecl;
 }
 
-std::expected<std::shared_ptr<AST_RETURN>, Error>
-Builder::createReturn(const SourceLocation &srcLoc,
-                      const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createReturn(const SourceLocation &srcLoc,
+                           const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_RETURN>, Error> {
   const std::shared_ptr<AST_RETURN> astReturn{
       std::make_shared<AST_RETURN>(generateNextId(), srcLoc, value)};
   if (value) {
@@ -474,27 +483,30 @@ Builder::createReturn(const SourceLocation &srcLoc,
   return astReturn;
 }
 
-std::expected<std::shared_ptr<AST_ENUM>, Error>
-Builder::createEnum(const SourceLocation &srcLoc, const std::string &id,
-                    const std::vector<std::string> &enumIdentifiers) noexcept {
+auto Builder::createEnum(
+    const SourceLocation &srcLoc, const std::string &id,
+    const std::vector<std::string> &enumIdentifiers) noexcept
+    -> std::expected<std::shared_ptr<AST_ENUM>, Error> {
   return std::make_shared<AST_ENUM>(generateNextId(), srcLoc, id,
                                     enumIdentifiers);
 }
 
-std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error>
-Builder::createEnumAccess(const SourceLocation &srcLoc, const std::string &id,
-                          const std::string &identifiers) noexcept {
+auto Builder::createEnumAccess(const SourceLocation &srcLoc,
+                               const std::string &id,
+                               const std::string &identifiers) noexcept
+    -> std::expected<std::shared_ptr<AST_ENUM_ACCESS>, Error> {
   return std::make_shared<AST_ENUM_ACCESS>(generateNextId(), srcLoc, id,
                                            identifiers);
 }
 
-std::expected<std::shared_ptr<AST_STRUCT>, Error> Builder::createStruct(
+auto Builder::createStruct(
     const SourceLocation &srcLoc, const std::string &id,
     const std::vector<GenericParameter> &generics,
     const std::shared_ptr<Type> &fatherType, const Attributes &attributes,
     const std::vector<std::shared_ptr<AST_METHOD_DECL>> &methods,
     const std::shared_ptr<AST_CONSTRUCTOR_DECL> &constructor,
-    const std::shared_ptr<AST_DESTRUCTOR_DECL> &destructor) noexcept {
+    const std::shared_ptr<AST_DESTRUCTOR_DECL> &destructor) noexcept
+    -> std::expected<std::shared_ptr<AST_STRUCT>, Error> {
   const std::shared_ptr<AST_STRUCT> astStruct{std::make_shared<AST_STRUCT>(
       generateNextId(), srcLoc, id, generics, fatherType, attributes, methods,
       constructor, destructor)};
@@ -514,17 +526,17 @@ std::expected<std::shared_ptr<AST_STRUCT>, Error> Builder::createStruct(
   return astStruct;
 }
 
-std::expected<std::shared_ptr<AST_ATTR_ACCESS>, Error>
-Builder::createAttrAccess(const SourceLocation &srcLoc,
-                          const std::string &id) noexcept {
+auto Builder::createAttrAccess(const SourceLocation &srcLoc,
+                               const std::string &id) noexcept
+    -> std::expected<std::shared_ptr<AST_ATTR_ACCESS>, Error> {
   return std::make_shared<AST_ATTR_ACCESS>(generateNextId(), srcLoc, id);
 }
 
-std::expected<std::shared_ptr<AST_METHOD_CALL>, Error>
-Builder::createMethodCall(
+auto Builder::createMethodCall(
     const SourceLocation &srcLoc, const std::string &id,
     const std::vector<std::shared_ptr<Type>> &replaceOfGenerics,
-    const std::vector<std::shared_ptr<AST>> &parameters) noexcept {
+    const std::vector<std::shared_ptr<AST>> &parameters) noexcept
+    -> std::expected<std::shared_ptr<AST_METHOD_CALL>, Error> {
   const std::shared_ptr<AST_METHOD_CALL> astMethodCall{
       std::make_shared<AST_METHOD_CALL>(generateNextId(), srcLoc, id,
                                         replaceOfGenerics, parameters)};
@@ -538,14 +550,14 @@ Builder::createMethodCall(
   return astMethodCall;
 }
 
-std::expected<std::shared_ptr<AST_METHOD_DECL>, Error>
-Builder::createMethodDecl(const SourceLocation &srcLoc, const std::string &id,
-                          const std::vector<GenericParameter> &generics,
-                          const Parameters &params,
-
-                          const std::shared_ptr<Type> &returnType,
-                          const std::shared_ptr<AST_BODY> &body,
-                          const bool isVirtual) noexcept {
+auto Builder::createMethodDecl(const SourceLocation &srcLoc,
+                               const std::string &id,
+                               const std::vector<GenericParameter> &generics,
+                               const Parameters &params,
+                               const std::shared_ptr<Type> &returnType,
+                               const std::shared_ptr<AST_BODY> &body,
+                               const bool isVirtual) noexcept
+    -> std::expected<std::shared_ptr<AST_METHOD_DECL>, Error> {
   const std::shared_ptr<AST_METHOD_DECL> astMethodDecl{
       std::make_shared<AST_METHOD_DECL>(generateNextId(), srcLoc, id, generics,
                                         params, returnType, body, isVirtual)};
@@ -555,11 +567,11 @@ Builder::createMethodDecl(const SourceLocation &srcLoc, const std::string &id,
   return astMethodDecl;
 }
 
-std::expected<std::shared_ptr<AST_CONSTRUCTOR_CALL>, Error>
-Builder::createConstructorCall(
+auto Builder::createConstructorCall(
     const SourceLocation &srcLoc, const std::string &id,
     const std::vector<std::shared_ptr<Type>> &replaceOfGenerics,
-    const std::vector<std::shared_ptr<AST>> &parameters) noexcept {
+    const std::vector<std::shared_ptr<AST>> &parameters) noexcept
+    -> std::expected<std::shared_ptr<AST_CONSTRUCTOR_CALL>, Error> {
   const std::shared_ptr<AST_CONSTRUCTOR_CALL> astConstructorall{
       std::make_shared<AST_CONSTRUCTOR_CALL>(generateNextId(), srcLoc, id,
                                              replaceOfGenerics, parameters)};
@@ -573,14 +585,13 @@ Builder::createConstructorCall(
   return astConstructorall;
 }
 
-std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>, Error>
-Builder::createConstructorDecl(const SourceLocation &srcLoc,
-                               const std::string &id,
-                               const std::vector<GenericParameter> &generics,
-                               const Parameters &params,
-                               const std::shared_ptr<AST_SUPER> &super,
-                               const std::shared_ptr<Type> &returnType,
-                               const std::shared_ptr<AST_BODY> &body) noexcept {
+auto Builder::createConstructorDecl(
+    const SourceLocation &srcLoc, const std::string &id,
+    const std::vector<GenericParameter> &generics, const Parameters &params,
+    const std::shared_ptr<AST_SUPER> &super,
+    const std::shared_ptr<Type> &returnType,
+    const std::shared_ptr<AST_BODY> &body) noexcept
+    -> std::expected<std::shared_ptr<AST_CONSTRUCTOR_DECL>, Error> {
   const std::shared_ptr<AST_CONSTRUCTOR_DECL> astConstructor{
       std::make_shared<AST_CONSTRUCTOR_DECL>(generateNextId(), srcLoc, id,
                                              generics, params, super,
@@ -594,10 +605,11 @@ Builder::createConstructorDecl(const SourceLocation &srcLoc,
   return astConstructor;
 }
 
-std::expected<std::shared_ptr<AST_SUPER>, Error> Builder::createSuper(
+auto Builder::createSuper(
     const SourceLocation &srcLoc, const std::shared_ptr<Type> &fatherType,
     const std::vector<std::shared_ptr<Type>> &replacements,
-    const std::vector<std::shared_ptr<AST>> &arguments) noexcept {
+    const std::vector<std::shared_ptr<AST>> &arguments) noexcept
+    -> std::expected<std::shared_ptr<AST_SUPER>, Error> {
   const std::shared_ptr<AST_SUPER> astSuper{std::make_shared<AST_SUPER>(
       generateNextId(), srcLoc, fatherType, replacements, arguments)};
   const std::vector<std::shared_ptr<AST>> &values__{astSuper->arguments()};
@@ -609,12 +621,12 @@ std::expected<std::shared_ptr<AST_SUPER>, Error> Builder::createSuper(
   return astSuper;
 }
 
-std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error>
-Builder::createDestructorDecl(const SourceLocation &srcLoc,
-                              const std::string &id,
-                              const std::shared_ptr<Type> &returnType,
-                              const std::shared_ptr<AST_BODY> &body,
-                              const bool isVirtual) noexcept {
+auto Builder::createDestructorDecl(const SourceLocation &srcLoc,
+                                   const std::string &id,
+                                   const std::shared_ptr<Type> &returnType,
+                                   const std::shared_ptr<AST_BODY> &body,
+                                   const bool isVirtual) noexcept
+    -> std::expected<std::shared_ptr<AST_DESTRUCTOR_DECL>, Error> {
   const std::shared_ptr<AST_DESTRUCTOR_DECL> astConstructor{
       std::make_shared<AST_DESTRUCTOR_DECL>(generateNextId(), srcLoc, id,
                                             returnType, body, isVirtual)};
@@ -624,17 +636,18 @@ Builder::createDestructorDecl(const SourceLocation &srcLoc,
   return astConstructor;
 }
 
-std::expected<std::shared_ptr<AST_THIS>, Error>
-Builder::createThis(const SourceLocation &srcLoc) noexcept {
+auto Builder::createThis(const SourceLocation &srcLoc) noexcept
+    -> std::expected<std::shared_ptr<AST_THIS>, Error> {
   const std::shared_ptr<AST_THIS> astThis{
       std::make_shared<AST_THIS>(generateNextId(), srcLoc)};
   return astThis;
 }
 
-std::expected<std::shared_ptr<AST_AUTO_DECL>, Error>
-Builder::createAutoDecl(const SourceLocation &srcLoc, const std::string &id,
-                        const std::shared_ptr<AST> &value,
-                        const bool isConst) noexcept {
+auto Builder::createAutoDecl(const SourceLocation &srcLoc,
+                             const std::string &id,
+                             const std::shared_ptr<AST> &value,
+                             const bool isConst) noexcept
+    -> std::expected<std::shared_ptr<AST_AUTO_DECL>, Error> {
   const std::shared_ptr<AST_AUTO_DECL> astAutoDecl{
       std::make_shared<AST_AUTO_DECL>(generateNextId(), srcLoc, id, value,
                                       isConst)};
@@ -644,11 +657,11 @@ Builder::createAutoDecl(const SourceLocation &srcLoc, const std::string &id,
   return astAutoDecl;
 }
 
-std::expected<std::shared_ptr<AST_VAR_TYPED_DECL>, Error>
-Builder::createVarTypedtDecl(const SourceLocation &srcLoc,
-                             const std::string &id,
-                             const std::shared_ptr<Type> &type,
-                             const std::shared_ptr<AST> &value) noexcept {
+auto Builder::createVarTypedtDecl(const SourceLocation &srcLoc,
+                                  const std::string &id,
+                                  const std::shared_ptr<Type> &type,
+                                  const std::shared_ptr<AST> &value) noexcept
+    -> std::expected<std::shared_ptr<AST_VAR_TYPED_DECL>, Error> {
   const std::shared_ptr<AST_VAR_TYPED_DECL> astLetDecl{
       std::make_shared<AST_VAR_TYPED_DECL>(generateNextId(), srcLoc, id, type,
                                            value)};
@@ -658,15 +671,16 @@ Builder::createVarTypedtDecl(const SourceLocation &srcLoc,
   return astLetDecl;
 }
 
-std::expected<std::shared_ptr<AST_VAR_CALL>, Error>
-Builder::createVarCall(const SourceLocation &srcLoc,
-                       const std::string &id) noexcept {
+auto Builder::createVarCall(const SourceLocation &srcLoc,
+                            const std::string &id) noexcept
+    -> std::expected<std::shared_ptr<AST_VAR_CALL>, Error> {
   return std::make_shared<AST_VAR_CALL>(generateNextId(), srcLoc, id);
 }
 
-std::expected<std::shared_ptr<AST_CHAINED>, Error> Builder::createChained(
+auto Builder::createChained(
     const SourceLocation &srcLoc, const std::shared_ptr<AST> &base,
-    const std::vector<std::shared_ptr<AST>> &operations) noexcept {
+    const std::vector<std::shared_ptr<AST>> &operations) noexcept
+    -> std::expected<std::shared_ptr<AST_CHAINED>, Error> {
   const std::shared_ptr<AST_CHAINED> astChained{std::make_shared<AST_CHAINED>(
       generateNextId(), srcLoc, base, operations)};
   if (base) {
@@ -691,8 +705,8 @@ std::expected<std::shared_ptr<AST_CHAINED>, Error> Builder::createChained(
   return astChained;
 }
 
-std::expected<std::shared_ptr<Tree>, Error>
-Builder::createTree(const std::shared_ptr<AST_BODY> &statements) noexcept {
+auto Builder::createTree(const std::shared_ptr<AST_BODY> &statements) noexcept
+    -> std::expected<std::shared_ptr<Tree>, Error> {
   return std::make_shared<Tree>(statements);
 }
 

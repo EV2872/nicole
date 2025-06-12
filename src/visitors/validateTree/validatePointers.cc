@@ -1,14 +1,14 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_delete.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_deref.h"
 #include "../../../inc/parsingAnalysis/ast/pointer/ast_new.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statemetn / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DELETE *node) const noexcept {
+auto ValidateTree::visit(const AST_DELETE *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DELETE");
   }
@@ -23,8 +23,8 @@ ValidateTree::visit(const AST_DELETE *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_NEW *node) const noexcept {
+auto ValidateTree::visit(const AST_NEW *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NEW");
   }
@@ -39,8 +39,8 @@ ValidateTree::visit(const AST_NEW *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DEREF *node) const noexcept {
+auto ValidateTree::visit(const AST_DEREF *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEREF");
   }
@@ -55,4 +55,4 @@ ValidateTree::visit(const AST_DEREF *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

@@ -11,8 +11,8 @@ namespace nicole {
 - fija en currentScope el tipo
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_AUTO_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_AUTO_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_AUTO_DECL");
   }
@@ -43,8 +43,8 @@ TypeAnalysis::visit(const AST_AUTO_DECL *node) const noexcept {
 - comrpueba que la expresion sea compatible
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_VAR_TYPED_DECL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_TYPED_DECL");
   }
@@ -77,8 +77,8 @@ TypeAnalysis::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
 /*
 - se apoya en currentScope y en en currenStruct para saber si es un atributo
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_VAR_CALL *node) const noexcept {
+auto TypeAnalysis::visit(const AST_VAR_CALL *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_CALL");
   }

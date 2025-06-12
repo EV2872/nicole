@@ -2,7 +2,7 @@
 
 namespace nicole {
 
-std::string astTypeToStr(const AST_TYPE type) noexcept {
+auto astTypeToStr(const AST_TYPE type) noexcept -> std::string {
   switch (type) {
   case AST_TYPE::EXPRESSION:
     return "EXPRESSION";

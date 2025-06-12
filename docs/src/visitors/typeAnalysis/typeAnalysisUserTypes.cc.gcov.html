@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -79,8 +79,8 @@
 <span id="L17"><span class="lineNum">      17</span>              : - comprobar destructor</span>
 <span id="L18"><span class="lineNum">      18</span>              : - retorna NoPropagate</span>
 <span id="L19"><span class="lineNum">      19</span>              : */</span>
-<span id="L20"><span class="lineNum">      20</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC tlaBgUNC">           0 : TypeAnalysis::visit(const AST_STRUCT *node) const noexcept {</span></span>
+<span id="L20"><span class="lineNum">      20</span>              : auto TypeAnalysis::visit(const AST_STRUCT *node) const noexcept</span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_STRUCT&quot;);</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -129,8 +129,8 @@
 <span id="L67"><span class="lineNum">      67</span>              : - comprobar que sea genric</span>
 <span id="L68"><span class="lineNum">      68</span>              : - se apoya en currentType para saber si el atributo existe y retorna el tipo</span>
 <span id="L69"><span class="lineNum">      69</span>              : */</span>
-<span id="L70"><span class="lineNum">      70</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_ATTR_ACCESS *node) const noexcept {</span></span>
+<span id="L70"><span class="lineNum">      70</span>              : auto TypeAnalysis::visit(const AST_ATTR_ACCESS *node) const noexcept</span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_ATTR_ACCESS&quot;);</span></span>
 <span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -170,8 +170,8 @@
 <span id="L108"><span class="lineNum">     108</span>              : - se apoya en currentType para saber si el metodo existe y retorna el tipo</span>
 <span id="L109"><span class="lineNum">     109</span>              : - igual que funcion</span>
 <span id="L110"><span class="lineNum">     110</span>              : */</span>
-<span id="L111"><span class="lineNum">     111</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L112"><span class="lineNum">     112</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_METHOD_CALL *node) const noexcept {</span></span>
+<span id="L111"><span class="lineNum">     111</span>              : auto TypeAnalysis::visit(const AST_METHOD_CALL *node) const noexcept</span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L113"><span class="lineNum">     113</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_METHOD_CALL&quot;);</span></span>
 <span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -248,8 +248,8 @@
 <span id="L186"><span class="lineNum">     186</span>              : /*</span>
 <span id="L187"><span class="lineNum">     187</span>              : - igual que funcion</span>
 <span id="L188"><span class="lineNum">     188</span>              : */</span>
-<span id="L189"><span class="lineNum">     189</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_METHOD_DECL *node) const noexcept {</span></span>
+<span id="L189"><span class="lineNum">     189</span>              : auto TypeAnalysis::visit(const AST_METHOD_DECL *node) const noexcept</span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L192"><span class="lineNum">     192</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_METHOD_DECL&quot;);</span></span>
 <span id="L193"><span class="lineNum">     193</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -293,8 +293,8 @@
 <span id="L231"><span class="lineNum">     231</span>              : /*</span>
 <span id="L232"><span class="lineNum">     232</span>              : - igual que funcion</span>
 <span id="L233"><span class="lineNum">     233</span>              : */</span>
-<span id="L234"><span class="lineNum">     234</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {</span></span>
+<span id="L234"><span class="lineNum">     234</span>              : auto TypeAnalysis::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept</span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L237"><span class="lineNum">     237</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_CONSTRUCTOR_DECL&quot;);</span></span>
 <span id="L238"><span class="lineNum">     238</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -337,8 +337,8 @@
 <span id="L275"><span class="lineNum">     275</span>              : - retorna el tipo del padre</span>
 <span id="L276"><span class="lineNum">     276</span>              : - comprobar generics y argumentos</span>
 <span id="L277"><span class="lineNum">     277</span>              : */</span>
-<span id="L278"><span class="lineNum">     278</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_SUPER *node) const noexcept {</span></span>
+<span id="L278"><span class="lineNum">     278</span>              : auto TypeAnalysis::visit(const AST_SUPER *node) const noexcept</span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L280"><span class="lineNum">     280</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L281"><span class="lineNum">     281</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_SUPER&quot;);</span></span>
 <span id="L282"><span class="lineNum">     282</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -351,24 +351,24 @@
 <span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :   if (!realFatherType) {</span></span>
 <span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :     return createError(realFatherType.error());</span></span>
 <span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :   const auto conversionType{std::dynamic_pointer_cast&lt;UserType&gt;(*realFatherType)};</span></span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :   const auto fatherConstructor{conversionType-&gt;constructor()};</span></span>
-<span id="L294"><span class="lineNum">     294</span>              : </span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC">           0 :   if (!fatherConstructor) {</span></span>
-<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;ill-formed super node father type&quot;);</span></span>
-<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L298"><span class="lineNum">     298</span>              : </span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;generics().size() != node-&gt;replacements().size()) {</span></span>
-<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
-<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :                        &quot;there is a mismatch between the &quot;</span></span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :                        &quot;number of generics in super and the constructor decl&quot;);</span></span>
-<span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L304"><span class="lineNum">     304</span>              : </span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;params().size() != node-&gt;arguments().size()) {</span></span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :     return createError(</span></span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaUNC">           0 :         ERROR_TYPE::TYPE,</span></span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaUNC">           0 :         &quot;there is a mismatch between the &quot;</span></span>
-<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :         &quot;number of arguments in super and the constructor decl&quot;);</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :   const auto conversionType{</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :       std::dynamic_pointer_cast&lt;UserType&gt;(*realFatherType)};</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :   const auto fatherConstructor{conversionType-&gt;constructor()};</span></span>
+<span id="L295"><span class="lineNum">     295</span>              : </span>
+<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :   if (!fatherConstructor) {</span></span>
+<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE, &quot;ill-formed super node father type&quot;);</span></span>
+<span id="L298"><span class="lineNum">     298</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L299"><span class="lineNum">     299</span>              : </span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;generics().size() != node-&gt;replacements().size()) {</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC">           0 :                        &quot;there is a mismatch between the &quot;</span></span>
+<span id="L303"><span class="lineNum">     303</span> <span class="tlaUNC">           0 :                        &quot;number of generics in super and the constructor decl&quot;);</span></span>
+<span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L305"><span class="lineNum">     305</span>              : </span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaUNC">           0 :   if (fatherConstructor-&gt;params().size() != node-&gt;arguments().size()) {</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::TYPE,</span></span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaUNC">           0 :                        &quot;there is a mismatch between the &quot;</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :                        &quot;number of arguments in super and the constructor decl&quot;);</span></span>
 <span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L311"><span class="lineNum">     311</span>              : </span>
 <span id="L312"><span class="lineNum">     312</span> <span class="tlaUNC">           0 :   const auto fatherCtrParameters{fatherConstructor-&gt;params()};</span></span>
@@ -432,8 +432,8 @@
 <span id="L370"><span class="lineNum">     370</span>              : - comprobar body</span>
 <span id="L371"><span class="lineNum">     371</span>              : - retorna NoPropagate</span>
 <span id="L372"><span class="lineNum">     372</span>              : */</span>
-<span id="L373"><span class="lineNum">     373</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {</span></span>
+<span id="L373"><span class="lineNum">     373</span>              : auto TypeAnalysis::visit(const AST_DESTRUCTOR_DECL *node) const noexcept</span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L375"><span class="lineNum">     375</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L376"><span class="lineNum">     376</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_DESTRUCTOR_DECL&quot;);</span></span>
 <span id="L377"><span class="lineNum">     377</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -448,8 +448,8 @@
 <span id="L386"><span class="lineNum">     386</span>              : /*</span>
 <span id="L387"><span class="lineNum">     387</span>              : - retorna el tipo de la clase envuelto en un puntero const?</span>
 <span id="L388"><span class="lineNum">     388</span>              : */</span>
-<span id="L389"><span class="lineNum">     389</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_THIS *node) const noexcept {</span></span>
+<span id="L389"><span class="lineNum">     389</span>              : auto TypeAnalysis::visit(const AST_THIS *node) const noexcept</span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L391"><span class="lineNum">     391</span> <span class="tlaUNC">           0 :   if (!node) {</span></span>
 <span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;invalid AST_THIS&quot;);</span></span>
 <span id="L393"><span class="lineNum">     393</span> <span class="tlaUNC">           0 :   }</span></span>
@@ -475,8 +475,8 @@
 <span id="L413"><span class="lineNum">     413</span>              : - comprueba argumentos</span>
 <span id="L414"><span class="lineNum">     414</span>              : - comprueba body</span>
 <span id="L415"><span class="lineNum">     415</span>              : */</span>
-<span id="L416"><span class="lineNum">     416</span>              : std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 : TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {</span></span>
+<span id="L416"><span class="lineNum">     416</span>              : auto TypeAnalysis::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept</span>
+<span id="L417"><span class="lineNum">     417</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC">           0 :   if (!node)</span></span>
 <span id="L419"><span class="lineNum">     419</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::NULL_NODE, &quot;Invalid AST_CONSTRUCTOR_CALL&quot;);</span></span>
 <span id="L420"><span class="lineNum">     420</span>              : </span>

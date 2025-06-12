@@ -14,15 +14,22 @@ private:
   mutable std::map<SourceLocation, Error> errors_;
 
 public:
-  [[nodiscard]] std::size_t size() const noexcept { return errors_.size(); }
+  [[nodiscard]] auto size() const noexcept -> std::size_t {
+    return errors_.size();
+  }
 
-  void insert(const SourceLocation &srcLoc, const Error &err) const noexcept {
+  auto insert(const SourceLocation &srcLoc, const Error &err) const noexcept
+      -> void {
     errors_[srcLoc] = err;
   }
 
-  [[nodiscard]] auto begin() const noexcept { return errors_.begin(); }
+  [[nodiscard]] auto begin() const noexcept -> decltype(errors_.begin()) {
+    return errors_.begin();
+  }
 
-  [[nodiscard]] auto end() const noexcept { return errors_.end(); }
+  [[nodiscard]] auto end() const noexcept -> decltype(errors_.end()) {
+    return errors_.end();
+  }
 };
 
 } // namespace nicole

@@ -22,21 +22,25 @@ public:
                     llvm::Value *value) noexcept
       : Symbol{id}, type_{type}, value_{value} {}
 
-  [[nodiscard]] const std::shared_ptr<Type> &type() const noexcept {
+  [[nodiscard]] auto type() const noexcept -> const std::shared_ptr<Type> & {
     return type_;
   }
 
-  [[nodiscard]] llvm::Value *&value() const noexcept { return value_; }
+  [[nodiscard]] auto value() const noexcept -> llvm::Value *& { return value_; }
 
-  [[nodiscard]] llvm::AllocaInst *address() const noexcept { return address_; }
+  [[nodiscard]] auto address() const noexcept -> llvm::AllocaInst * {
+    return address_;
+  }
 
-  void setType(const std::shared_ptr<Type> &type) const noexcept {
+  auto setType(const std::shared_ptr<Type> &type) const noexcept -> void {
     type_ = type;
   }
 
-  void setValue(llvm::Value *v) const noexcept { value_ = v; }
+  auto setValue(llvm::Value *v) const noexcept -> void { value_ = v; }
 
-  void setAddress(llvm::AllocaInst *addr) const noexcept { address_ = addr; }
+  auto setAddress(llvm::AllocaInst *addr) const noexcept -> void {
+    address_ = addr;
+  }
 };
 
 } // namespace nicole

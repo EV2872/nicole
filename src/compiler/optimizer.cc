@@ -3,21 +3,21 @@
 
 namespace nicole {
 
-std::expected<llvm::orc::ThreadSafeModule, Error>
-Optimizer::optimize(llvm::orc::ThreadSafeModule TSM) noexcept {
-  llvm::Module* module{TSM.getModuleUnlocked()};
+auto Optimizer::optimize(llvm::orc::ThreadSafeModule TSM) noexcept
+    -> std::expected<llvm::orc::ThreadSafeModule, Error> {
+  llvm::Module *module{TSM.getModuleUnlocked()};
   // Si tenemos target y layout por defecto, lo asignamos:
   if (targetMachine_ && module->getDataLayout().isDefault()) {
     module->setDataLayout(targetMachine_->createDataLayout());
   }
 
   // Managers locales, recreados en cada llamada:
-  llvm::LoopAnalysisManager     LAM;
+  llvm::LoopAnalysisManager LAM;
   llvm::FunctionAnalysisManager FAM;
-  llvm::CGSCCAnalysisManager    CGAM;
-  llvm::ModuleAnalysisManager   MAM;
+  llvm::CGSCCAnalysisManager CGAM;
+  llvm::ModuleAnalysisManager MAM;
 
-  llvm::PassBuilder PB{ targetMachine_ };
+  llvm::PassBuilder PB{targetMachine_.get()};
   PB.registerModuleAnalyses(MAM);
   PB.registerCGSCCAnalyses(CGAM);
   PB.registerFunctionAnalyses(FAM);

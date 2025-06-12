@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -66,8 +66,8 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : namespace nicole {</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span>              : const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 : TopDown::parseType() const noexcept {</span></span>
+<span id="L7"><span class="lineNum">       7</span>              : auto TopDown::parseType() const noexcept</span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L9"><span class="lineNum">       9</span>              :   // Se parsea el tipo base (incluyendo genéricos o vectores)</span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; baseTypeExpected =</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :       parsePrimaryType();</span></span>
@@ -88,8 +88,8 @@
 <span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   return type;</span></span>
 <span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : </span>
-<span id="L29"><span class="lineNum">      29</span>              : const std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 : TopDown::parsePrimaryType() const noexcept {</span></span>
+<span id="L29"><span class="lineNum">      29</span>              : auto TopDown::parsePrimaryType() const noexcept</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; {</span></span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; tokenExpected = tkStream_.current();</span></span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :   if (!tokenExpected) {</span></span>
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
@@ -223,8 +223,8 @@
 <span id="L161"><span class="lineNum">     161</span> <span class="tlaUNC">           0 :                      &quot;Error inesperado en parsePrimaryType.&quot;);</span></span>
 <span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
-<span id="L164"><span class="lineNum">     164</span>              : const std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt;</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 : TopDown::parseGenerics() const noexcept {</span></span>
+<span id="L164"><span class="lineNum">     164</span>              : auto TopDown::parseGenerics() const noexcept</span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::vector&lt;GenericParameter&gt;, Error&gt; {</span></span>
 <span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :   std::vector&lt;GenericParameter&gt; result{};</span></span>
 <span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :   if (std::expected&lt;std::monostate, Error&gt; res = tryEat(); !res) {</span></span>
 <span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :     return createError(res.error());</span></span>

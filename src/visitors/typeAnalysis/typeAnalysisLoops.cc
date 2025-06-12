@@ -13,8 +13,8 @@ namespace nicole {
 - si body encuentra algo diferente a NoPropagate lo propaga si no retorna
 NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_WHILE *node) const noexcept {
+auto TypeAnalysis::visit(const AST_WHILE *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_WHILE");
   }
@@ -58,8 +58,8 @@ TypeAnalysis::visit(const AST_WHILE *node) const noexcept {
 - update ???
 - body lo mismo que los otros
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_FOR *node) const noexcept {
+auto TypeAnalysis::visit(const AST_FOR *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FOR");
   }
@@ -118,8 +118,8 @@ TypeAnalysis::visit(const AST_FOR *node) const noexcept {
 NoPropagate
 - condtion debe retornar bool
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DO_WHILE *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DO_WHILE *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DO_WHILE");
   }
@@ -160,8 +160,8 @@ TypeAnalysis::visit(const AST_DO_WHILE *node) const noexcept {
 /*
 - retorna BreakType
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_PASS *node) const noexcept {
+auto TypeAnalysis::visit(const AST_PASS *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PASS");
   }
@@ -172,8 +172,8 @@ TypeAnalysis::visit(const AST_PASS *node) const noexcept {
 /*
 - retorna BreakType
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_STOP *node) const noexcept {
+auto TypeAnalysis::visit(const AST_STOP *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STOP");
   }

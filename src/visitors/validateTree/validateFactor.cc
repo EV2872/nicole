@@ -1,4 +1,3 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/literals/ast_bool.h"
 #include "../../../inc/parsingAnalysis/ast/literals/ast_char.h"
 #include "../../../inc/parsingAnalysis/ast/literals/ast_double.h"
@@ -7,11 +6,12 @@
 #include "../../../inc/parsingAnalysis/ast/literals/ast_null.h"
 #include "../../../inc/parsingAnalysis/ast/literals/ast_string.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_BOOL *node) const noexcept {
+auto ValidateTree::visit(const AST_BOOL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BOOL");
   }
@@ -22,8 +22,8 @@ ValidateTree::visit(const AST_BOOL *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CHAR *node) const noexcept {
+auto ValidateTree::visit(const AST_CHAR *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CHAR");
   }
@@ -34,8 +34,8 @@ ValidateTree::visit(const AST_CHAR *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DOUBLE *node) const noexcept {
+auto ValidateTree::visit(const AST_DOUBLE *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DOUBLE");
   }
@@ -46,8 +46,8 @@ ValidateTree::visit(const AST_DOUBLE *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_FLOAT *node) const noexcept {
+auto ValidateTree::visit(const AST_FLOAT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FLOAT");
   }
@@ -58,8 +58,8 @@ ValidateTree::visit(const AST_FLOAT *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_INT *node) const noexcept {
+auto ValidateTree::visit(const AST_INT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INT");
   }
@@ -70,8 +70,8 @@ ValidateTree::visit(const AST_INT *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_NULL *node) const noexcept {
+auto ValidateTree::visit(const AST_NULL *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NULL");
   }
@@ -82,8 +82,8 @@ ValidateTree::visit(const AST_NULL *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_STRING *node) const noexcept {
+auto ValidateTree::visit(const AST_STRING *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRING");
   }
@@ -94,4 +94,4 @@ ValidateTree::visit(const AST_STRING *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

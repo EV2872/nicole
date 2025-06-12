@@ -11,10 +11,10 @@ private:
   std::shared_ptr<AST_BODY> root_;
 
 public:
-  explicit Tree(const std::shared_ptr<AST_BODY> &root) noexcept
-      : root_{root} {}
+  explicit Tree(const std::shared_ptr<AST_BODY> &root) noexcept : root_{root} {}
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &root() const noexcept {
+  [[nodiscard]] auto root() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return root_;
   }
 };

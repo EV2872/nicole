@@ -26,26 +26,31 @@ public:
       : Symbol{id}, generics_{generics}, params_{params},
         returnType_{returnType}, body_{body} {}
 
-  [[nodiscard]] const std::vector<GenericParameter> &generics() const noexcept {
+  [[nodiscard]] auto generics() const noexcept
+      -> const std::vector<GenericParameter> & {
     return generics_;
   }
 
-  [[nodiscard]] const Parameters &params() const noexcept { return params_; }
+  [[nodiscard]] auto params() const noexcept -> const Parameters & {
+    return params_;
+  }
 
-  [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
+  [[nodiscard]] auto returnType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 
-  void setParams(const Parameters &newParams) const noexcept {
+  auto setParams(const Parameters &newParams) const noexcept -> void {
     params_ = newParams;
   }
 
-  void
-  setReturnType(const std::shared_ptr<Type> &newReturnType) const noexcept {
+  auto setReturnType(const std::shared_ptr<Type> &newReturnType) const noexcept
+      -> void {
     returnType_ = newReturnType;
   }
 };

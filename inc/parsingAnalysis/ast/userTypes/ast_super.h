@@ -21,23 +21,25 @@ public:
       : AST{nodeId, AST_TYPE::SUPER, srcLoc}, fatherType_{fatherType},
         replacements_{replacements}, arguments_{arguments} {}
 
-  [[nodiscard]] const std::shared_ptr<Type> fatherType() const noexcept {
+  [[nodiscard]] auto fatherType() const noexcept
+      -> const std::shared_ptr<Type> {
     return fatherType_;
   }
 
-  [[nodiscard]] const std::vector<std::shared_ptr<AST>>
-  arguments() const noexcept {
+  [[nodiscard]] auto arguments() const noexcept
+      -> const std::vector<std::shared_ptr<AST>> {
     return arguments_;
   }
 
-  [[nodiscard]] const std::vector<std::shared_ptr<Type>>
-  replacements() const noexcept {
+  [[nodiscard]] auto replacements() const noexcept
+      -> const std::vector<std::shared_ptr<Type>> {
     return replacements_;
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   setGenericReplacement(const std::size_t pos,
-                        const std::shared_ptr<Type> &type) const noexcept {
+                        const std::shared_ptr<Type> &type) const noexcept
+      -> std::expected<std::monostate, Error> {
     if (pos >= replacements_.size()) {
       return createError(
           ERROR_TYPE::TYPE,
@@ -47,37 +49,38 @@ public:
     return {};
   }
 
-  void setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept {
+  auto setFatherType(const std::shared_ptr<Type> &fatherType) const noexcept
+      -> void {
     fatherType_ = fatherType;
   }
 
-  [[nodiscard]] std::expected<std::string, Error>
-  accept(const PrintTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const PrintTree &visitor) const noexcept
+      -> std::expected<std::string, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<bool, Error>
-  accept(const ValidateTree &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const ValidateTree &visitor) const noexcept
+      -> std::expected<bool, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const FillSemanticInfo &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const FillSemanticInfo &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::shared_ptr<Type>, Error>
-  accept(const TypeAnalysis &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const TypeAnalysis &visitor) const noexcept
+      -> std::expected<std::shared_ptr<Type>, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  accept(const Monomorphize &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const Monomorphize &visitor) const noexcept
+      -> std::expected<std::monostate, Error> override {
     return visitor.visit(this);
   }
 
-  [[nodiscard]] std::expected<llvm::Value *, Error>
-  accept(const CodeGeneration &visitor) const noexcept override {
+  [[nodiscard]] auto accept(const CodeGeneration &visitor) const noexcept
+      -> std::expected<llvm::Value *, Error> override {
     return visitor.visit(this);
   }
 };

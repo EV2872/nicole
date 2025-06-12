@@ -15,12 +15,12 @@ class VirtualTable {
 
 public:
   // Añade un slot (e.g. destructor o un método virtual)
-  void addSlot(llvm::Function *fn);
+  auto addSlot(llvm::Function *fn) noexcept -> void;
 
   // Crea (a la primera llamada) o devuelve la vtable global en el módulo
-  llvm::GlobalVariable *getOrCreateGV(llvm::Module &M,
-                                      const std::string &typeName,
-                                      llvm::FunctionType *slotTy);
+  [[nodiscard]] auto getOrCreateGV(llvm::Module &M, const std::string &typeName,
+                                   llvm::FunctionType *slotTy) noexcept
+      -> llvm::GlobalVariable *;
 };
 
 } // namespace nicole

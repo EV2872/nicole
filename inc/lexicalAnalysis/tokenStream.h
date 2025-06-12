@@ -22,40 +22,50 @@ public:
   explicit TokenStream(const std::vector<Token> &tokens) noexcept
       : tokens_{tokens} {}
 
-  [[nodiscard]] size_t size() const noexcept { return tokens_.size(); };
+  [[nodiscard]] auto size() const noexcept -> std::size_t {
+    return tokens_.size();
+  };
 
-  [[nodiscard]] const std::expected<std::monostate, Error> eat() noexcept;
+  [[nodiscard]] auto eat() noexcept -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] size_t currentPos() const noexcept { return currentPos_; }
+  [[nodiscard]] auto currentPos() const noexcept -> std::size_t {
+    return currentPos_;
+  }
 
-  [[nodiscard]] bool isEnd() const noexcept;
+  [[nodiscard]] auto isEnd() const noexcept -> bool;
 
-  [[nodiscard]] const std::expected<Token, Error> current() const noexcept;
+  [[nodiscard]] auto current() const noexcept -> std::expected<Token, Error>;
 
-  [[nodiscard]] const std::expected<Token, Error>
-  lookAhead(const size_t pos) const noexcept;
+  [[nodiscard]] auto lookAhead(const size_t pos) const noexcept
+      -> std::expected<Token, Error>;
 
-  [[nodiscard]] const std::expected<Token, Error> lastRead() const noexcept;
+  [[nodiscard]] auto lastRead() const noexcept -> std::expected<Token, Error>;
 
-  [[nodiscard]] const std::expected<bool, Error>
-  isCurrentTokenType(const TokenType type) const noexcept;
+  [[nodiscard]] auto isCurrentTokenType(const TokenType type) const noexcept
+      -> std::expected<bool, Error>;
 
-  [[nodiscard]] bool
-  isTokenAheadBeforeSemicolon(const TokenType type) const noexcept;
+  [[nodiscard]] auto
+  isTokenAheadBeforeSemicolon(const TokenType type) const noexcept -> bool;
 
   // needed for whenever an import is found
-  [[nodiscard]] const std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   insertAfter(const TokenStream &tkStream,
-              const size_t pos = std::numeric_limits<int>::infinity()) noexcept;
+              const size_t pos = std::numeric_limits<int>::infinity()) noexcept
+      -> std::expected<std::monostate, Error>;
 
-  void shiftToSemicolon() noexcept;
+  auto shiftToSemicolon() noexcept -> void;
 
-  [[nodiscard]] auto begin() const noexcept { return tokens_.begin(); }
+  [[nodiscard]] auto begin() const noexcept -> decltype(tokens_.begin()) {
+    return tokens_.begin();
+  }
 
-  [[nodiscard]] auto end() const noexcept { return tokens_.end(); }
+  [[nodiscard]] auto end() const noexcept -> decltype(tokens_.end()) {
+    return tokens_.end();
+  }
 
-  [[nodiscard]] bool hasMatchingPairBefore(TokenType open,
-                                           TokenType until) const noexcept ;
+  [[nodiscard]] auto hasMatchingPairBefore(TokenType open,
+                                           TokenType until) const noexcept
+      -> bool;
 };
 
 } // namespace nicole

@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-llvm::LLVMTargetMachine *TargetGenerator::generate(const Arch arch,
-                                                   const OS os) const noexcept {
+auto TargetGenerator::generate(const Arch arch, const OS os) const noexcept
+    -> std::shared_ptr<llvm::TargetMachine> {
   // Inicializar backends (solo la primera vez)
   static bool initialized = false;
   if (!initialized) {
@@ -27,12 +27,14 @@ llvm::LLVMTargetMachine *TargetGenerator::generate(const Arch arch,
 
   llvm::TargetOptions opt;
   auto relocModel = std::optional<llvm::Reloc::Model>();
-  return static_cast<llvm::LLVMTargetMachine *>(
-      target->createTargetMachine(tripleStr, "generic", "", opt, relocModel));
+  llvm::TargetMachine *targetMachine{
+      target->createTargetMachine(tripleStr, "generic", "", opt, relocModel)};
+  return std::shared_ptr<llvm::LLVMTargetMachine>(
+      static_cast<llvm::LLVMTargetMachine *>(targetMachine));
 }
 
-std::string TargetGenerator::getTripleForArchAndOS(Arch arch,
-                                                   OS os) const noexcept {
+auto TargetGenerator::getTripleForArchAndOS(Arch arch, OS os) const noexcept
+    -> std::string {
   if (arch == Arch::x86 && os == OS::Linux)
     return "i386-pc-linux-gnu";
   if (arch == Arch::x86 && os == OS::Windows)

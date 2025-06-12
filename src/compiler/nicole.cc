@@ -5,8 +5,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-Nicole::compile(const Options &options) const noexcept {
+auto Nicole::compile(const Options &options) const noexcept
+    -> std::expected<std::monostate, Error> {
   const nicole::TopDown topDown{sintax_};
 
   const std::expected<std::shared_ptr<nicole::Tree>, nicole::Error> tree{

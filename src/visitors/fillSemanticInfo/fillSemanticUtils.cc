@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/fillSemanticInfo/fillSemanticInfo.h"
 #include "../../../inc/parsingAnalysis/ast/utils/ast_import.h"
 #include "../../../inc/parsingAnalysis/ast/utils/ast_print.h"
+#include "../../../inc/visitors/fillSemanticInfo/fillSemanticInfo.h"
 #include <variant>
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_PRINT *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_PRINT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PRINT");
   }
@@ -19,12 +19,12 @@ FillSemanticInfo::visit(const AST_PRINT *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_IMPORT *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_IMPORT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IMPORT");
   }
   return {};
 }
 
-}
+} // namespace nicole

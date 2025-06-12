@@ -16,8 +16,8 @@ metodos / llamadas a atributos / variables auto
 
 namespace nicole {
 
-std::expected<std::string, Error>
-Monomorphize::nameMangling(const std::shared_ptr<Type> &type) const noexcept {
+auto Monomorphize::nameMangling(const std::shared_ptr<Type> &type)
+    const noexcept -> std::expected<std::string, Error> {
   std::string mangled{};
   auto res = nameManglingImpl(type, mangled);
   if (!res)
@@ -28,9 +28,9 @@ Monomorphize::nameMangling(const std::shared_ptr<Type> &type) const noexcept {
   return mangled;
 }
 
-std::expected<std::string, Error>
-Monomorphize::nameManglingImpl(const std::shared_ptr<Type> &type,
-                               std::string &result) const noexcept {
+auto Monomorphize::nameManglingImpl(const std::shared_ptr<Type> &type,
+                                    std::string &result) const noexcept
+    -> std::expected<std::string, Error> {
   if (!type)
     return createError(ERROR_TYPE::TYPE, "null type in name mangling");
 
@@ -92,10 +92,10 @@ Monomorphize::nameManglingImpl(const std::shared_ptr<Type> &type,
   return result;
 }
 
-std::expected<std::string, Error>
-Monomorphize::nameManglingFunction(const Function &func,
-                                   const std::vector<std::shared_ptr<Type>>
-                                       &genericReplacements) const noexcept {
+auto Monomorphize::nameManglingFunction(const Function &func,
+                                        const std::vector<std::shared_ptr<Type>>
+                                            &genericReplacements) const noexcept
+    -> std::expected<std::string, Error> {
   std::string mangled{"$"};
   auto res = nameManglingFunctionImpl(func, genericReplacements, mangled);
   if (!res)
@@ -103,11 +103,10 @@ Monomorphize::nameManglingFunction(const Function &func,
   return mangled;
 }
 
-std::expected<std::string, Error>
-Monomorphize::nameManglingFunctionImpl(
+auto Monomorphize::nameManglingFunctionImpl(
     const Function &func,
     const std::vector<std::shared_ptr<Type>> &genericReplacements,
-    std::string &result) const noexcept {
+    std::string &result) const noexcept -> std::expected<std::string, Error> {
   result += '_';
   result += func.id();
 
@@ -136,25 +135,25 @@ Monomorphize::nameManglingFunctionImpl(
   return result;
 }
 
-std::vector<GenericParameter> Monomorphize::mergeGenericLists(
-    const std::vector<GenericParameter> &list,
-    const std::vector<GenericParameter> &list1) const noexcept {
+auto Monomorphize::mergeGenericLists(const std::vector<GenericParameter> &list,
+                                     const std::vector<GenericParameter> &list1)
+    const noexcept -> std::vector<GenericParameter> {
   std::vector<GenericParameter> result{};
   result.insert(result.end(), list.begin(), list.end());
   result.insert(result.end(), list1.begin(), list1.end());
   return result;
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_STATEMENT *node) const noexcept {
+auto Monomorphize::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
   return node->expression()->accept(*this);
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_BODY *node) const noexcept {
+auto Monomorphize::visit(const AST_BODY *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -167,8 +166,8 @@ Monomorphize::visit(const AST_BODY *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const Tree *tree) const noexcept {
+auto Monomorphize::visit(const Tree *tree) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }

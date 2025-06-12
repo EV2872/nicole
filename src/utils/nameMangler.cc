@@ -2,8 +2,9 @@
 
 namespace nicole {
 
-std::expected<std::string, Error> NameMangler::mangleFunction(
-    const std::shared_ptr<AST_FUNC_DECL> &node) noexcept {
+auto NameMangler::mangleFunction(
+    const std::shared_ptr<AST_FUNC_DECL> &node) noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE,
                        "the node at function mangling is null");
@@ -16,8 +17,8 @@ std::expected<std::string, Error> NameMangler::mangleFunction(
   return result;
 }
 
-std::expected<std::string, Error>
-NameMangler::mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept {
+auto NameMangler::mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE,
                        "the node at struct mangling is null");
@@ -30,9 +31,10 @@ NameMangler::mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept {
   return result;
 }
 
-std::expected<std::string, Error> NameMangler::mangleConstructor(
+auto NameMangler::mangleConstructor(
     const std::shared_ptr<AST_CONSTRUCTOR_DECL> &node,
-    const std::string &constructorOwner) noexcept {
+    const std::string &constructorOwner) noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE,
                        "the node at constructor mangling is null");
@@ -45,9 +47,10 @@ std::expected<std::string, Error> NameMangler::mangleConstructor(
   return result;
 }
 
-std::expected<std::string, Error>
-NameMangler::mangleDestructor(const std::shared_ptr<AST_DESTRUCTOR_DECL> &node,
-                              const std::string &desstructorOwner) noexcept {
+auto NameMangler::mangleDestructor(
+    const std::shared_ptr<AST_DESTRUCTOR_DECL> &node,
+    const std::string &desstructorOwner) noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE,
                        "the node at destructor mangling is null");
@@ -56,9 +59,9 @@ NameMangler::mangleDestructor(const std::shared_ptr<AST_DESTRUCTOR_DECL> &node,
   return result;
 }
 
-std::expected<std::string, Error>
-NameMangler::mangleMethod(const std::shared_ptr<AST_METHOD_DECL> &node,
-                          const std::string &methodOwner) noexcept {
+auto NameMangler::mangleMethod(const std::shared_ptr<AST_METHOD_DECL> &node,
+                               const std::string &methodOwner) noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE,
                        "the node at method mangling is null");

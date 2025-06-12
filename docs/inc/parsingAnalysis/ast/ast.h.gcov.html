@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">47.4&nbsp;%</td>
-            <td class="headerCovTableEntry">19</td>
+            <td class="headerCovTableEntryLo">42.9&nbsp;%</td>
+            <td class="headerCovTableEntry">21</td>
             <td class="headerCovTableEntry">9</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">55.6&nbsp;%</td>
@@ -76,7 +76,7 @@
 <span id="L14"><span class="lineNum">      14</span>              : </span>
 <span id="L15"><span class="lineNum">      15</span>              : namespace nicole {</span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
-<span id="L17"><span class="lineNum">      17</span>              : class AST {</span>
+<span id="L17"><span class="lineNum">      17</span>              : class AST : public std::enable_shared_from_this&lt;AST&gt; {</span>
 <span id="L18"><span class="lineNum">      18</span>              : private:</span>
 <span id="L19"><span class="lineNum">      19</span>              :   long long unsigned nodeId_;</span>
 <span id="L20"><span class="lineNum">      20</span>              :   AST_TYPE type_;</span>
@@ -87,58 +87,62 @@
 <span id="L25"><span class="lineNum">      25</span>              : public:</span>
 <span id="L26"><span class="lineNum">      26</span>              :   explicit AST(const long long unsigned nodeId, const AST_TYPE type,</span>
 <span id="L27"><span class="lineNum">      27</span>              :                const SourceLocation &amp;srcLoc) noexcept</span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC tlaBgGNC">         100 :       : nodeId_{nodeId}, type_{type}, srcLoc_{srcLoc} {}</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC tlaBgGNC">         200 :       : nodeId_{nodeId}, type_{type}, srcLoc_{srcLoc} {}</span></span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         100 :   virtual ~AST() noexcept = default;</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         200 :   virtual ~AST() noexcept = default;</span></span>
 <span id="L31"><span class="lineNum">      31</span>              : </span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] long long unsigned nodeId() const noexcept { return nodeId_; }</span></span>
-<span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">           8 :   [[nodiscard]] AST_TYPE type() const noexcept { return type_; }</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto nodeId() const noexcept -&gt; long long unsigned {</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     return nodeId_;</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           1 :   [[nodiscard]] const std::shared_ptr&lt;AST&gt; father() const noexcept {</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           1 :     return father_.lock();</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           1 :   }</span></span>
-<span id="L39"><span class="lineNum">      39</span>              : </span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] const SourceLocation &amp;srcLoc() const noexcept {</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :     return srcLoc_;</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L43"><span class="lineNum">      43</span>              : </span>
-<span id="L44"><span class="lineNum">      44</span>              :   [[nodiscard]] const std::shared_ptr&lt;Type&gt; &amp;</span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :   returnedFromTypeAnalysis() const noexcept {</span></span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :     return returnedFromTypeAnalysis_;</span></span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC tlaBgGNC">          39 :   void setFather(const std::shared_ptr&lt;AST&gt; &amp;father) noexcept {</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">          39 :     father_ = father;</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">          39 :   }</span></span>
-<span id="L52"><span class="lineNum">      52</span>              : </span>
-<span id="L53"><span class="lineNum">      53</span>              :   void</span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC tlaBgUNC">           0 :   setReturnedFromAnalysis(const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept {</span></span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :     returnedFromTypeAnalysis_ = type;</span></span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :   }</span></span>
-<span id="L57"><span class="lineNum">      57</span>              : </span>
-<span id="L58"><span class="lineNum">      58</span>              :   [[nodiscard]] virtual std::expected&lt;std::string, Error&gt;</span>
-<span id="L59"><span class="lineNum">      59</span>              :   accept(const PrintTree &amp;visitor) const noexcept = 0;</span>
-<span id="L60"><span class="lineNum">      60</span>              : </span>
-<span id="L61"><span class="lineNum">      61</span>              :   [[nodiscard]] virtual std::expected&lt;bool, Error&gt;</span>
-<span id="L62"><span class="lineNum">      62</span>              :   accept(const ValidateTree &amp;visitor) const noexcept = 0;</span>
-<span id="L63"><span class="lineNum">      63</span>              : </span>
-<span id="L64"><span class="lineNum">      64</span>              :   [[nodiscard]] virtual std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L65"><span class="lineNum">      65</span>              :   accept(const FillSemanticInfo &amp;visitor) const noexcept = 0;</span>
-<span id="L66"><span class="lineNum">      66</span>              : </span>
-<span id="L67"><span class="lineNum">      67</span>              :   [[nodiscard]] virtual std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt;</span>
-<span id="L68"><span class="lineNum">      68</span>              :   accept(const TypeAnalysis &amp;visitor) const noexcept = 0;</span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">          16 :   [[nodiscard]] auto type() const noexcept -&gt; AST_TYPE { return type_; }</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           2 :   [[nodiscard]] auto father() const noexcept -&gt; const std::shared_ptr&lt;AST&gt; {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           2 :     return father_.lock();</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L41"><span class="lineNum">      41</span>              : </span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto srcLoc() const noexcept -&gt; const SourceLocation &amp; {</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :     return srcLoc_;</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L45"><span class="lineNum">      45</span>              : </span>
+<span id="L46"><span class="lineNum">      46</span>              :   [[nodiscard]] auto returnedFromTypeAnalysis() const noexcept</span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :       -&gt; const std::shared_ptr&lt;Type&gt; &amp; {</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     return returnedFromTypeAnalysis_;</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L50"><span class="lineNum">      50</span>              : </span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC tlaBgGNC">          78 :   auto setFather(const std::shared_ptr&lt;AST&gt; &amp;father) noexcept -&gt; void {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">          78 :     father_ = father;</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">          78 :   }</span></span>
+<span id="L54"><span class="lineNum">      54</span>              : </span>
+<span id="L55"><span class="lineNum">      55</span>              :   auto setReturnedFromAnalysis(const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept</span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC tlaBgUNC">           0 :       -&gt; void {</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :     returnedFromTypeAnalysis_ = type;</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :   }</span></span>
+<span id="L59"><span class="lineNum">      59</span>              : </span>
+<span id="L60"><span class="lineNum">      60</span>              :   [[nodiscard]] virtual auto accept(const PrintTree &amp;visitor) const noexcept</span>
+<span id="L61"><span class="lineNum">      61</span>              :       -&gt; std::expected&lt;std::string, Error&gt; = 0;</span>
+<span id="L62"><span class="lineNum">      62</span>              : </span>
+<span id="L63"><span class="lineNum">      63</span>              :   [[nodiscard]] virtual auto accept(const ValidateTree &amp;visitor) const noexcept</span>
+<span id="L64"><span class="lineNum">      64</span>              :       -&gt; std::expected&lt;bool, Error&gt; = 0;</span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span>              :   [[nodiscard]] virtual auto</span>
+<span id="L67"><span class="lineNum">      67</span>              :   accept(const FillSemanticInfo &amp;visitor) const noexcept</span>
+<span id="L68"><span class="lineNum">      68</span>              :       -&gt; std::expected&lt;std::monostate, Error&gt; = 0;</span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
-<span id="L70"><span class="lineNum">      70</span>              :   [[nodiscard]] virtual std::expected&lt;std::monostate, Error&gt;</span>
-<span id="L71"><span class="lineNum">      71</span>              :   accept(const Monomorphize &amp;visitor) const noexcept = 0;</span>
+<span id="L70"><span class="lineNum">      70</span>              :   [[nodiscard]] virtual auto accept(const TypeAnalysis &amp;visitor) const noexcept</span>
+<span id="L71"><span class="lineNum">      71</span>              :       -&gt; std::expected&lt;std::shared_ptr&lt;Type&gt;, Error&gt; = 0;</span>
 <span id="L72"><span class="lineNum">      72</span>              : </span>
-<span id="L73"><span class="lineNum">      73</span>              :   [[nodiscard]] virtual std::expected&lt;llvm::Value*, Error&gt;</span>
-<span id="L74"><span class="lineNum">      74</span>              :   accept(const CodeGeneration &amp;visitor) const noexcept = 0;</span>
-<span id="L75"><span class="lineNum">      75</span>              : };</span>
-<span id="L76"><span class="lineNum">      76</span>              : </span>
-<span id="L77"><span class="lineNum">      77</span>              : } // namespace nicole</span>
-<span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span>              : #endif // AST_H</span>
+<span id="L73"><span class="lineNum">      73</span>              :   [[nodiscard]] virtual auto accept(const Monomorphize &amp;visitor) const noexcept</span>
+<span id="L74"><span class="lineNum">      74</span>              :       -&gt; std::expected&lt;std::monostate, Error&gt; = 0;</span>
+<span id="L75"><span class="lineNum">      75</span>              : </span>
+<span id="L76"><span class="lineNum">      76</span>              :   [[nodiscard]] virtual auto</span>
+<span id="L77"><span class="lineNum">      77</span>              :   accept(const CodeGeneration &amp;visitor) const noexcept</span>
+<span id="L78"><span class="lineNum">      78</span>              :       -&gt; std::expected&lt;llvm::Value *, Error&gt; = 0;</span>
+<span id="L79"><span class="lineNum">      79</span>              : };</span>
+<span id="L80"><span class="lineNum">      80</span>              : </span>
+<span id="L81"><span class="lineNum">      81</span>              : } // namespace nicole</span>
+<span id="L82"><span class="lineNum">      82</span>              : </span>
+<span id="L83"><span class="lineNum">      83</span>              : #endif // AST_H</span>
         </pre>
               </td>
             </tr>

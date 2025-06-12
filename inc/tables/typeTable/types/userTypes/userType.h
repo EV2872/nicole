@@ -2,13 +2,13 @@
 #define USER_TYPE_H
 
 #include "attrTable.h"
-#include "virtualTable.h"
 #include "attribute.h"
 #include "constructor.h"
 #include "destructor.h"
 #include "genericParameter.h"
 #include "method.h"
 #include "methodTable.h"
+#include "virtualTable.h"
 #include <expected>
 #include <memory>
 #include <string>
@@ -34,37 +34,41 @@ public:
                     const std::vector<GenericParameter> &genericParams) noexcept
       : name_{name}, baseType_(baseType), genericParams_{genericParams} {}
 
-  [[nodiscard]] const std::string &name() const noexcept { return name_; }
+  [[nodiscard]] auto name() const noexcept -> const std::string & {
+    return name_;
+  }
 
-  [[nodiscard]] const std::shared_ptr<UserType> &baseType() const noexcept {
+  [[nodiscard]] auto baseType() const noexcept
+      -> const std::shared_ptr<UserType> & {
     return baseType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Constructor> &
-  constructor() const noexcept {
+  [[nodiscard]] auto constructor() const noexcept
+      -> const std::shared_ptr<Constructor> & {
     return constructor_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Destructor> &destructor() const noexcept {
+  [[nodiscard]] auto destructor() const noexcept
+      -> const std::shared_ptr<Destructor> & {
     return destructor_;
   }
 
-  [[nodiscard]] const std::vector<GenericParameter> &
-  genericParams() const noexcept {
+  [[nodiscard]] auto genericParams() const noexcept
+      -> const std::vector<GenericParameter> & {
     return genericParams_;
   }
 
-  [[nodiscard]] bool hasAttribute(const std::string &id) const noexcept;
+  [[nodiscard]] auto hasAttribute(const std::string &id) const noexcept -> bool;
 
-  [[nodiscard]] bool hasMethod(const Method &id) const noexcept;
+  [[nodiscard]] auto hasMethod(const Method &id) const noexcept -> bool;
 
-  [[nodiscard]] const std::expected<Attribute, Error>
-  getAttribute(const std::string &id) const noexcept;
+  [[nodiscard]] auto getAttribute(const std::string &id) const noexcept
+      -> const std::expected<Attribute, Error>;
 
-  [[nodiscard]] const std::expected<std::vector<Method>, Error>
-  getMethods(const std::string &id) const noexcept;
+  [[nodiscard]] auto getMethods(const std::string &id) const noexcept
+      -> const std::expected<std::vector<Method>, Error>;
 
-  [[nodiscard]] std::vector<Attribute> attributes() const noexcept {
+  [[nodiscard]] auto attributes() const noexcept -> std::vector<Attribute> {
     std::vector<Attribute> result;
     result.reserve(attrTable_.size());
     for (auto &kv : attrTable_) {
@@ -73,33 +77,36 @@ public:
     return result;
   }
 
-  const VirtualTable &vtable() const noexcept { return vtable_; }
+  auto vtable() const noexcept -> const VirtualTable & { return vtable_; }
 
-  void
-  setDestructor(const std::shared_ptr<Destructor> &destructor) const noexcept {
+  auto
+  setDestructor(const std::shared_ptr<Destructor> &destructor) const noexcept
+      -> void {
     destructor_ = destructor;
   }
 
-  void setConstructor(
-      const std::shared_ptr<Constructor> &constructor) const noexcept {
+  auto
+  setConstructor(const std::shared_ptr<Constructor> &constructor) const noexcept
+      -> void {
     constructor_ = constructor;
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  insertAttr(const Attribute &attr) const noexcept;
+  [[nodiscard]] auto insertAttr(const Attribute &attr) const noexcept
+      -> std::expected<std::monostate, Error>;
 
-  void insertMethod(const Method &method) const noexcept;
+  auto insertMethod(const Method &method) const noexcept -> void;
 
-  [[nodiscard]] std::expected<std::monostate, Error>
-  setAttribute(const Attribute &attr) const noexcept;
+  [[nodiscard]] auto setAttribute(const Attribute &attr) const noexcept
+      -> std::expected<std::monostate, Error>;
 
-  [[nodiscard]] bool
-  isAboveInHearchy(const std::shared_ptr<UserType> &type) const noexcept;
+  [[nodiscard]] auto
+  isAboveInHearchy(const std::shared_ptr<UserType> &type) const noexcept
+      -> bool;
 
-  [[nodiscard]] std::string toString() const noexcept override;
+  [[nodiscard]] auto toString() const noexcept -> std::string override;
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override;
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override;
 };
 
 } // namespace nicole

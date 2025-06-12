@@ -1,11 +1,11 @@
 #ifndef ATTRIBUTES_H
 #define ATTRIBUTES_H
 
+#include "../../../tables/typeTable/types/type.h"
 #include <cstddef>
 #include <memory>
 #include <string>
 #include <vector>
-#include "../../../tables/typeTable/types/type.h"
 
 namespace nicole {
 
@@ -15,19 +15,24 @@ private:
 
 public:
   explicit Attributes(
-      const std::vector<std::pair<std::string, std::shared_ptr<Type>>> &params) noexcept
+      const std::vector<std::pair<std::string, std::shared_ptr<Type>>>
+          &params) noexcept
       : params_{params} {}
 
-  [[nodiscard]] const std::vector<std::pair<std::string, std::shared_ptr<Type>>> &
-  params() const noexcept {
+  [[nodiscard]] auto params() const noexcept
+      -> const std::vector<std::pair<std::string, std::shared_ptr<Type>>> & {
     return params_;
   }
 
-  [[nodiscard]] std::size_t size() const noexcept { return params_.size(); }
+  [[nodiscard]] auto size() const noexcept -> std::size_t {
+    return params_.size();
+  }
 
-  auto begin() const noexcept { return params_.begin(); }
+  auto begin() const noexcept -> decltype(params_.begin()) {
+    return params_.begin();
+  }
 
-  auto end() const noexcept { return params_.end(); }
+  auto end() const noexcept -> decltype(params_.end()) { return params_.end(); }
 };
 
 } // namespace nicole

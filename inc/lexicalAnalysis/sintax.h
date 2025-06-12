@@ -17,11 +17,11 @@ public:
 
   virtual ~Sintax() = default;
 
-  [[nodiscard]] const std::string &extension() const noexcept {
+  [[nodiscard]] auto extension() const noexcept -> const std::string & {
     return extension_;
   }
 
-  [[nodiscard]] virtual const Lexer createLexer() const noexcept = 0;
+  [[nodiscard]] virtual auto createLexer() const noexcept -> Lexer = 0;
 };
 
 } // namespace nicole

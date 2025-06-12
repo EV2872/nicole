@@ -1,11 +1,11 @@
-#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include "../../../inc/parsingAnalysis/ast/assignments/ast_assignment.h"
+#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include <variant>
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_ASSIGNMENT *node) const noexcept {
+auto Monomorphize::visit(const AST_ASSIGNMENT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ASSIGNMENT");
   }
@@ -20,4 +20,4 @@ Monomorphize::visit(const AST_ASSIGNMENT *node) const noexcept {
   return {};
 }
 
-}
+} // namespace nicole

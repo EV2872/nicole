@@ -17,8 +17,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-Linker::emitObjectFile(llvm::orc::ThreadSafeModule safeModule) const noexcept {
+auto Linker::emitObjectFile(llvm::orc::ThreadSafeModule safeModule)
+    const noexcept -> std::expected<std::monostate, Error> {
   // Ajustar el módulo
   auto module{safeModule.getModuleUnlocked()};
   module->setTargetTriple(targetMachine_->getTargetCPU());
@@ -48,7 +48,8 @@ Linker::emitObjectFile(llvm::orc::ThreadSafeModule safeModule) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error> Linker::removeObjectFile() const noexcept {
+auto Linker::removeObjectFile() const noexcept
+    -> std::expected<std::monostate, Error> {
   const std::error_code removedObejctFile{
       llvm::sys::fs::remove(options_.binaryName() + ".o")};
   if (removedObejctFile) {
@@ -58,8 +59,8 @@ std::expected<std::monostate, Error> Linker::removeObjectFile() const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Linker::link(llvm::orc::ThreadSafeModule safeModule) const noexcept {
+auto Linker::link(llvm::orc::ThreadSafeModule safeModule) const noexcept
+    -> std::expected<std::monostate, Error> {
   const auto emited{emitObjectFile(std::move(safeModule))};
   if (!emited) {
     return createError(emited.error());

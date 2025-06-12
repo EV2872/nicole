@@ -106,7 +106,7 @@ TEST_CASE("Pruebas de la clase Options", "[options]") {
     REQUIRE(opt1.entryFilePath() == opt2.entryFilePath());
 
     REQUIRE(opt1.optimize() != opt3.optimize());
-    REQUIRE(opt1.printTree() == opt3.printTree());
+    REQUIRE(opt1.printTree() != opt3.printTree());
     REQUIRE(opt1.printIR() == opt3.printIR());
 
     REQUIRE(opt1.binaryName() != opt3.binaryName());

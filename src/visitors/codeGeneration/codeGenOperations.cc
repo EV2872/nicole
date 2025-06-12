@@ -6,8 +6,8 @@
 
 namespace nicole {
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_BINARY *node) const noexcept {
+auto CodeGeneration::visit(const AST_BINARY *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BINARY");
   }
@@ -119,8 +119,7 @@ CodeGeneration::visit(const AST_BINARY *node) const noexcept {
     case BasicKind::Str: {
       if (node->op().type() == TokenType::OPERATOR_ADD) {
         // Contexto y tipos LLVM
-        
-        
+
         llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
         llvm::PointerType *i8Ptr = i8Ty->getPointerTo(); // i8*
         llvm::Type *i64Ty = llvm::Type::getInt64Ty(*context_);
@@ -244,8 +243,8 @@ CodeGeneration::visit(const AST_BINARY *node) const noexcept {
                          tokenTypeToString(node->op().type()));
 }
 
-std::expected<llvm::Value *, Error>
-CodeGeneration::visit(const AST_UNARY *node) const noexcept {
+auto CodeGeneration::visit(const AST_UNARY *node) const noexcept
+    -> std::expected<llvm::Value *, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_UNARY");
 
@@ -294,7 +293,7 @@ CodeGeneration::visit(const AST_UNARY *node) const noexcept {
       llvm::Value *ptr = *ptrOrErr; // debe ser algo tipo i32*
 
       // tipo entero LLVM
-      
+
       llvm::Type *i32Ty = llvm::Type::getInt32Ty(*context_);
 
       // cargar el valor actual

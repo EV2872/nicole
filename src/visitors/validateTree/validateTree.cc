@@ -3,16 +3,16 @@
 
 namespace nicole {
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_STATEMENT *node) const noexcept {
+auto ValidateTree::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
   return node->expression()->accept(*this);
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_BODY *node) const noexcept {
+auto ValidateTree::visit(const AST_BODY *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -25,8 +25,8 @@ ValidateTree::visit(const AST_BODY *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const Tree *tree) const noexcept {
+auto ValidateTree::visit(const Tree *tree) const noexcept
+    -> std::expected<bool, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }

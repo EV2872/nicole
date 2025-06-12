@@ -16,8 +16,8 @@ namespace nicole {
 - else if lo mismo que if
 - else lo mismo que body
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_IF *node) const noexcept {
+auto TypeAnalysis::visit(const AST_IF *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IF");
   }
@@ -96,8 +96,8 @@ TypeAnalysis::visit(const AST_IF *node) const noexcept {
 /*
 - lo mismo que if
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_ELSE_IF *node) const noexcept {
+auto TypeAnalysis::visit(const AST_ELSE_IF *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ELSE_IF");
   }
@@ -139,8 +139,8 @@ TypeAnalysis::visit(const AST_ELSE_IF *node) const noexcept {
 - match solo bool, int, char
 - Lo mismo que if
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_SWITCH *node) const noexcept {
+auto TypeAnalysis::visit(const AST_SWITCH *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SWITCH");
   }
@@ -212,8 +212,8 @@ TypeAnalysis::visit(const AST_SWITCH *node) const noexcept {
 - match solo bool, int char
 - igual que body
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_CASE *node) const noexcept {
+auto TypeAnalysis::visit(const AST_CASE *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CASE");
   }
@@ -256,8 +256,8 @@ TypeAnalysis::visit(const AST_CASE *node) const noexcept {
 /*
 - igual que body
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_DEFAULT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_DEFAULT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEFAULT");
   }
@@ -279,8 +279,8 @@ TypeAnalysis::visit(const AST_DEFAULT *node) const noexcept {
 - condtion debe ser bool
 - first y second no pueden ser breakType
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_TERNARY *node) const noexcept {
+auto TypeAnalysis::visit(const AST_TERNARY *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_TERNARY");
   }
@@ -337,8 +337,8 @@ TypeAnalysis::visit(const AST_TERNARY *node) const noexcept {
 /*
 - debe retornar bool
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_CONDITION *node) const noexcept {
+auto TypeAnalysis::visit(const AST_CONDITION *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CONDITION");
   }
@@ -361,8 +361,9 @@ TypeAnalysis::visit(const AST_CONDITION *node) const noexcept {
       !typeTable_->areSameType(condType, typeTable_->boolType()) &&
       !typeTable_->areSameType(condType, typeTable_->intType()) &&
       !typeTable_->areSameType(condType, typeTable_->charType()) && !isEnum) {
-    return createError(ERROR_TYPE::TYPE,
-                       "condition must be a ptr, bool, int, char, or enum(in a switch)");
+    return createError(
+        ERROR_TYPE::TYPE,
+        "condition must be a ptr, bool, int, char, or enum(in a switch)");
   }
   node->setReturnedFromAnalysis(condType);
   return condType;

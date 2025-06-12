@@ -7,8 +7,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_AUTO_DECL *node) const noexcept {
+auto 
+FillSemanticInfo::visit(const AST_AUTO_DECL *node) const noexcept ->std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_AUTO_DECL");
   }
@@ -32,8 +32,8 @@ FillSemanticInfo::visit(const AST_AUTO_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
+auto 
+FillSemanticInfo::visit(const AST_VAR_TYPED_DECL *node) const noexcept ->std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_TYPED_DECL");
   }
@@ -85,8 +85,8 @@ FillSemanticInfo::visit(const AST_VAR_TYPED_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_VAR_CALL *node) const noexcept {
+auto 
+FillSemanticInfo::visit(const AST_VAR_CALL *node) const noexcept ->std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VAR_CALL");
   }

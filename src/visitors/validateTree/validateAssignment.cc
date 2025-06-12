@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/assignments/ast_assignment.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statemetn / body / not null or for
-std::expected<bool, Error>
-ValidateTree::visit(const AST_ASSIGNMENT *node) const noexcept {
+auto ValidateTree::visit(const AST_ASSIGNMENT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ASSIGNMENT");
   }
@@ -27,4 +27,4 @@ ValidateTree::visit(const AST_ASSIGNMENT *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

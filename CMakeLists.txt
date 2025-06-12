@@ -468,6 +468,34 @@ set(SRC_FILES
 # Include directories para el ejecutable principal
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+#find_program(CLANG_TIDY_EXE NAMES clang-tidy)
+#if(CLANG_TIDY_EXE)
+#  set(CMAKE_CXX_CLANG_TIDY
+#    "${CLANG_TIDY_EXE};
+#     -checks=*;
+#     -header-filter=^${CMAKE_SOURCE_DIR}/src/;
+#     -warnings-as-errors=*;
+#     --use-color")
+#  message(STATUS "clang-tidy habilitado (solo src/)")
+#endif()
+
+# === export compile_commands.json ===
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# === cppcheck ===
+find_program(CPPCHECK_EXE NAMES cppcheck)
+if(CPPCHECK_EXE)
+  add_custom_target(cppcheck
+    COMMAND env CLICOLOR_FORCE=1 ${CPPCHECK_EXE}
+      --project=${CMAKE_BINARY_DIR}/compile_commands.json
+      --suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck-suppress.txt
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Ejecutando cppcheck solo en src/ con color"
+    USES_TERMINAL
+  )
+endif()
+
+
 # Executable principal
 add_executable(binaries ${SRC_FILES})
 target_include_directories(binaries PRIVATE ${LLVM_INCLUDEDIR})

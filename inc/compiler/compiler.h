@@ -15,7 +15,6 @@
 #include "optimizer.h"
 #include "targetGenerator.h"
 #include <expected>
-#include <iostream>
 #include <memory>
 #include <variant>
 
@@ -31,12 +30,14 @@ public:
 
   virtual ~Compiler() = default;
 
-  [[nodiscard]] const std::shared_ptr<Sintax> &sintax() const noexcept {
+  [[nodiscard]]
+  auto sintax() const noexcept -> const std::shared_ptr<Sintax> & {
     return sintax_;
   }
 
-  [[nodiscard]] virtual std::expected<std::monostate, Error>
-  compile(const Options &options) const noexcept = 0;
+  [[nodiscard]]
+  virtual auto compile(const Options &options) const noexcept
+      -> std::expected<std::monostate, Error> = 0;
 };
 
 } // namespace nicole

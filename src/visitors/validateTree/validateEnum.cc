@@ -1,13 +1,13 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enum.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enumAccess.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statement / body / null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_ENUM *node) const noexcept {
+auto ValidateTree::visit(const AST_ENUM *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM");
   }
@@ -18,8 +18,8 @@ ValidateTree::visit(const AST_ENUM *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_ENUM_ACCESS *node) const noexcept {
+auto ValidateTree::visit(const AST_ENUM_ACCESS *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM_ACCESS");
   }
@@ -30,4 +30,4 @@ ValidateTree::visit(const AST_ENUM_ACCESS *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

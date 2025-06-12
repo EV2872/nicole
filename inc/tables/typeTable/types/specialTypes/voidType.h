@@ -8,12 +8,12 @@ namespace nicole {
 
 class VoidType final : public Type {
 public:
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept->std::string override {
     return "void";
   }
 
-  [[nodiscard]] std::expected<llvm::Type*, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto 
+  llvmVersion(llvm::LLVMContext &context) const noexcept->std::expected<llvm::Type*, Error> override {
     // Representamos void en LLVM como el tipo VoidTy
     return llvm::Type::getVoidTy(context);
   }

@@ -90,8 +90,8 @@ static llvm::cl::list<std::string>
                llvm::cl::desc("<file.nc>"), llvm::cl::value_desc("path"),
                llvm::cl::cat(NicoleCategory));
 
-std::expected<Options, Error> OptionsParser::parse(int argc,
-                                                   char **argv) noexcept {
+auto OptionsParser::parse(int argc, char **argv) noexcept
+    -> std::expected<Options, Error> {
   llvm::cl::HideUnrelatedOptions(NicoleCategory);
 
   llvm::cl::SetVersionPrinter([](llvm::raw_ostream &os) {

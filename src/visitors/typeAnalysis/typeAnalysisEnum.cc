@@ -1,6 +1,6 @@
-#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enum.h"
 #include "../../../inc/parsingAnalysis/ast/enum/ast_enumAccess.h"
+#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include <memory>
 
 namespace nicole {
@@ -8,8 +8,8 @@ namespace nicole {
 /*
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_ENUM *node) const noexcept {
+auto TypeAnalysis::visit(const AST_ENUM *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM");
   }
@@ -18,8 +18,8 @@ TypeAnalysis::visit(const AST_ENUM *node) const noexcept {
   return type;
 }
 
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_ENUM_ACCESS *node) const noexcept {
+auto TypeAnalysis::visit(const AST_ENUM_ACCESS *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ENUM_ACCESS");
   }
@@ -31,4 +31,4 @@ TypeAnalysis::visit(const AST_ENUM_ACCESS *node) const noexcept {
   return type;
 }
 
-}
+} // namespace nicole

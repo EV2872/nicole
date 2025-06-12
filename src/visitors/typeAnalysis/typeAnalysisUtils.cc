@@ -11,8 +11,8 @@ BreakType
 - si es un userType comprueba que exista el metodo toStr()
 - retorna NoPropagate
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_PRINT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_PRINT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PRINT");
   }
@@ -39,8 +39,8 @@ TypeAnalysis::visit(const AST_PRINT *node) const noexcept {
       if (!exists) {
         return createError(exists.error());
       }
-      auto methodsExp = std::dynamic_pointer_cast<UserType>(*exists)
-                            ->getMethods("toString");
+      auto methodsExp =
+          std::dynamic_pointer_cast<UserType>(*exists)->getMethods("toString");
       if (!methodsExp) {
         return createError(methodsExp.error());
       }
@@ -56,8 +56,8 @@ TypeAnalysis::visit(const AST_PRINT *node) const noexcept {
 /*
 - retorna NoPropagate
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_IMPORT *node) const noexcept {
+auto TypeAnalysis::visit(const AST_IMPORT *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IMPORT");
   }

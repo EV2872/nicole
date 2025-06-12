@@ -1,6 +1,6 @@
-#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_binary.h"
 #include "../../../inc/parsingAnalysis/ast/operators/ast_unary.h"
+#include "../../../inc/visitors/typeAnalysis/typeAnalysis.h"
 #include <memory>
 
 namespace nicole {
@@ -11,8 +11,8 @@ namespace nicole {
 - comrprueba que se puedan operar, caso speciales si un userType busca metodo
 para sobrecarga de operador
 */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_BINARY *node) const noexcept {
+auto TypeAnalysis::visit(const AST_BINARY *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BINARY");
   }
@@ -41,8 +41,8 @@ TypeAnalysis::visit(const AST_BINARY *node) const noexcept {
 - comrpueba que se puede operar, caso speciales si un userType busca metodo
 para sobrecarga de operador y retorna el tipo
  */
-std::expected<std::shared_ptr<Type>, Error>
-TypeAnalysis::visit(const AST_UNARY *node) const noexcept {
+auto TypeAnalysis::visit(const AST_UNARY *node) const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_UNARY");
   }
@@ -61,4 +61,4 @@ TypeAnalysis::visit(const AST_UNARY *node) const noexcept {
   return resultTypeExp.value();
 }
 
-}
+} // namespace nicole

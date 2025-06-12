@@ -14,10 +14,11 @@ class Type {
 public:
   virtual ~Type() = default;
 
-  [[nodiscard]] virtual std::string toString() const noexcept = 0;
+  [[nodiscard]] virtual auto toString() const noexcept -> std::string = 0;
 
-  [[nodiscard]] virtual std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept = 0;
+  [[nodiscard]] virtual auto
+  llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> = 0;
 };
 
 } // namespace nicole

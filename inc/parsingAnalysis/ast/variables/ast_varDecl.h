@@ -17,9 +17,9 @@ public:
                         const std::shared_ptr<AST> &value) noexcept
       : AST(nodeId, astType, srcLoc), id_{id}, value_{value} {}
 
-  [[nodiscard]] const std::string &id() const noexcept { return id_; }
+  [[nodiscard]] auto id() const noexcept -> const std::string & { return id_; }
 
-  [[nodiscard]] const std::shared_ptr<AST> &value() const noexcept {
+  [[nodiscard]] auto value() const noexcept -> const std::shared_ptr<AST> & {
     return value_;
   }
 };

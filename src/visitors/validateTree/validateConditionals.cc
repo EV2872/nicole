@@ -10,8 +10,8 @@
 namespace nicole {
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_IF *node) const noexcept {
+auto ValidateTree::visit(const AST_IF *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_IF");
   }
@@ -43,8 +43,8 @@ ValidateTree::visit(const AST_IF *node) const noexcept {
 }
 
 // if
-std::expected<bool, Error>
-ValidateTree::visit(const AST_ELSE_IF *node) const noexcept {
+auto ValidateTree::visit(const AST_ELSE_IF *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ELSE_IF");
   }
@@ -64,8 +64,8 @@ ValidateTree::visit(const AST_ELSE_IF *node) const noexcept {
 }
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_SWITCH *node) const noexcept {
+auto ValidateTree::visit(const AST_SWITCH *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_SWITCH");
   }
@@ -93,8 +93,8 @@ ValidateTree::visit(const AST_SWITCH *node) const noexcept {
 }
 
 // switch
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CASE *node) const noexcept {
+auto ValidateTree::visit(const AST_CASE *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CASE");
   }
@@ -114,8 +114,8 @@ ValidateTree::visit(const AST_CASE *node) const noexcept {
 }
 
 // switch
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DEFAULT *node) const noexcept {
+auto ValidateTree::visit(const AST_DEFAULT *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DEFAULT");
   }
@@ -130,8 +130,8 @@ ValidateTree::visit(const AST_DEFAULT *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_TERNARY *node) const noexcept {
+auto ValidateTree::visit(const AST_TERNARY *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_TERNARY");
   }
@@ -154,8 +154,8 @@ ValidateTree::visit(const AST_TERNARY *node) const noexcept {
   return true;
 }
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_CONDITION *node) const noexcept {
+auto ValidateTree::visit(const AST_CONDITION *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_CONDITION");
   }

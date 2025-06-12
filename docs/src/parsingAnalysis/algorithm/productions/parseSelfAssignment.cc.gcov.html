@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -64,8 +64,8 @@
 <span id="L2"><span class="lineNum">       2</span>              : </span>
 <span id="L3"><span class="lineNum">       3</span>              : namespace nicole {</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 : TopDown::parseAssignment(const bool insideFor) const noexcept {</span></span>
+<span id="L5"><span class="lineNum">       5</span>              : auto TopDown::parseAssignment(const bool insideFor) const noexcept</span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt; {</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt; left{parseOr()};</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   if (!left || !*left) {</span></span>

@@ -18,13 +18,17 @@ public:
                      const std::size_t pos) noexcept
       : Symbol{id}, type_{type}, position_(pos) {}
 
-  [[nodiscard]] const std::shared_ptr<Type> &type() const noexcept {
+  [[nodiscard]] auto type() const noexcept -> const std::shared_ptr<Type> & {
     return type_;
   }
 
-  [[nodiscard]] std::size_t position() const noexcept { return position_; }
+  [[nodiscard]] auto position() const noexcept -> std::size_t {
+    return position_;
+  }
 
-  void setPosition(const std::size_t pos) const noexcept { position_ = pos; }
+  auto setPosition(const std::size_t pos) const noexcept -> void {
+    position_ = pos;
+  }
 };
 
 } // namespace nicole

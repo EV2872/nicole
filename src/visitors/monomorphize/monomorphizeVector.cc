@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_index.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_vector.h"
+#include "../../../inc/visitors/monomorphize/monomorphize.h"
 #include <variant>
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_VECTOR *node) const noexcept {
+auto Monomorphize::visit(const AST_VECTOR *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VECTOR");
   }
@@ -19,8 +19,8 @@ Monomorphize::visit(const AST_VECTOR *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-Monomorphize::visit(const AST_INDEX *node) const noexcept {
+auto Monomorphize::visit(const AST_INDEX *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INDEX");
   }
@@ -31,4 +31,4 @@ Monomorphize::visit(const AST_INDEX *node) const noexcept {
   return {};
 }
 
-}
+} // namespace nicole

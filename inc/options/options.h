@@ -36,29 +36,32 @@ public:
         binaryName_{binaryName}, entryFilePath_{entryFilePath}, arch_{arch},
         os_{os} {}
 
-  [[nodiscard]] bool optimize() const noexcept { return optimize_; }
+  [[nodiscard]] auto optimize() const noexcept -> bool { return optimize_; }
 
-  [[nodiscard]] bool printTree() const noexcept { return printTree_; }
+  [[nodiscard]] auto printTree() const noexcept -> bool { return printTree_; }
 
-  [[nodiscard]] bool printIR() const noexcept { return printIR_; }
+  [[nodiscard]] auto printIR() const noexcept -> bool { return printIR_; }
 
-  [[nodiscard]] bool validateTree() const noexcept { return validateTree_; }
+  [[nodiscard]] auto validateTree() const noexcept -> bool {
+    return validateTree_;
+  }
 
-  [[nodiscard]] bool justInTime() const noexcept { return justInTime_; }
+  [[nodiscard]] auto justInTime() const noexcept -> bool { return justInTime_; }
 
-  [[nodiscard]] bool useLLD() const noexcept { return useLLD_; }
+  [[nodiscard]] auto useLLD() const noexcept -> bool { return useLLD_; }
 
-  [[nodiscard]] const std::string &binaryName() const noexcept {
+  [[nodiscard]] auto binaryName() const noexcept -> const std::string & {
     return binaryName_;
   }
 
-  [[nodiscard]] const std::filesystem::path &entryFilePath() const noexcept {
+  [[nodiscard]] auto entryFilePath() const noexcept
+      -> const std::filesystem::path & {
     return entryFilePath_;
   }
 
-  [[nodiscard]] Arch arch() const noexcept { return arch_; }
+  [[nodiscard]] auto arch() const noexcept -> Arch { return arch_; }
 
-  [[nodiscard]] OS os() const noexcept { return os_; }
+  [[nodiscard]] auto os() const noexcept -> OS { return os_; }
 };
 
 } // namespace nicole

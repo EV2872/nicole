@@ -1,11 +1,11 @@
-#include "../../../inc/visitors/printTree/printTree.h"
 #include "../../../inc/parsingAnalysis/ast/assignments/ast_assignment.h"
+#include "../../../inc/visitors/printTree/printTree.h"
 #include <ostream>
 
 namespace nicole {
 
-std::expected<std::string, Error>
-PrintTree::visit(const AST_ASSIGNMENT *node) const noexcept {
+auto PrintTree::visit(const AST_ASSIGNMENT *node) const noexcept
+    -> std::expected<std::string, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ASSIGNMENT");
   }
@@ -27,4 +27,4 @@ PrintTree::visit(const AST_ASSIGNMENT *node) const noexcept {
   return result.str();
 }
 
-}
+} // namespace nicole

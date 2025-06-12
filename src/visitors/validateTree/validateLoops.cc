@@ -1,16 +1,16 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_doWhile.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_for.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_pass.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_stop.h"
 #include "../../../inc/parsingAnalysis/ast/loops/ast_while.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_WHILE *node) const noexcept {
+auto ValidateTree::visit(const AST_WHILE *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_WHILE");
   }
@@ -30,8 +30,8 @@ ValidateTree::visit(const AST_WHILE *node) const noexcept {
 }
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_FOR *node) const noexcept {
+auto ValidateTree::visit(const AST_FOR *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FOR");
   }
@@ -63,8 +63,8 @@ ValidateTree::visit(const AST_FOR *node) const noexcept {
 }
 
 // statement / body / not null
-std::expected<bool, Error>
-ValidateTree::visit(const AST_DO_WHILE *node) const noexcept {
+auto ValidateTree::visit(const AST_DO_WHILE *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_DO_WHILE");
   }
@@ -84,8 +84,8 @@ ValidateTree::visit(const AST_DO_WHILE *node) const noexcept {
 }
 
 // do while / while / for
-std::expected<bool, Error>
-ValidateTree::visit(const AST_PASS *node) const noexcept {
+auto ValidateTree::visit(const AST_PASS *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_PASS");
   }
@@ -98,8 +98,8 @@ ValidateTree::visit(const AST_PASS *node) const noexcept {
 }
 
 // do while / while / for
-std::expected<bool, Error>
-ValidateTree::visit(const AST_STOP *node) const noexcept {
+auto ValidateTree::visit(const AST_STOP *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STOP");
   }
@@ -112,4 +112,4 @@ ValidateTree::visit(const AST_STOP *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

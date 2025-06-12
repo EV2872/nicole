@@ -24,27 +24,31 @@ public:
       : AST(nodeId, type, srcLoc), id_{id}, returnType_{returnType},
         body_{body} {}
 
-  [[nodiscard]] const std::string &id() const noexcept { return id_; }
+  [[nodiscard]] auto id() const noexcept -> const std::string & { return id_; }
 
-  [[nodiscard]] const std::string &mangledId() const noexcept {
+  [[nodiscard]] auto mangledId() const noexcept -> const std::string & {
     return mangledId_;
   }
 
-  [[nodiscard]] const std::shared_ptr<Type> &returnType() const noexcept {
+  [[nodiscard]] auto returnType() const noexcept
+      -> const std::shared_ptr<Type> & {
     return returnType_;
   }
 
-  [[nodiscard]] const std::shared_ptr<AST_BODY> &body() const noexcept {
+  [[nodiscard]] auto body() const noexcept
+      -> const std::shared_ptr<AST_BODY> & {
     return body_;
   }
 
-  void setReturnType(const std::shared_ptr<Type> &type) const noexcept {
+  auto setReturnType(const std::shared_ptr<Type> &type) const noexcept -> void {
     returnType_ = type;
   }
 
-  void setId(const std::string &id) const noexcept { id_ = id; }
+  auto setId(const std::string &id) const noexcept -> void { id_ = id; }
 
-  void setMangledId(const std::string &id) const noexcept { mangledId_ = id; }
+  auto setMangledId(const std::string &id) const noexcept -> void {
+    mangledId_ = id;
+  }
 };
 
 } // namespace nicole

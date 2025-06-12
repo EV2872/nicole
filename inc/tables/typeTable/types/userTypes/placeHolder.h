@@ -15,16 +15,17 @@ public:
   explicit PlaceHolder(const GenericParameter &genericParameter) noexcept
       : genericParameter_(genericParameter) {}
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     return "PlaceHolder: " + genericParameter_.name();
   }
 
-  [[nodiscard]] const GenericParameter &getGenericParameter() const noexcept {
+  [[nodiscard]] auto getGenericParameter() const noexcept
+      -> const GenericParameter & {
     return genericParameter_;
   }
 
-  [[nodiscard]] std::expected<llvm::Type *, Error>
-  llvmVersion(llvm::LLVMContext &) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     // Unresolved placeholder: no LLVM type can be generated
     return createError(ERROR_TYPE::TYPE,
                        "Unresolved generic parameter '" +

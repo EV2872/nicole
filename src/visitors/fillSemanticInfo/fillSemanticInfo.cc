@@ -18,7 +18,7 @@ metodos / llamadas a atributos / variables auto
 
 namespace nicole {
 
-void FillSemanticInfo::pushScope() const noexcept {
+auto FillSemanticInfo::pushScope() const noexcept -> void {
   auto newScope = std::make_shared<Scope>(currentScope_);
   currentScope_ = newScope;
   if (!firstScope_) {
@@ -26,16 +26,16 @@ void FillSemanticInfo::pushScope() const noexcept {
   }
 }
 
-void FillSemanticInfo::popScope() const noexcept {
+auto FillSemanticInfo::popScope() const noexcept -> void {
   if (currentScope_) {
     currentScope_ = currentScope_->father();
   }
 }
 
-std::expected<std::vector<GenericParameter>, Error>
-FillSemanticInfo::mergeGenericLists(
+auto FillSemanticInfo::mergeGenericLists(
     const std::vector<GenericParameter> &list,
-    const std::vector<GenericParameter> &list1) const noexcept {
+    const std::vector<GenericParameter> &list1) const noexcept
+    -> std::expected<std::vector<GenericParameter>, Error> {
   if (hasDuplicatedGenerics(list)) {
     return createError(ERROR_TYPE::TYPE, "has duplicated generics");
   }
@@ -51,14 +51,14 @@ FillSemanticInfo::mergeGenericLists(
   return result;
 }
 
-bool FillSemanticInfo::hasDuplicatedGenerics(
-    const std::vector<GenericParameter> &list) const noexcept {
+auto FillSemanticInfo::hasDuplicatedGenerics(
+    const std::vector<GenericParameter> &list) const noexcept -> bool {
   std::unordered_set<GenericParameter> set(list.begin(), list.end());
   return set.size() != list.size();
 }
 
-bool FillSemanticInfo::areAmbiguousFunctions(
-    const Function &first, const Function &second) const noexcept {
+auto FillSemanticInfo::areAmbiguousFunctions(
+    const Function &first, const Function &second) const noexcept -> bool {
   if (first.id() != second.id()) {
     return false;
   }
@@ -83,8 +83,9 @@ bool FillSemanticInfo::areAmbiguousFunctions(
   return true;
 }
 
-bool FillSemanticInfo::areAmbiguousMethods(
-    const Method &first, const Method &second) const noexcept {
+auto FillSemanticInfo::areAmbiguousMethods(const Method &first,
+                                           const Method &second) const noexcept
+    -> bool {
   if (first.id() != second.id()) {
     return false;
   }
@@ -109,16 +110,16 @@ bool FillSemanticInfo::areAmbiguousMethods(
   return true;
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_STATEMENT *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_STATEMENT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STATEMENT");
   }
   return node->expression()->accept(*this);
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_BODY *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_BODY *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_BODY");
   }
@@ -131,8 +132,8 @@ FillSemanticInfo::visit(const AST_BODY *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const Tree *tree) const noexcept {
+auto FillSemanticInfo::visit(const Tree *tree) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!tree) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid Tree");
   }

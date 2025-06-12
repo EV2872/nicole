@@ -11,8 +11,8 @@
 
 namespace nicole {
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRUCT");
   }
@@ -133,16 +133,16 @@ FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_ATTR_ACCESS *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_ATTR_ACCESS *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_ATTR_ACCESS");
   }
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_METHOD_CALL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_METHOD_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_CALL");
   }
@@ -186,8 +186,8 @@ FillSemanticInfo::visit(const AST_METHOD_CALL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_METHOD_DECL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_METHOD_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_METHOD_DECL");
 
@@ -277,8 +277,8 @@ FillSemanticInfo::visit(const AST_METHOD_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_DECL");
 
@@ -356,8 +356,8 @@ FillSemanticInfo::visit(const AST_CONSTRUCTOR_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_SUPER *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_SUPER *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_SUPER");
   }
@@ -409,8 +409,8 @@ FillSemanticInfo::visit(const AST_SUPER *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_DESTRUCTOR_DECL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_DESTRUCTOR_DECL");
   }
@@ -447,8 +447,8 @@ FillSemanticInfo::visit(const AST_DESTRUCTOR_DECL *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_THIS *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_THIS *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_THIS");
   }
@@ -458,8 +458,8 @@ FillSemanticInfo::visit(const AST_THIS *node) const noexcept {
   return {};
 }
 
-std::expected<std::monostate, Error>
-FillSemanticInfo::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept {
+auto FillSemanticInfo::visit(const AST_CONSTRUCTOR_CALL *node) const noexcept
+    -> std::expected<std::monostate, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "Invalid AST_CONSTRUCTOR_CALL");
   }

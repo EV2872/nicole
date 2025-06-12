@@ -16,10 +16,12 @@ namespace nicole {
 
 class TargetGenerator {
 public:
-  [[nodiscard]] llvm::LLVMTargetMachine *generate(const Arch arch, const OS os) const noexcept;
+  [[nodiscard]] auto generate(const Arch arch, const OS os) const noexcept
+      -> std::shared_ptr<llvm::TargetMachine>;
 
 private:
-  [[nodiscard]] std::string getTripleForArchAndOS(Arch arch, OS os) const noexcept;
+  [[nodiscard]] auto getTripleForArchAndOS(Arch arch, OS os) const noexcept
+      -> std::string;
 };
 
 } // namespace nicole

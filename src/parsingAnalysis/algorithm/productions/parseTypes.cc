@@ -4,8 +4,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<Type>, Error>
-TopDown::parseType() const noexcept {
+auto TopDown::parseType() const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   // Se parsea el tipo base (incluyendo genéricos o vectores)
   std::expected<std::shared_ptr<Type>, Error> baseTypeExpected =
       parsePrimaryType();
@@ -26,8 +26,8 @@ TopDown::parseType() const noexcept {
   return type;
 }
 
-const std::expected<std::shared_ptr<Type>, Error>
-TopDown::parsePrimaryType() const noexcept {
+auto TopDown::parsePrimaryType() const noexcept
+    -> std::expected<std::shared_ptr<Type>, Error> {
   const std::expected<Token, Error> tokenExpected = tkStream_.current();
   if (!tokenExpected) {
     return createError(ERROR_TYPE::SINTAX,
@@ -161,8 +161,8 @@ TopDown::parsePrimaryType() const noexcept {
                      "Error inesperado en parsePrimaryType.");
 }
 
-const std::expected<std::vector<GenericParameter>, Error>
-TopDown::parseGenerics() const noexcept {
+auto TopDown::parseGenerics() const noexcept
+    -> std::expected<std::vector<GenericParameter>, Error> {
   std::vector<GenericParameter> result{};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());

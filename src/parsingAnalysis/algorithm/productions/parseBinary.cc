@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseOr() const noexcept {
+auto TopDown::parseOr() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseAnd()};
 
@@ -41,8 +41,8 @@ TopDown::parseOr() const noexcept {
   return left;
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseAnd() const noexcept {
+auto TopDown::parseAnd() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseEqual_NotEqual()};
 
@@ -80,8 +80,8 @@ TopDown::parseAnd() const noexcept {
   return left;
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseEqual_NotEqual() const noexcept {
+auto TopDown::parseEqual_NotEqual() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseCompare()};
 
@@ -119,8 +119,8 @@ TopDown::parseEqual_NotEqual() const noexcept {
   return left;
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseCompare() const noexcept {
+auto TopDown::parseCompare() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseAdd_Sub()};
 
@@ -160,8 +160,8 @@ TopDown::parseCompare() const noexcept {
   return left;
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseAdd_Sub() const noexcept {
+auto TopDown::parseAdd_Sub() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseMult_Div_Module()};
 
@@ -200,8 +200,8 @@ TopDown::parseAdd_Sub() const noexcept {
   return left;
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseMult_Div_Module() const noexcept {
+auto TopDown::parseMult_Div_Module() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   std::expected<std::shared_ptr<AST>, Error> left{parseFactor()};
 

@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_IF>, Error>
-TopDown::parseIf() const noexcept {
+auto TopDown::parseIf() const noexcept
+    -> std::expected<std::shared_ptr<AST_IF>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -47,8 +47,8 @@ TopDown::parseIf() const noexcept {
                            *condition, *bodyIf, elseIfs, *bodyElse);
 }
 
-const std::expected<std::shared_ptr<AST_ELSE_IF>, Error>
-TopDown::parseElseIf() const noexcept {
+auto TopDown::parseElseIf() const noexcept
+    -> std::expected<std::shared_ptr<AST_ELSE_IF>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -71,8 +71,8 @@ TopDown::parseElseIf() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *condition, *body);
 }
 
-const std::expected<std::shared_ptr<AST_SWITCH>, Error>
-TopDown::parseSwitch() const noexcept {
+auto TopDown::parseSwitch() const noexcept
+    -> std::expected<std::shared_ptr<AST_SWITCH>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -141,8 +141,8 @@ TopDown::parseSwitch() const noexcept {
       *defaultCase);
 }
 
-const std::expected<std::shared_ptr<AST_CASE>, Error>
-TopDown::parseCase() const noexcept {
+auto TopDown::parseCase() const noexcept
+    -> std::expected<std::shared_ptr<AST_CASE>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -168,8 +168,8 @@ TopDown::parseCase() const noexcept {
                              *condition, *body);
 }
 
-const std::expected<std::shared_ptr<AST_DEFAULT>, Error>
-TopDown::parseDefault() const noexcept {
+auto TopDown::parseDefault() const noexcept
+    -> std::expected<std::shared_ptr<AST_DEFAULT>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -183,8 +183,8 @@ TopDown::parseDefault() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *body);
 }
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseTernary() const noexcept {
+auto TopDown::parseTernary() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   // to avoid ambigious situations like (something) being treated like ternary
   if (tkStream_.current()->type() == TokenType::LP and
@@ -229,8 +229,8 @@ TopDown::parseTernary() const noexcept {
   return parseOr();
 }
 
-const std::expected<std::shared_ptr<AST_CONDITION>, Error>
-TopDown::parseCondition(const bool isInsideFor) const noexcept {
+auto TopDown::parseCondition(const bool isInsideFor) const noexcept
+    -> std::expected<std::shared_ptr<AST_CONDITION>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (!isInsideFor) {
     if (tkStream_.current()->type() != TokenType::LP) {

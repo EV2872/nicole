@@ -1,12 +1,12 @@
-#include "../../../inc/visitors/validateTree/validateTree.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_index.h"
 #include "../../../inc/parsingAnalysis/ast/vector/ast_vector.h"
 #include "../../../inc/parsingAnalysis/checkPosition.h"
+#include "../../../inc/visitors/validateTree/validateTree.h"
 
 namespace nicole {
 
-std::expected<bool, Error>
-ValidateTree::visit(const AST_VECTOR *node) const noexcept {
+auto ValidateTree::visit(const AST_VECTOR *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_VECTOR");
   }
@@ -24,8 +24,8 @@ ValidateTree::visit(const AST_VECTOR *node) const noexcept {
 }
 
 // chained
-std::expected<bool, Error>
-ValidateTree::visit(const AST_INDEX *node) const noexcept {
+auto ValidateTree::visit(const AST_INDEX *node) const noexcept
+    -> std::expected<bool, Error> {
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_INDEX");
   }
@@ -40,4 +40,4 @@ ValidateTree::visit(const AST_INDEX *node) const noexcept {
   return true;
 }
 
-}
+} // namespace nicole

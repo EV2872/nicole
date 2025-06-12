@@ -3,8 +3,9 @@
 
 namespace nicole {
 
-bool CheckPosition::hasAnyAncestorOf(
-    const AST *node, const std::unordered_set<AST_TYPE> &possibles) noexcept {
+auto CheckPosition::hasAnyAncestorOf(
+    const AST *node, const std::unordered_set<AST_TYPE> &possibles) noexcept
+    -> bool {
   const AST *auxiliar{node};
   while (auxiliar->father()) {
     auxiliar = auxiliar->father().get();
@@ -15,8 +16,8 @@ bool CheckPosition::hasAnyAncestorOf(
   return false;
 }
 
-bool CheckPosition::hasEveryAncestorInOrder(
-    const AST *node, const std::vector<AST_TYPE> &possibles) noexcept {
+auto CheckPosition::hasEveryAncestorInOrder(
+    const AST *node, const std::vector<AST_TYPE> &possibles) noexcept -> bool {
   const AST *auxiliar{node};
   size_t index{0};
   while (auxiliar->father() and index < possibles.size()) {
@@ -29,7 +30,7 @@ bool CheckPosition::hasEveryAncestorInOrder(
   return true;
 }
 
-bool CheckPosition::itsBodyAncestorHasParent(const AST *node) noexcept {
+auto CheckPosition::itsBodyAncestorHasParent(const AST *node) noexcept -> bool {
   std::shared_ptr<AST> father{nullptr};
   if (!node->father()) {
     return false;
@@ -51,22 +52,23 @@ bool CheckPosition::itsBodyAncestorHasParent(const AST *node) noexcept {
   return true;
 }
 
-bool CheckPosition::isInsideForHeader(const AST *node) noexcept {
+auto CheckPosition::isInsideForHeader(const AST *node) noexcept -> bool {
   return (node->father() and node->father()->type() == AST_TYPE::FOR) ? true
                                                                       : false;
 }
 
-bool CheckPosition::hasLoopAncestor(const AST *node) noexcept {
+auto CheckPosition::hasLoopAncestor(const AST *node) noexcept -> bool {
   return hasAnyAncestorOf(node,
                           {AST_TYPE::WHILE, AST_TYPE::FOR, AST_TYPE::DO_WHILE});
 }
 
-bool CheckPosition::hasAssigmentOrDeclAncestor(const AST *node) noexcept {
+auto CheckPosition::hasAssigmentOrDeclAncestor(const AST *node) noexcept
+    -> bool {
   return hasAnyAncestorOf(node, {AST_TYPE::AUTO_DECL, AST_TYPE::VAR_TYPED_DECL,
                                  AST_TYPE::ASSIGNMENT});
 }
 
-bool CheckPosition::isOutOfScope(const AST *node) noexcept {
+auto CheckPosition::isOutOfScope(const AST *node) noexcept -> bool {
   const AST *auxiliar{node};
   while (auxiliar->father()) {
     auxiliar = auxiliar->father().get();

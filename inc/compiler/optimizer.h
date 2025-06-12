@@ -12,19 +12,20 @@ namespace nicole {
 
 class Optimizer final {
 private:
-  llvm::LLVMTargetMachine *targetMachine_;
+  std::shared_ptr<llvm::TargetMachine> targetMachine_;
   llvm::OptimizationLevel optLevel_;
 
 public:
-  Optimizer(llvm::LLVMTargetMachine *targetMachine,
+  Optimizer(std::shared_ptr<llvm::TargetMachine> targetMachine,
             llvm::OptimizationLevel optLevel) noexcept
-    : targetMachine_{targetMachine}, optLevel_{optLevel} {}
+      : targetMachine_{targetMachine}, optLevel_{optLevel} {}
 
   Optimizer(const Optimizer &) = delete;
+
   Optimizer &operator=(const Optimizer &) = delete;
 
-  [[nodiscard]] std::expected<llvm::orc::ThreadSafeModule, Error>
-  optimize(llvm::orc::ThreadSafeModule TSM) noexcept;
+  [[nodiscard]] auto optimize(llvm::orc::ThreadSafeModule TSM) noexcept
+      -> std::expected<llvm::orc::ThreadSafeModule, Error>;
 };
 
 } // namespace nicole

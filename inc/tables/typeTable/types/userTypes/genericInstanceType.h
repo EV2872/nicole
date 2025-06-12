@@ -18,17 +18,17 @@ private:
 public:
   GenericInstanceType(const std::shared_ptr<UserType> &genericType,
                       const std::vector<std::shared_ptr<Type>> &args) noexcept
-      : UserType(*genericType),
-        typeArgs_{args} {}
+      : UserType(*genericType), typeArgs_{args} {}
 
-  [[nodiscard]] const std::vector<std::shared_ptr<Type>> &
-  typeArgs() const noexcept {
+  [[nodiscard]] auto typeArgs() const noexcept
+      -> const std::vector<std::shared_ptr<Type>> & {
     return typeArgs_;
   }
 
-  [[nodiscard]] std::expected<std::monostate, Error>
+  [[nodiscard]] auto
   setGenericReplacement(const std::size_t pos,
-                        const std::shared_ptr<Type> &type) const noexcept {
+                        const std::shared_ptr<Type> &type) const noexcept
+      -> std::expected<std::monostate, Error> {
     if (pos >= typeArgs_.size()) {
       return createError(
           ERROR_TYPE::TYPE,
@@ -38,7 +38,7 @@ public:
     return {};
   }
 
-  [[nodiscard]] std::string toString() const noexcept override {
+  [[nodiscard]] auto toString() const noexcept -> std::string override {
     std::ostringstream oss;
     oss << UserType::toString() << "<";
     for (size_t i = 0; i < typeArgs_.size(); ++i) {
@@ -50,16 +50,17 @@ public:
     return oss.str();
   }
 
-  [[nodiscard]] std::expected<llvm::Type*, Error>
-  llvmVersion(llvm::LLVMContext &context) const noexcept override {
+  [[nodiscard]] auto llvmVersion(llvm::LLVMContext &context) const noexcept
+      -> std::expected<llvm::Type *, Error> override {
     // Recupera el struct opaco base por nombre
-    llvm::StructType *origStruct = llvm::StructType::getTypeByName(context, name());
+    llvm::StructType *origStruct =
+        llvm::StructType::getTypeByName(context, name());
     if (!origStruct) {
       return createError(ERROR_TYPE::TYPE, "Unknown user type: " + name());
     }
     // Si el struct es opaco, define su cuerpo con los argumentos de tipo
     if (origStruct->isOpaque()) {
-      std::vector<llvm::Type*> elements;
+      std::vector<llvm::Type *> elements;
       elements.reserve(typeArgs_.size());
       for (const std::shared_ptr<nicole::Type> &arg : typeArgs_) {
         std::expected<llvm::Type *, Error> tyOrErr = arg->llvmVersion(context);

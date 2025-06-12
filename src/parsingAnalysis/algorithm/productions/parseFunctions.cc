@@ -4,8 +4,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST_FUNC_DECL>, Error>
-TopDown::parseFuncDecl() const noexcept {
+auto TopDown::parseFuncDecl() const noexcept
+    -> std::expected<std::shared_ptr<AST_FUNC_DECL>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -67,7 +67,7 @@ TopDown::parseFuncDecl() const noexcept {
       *params, *returnType, *body);
 }
 
-const std::expected<Parameters, Error> TopDown::parseParams() const noexcept {
+auto TopDown::parseParams() const noexcept -> std::expected<Parameters, Error> {
   std::vector<std::pair<std::string, std::shared_ptr<Type>>> params{};
   while (tkStream_.currentPos() < tkStream_.size() and
          tkStream_.current()->type() != TokenType::RP) {
@@ -110,8 +110,8 @@ const std::expected<Parameters, Error> TopDown::parseParams() const noexcept {
   return Parameters{params};
 }
 
-const std::expected<std::shared_ptr<AST_RETURN>, Error>
-TopDown::parseReturn() const noexcept {
+auto TopDown::parseReturn() const noexcept
+    -> std::expected<std::shared_ptr<AST_RETURN>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   if (std::expected<std::monostate, Error> res = tryEat(); !res) {
     return createError(res.error());
@@ -133,8 +133,8 @@ TopDown::parseReturn() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *value);
 }
 
-const std::expected<std::vector<std::shared_ptr<Type>>, Error>
-TopDown::parseReplacementOfGenerics() const noexcept {
+auto TopDown::parseReplacementOfGenerics() const noexcept
+    -> std::expected<std::vector<std::shared_ptr<Type>>, Error> {
   std::vector<std::shared_ptr<Type>> replacemments{};
   if (tkStream_.current()->type() == TokenType::OPERATOR_SMALLER and
       tkStream_.hasMatchingPairBefore(TokenType::OPERATOR_SMALLER,

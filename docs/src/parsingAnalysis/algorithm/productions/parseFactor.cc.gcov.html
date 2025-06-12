@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-09 23:15:53</td>
+            <td class="headerValue">2025-06-12 01:10:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -64,8 +64,8 @@
 <span id="L2"><span class="lineNum">       2</span>              : </span>
 <span id="L3"><span class="lineNum">       3</span>              : namespace nicole {</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : const std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt;</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 : TopDown::parseFactor() const noexcept {</span></span>
+<span id="L5"><span class="lineNum">       5</span>              : auto TopDown::parseFactor() const noexcept</span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST&gt;, Error&gt; {</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :   const std::string raw{tkStream_.current()-&gt;raw()};</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   const std::string loc{tkStream_.current()-&gt;locInfo()};</span></span>
@@ -281,8 +281,8 @@
 <span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC">           0 :   return createError(ERROR_TYPE::SINTAX, &quot;failed to eat &quot; + raw + &quot; at &quot; + loc);</span></span>
 <span id="L220"><span class="lineNum">     220</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L221"><span class="lineNum">     221</span>              : </span>
-<span id="L222"><span class="lineNum">     222</span>              : const std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt;</span>
-<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 : TopDown::parseVector() const noexcept {</span></span>
+<span id="L222"><span class="lineNum">     222</span>              : auto TopDown::parseVector() const noexcept</span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::shared_ptr&lt;AST_VECTOR&gt;, Error&gt; {</span></span>
 <span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :   const std::expected&lt;Token, Error&gt; firsToken{tkStream_.current()};</span></span>
 <span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :   const std::expected&lt;std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;, Error&gt; arguemnts{</span></span>
 <span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :       parseArguments({TokenType::LC, TokenType::RC}, true)};</span></span>
@@ -293,9 +293,9 @@
 <span id="L231"><span class="lineNum">     231</span> <span class="tlaUNC">           0 :       SourceLocation{*firsToken, *tkStream_.lastRead()}, *arguemnts);</span></span>
 <span id="L232"><span class="lineNum">     232</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L233"><span class="lineNum">     233</span>              : </span>
-<span id="L234"><span class="lineNum">     234</span>              : const std::expected&lt;std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;, Error&gt;</span>
-<span id="L235"><span class="lineNum">     235</span>              : TopDown::parseArguments(std::pair&lt;TokenType, TokenType&gt; delimiters,</span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :                         const bool canBeEmpty) const noexcept {</span></span>
+<span id="L234"><span class="lineNum">     234</span>              : auto TopDown::parseArguments(std::pair&lt;TokenType, TokenType&gt; delimiters,</span>
+<span id="L235"><span class="lineNum">     235</span>              :                              const bool canBeEmpty) const noexcept</span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :     -&gt; std::expected&lt;std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;, Error&gt; {</span></span>
 <span id="L237"><span class="lineNum">     237</span> <span class="tlaUNC">           0 :   if (tkStream_.current()-&gt;type() != delimiters.first) {</span></span>
 <span id="L238"><span class="lineNum">     238</span> <span class="tlaUNC">           0 :     return createError(ERROR_TYPE::SINTAX,</span></span>
 <span id="L239"><span class="lineNum">     239</span> <span class="tlaUNC">           0 :                        &quot;missing &quot; + tokenTypeToString(delimiters.first) +</span></span>

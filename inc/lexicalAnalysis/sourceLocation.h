@@ -14,11 +14,14 @@ public:
   explicit SourceLocation(const Token &begin, const Token &end) noexcept
       : begin_{begin}, end_{end} {}
 
-  [[nodiscard]] const Token &beginLoc() const noexcept { return begin_; }
+  [[nodiscard]] auto beginLoc() const noexcept -> const Token & {
+    return begin_;
+  }
 
-  [[nodiscard]] const Token &endLoc() const noexcept { return end_; }
+  [[nodiscard]] auto endLoc() const noexcept -> const Token & { return end_; }
 
-  [[nodiscard]] bool operator<(const SourceLocation &loc) const noexcept {
+  [[nodiscard]] auto operator<(const SourceLocation &loc) const noexcept
+      -> bool {
     if (begin_.location() < loc.begin_.location()) {
       return true;
     }

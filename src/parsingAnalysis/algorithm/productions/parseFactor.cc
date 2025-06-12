@@ -2,8 +2,8 @@
 
 namespace nicole {
 
-const std::expected<std::shared_ptr<AST>, Error>
-TopDown::parseFactor() const noexcept {
+auto TopDown::parseFactor() const noexcept
+    -> std::expected<std::shared_ptr<AST>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   const std::string raw{tkStream_.current()->raw()};
   const std::string loc{tkStream_.current()->locInfo()};
@@ -219,8 +219,8 @@ TopDown::parseFactor() const noexcept {
   return createError(ERROR_TYPE::SINTAX, "failed to eat " + raw + " at " + loc);
 }
 
-const std::expected<std::shared_ptr<AST_VECTOR>, Error>
-TopDown::parseVector() const noexcept {
+auto TopDown::parseVector() const noexcept
+    -> std::expected<std::shared_ptr<AST_VECTOR>, Error> {
   const std::expected<Token, Error> firsToken{tkStream_.current()};
   const std::expected<std::vector<std::shared_ptr<AST>>, Error> arguemnts{
       parseArguments({TokenType::LC, TokenType::RC}, true)};
@@ -231,9 +231,9 @@ TopDown::parseVector() const noexcept {
       SourceLocation{*firsToken, *tkStream_.lastRead()}, *arguemnts);
 }
 
-const std::expected<std::vector<std::shared_ptr<AST>>, Error>
-TopDown::parseArguments(std::pair<TokenType, TokenType> delimiters,
-                        const bool canBeEmpty) const noexcept {
+auto TopDown::parseArguments(std::pair<TokenType, TokenType> delimiters,
+                             const bool canBeEmpty) const noexcept
+    -> std::expected<std::vector<std::shared_ptr<AST>>, Error> {
   if (tkStream_.current()->type() != delimiters.first) {
     return createError(ERROR_TYPE::SINTAX,
                        "missing " + tokenTypeToString(delimiters.first) +
