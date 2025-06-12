@@ -54,8 +54,7 @@ auto Nicole::compile(const Options &options) const noexcept
     return createError(isTablesFilled.error());
   }
 
-  std::cout << "Finished semantic analysis\n";
-
+  std::cout << "Finished semantic analysis\n"; 
   if (options.printTree()) {
     const nicole::PrintTree printTree{};
     const std::expected<std::string, nicole::Error> toStr{
@@ -94,7 +93,6 @@ auto Nicole::compile(const Options &options) const noexcept
     (!analyzedSecondTime) { return createError(analyzedSecondTime.error());
     }
   */
-
   const auto targetGenerator{TargetGenerator{}};
   const auto target{targetGenerator.generate(options.arch(), options.os())};
 

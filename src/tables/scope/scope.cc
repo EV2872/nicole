@@ -6,8 +6,8 @@ auto Scope::has(const std::string &id) const noexcept -> bool {
   if (table_.count(id)) {
     return true;
   }
-  if (father_) {
-    return father_->has(id);
+  if (const auto fatherScope{father()}) {
+    return fatherScope->has(id);
   }
   return false;
 }
@@ -17,8 +17,8 @@ auto Scope::getVariable(const std::string &id) const noexcept
   if (table_.count(id)) {
     return table_.at(id);
   }
-  if (father_) {
-    return father_->getVariable(id);
+  if (const auto fatherScope{father()}) {
+    return fatherScope->getVariable(id);
   }
   return createError(ERROR_TYPE::VARIABLE,
                      "variable: " + id + " does not exist");
@@ -47,8 +47,8 @@ auto Scope::setVariableType(const std::string &id,
     it->second->setType(type);
     return {};
   }
-  if (father_) {
-    return father_->setVariableType(id, type);
+  if (const auto fatherScope{father()}) {
+    return fatherScope->setVariableType(id, type);
   }
   return createError(ERROR_TYPE::VARIABLE,
                      "variable '" + id + "' does not exist");
@@ -64,8 +64,8 @@ auto operator<<(std::ostream &os, const Scope &scope) noexcept
     }
   }
   os << " }";
-  if (scope.father_) {
-    os << " -> " << *scope.father_;
+  if (const auto fatherScope{scope.father()}) {
+    os << " -> " << *fatherScope;
   }
   return os;
 }

@@ -77,7 +77,6 @@ auto FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept
     return createError(insertType.error());
   }
 
-  pushScope();
 
   size_t pos{0};
   std::vector<std::pair<std::string, std::shared_ptr<nicole::Type>>> attributes;
@@ -118,7 +117,6 @@ auto FillSemanticInfo::visit(const AST_STRUCT *node) const noexcept
     return createError(destructor.error());
   }
 
-  popScope();
 
   analyzingInsideClass = false;
   currentStructGenericList_.clear();

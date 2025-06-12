@@ -17,14 +17,14 @@ class Scope final {
 private:
   mutable std::unordered_map<std::string, std::shared_ptr<Variable>> table_;
   mutable std::vector<std::shared_ptr<Variable>> registerForDestruction_{};
-  std::shared_ptr<Scope> father_;
+  std::weak_ptr<Scope> father_;
 
 public:
   explicit Scope(const std::shared_ptr<Scope> &father) noexcept
       : father_{father} {}
 
-  [[nodiscard]] auto father() const noexcept -> const std::shared_ptr<Scope> & {
-    return father_;
+  [[nodiscard]] auto father() const noexcept -> const std::shared_ptr<Scope> {
+    return father_.lock();
   }
 
   [[nodiscard]] auto has(const std::string &id) const noexcept -> bool;
