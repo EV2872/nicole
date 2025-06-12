@@ -9,7 +9,7 @@ auto Nicole::compile(const Options &options) const noexcept
     -> std::expected<std::monostate, Error> {
   const nicole::TopDown topDown{sintax_};
 
-  const std::expected<std::shared_ptr<nicole::Tree>, nicole::Error> tree{
+  std::expected<std::shared_ptr<nicole::Tree>, nicole::Error> tree{
       topDown.parse(options.entryFilePath())};
 
   if (!tree) {
@@ -109,7 +109,6 @@ auto Nicole::compile(const Options &options) const noexcept
   auto safeModule{std::move(generatedIR.value())};
 
   if (options.optimize()) {
-    // Construyo un optimizador fresco para O3
     nicole::Optimizer optimizer{target, llvm::OptimizationLevel::O3};
     auto optimized = optimizer.optimize(std::move(safeModule));
     if (!optimized) {
