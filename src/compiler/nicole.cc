@@ -55,6 +55,7 @@ auto Nicole::compile(const Options &options) const noexcept
   }
 
   std::cout << "Finished semantic analysis\n"; 
+
   if (options.printTree()) {
     const nicole::PrintTree printTree{};
     const std::expected<std::string, nicole::Error> toStr{
@@ -76,6 +77,7 @@ auto Nicole::compile(const Options &options) const noexcept
   }
 
   std::cout << "Finished type analysis\n";
+
 
   const nicole::Monomorphize monomorphizer{functionTable, typeTable};
   const std::expected<std::monostate, Error> monomorphized{

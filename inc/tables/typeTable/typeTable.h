@@ -56,35 +56,37 @@ public:
 
   [[nodiscard]] auto boolType() const noexcept
       -> const std::shared_ptr<Type> & {
-    return *getType("bool");
+    return table_.at("bool");
   }
 
-  [[nodiscard]] auto intType() const noexcept -> const std::shared_ptr<Type> & {
-    return *getType("int");
+  [[nodiscard]] auto intType() const noexcept
+      -> const std::shared_ptr<Type> & {
+    return table_.at("int");
   }
 
   [[nodiscard]] auto floatType() const noexcept
       -> const std::shared_ptr<Type> & {
-    return *getType("float");
+    return table_.at("float");
   }
 
   [[nodiscard]] auto doubleType() const noexcept
       -> const std::shared_ptr<Type> & {
-    return *getType("double");
+    return table_.at("double");
   }
 
   [[nodiscard]] auto charType() const noexcept
       -> const std::shared_ptr<Type> & {
-    return *getType("char");
+    return table_.at("char");
   }
 
-  [[nodiscard]] auto strType() const noexcept -> const std::shared_ptr<Type> & {
-    return *getType("str");
+  [[nodiscard]] auto strType() const noexcept
+      -> const std::shared_ptr<Type> & {
+    return table_.at("str");
   }
 
   [[nodiscard]] auto voidType() const noexcept
       -> const std::shared_ptr<Type> & {
-    return *getType("void");
+    return table_.at("void");
   }
 
   [[nodiscard]] auto noPropagateType() const noexcept
