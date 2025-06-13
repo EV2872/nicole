@@ -12,22 +12,33 @@ namespace nicole {
 
 class NameMangler final {
 private:
-  inline static std::string prefix_;
+  inline static std::string prefix_{"$_"};
 
   NameMangler() noexcept = delete;
 
+  [[nodiscard]] static auto
+  nameMangling(const std::shared_ptr<Type> &type) noexcept
+      -> std::expected<std::string, Error>;
+
+  [[nodiscard]] static auto nameManglingImpl(const std::shared_ptr<Type> &type,
+                                             std::string &result) noexcept
+      -> std::expected<std::string, Error>;
+
 public:
-  [[nodiscard]] static auto
-  mangleFunction(const std::shared_ptr<AST_FUNC_DECL> &node) noexcept
+  [[nodiscard]] static auto mangleFunction(
+      const std::shared_ptr<AST_FUNC_DECL> &node,
+      const std::vector<std::shared_ptr<Type>> &replacements) noexcept
       -> std::expected<std::string, Error>;
 
   [[nodiscard]] static auto
-  mangleClass(const std::shared_ptr<AST_STRUCT> &node) noexcept
+  mangleClass(const std::shared_ptr<AST_STRUCT> &node,
+              const std::vector<std::shared_ptr<Type>> &replacements) noexcept
       -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static auto
-  mangleConstructor(const std::shared_ptr<AST_CONSTRUCTOR_DECL> &node,
-                    const std::string &constructorOwner) noexcept
+  [[nodiscard]] static auto mangleConstructor(
+      const std::shared_ptr<AST_CONSTRUCTOR_DECL> &node,
+      const std::string &constructorOwner,
+      const std::vector<std::shared_ptr<Type>> &replacements) noexcept
       -> std::expected<std::string, Error>;
 
   [[nodiscard]] static auto
@@ -37,7 +48,8 @@ public:
 
   [[nodiscard]] static auto
   mangleMethod(const std::shared_ptr<AST_METHOD_DECL> &node,
-               const std::string &methodOwner) noexcept
+               const std::string &methodOwner,
+               const std::vector<std::shared_ptr<Type>> &replacements) noexcept
       -> std::expected<std::string, Error>;
 };
 
