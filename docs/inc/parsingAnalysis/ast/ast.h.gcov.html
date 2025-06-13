@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-12 01:37:37</td>
+            <td class="headerValue">2025-06-13 11:01:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">55.6&nbsp;%</td>
@@ -87,19 +87,19 @@
 <span id="L25"><span class="lineNum">      25</span>              : public:</span>
 <span id="L26"><span class="lineNum">      26</span>              :   explicit AST(const long long unsigned nodeId, const AST_TYPE type,</span>
 <span id="L27"><span class="lineNum">      27</span>              :                const SourceLocation &amp;srcLoc) noexcept</span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC tlaBgGNC">         300 :       : nodeId_{nodeId}, type_{type}, srcLoc_{srcLoc} {}</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC tlaBgGNC">         400 :       : nodeId_{nodeId}, type_{type}, srcLoc_{srcLoc} {}</span></span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         300 :   virtual ~AST() noexcept = default;</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         400 :   virtual ~AST() noexcept = default;</span></span>
 <span id="L31"><span class="lineNum">      31</span>              : </span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto nodeId() const noexcept -&gt; long long unsigned {</span></span>
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :     return nodeId_;</span></span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">          24 :   [[nodiscard]] auto type() const noexcept -&gt; AST_TYPE { return type_; }</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">          32 :   [[nodiscard]] auto type() const noexcept -&gt; AST_TYPE { return type_; }</span></span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           3 :   [[nodiscard]] auto father() const noexcept -&gt; const std::shared_ptr&lt;AST&gt; {</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           3 :     return father_.lock();</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           3 :   }</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           4 :   [[nodiscard]] auto father() const noexcept -&gt; const std::shared_ptr&lt;AST&gt; {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           4 :     return father_.lock();</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           4 :   }</span></span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
 <span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto srcLoc() const noexcept -&gt; const SourceLocation &amp; {</span></span>
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :     return srcLoc_;</span></span>
@@ -110,9 +110,9 @@
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     return returnedFromTypeAnalysis_;</span></span>
 <span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L50"><span class="lineNum">      50</span>              : </span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC tlaBgGNC">         117 :   auto setFather(const std::shared_ptr&lt;AST&gt; &amp;father) noexcept -&gt; void {</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">         117 :     father_ = father;</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">         117 :   }</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC tlaBgGNC">         156 :   auto setFather(const std::shared_ptr&lt;AST&gt; &amp;father) noexcept -&gt; void {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">         156 :     father_ = father;</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">         156 :   }</span></span>
 <span id="L54"><span class="lineNum">      54</span>              : </span>
 <span id="L55"><span class="lineNum">      55</span>              :   auto setReturnedFromAnalysis(const std::shared_ptr&lt;Type&gt; &amp;type) const noexcept</span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC tlaBgUNC">           0 :       -&gt; void {</span></span>

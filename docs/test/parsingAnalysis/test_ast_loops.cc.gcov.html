@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-12 01:37:37</td>
+            <td class="headerValue">2025-06-13 11:01:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -66,66 +66,66 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : using namespace nicole;</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           3 : TEST_CASE(&quot;AST_DO_WHILE class methods&quot;, &quot;[AST_DO_WHILE]&quot;) {</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           3 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           3 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           3 :   auto condition = *Builder::createCondition(</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           3 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           3 :   auto statement =</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           3 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           3 :   auto body = *Builder::createBody(</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           3 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           3 :   AST_DO_WHILE astDoWhile{0, SourceLocation{token, token}, body, condition};</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           4 : TEST_CASE(&quot;AST_DO_WHILE class methods&quot;, &quot;[AST_DO_WHILE]&quot;) {</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           4 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           4 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           4 :   auto condition = *Builder::createCondition(</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           4 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           4 :   auto statement =</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           4 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           4 :   auto body = *Builder::createBody(</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           4 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           4 :   AST_DO_WHILE astDoWhile{0, SourceLocation{token, token}, body, condition};</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           3 :   REQUIRE(astDoWhile.condition() == condition);</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           3 :   REQUIRE(astDoWhile.body() == body);</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           3 : }</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           4 :   REQUIRE(astDoWhile.condition() == condition);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           4 :   REQUIRE(astDoWhile.body() == body);</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           4 : }</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           3 : TEST_CASE(&quot;AST_FOR class methods&quot;, &quot;[AST_FOR]&quot;) {</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           3 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           3 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           3 :   auto init = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{*Builder::createStatement(</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           3 :       *Builder::createBool(SourceLocation{token, token}, true))};</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           3 :   auto condition = *Builder::createCondition(</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           3 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           3 :   auto update = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{*Builder::createStatement(</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           3 :       *Builder::createBool(SourceLocation{token, token}, false))};</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           3 :   auto statement =</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           3 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           3 :   auto body = *Builder::createBody(</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           3 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           4 : TEST_CASE(&quot;AST_FOR class methods&quot;, &quot;[AST_FOR]&quot;) {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           4 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           4 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           4 :   auto init = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{*Builder::createStatement(</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           4 :       *Builder::createBool(SourceLocation{token, token}, true))};</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           4 :   auto condition = *Builder::createCondition(</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           4 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           4 :   auto update = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{*Builder::createStatement(</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           4 :       *Builder::createBool(SourceLocation{token, token}, false))};</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           4 :   auto statement =</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           4 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           4 :   auto body = *Builder::createBody(</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           4 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           3 :   AST_FOR astFor{0,   SourceLocation{token, token}, init, condition, update,</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           3 :                  body};</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           4 :   AST_FOR astFor{0,   SourceLocation{token, token}, init, condition, update,</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           4 :                  body};</span></span>
 <span id="L44"><span class="lineNum">      44</span>              : </span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           3 :   REQUIRE(astFor.init()[0] == init[0]);</span></span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           3 :   REQUIRE(astFor.condition() == condition);</span></span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           3 :   REQUIRE(astFor.update()[0] == update[0]);</span></span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           3 :   REQUIRE(astFor.body() == body);</span></span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           3 : }</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           4 :   REQUIRE(astFor.init()[0] == init[0]);</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           4 :   REQUIRE(astFor.condition() == condition);</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           4 :   REQUIRE(astFor.update()[0] == update[0]);</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           4 :   REQUIRE(astFor.body() == body);</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           4 : }</span></span>
 <span id="L50"><span class="lineNum">      50</span>              : </span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           3 : TEST_CASE(&quot;AST_WHILE class methods&quot;, &quot;[AST_WHILE]&quot;) {</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           3 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           3 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           3 :   auto condition = *Builder::createCondition(</span></span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           3 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           3 :   auto statement =</span></span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           3 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           3 :   auto body = *Builder::createBody(</span></span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           3 :       SourceLocation{token, token},</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           3 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           3 :   AST_WHILE astWhile{0, SourceLocation{token, token}, condition, body};</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           4 : TEST_CASE(&quot;AST_WHILE class methods&quot;, &quot;[AST_WHILE]&quot;) {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           4 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           4 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           4 :   auto condition = *Builder::createCondition(</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           4 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           4 :   auto statement =</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           4 :       *Builder::createStatement(SourceLocation{token, token}, condition);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           4 :   auto body = *Builder::createBody(</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           4 :       SourceLocation{token, token},</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           4 :       std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt;{statement});</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           4 :   AST_WHILE astWhile{0, SourceLocation{token, token}, condition, body};</span></span>
 <span id="L63"><span class="lineNum">      63</span>              : </span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           3 :   REQUIRE(astWhile.condition() == condition);</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           3 :   REQUIRE(astWhile.body() == body);</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           3 : }</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           4 :   REQUIRE(astWhile.condition() == condition);</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           4 :   REQUIRE(astWhile.body() == body);</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           4 : }</span></span>
         </pre>
               </td>
             </tr>

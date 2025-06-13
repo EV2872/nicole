@@ -19,11 +19,7 @@ metodos / llamadas a atributos / variables auto
 namespace nicole {
 
 auto FillSemanticInfo::pushScope() const noexcept -> void {
-  auto newScope = std::make_shared<Scope>(currentScope_);
-  currentScope_ = newScope;
-  if (!firstScope_) {
-    firstScope_ = currentScope_;
-  }
+  currentScope_ = std::make_shared<Scope>(currentScope_);
 }
 
 auto FillSemanticInfo::popScope() const noexcept -> void {

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-12 01:37:37</td>
+            <td class="headerValue">2025-06-13 11:01:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryMed">85.7&nbsp;%</td>
@@ -107,35 +107,35 @@
 <span id="L45"><span class="lineNum">      45</span>              : };</span>
 <span id="L46"><span class="lineNum">      46</span>              : </span>
 <span id="L47"><span class="lineNum">      47</span>              : [[nodiscard]] inline auto errorToStr(const ERROR_TYPE type) noexcept</span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC tlaBgGNC">          21 :     -&gt; std::string {</span></span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">          21 :   switch (type) {</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC tlaBgGNC">          28 :     -&gt; std::string {</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">          28 :   switch (type) {</span></span>
 <span id="L50"><span class="lineNum">      50</span>              :   // Options</span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           3 :   case ERROR_TYPE::MISSING_ARGUMENTS:</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           3 :     return &quot;MISSING_ARGUMENTS&quot;;</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           3 :   case ERROR_TYPE::MISSING_BINARY_NAME:</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           3 :     return &quot;MISSING_BINARY_NAME&quot;;</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           4 :   case ERROR_TYPE::MISSING_ARGUMENTS:</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           4 :     return &quot;MISSING_ARGUMENTS&quot;;</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           4 :   case ERROR_TYPE::MISSING_BINARY_NAME:</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           4 :     return &quot;MISSING_BINARY_NAME&quot;;</span></span>
 <span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC tlaBgUNC">           0 :   case ERROR_TYPE::MISSING_ENTRY_FILE:</span></span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :     return &quot;MISSING_ENTRY_FILE&quot;;</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC tlaBgGNC">           3 :   case ERROR_TYPE::ENTRY_FILE_NOT_FOUND:</span></span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           3 :     return &quot;ENTRY_FILE_NOT_FOUND&quot;;</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC tlaBgGNC">           4 :   case ERROR_TYPE::ENTRY_FILE_NOT_FOUND:</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           4 :     return &quot;ENTRY_FILE_NOT_FOUND&quot;;</span></span>
 <span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC tlaBgUNC">           0 :   case ERROR_TYPE::UNKOWN_ARGUMENT:</span></span>
 <span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :     return &quot;UNKOWN_ARGUMENT&quot;;</span></span>
 <span id="L61"><span class="lineNum">      61</span>              : </span>
 <span id="L62"><span class="lineNum">      62</span>              :   // Lexer</span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC tlaBgGNC">           3 :   case ERROR_TYPE::CHECK_UNMATCHED:</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           3 :     return &quot;CHECK_UNMATCHED&quot;;</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           3 :   case ERROR_TYPE::FILE_EXTENSION:</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           3 :     return &quot;FILE_EXTENSION&quot;;</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC tlaBgGNC">           4 :   case ERROR_TYPE::CHECK_UNMATCHED:</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           4 :     return &quot;CHECK_UNMATCHED&quot;;</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           4 :   case ERROR_TYPE::FILE_EXTENSION:</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           4 :     return &quot;FILE_EXTENSION&quot;;</span></span>
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC tlaBgUNC">           0 :   case ERROR_TYPE::FILE_NOT_OPEN:</span></span>
 <span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :     return &quot;FILE_NOT_OPEN&quot;;</span></span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
 <span id="L70"><span class="lineNum">      70</span>              :   // TokeStream</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC tlaBgGNC">           3 :   case ERROR_TYPE::EAT:</span></span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           3 :     return &quot;EAT&quot;;</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC tlaBgGNC">           4 :   case ERROR_TYPE::EAT:</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           4 :     return &quot;EAT&quot;;</span></span>
 <span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC tlaBgUNC">           0 :   case ERROR_TYPE::CURRENT:</span></span>
 <span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :     return &quot;CURRENT&quot;;</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC tlaBgGNC">           3 :   case ERROR_TYPE::LOOK_AHEAD:</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           3 :     return &quot;LOOK_AHEAD&quot;;</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC tlaBgGNC">           4 :   case ERROR_TYPE::LOOK_AHEAD:</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           4 :     return &quot;LOOK_AHEAD&quot;;</span></span>
 <span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC tlaBgUNC">           0 :   case ERROR_TYPE::LAST_READ:</span></span>
 <span id="L78"><span class="lineNum">      78</span> <span class="tlaUNC">           0 :     return &quot;LAST_READ&quot;;</span></span>
 <span id="L79"><span class="lineNum">      79</span> <span class="tlaUNC">           0 :   case ERROR_TYPE::IS_CURRENT_TOKEN_TYPE:</span></span>
@@ -175,8 +175,8 @@
 <span id="L113"><span class="lineNum">     113</span>              : </span>
 <span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :   case ERROR_TYPE::VALIDATE_TREE:</span></span>
 <span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :     return &quot;VALIDATE_TREE&quot;;</span></span>
-<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC tlaBgGNC">          21 :   }</span></span>
-<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">          21 : }</span></span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC tlaBgGNC">          28 :   }</span></span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">          28 : }</span></span>
 <span id="L118"><span class="lineNum">     118</span>              : </span>
 <span id="L119"><span class="lineNum">     119</span>              : class Error final {</span>
 <span id="L120"><span class="lineNum">     120</span>              : private:</span>
@@ -185,25 +185,25 @@
 <span id="L123"><span class="lineNum">     123</span>              : </span>
 <span id="L124"><span class="lineNum">     124</span>              : public:</span>
 <span id="L125"><span class="lineNum">     125</span>              :   explicit Error(const ERROR_TYPE type, const std::string &amp;info) noexcept</span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">          36 :       : type_{type}, info_{info} {}</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">          48 :       : type_{type}, info_{info} {}</span></span>
 <span id="L127"><span class="lineNum">     127</span>              : </span>
-<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">          15 :   [[nodiscard]] auto type() const noexcept -&gt; ERROR_TYPE { return type_; }</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">          20 :   [[nodiscard]] auto type() const noexcept -&gt; ERROR_TYPE { return type_; }</span></span>
 <span id="L129"><span class="lineNum">     129</span>              : </span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">          21 :   [[nodiscard]] auto info() const noexcept -&gt; const std::string &amp; {</span></span>
-<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">          21 :     return info_;</span></span>
-<span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">          21 :   }</span></span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">          28 :   [[nodiscard]] auto info() const noexcept -&gt; const std::string &amp; {</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">          28 :     return info_;</span></span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">          28 :   }</span></span>
 <span id="L133"><span class="lineNum">     133</span>              : </span>
 <span id="L134"><span class="lineNum">     134</span>              :   friend auto operator&lt;&lt;(std::ostream &amp;os, const Error &amp;error) noexcept</span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">          21 :       -&gt; std::ostream &amp; {</span></span>
-<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">          21 :     return os &lt;&lt; &quot;Error &quot; &lt;&lt; errorToStr(error.type_) &lt;&lt; &quot;: &quot; &lt;&lt; error.info_;</span></span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">          21 :   }</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">          28 :       -&gt; std::ostream &amp; {</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">          28 :     return os &lt;&lt; &quot;Error &quot; &lt;&lt; errorToStr(error.type_) &lt;&lt; &quot;: &quot; &lt;&lt; error.info_;</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">          28 :   }</span></span>
 <span id="L138"><span class="lineNum">     138</span>              : };</span>
 <span id="L139"><span class="lineNum">     139</span>              : </span>
 <span id="L140"><span class="lineNum">     140</span>              : [[nodiscard]] inline auto createError(const ERROR_TYPE type,</span>
 <span id="L141"><span class="lineNum">     141</span>              :                                       const std::string &amp;info) noexcept</span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">          15 :     -&gt; std::unexpected&lt;Error&gt; {</span></span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">          15 :   return std::unexpected{Error{type, info}};</span></span>
-<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">          15 : }</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">          20 :     -&gt; std::unexpected&lt;Error&gt; {</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">          20 :   return std::unexpected{Error{type, info}};</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">          20 : }</span></span>
 <span id="L145"><span class="lineNum">     145</span>              : </span>
 <span id="L146"><span class="lineNum">     146</span>              : [[nodiscard]] inline auto createError(const Error &amp;error) noexcept</span>
 <span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC tlaBgUNC">           0 :     -&gt; std::unexpected&lt;Error&gt; {</span></span>

@@ -19,7 +19,6 @@ private:
   Options options_;
 
   mutable std::shared_ptr<Scope> currentScope_{nullptr};
-  mutable std::shared_ptr<Scope> firstScope_{nullptr};
   mutable std::vector<GenericParameter> currentGenericList_{};
   mutable std::vector<GenericParameter> currentStructGenericList_{};
   mutable std::shared_ptr<UserType> currentUserType_{nullptr};
@@ -51,11 +50,6 @@ public:
                    const Options &options) noexcept
       : functionTable_{functionTable}, typeTable_{typeTable},
         options_{options} {}
-
-  [[nodiscard]] auto getGlobalScope() const noexcept
-      -> const std::shared_ptr<Scope> {
-    return firstScope_;
-  }
 
   [[nodiscard]] auto visit(const AST_BOOL *node) const noexcept
       -> std::expected<std::monostate, Error> override;

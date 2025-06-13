@@ -3,6 +3,7 @@
 
 #include "../errors.h"
 #include <expected>
+#include <memory>
 
 namespace nicole {
 
@@ -78,7 +79,8 @@ class AST_CHAINED;
 class Tree;
 
 // Abstract class that represents the visitor pattern
-template <class T> class Visitor {
+template <class T>
+class Visitor : public std::enable_shared_from_this<Visitor<T>> {
 public:
   virtual ~Visitor() = default;
 

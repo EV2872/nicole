@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-12 01:37:37</td>
+            <td class="headerValue">2025-06-13 11:01:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -79,14 +79,14 @@
 <span id="L17"><span class="lineNum">      17</span>              : private:</span>
 <span id="L18"><span class="lineNum">      18</span>              :   mutable std::unordered_map&lt;std::string, std::shared_ptr&lt;Variable&gt;&gt; table_;</span>
 <span id="L19"><span class="lineNum">      19</span>              :   mutable std::vector&lt;std::shared_ptr&lt;Variable&gt;&gt; registerForDestruction_{};</span>
-<span id="L20"><span class="lineNum">      20</span>              :   std::shared_ptr&lt;Scope&gt; father_;</span>
+<span id="L20"><span class="lineNum">      20</span>              :   std::weak_ptr&lt;Scope&gt; father_;</span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span>              : public:</span>
 <span id="L23"><span class="lineNum">      23</span>              :   explicit Scope(const std::shared_ptr&lt;Scope&gt; &amp;father) noexcept</span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC tlaBgUNC">           0 :       : father_{father} {}</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   [[nodiscard]] auto father() const noexcept -&gt; const std::shared_ptr&lt;Scope&gt; &amp; {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     return father_;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   [[nodiscard]] auto father() const noexcept -&gt; const std::shared_ptr&lt;Scope&gt; {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     return father_.lock();</span></span>
 <span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
 <span id="L30"><span class="lineNum">      30</span>              :   [[nodiscard]] auto has(const std::string &amp;id) const noexcept -&gt; bool;</span>

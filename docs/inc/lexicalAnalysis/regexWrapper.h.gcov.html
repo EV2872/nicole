@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-12 01:37:37</td>
+            <td class="headerValue">2025-06-13 11:01:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryMed">75.0&nbsp;%</td>
@@ -78,20 +78,20 @@
 <span id="L16"><span class="lineNum">      16</span>              : </span>
 <span id="L17"><span class="lineNum">      17</span>              : public:</span>
 <span id="L18"><span class="lineNum">      18</span>              :   explicit RegexWrapper(const std::string &amp;rawPattern) noexcept</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">         294 :       : rawPattern_{rawPattern},</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">         294 :         pattern_{rawPattern, std::regex_constants::optimize} {};</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">         392 :       : rawPattern_{rawPattern},</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">         392 :         pattern_{rawPattern, std::regex_constants::optimize} {};</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          15 :   [[nodiscard]] auto str() const noexcept -&gt; const std::string &amp; {</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          15 :     return rawPattern_;</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          15 :   }</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          20 :   [[nodiscard]] auto str() const noexcept -&gt; const std::string &amp; {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          20 :     return rawPattern_;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          20 :   }</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
 <span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto pattern() const noexcept -&gt; const std::regex &amp; {</span></span>
 <span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     return pattern_;</span></span>
 <span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC tlaBgGNC">          45 :   [[nodiscard]] auto match(const std::string &amp;str) const noexcept -&gt; bool {</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          45 :     return std::regex_match(str, pattern_);</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">          45 :   }</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC tlaBgGNC">          60 :   [[nodiscard]] auto match(const std::string &amp;str) const noexcept -&gt; bool {</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          60 :     return std::regex_match(str, pattern_);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">          60 :   }</span></span>
 <span id="L33"><span class="lineNum">      33</span>              : };</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
 <span id="L35"><span class="lineNum">      35</span>              : } // namespace nicole</span>

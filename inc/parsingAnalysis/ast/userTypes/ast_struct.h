@@ -14,7 +14,7 @@ class AST_STRUCT final : public AST {
 private:
   std::string id_;
   mutable std::vector<GenericParameter> generics_;
-  mutable std::shared_ptr<Type> fatherType_;
+  mutable std::weak_ptr<Type> fatherType_;
   mutable Attributes attributes_;
   mutable std::vector<std::shared_ptr<AST_METHOD_DECL>> methods_;
   mutable std::shared_ptr<AST_CONSTRUCTOR_DECL> constructor_;
@@ -46,8 +46,8 @@ public:
   }
 
   [[nodiscard]] auto fatherType() const noexcept
-      -> const std::shared_ptr<Type> & {
-    return fatherType_;
+      -> const std::shared_ptr<Type> {
+    return fatherType_.lock();
   }
 
   [[nodiscard]] auto mangledId() const noexcept -> const std::string & {
