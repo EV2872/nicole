@@ -61,6 +61,7 @@ auto FillSemanticInfo::visit(const AST_FUNC_DECL *node) const noexcept
     -> std::expected<std::monostate, Error> {
   if (!node)
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_FUNC_DECL");
+  
   const Function newFunction{node->id(), node->generics(), node->parameters(),
                              node->returnType(), node->body()};
 

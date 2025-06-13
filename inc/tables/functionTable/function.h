@@ -18,7 +18,6 @@ private:
   mutable Parameters params_;
   mutable std::shared_ptr<Type> returnType_;
   std::shared_ptr<AST_BODY> body_;
-  mutable std::shared_ptr<llvm::Function> llvmVersion_;
   mutable const AST_FUNC_DECL *declReference_;
 
 public:
@@ -53,20 +52,9 @@ public:
     return declReference_;
   }
 
-  [[nodiscard]] auto llvmVersion() const noexcept
-      -> const std::shared_ptr<llvm::Function> & {
-    return llvmVersion_;
-  }
-
   auto setDeclReference(const AST_FUNC_DECL *declReference) const noexcept
       -> void {
     declReference_ = declReference;
-  }
-
-  auto
-  setLlvmVersion(const std::shared_ptr<llvm::Function> &llvmVersion) noexcept
-      -> void {
-    llvmVersion_ = llvmVersion;
   }
 
   auto setReturnType(const std::shared_ptr<Type> &type) const noexcept -> void {

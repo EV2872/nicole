@@ -27,18 +27,18 @@ private:
 public:
   [[nodiscard]] static auto mangleFunction(
       const std::shared_ptr<AST_FUNC_DECL> &node,
-      const std::vector<std::shared_ptr<Type>> &replacements) noexcept
+      const std::vector<std::shared_ptr<Type>> &replacements = {}) noexcept
       -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static auto
-  mangleClass(const std::shared_ptr<AST_STRUCT> &node,
-              const std::vector<std::shared_ptr<Type>> &replacements) noexcept
+  [[nodiscard]] static auto mangleClass(
+      const std::shared_ptr<AST_STRUCT> &node,
+      const std::vector<std::shared_ptr<Type>> &replacements = {}) noexcept
       -> std::expected<std::string, Error>;
 
   [[nodiscard]] static auto mangleConstructor(
       const std::shared_ptr<AST_CONSTRUCTOR_DECL> &node,
       const std::string &constructorOwner,
-      const std::vector<std::shared_ptr<Type>> &replacements) noexcept
+      const std::vector<std::shared_ptr<Type>> &replacements = {}) noexcept
       -> std::expected<std::string, Error>;
 
   [[nodiscard]] static auto
@@ -46,10 +46,10 @@ public:
                    const std::string &desstructorOwner) noexcept
       -> std::expected<std::string, Error>;
 
-  [[nodiscard]] static auto
-  mangleMethod(const std::shared_ptr<AST_METHOD_DECL> &node,
-               const std::string &methodOwner,
-               const std::vector<std::shared_ptr<Type>> &replacements) noexcept
+  [[nodiscard]] static auto mangleMethod(
+      const std::shared_ptr<AST_METHOD_DECL> &node,
+      const std::string &methodOwner,
+      const std::vector<std::shared_ptr<Type>> &replacements = {}) noexcept
       -> std::expected<std::string, Error>;
 };
 
