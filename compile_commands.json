@@ -25,12 +25,6 @@
 },
 {
   "directory": "/home/evian/Escritorio/nicole",
-  "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src -I/home/evian/Escritorio/nicole/_deps/catch2-src/src/catch2/.. -I/home/evian/Escritorio/nicole/_deps/catch2-build/generated-includes  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -Wno-error=implicit-int-conversion -Wno-error=old-style-cast -Wno-error=sign-conversion -o CMakeFiles/tests.dir/src/options/optionsParser2.cc.o -c /home/evian/Escritorio/nicole/src/options/optionsParser2.cc",
-  "file": "/home/evian/Escritorio/nicole/src/options/optionsParser2.cc",
-  "output": "CMakeFiles/tests.dir/src/options/optionsParser2.cc.o"
-},
-{
-  "directory": "/home/evian/Escritorio/nicole",
   "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src -I/home/evian/Escritorio/nicole/_deps/catch2-src/src/catch2/.. -I/home/evian/Escritorio/nicole/_deps/catch2-build/generated-includes  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -Wno-error=implicit-int-conversion -Wno-error=old-style-cast -Wno-error=sign-conversion -o CMakeFiles/tests.dir/test/lexicalAnalysis/test_category.cc.o -c /home/evian/Escritorio/nicole/test/lexicalAnalysis/test_category.cc",
   "file": "/home/evian/Escritorio/nicole/test/lexicalAnalysis/test_category.cc",
   "output": "CMakeFiles/tests.dir/test/lexicalAnalysis/test_category.cc.o"
@@ -835,6 +829,12 @@
 },
 {
   "directory": "/home/evian/Escritorio/nicole",
+  "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src -I/home/evian/Escritorio/nicole/_deps/catch2-src/src/catch2/.. -I/home/evian/Escritorio/nicole/_deps/catch2-build/generated-includes  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -Wno-error=implicit-int-conversion -Wno-error=old-style-cast -Wno-error=sign-conversion -o CMakeFiles/tests.dir/src/compiler/targetGenerator.cc.o -c /home/evian/Escritorio/nicole/src/compiler/targetGenerator.cc",
+  "file": "/home/evian/Escritorio/nicole/src/compiler/targetGenerator.cc",
+  "output": "CMakeFiles/tests.dir/src/compiler/targetGenerator.cc.o"
+},
+{
+  "directory": "/home/evian/Escritorio/nicole",
   "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src -I/home/evian/Escritorio/nicole/_deps/catch2-src/src/catch2/.. -I/home/evian/Escritorio/nicole/_deps/catch2-build/generated-includes  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -Wno-error=implicit-int-conversion -Wno-error=old-style-cast -Wno-error=sign-conversion -o CMakeFiles/tests.dir/src/utils/nameMangler.cc.o -c /home/evian/Escritorio/nicole/src/utils/nameMangler.cc",
   "file": "/home/evian/Escritorio/nicole/src/utils/nameMangler.cc",
   "output": "CMakeFiles/tests.dir/src/utils/nameMangler.cc.o"
@@ -850,12 +850,6 @@
   "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -o CMakeFiles/binaries.dir/src/options/optionsParser.cc.o -c /home/evian/Escritorio/nicole/src/options/optionsParser.cc",
   "file": "/home/evian/Escritorio/nicole/src/options/optionsParser.cc",
   "output": "CMakeFiles/binaries.dir/src/options/optionsParser.cc.o"
-},
-{
-  "directory": "/home/evian/Escritorio/nicole",
-  "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -o CMakeFiles/binaries.dir/src/options/optionsParser2.cc.o -c /home/evian/Escritorio/nicole/src/options/optionsParser2.cc",
-  "file": "/home/evian/Escritorio/nicole/src/options/optionsParser2.cc",
-  "output": "CMakeFiles/binaries.dir/src/options/optionsParser2.cc.o"
 },
 {
   "directory": "/home/evian/Escritorio/nicole",
@@ -1540,6 +1534,12 @@
   "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -o CMakeFiles/binaries.dir/src/compiler/linker.cc.o -c /home/evian/Escritorio/nicole/src/compiler/linker.cc",
   "file": "/home/evian/Escritorio/nicole/src/compiler/linker.cc",
   "output": "CMakeFiles/binaries.dir/src/compiler/linker.cc.o"
+},
+{
+  "directory": "/home/evian/Escritorio/nicole",
+  "command": "/usr/lib64/ccache/clang++  -I/home/evian/Escritorio/nicole/generate -I/home/evian/Escritorio/nicole/src  -g -O3 -Wall -Wextra -Werror -Wpedantic                                -Wshadow -Wnon-virtual-dtor -Wold-style-cast                                -Wcast-align -Wunused -Woverloaded-virtual                                -Wconversion -Wsign-conversion -Wnull-dereference                                -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -I/usr/include -std=c++17    -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -std=gnu++23 -flto=thin -fcolor-diagnostics -o CMakeFiles/binaries.dir/src/compiler/targetGenerator.cc.o -c /home/evian/Escritorio/nicole/src/compiler/targetGenerator.cc",
+  "file": "/home/evian/Escritorio/nicole/src/compiler/targetGenerator.cc",
+  "output": "CMakeFiles/binaries.dir/src/compiler/targetGenerator.cc.o"
 },
 {
   "directory": "/home/evian/Escritorio/nicole",

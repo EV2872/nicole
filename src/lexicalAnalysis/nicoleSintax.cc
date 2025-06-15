@@ -79,13 +79,10 @@ auto NicoleSintax::createLexer() const noexcept -> Lexer {
 
           Category{TokenType::OR, "\\bor\\b", false},
           Category{TokenType::AND, "\\band\\b", false},
-
-          // avoids the conflic between do and double
-          Category{TokenType::ID, "(?!\\b(do)\\b)[a-zA-Z]+[a-zA-Z0-9_]*",
-                   false},
-
           Category{TokenType::DO, "\\bdo\\b", false},
-
+          // avoids the conflic between do and double //
+          // "(?!\\b(do)\\b)[a-zA-Z]+[a-zA-Z0-9_]*"
+          Category{TokenType::ID, "[a-zA-Z]+[a-zA-Z0-9_]*", false},
           Category{TokenType::RP, "\\)", false},
           Category{TokenType::LP, "\\(", false},
           Category{TokenType::RB, "\\}", false},
