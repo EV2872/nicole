@@ -31,7 +31,7 @@ auto Optimizer::optimize(llvm::orc::ThreadSafeModule TSM) noexcept
   }
 
   // Pipeline por módulo
-  auto MPM = PB.buildPerModuleDefaultPipeline(optLevel_, /*verifyEach=*/true);
+  auto MPM = PB.buildPerModuleDefaultPipeline(optLevel_, llvm::ThinOrFullLTOPhase::None);
   MPM.run(*module, MAM);
 
   // Verificación después

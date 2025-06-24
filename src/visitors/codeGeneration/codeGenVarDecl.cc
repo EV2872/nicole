@@ -2,6 +2,7 @@
 #include "../../../inc/parsingAnalysis/ast/variables/ast_typedDecl.h"
 #include "../../../inc/parsingAnalysis/ast/variables/ast_varCall.h"
 #include "../../../inc/visitors/codeGeneration/codeGeneration.h"
+#include "llvm/IR/DerivedTypes.h"
 #include <memory>
 
 namespace nicole {
@@ -129,7 +130,7 @@ auto CodeGeneration::visit(const AST_VAR_CALL *node) const noexcept
     auto *thisAlloca = llvm::cast<llvm::AllocaInst>(thisVal);
     // Cargar el puntero al objeto
     llvm::Value *thisPtr =
-        builder_.CreateLoad(thisAlloca->getAllocatedType()->getPointerTo(),
+        builder_.CreateLoad(llvm::PointerType::get(thisAlloca->getAllocatedType(), 0),
                             thisAlloca, "this.load");
 
     // Calcular índice del campo en la struct

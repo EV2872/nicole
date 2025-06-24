@@ -165,7 +165,7 @@ auto CodeGeneration::visit(const AST_INDEX *node) const noexcept
       basic && basic->baseKind() == BasicKind::Str) {
     // cargar el i8* de la variable
     llvm::Value *strPtr =
-        builder_.CreateLoad(llvm::Type::getInt8Ty(*context_)->getPointerTo(),
+        builder_.CreateLoad(llvm::PointerType::get(llvm::Type::getInt8Ty(*context_), 0),
                             basePtr, "load_str_ptr");
 
     llvm::Value *charPtr = builder_.CreateInBoundsGEP(

@@ -121,7 +121,7 @@ auto CodeGeneration::visit(const AST_BINARY *node) const noexcept
         // Contexto y tipos LLVM
 
         llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
-        llvm::PointerType *i8Ptr = i8Ty->getPointerTo(); // i8*
+        llvm::PointerType *i8Ptr = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0); // i8*
         llvm::Type *i64Ty = llvm::Type::getInt64Ty(*context_);
 
         // Declarar strlen y malloc si no existen

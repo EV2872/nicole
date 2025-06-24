@@ -60,8 +60,8 @@ auto CodeGeneration::visit(const AST_NULL *node) const noexcept
   if (!node) {
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_NULL");
   }
-  llvm::PointerType *i8PtrTy =
-      llvm::Type::getInt8Ty(*context_)->getPointerTo(/*AddressSpace=*/0);
+  llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
+  llvm::PointerType *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);
   // Devolver un null de ese tipo
   return llvm::ConstantPointerNull::get(i8PtrTy);
 }
@@ -72,7 +72,7 @@ auto CodeGeneration::visit(const AST_STRING *node) const noexcept
     return createError(ERROR_TYPE::NULL_NODE, "invalid AST_STRING");
   }
   llvm::Value *strPtr =
-      builder_.CreateGlobalStringPtr(node->value(), // contenido de la cadena
+      builder_.CreateGlobalString(node->value(), // contenido de la cadena
                                      "str"); // nombre simbólico en el módulo
   return strPtr;
 }

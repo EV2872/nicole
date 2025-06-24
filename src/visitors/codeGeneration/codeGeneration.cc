@@ -270,7 +270,7 @@ auto CodeGeneration::visit(const AST_BODY *node) const noexcept
     llvm::Function *dtorFn = module_->getFunction(dtorName);
     // Cargar la “this” y llamar a dtor
     llvm::Value *thisPtr = builder_.CreateLoad(
-        addr->getAllocatedType()->getPointerTo(), addr, "load_this");
+        llvm::PointerType::get(addr->getAllocatedType(), 0), addr, "load_this");
     builder_.CreateCall(dtorFn, {thisPtr});
   }
 
@@ -287,7 +287,7 @@ auto CodeGeneration::visit(const Tree *tree) const noexcept
   }
 
   auto *i8Ty = builder_.getInt8Ty();
-  auto *i8PtrTy = i8Ty->getPointerTo();
+  auto *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);
   auto *strdupTy = llvm::FunctionType::get(i8PtrTy, {i8PtrTy}, false);
   strdupFn_ = module_->getOrInsertFunction("strdup", strdupTy);
 

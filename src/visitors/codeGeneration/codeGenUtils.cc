@@ -17,7 +17,7 @@ auto printParameters(
 
   // Crear una instancia de i8* para comparación
   llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);
-  llvm::Type *i8PtrTy = i8Ty->getPointerTo(/*AddressSpace=*/0);
+  llvm::Type *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);;
 
   for (auto value : values) {
     llvm::Value *origVal{value.first};
@@ -90,14 +90,14 @@ auto CodeGeneration::visit(const AST_PRINT *node) const noexcept
 
   // Obtener/declarar printf con getOrInsertFunction
   llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);
-  llvm::Type *i8PtrTy = i8Ty->getPointerTo(0);
+  llvm::Type *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);
   llvm::FunctionType *printfTy = llvm::FunctionType::get(
       llvm::Type::getInt32Ty(*context_), {i8PtrTy}, /*isVarArg=*/true);
   llvm::FunctionCallee printfFn =
       module_->getOrInsertFunction("printf", printfTy);
 
   // Crear la cadena de formato global y añadirla como primer argumento
-  llvm::Value *fmtStr = builder_.CreateGlobalStringPtr(fullFormatStr, "fmt");
+  llvm::Value *fmtStr = builder_.CreateGlobalString(fullFormatStr, "fmt");
   args.insert(args.begin(), fmtStr);
 
   // Emitir la llamada a printf y devolverla

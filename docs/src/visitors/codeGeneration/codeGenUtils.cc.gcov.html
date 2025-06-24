@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-13 11:01:19</td>
+            <td class="headerValue">2025-06-24 12:26:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -79,7 +79,7 @@
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span>              :   // Crear una instancia de i8* para comparación</span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   llvm::Type *i8PtrTy = i8Ty-&gt;getPointerTo(/*AddressSpace=*/0);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   llvm::Type *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);;</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   for (auto value : values) {</span></span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     llvm::Value *origVal{value.first};</span></span>
@@ -152,14 +152,14 @@
 <span id="L90"><span class="lineNum">      90</span>              : </span>
 <span id="L91"><span class="lineNum">      91</span>              :   // Obtener/declarar printf con getOrInsertFunction</span>
 <span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC">           0 :   llvm::Type *i8Ty = llvm::Type::getInt8Ty(*context_);</span></span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :   llvm::Type *i8PtrTy = i8Ty-&gt;getPointerTo(0);</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :   llvm::Type *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);</span></span>
 <span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :   llvm::FunctionType *printfTy = llvm::FunctionType::get(</span></span>
 <span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :       llvm::Type::getInt32Ty(*context_), {i8PtrTy}, /*isVarArg=*/true);</span></span>
 <span id="L96"><span class="lineNum">      96</span> <span class="tlaUNC">           0 :   llvm::FunctionCallee printfFn =</span></span>
 <span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :       module_-&gt;getOrInsertFunction(&quot;printf&quot;, printfTy);</span></span>
 <span id="L98"><span class="lineNum">      98</span>              : </span>
 <span id="L99"><span class="lineNum">      99</span>              :   // Crear la cadena de formato global y añadirla como primer argumento</span>
-<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 :   llvm::Value *fmtStr = builder_.CreateGlobalStringPtr(fullFormatStr, &quot;fmt&quot;);</span></span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaUNC">           0 :   llvm::Value *fmtStr = builder_.CreateGlobalString(fullFormatStr, &quot;fmt&quot;);</span></span>
 <span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :   args.insert(args.begin(), fmtStr);</span></span>
 <span id="L102"><span class="lineNum">     102</span>              : </span>
 <span id="L103"><span class="lineNum">     103</span>              :   // Emitir la llamada a printf y devolverla</span>

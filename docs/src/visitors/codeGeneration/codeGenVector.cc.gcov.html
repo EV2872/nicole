@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-13 11:01:19</td>
+            <td class="headerValue">2025-06-24 12:26:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -227,7 +227,7 @@
 <span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :       basic &amp;&amp; basic-&gt;baseKind() == BasicKind::Str) {</span></span>
 <span id="L166"><span class="lineNum">     166</span>              :     // cargar el i8* de la variable</span>
 <span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :     llvm::Value *strPtr =</span></span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :         builder_.CreateLoad(llvm::Type::getInt8Ty(*context_)-&gt;getPointerTo(),</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :         builder_.CreateLoad(llvm::PointerType::get(llvm::Type::getInt8Ty(*context_), 0),</span></span>
 <span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 :                             basePtr, &quot;load_str_ptr&quot;);</span></span>
 <span id="L170"><span class="lineNum">     170</span>              : </span>
 <span id="L171"><span class="lineNum">     171</span> <span class="tlaUNC">           0 :     llvm::Value *charPtr = builder_.CreateInBoundsGEP(</span></span>

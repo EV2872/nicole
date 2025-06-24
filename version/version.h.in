@@ -1,0 +1,16 @@
+#pragma once
+
+// ------------------------------------------------------
+// Este fichero se genera automáticamente.
+// No editar directamente: usa CMake para regenerarlo.
+// ------------------------------------------------------
+
+#ifndef VERSION_H
+#define VERSION_H
+
+/// Cadena con la versión obtenida de Git (tags o hash).
+#define NICOLE_VERSION "@GIT_VERSION@"
+
+#define NICOLE_AUTHOR "Evian Concepción Peña"
+
+#endif // VERSION_H

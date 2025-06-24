@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-13 11:01:19</td>
+            <td class="headerValue">2025-06-24 12:26:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -82,17 +82,17 @@
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span>              : public:</span>
 <span id="L22"><span class="lineNum">      22</span>              :   explicit TokenStream(const std::vector&lt;Token&gt; &amp;tokens) noexcept</span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC tlaBgGNC">          56 :       : tokens_{tokens} {}</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC tlaBgGNC">          14 :       : tokens_{tokens} {}</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           8 :   [[nodiscard]] auto size() const noexcept -&gt; std::size_t {</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           8 :     return tokens_.size();</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           8 :   };</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :   [[nodiscard]] auto size() const noexcept -&gt; std::size_t {</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           2 :     return tokens_.size();</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           2 :   };</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : </span>
 <span id="L29"><span class="lineNum">      29</span>              :   [[nodiscard]] auto eat() noexcept -&gt; std::expected&lt;std::monostate, Error&gt;;</span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          12 :   [[nodiscard]] auto currentPos() const noexcept -&gt; std::size_t {</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">          12 :     return currentPos_;</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">          12 :   }</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           3 :   [[nodiscard]] auto currentPos() const noexcept -&gt; std::size_t {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           3 :     return currentPos_;</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           3 :   }</span></span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
 <span id="L35"><span class="lineNum">      35</span>              :   [[nodiscard]] auto isEnd() const noexcept -&gt; bool;</span>
 <span id="L36"><span class="lineNum">      36</span>              : </span>
@@ -117,13 +117,13 @@
 <span id="L55"><span class="lineNum">      55</span>              : </span>
 <span id="L56"><span class="lineNum">      56</span>              :   auto shiftToSemicolon() noexcept -&gt; void;</span>
 <span id="L57"><span class="lineNum">      57</span>              : </span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           4 :   [[nodiscard]] auto begin() const noexcept -&gt; decltype(tokens_.begin()) {</span></span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           4 :     return tokens_.begin();</span></span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           4 :   }</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           1 :   [[nodiscard]] auto begin() const noexcept -&gt; decltype(tokens_.begin()) {</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           1 :     return tokens_.begin();</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           1 :   }</span></span>
 <span id="L61"><span class="lineNum">      61</span>              : </span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           4 :   [[nodiscard]] auto end() const noexcept -&gt; decltype(tokens_.end()) {</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           4 :     return tokens_.end();</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           4 :   }</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 :   [[nodiscard]] auto end() const noexcept -&gt; decltype(tokens_.end()) {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           1 :     return tokens_.end();</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           1 :   }</span></span>
 <span id="L65"><span class="lineNum">      65</span>              : </span>
 <span id="L66"><span class="lineNum">      66</span>              :   [[nodiscard]] auto hasMatchingPairBefore(TokenType open,</span>
 <span id="L67"><span class="lineNum">      67</span>              :                                            TokenType until) const noexcept</span>

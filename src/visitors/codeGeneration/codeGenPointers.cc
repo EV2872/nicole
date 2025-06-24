@@ -15,7 +15,10 @@ auto CodeGeneration::ensureMallocFreeDeclared() const noexcept -> void {
     // void* malloc(size_t)
     llvm::IntegerType *i64Ty = llvm::Type::getInt64Ty(*context_);
     llvm::PointerType *voidPtr =
-        llvm::Type::getInt8Ty(*context_)->getPointerTo();
+        llvm::PointerType::get(
+        llvm::Type::getInt8Ty(*context_),
+        /*AddressSpace=*/0
+    );
     llvm::FunctionType *mallocFT =
         llvm::FunctionType::get(voidPtr, {i64Ty}, false);
     mallocFn_ = llvm::cast<llvm::Function>(
@@ -23,8 +26,10 @@ auto CodeGeneration::ensureMallocFreeDeclared() const noexcept -> void {
   }
   if (!freeFn_) {
     // void free(void*)
-    llvm::PointerType *voidPtr =
-        llvm::Type::getInt8Ty(*context_)->getPointerTo();
+    llvm::PointerType *voidPtr =llvm::PointerType::get(
+        llvm::Type::getInt8Ty(*context_),
+        /*AddressSpace=*/0
+    );
     llvm::FunctionType *freeFT = llvm::FunctionType::get(
         llvm::Type::getVoidTy(*context_), {voidPtr}, false);
     freeFn_ = llvm::cast<llvm::Function>(
@@ -80,7 +85,7 @@ auto CodeGeneration::visit(const AST_NEW *node) const noexcept
   if (!llvmTyOrErr)
     return createError(llvmTyOrErr.error());
   llvm::Type *structTy = *llvmTyOrErr;                       // ej. %A
-  llvm::PointerType *structPtrTy = structTy->getPointerTo(); // %A*
+  llvm::PointerType *structPtrTy = llvm::PointerType::get(structTy, 0); // %A*
 
   // Calcular tamaño en bytes con DataLayout
   const llvm::DataLayout &DL = module_->getDataLayout();
@@ -146,7 +151,7 @@ auto CodeGeneration::visit(const AST_DELETE *node) const noexcept
 
   // Hacer bitcast a i8* para pasar a free
   llvm::Value *i8Ptr = builder_.CreateBitCast(
-      ptrVal, llvm::Type::getInt8Ty(*context_)->getPointerTo(),
+      ptrVal, llvm::PointerType::get(llvm::Type::getInt8Ty(*context_), 0),
       "delete_bitcast");
 
   // Llamar a free(i8*)

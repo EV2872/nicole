@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-13 11:01:19</td>
+            <td class="headerValue">2025-06-24 12:26:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -93,7 +93,7 @@
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L32"><span class="lineNum">      32</span>              : </span>
 <span id="L33"><span class="lineNum">      33</span>              :   // Pipeline por módulo</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   auto MPM = PB.buildPerModuleDefaultPipeline(optLevel_, /*verifyEach=*/true);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :   auto MPM = PB.buildPerModuleDefaultPipeline(optLevel_, llvm::ThinOrFullLTOPhase::None);</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   MPM.run(*module, MAM);</span></span>
 <span id="L36"><span class="lineNum">      36</span>              : </span>
 <span id="L37"><span class="lineNum">      37</span>              :   // Verificación después</span>

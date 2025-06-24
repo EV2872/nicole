@@ -29,8 +29,8 @@ auto TargetGenerator::generate(const Arch arch, const OS os) const noexcept
   auto relocModel = std::optional<llvm::Reloc::Model>();
   llvm::TargetMachine *targetMachine{
       target->createTargetMachine(tripleStr, "generic", "", opt, relocModel)};
-  return std::shared_ptr<llvm::LLVMTargetMachine>(
-      static_cast<llvm::LLVMTargetMachine *>(targetMachine));
+  return std::shared_ptr<llvm::TargetMachine>(
+      static_cast<llvm::TargetMachine *>(targetMachine));
 }
 
 auto TargetGenerator::getTripleForArchAndOS(Arch arch, OS os) const noexcept

@@ -8,6 +8,8 @@ Tutor: Casiano Rodríguez León
 
 Cotutor: Jose Rodriguez
 
+README FILE might not be accurate enough until the project is finished
+
 ## Description
 `nicole.sh` is a script that compiles files with the `.nc` extension. If changes have been made to the source code, only the modified files will be recompiled.
 
@@ -61,7 +63,7 @@ sudo docker build -t mi_proyecto .
 
 Create a container and execute an example program, remember that --rm will remove the container once the process is finished
 ```sh
-sudo docker run --rm --name mi_contenedor mi_proyecto ./nicole.sh examples/aa.nc -p
+sudo docker run --rm --name mi_contenedor mi_proyecto ./scripts/nicoleCompileAndRun.sh examples/aa.nc -p
 ```
 
 Remove image
@@ -83,18 +85,18 @@ sudo systemctl stop docker.socket
 
 ## Requirements
 These versions were used during the development phase but they might not be needed specifically and other versions could work
-- `clang 19 or g++ 14` for compilation (recommended with Clang)
+- `clang 20 (20.1.7) or g++ 15 (15.1.1)` for compilation (recommended with Clang)
 - `Catch2 3.7` for test
-- `LLVM 19` for code generation
-- `cmake 3.30.5` for building the project
+- `LLVM 20 (20.1.7)` for code generation
+- `cmake 3.31.6` for building the project
 - `ccache 4.10.2` (optional)
-- `ninja 1.12` (optional) for faster compilation
-- `clang-tidy 19` (optional) static analyzer
-- `cppcheck 2.7` (optional) static analyzer
+- `ninja 1.12.1` (optional) for faster compilation
+- `clang-tidy 20 (20.1.7)` (optional) static analyzer
+- `cppcheck 2.17.1` (optional) static analyzer
 - `lcov 2.0.1` (optional) for coverage analysis
-- `Docker 28.0.4` (optional) in case that the used operating system is not Linux (Fedora)
+- `Docker 28.2.2` (optional) in case that the used operating system is not Linux (Fedora)
 - `The project only has been tested in Linux`
-- `LLD 19.1.7` (optional) compatible with GNU linkers (not yet implemented)
+- `LLD 20 (20.1.7)` (optional) compatible with GNU linkers (not yet implemented)
 
 ## Folder structure
 

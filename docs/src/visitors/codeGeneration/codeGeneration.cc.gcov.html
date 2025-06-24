@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-13 11:01:19</td>
+            <td class="headerValue">2025-06-24 12:26:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
@@ -332,7 +332,7 @@
 <span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :     llvm::Function *dtorFn = module_-&gt;getFunction(dtorName);</span></span>
 <span id="L271"><span class="lineNum">     271</span>              :     // Cargar la “this” y llamar a dtor</span>
 <span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC">           0 :     llvm::Value *thisPtr = builder_.CreateLoad(</span></span>
-<span id="L273"><span class="lineNum">     273</span> <span class="tlaUNC">           0 :         addr-&gt;getAllocatedType()-&gt;getPointerTo(), addr, &quot;load_this&quot;);</span></span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaUNC">           0 :         llvm::PointerType::get(addr-&gt;getAllocatedType(), 0), addr, &quot;load_this&quot;);</span></span>
 <span id="L274"><span class="lineNum">     274</span> <span class="tlaUNC">           0 :     builder_.CreateCall(dtorFn, {thisPtr});</span></span>
 <span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L276"><span class="lineNum">     276</span>              : </span>
@@ -349,7 +349,7 @@
 <span id="L287"><span class="lineNum">     287</span> <span class="tlaUNC">           0 :   }</span></span>
 <span id="L288"><span class="lineNum">     288</span>              : </span>
 <span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :   auto *i8Ty = builder_.getInt8Ty();</span></span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :   auto *i8PtrTy = i8Ty-&gt;getPointerTo();</span></span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaUNC">           0 :   auto *i8PtrTy = llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);</span></span>
 <span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :   auto *strdupTy = llvm::FunctionType::get(i8PtrTy, {i8PtrTy}, false);</span></span>
 <span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :   strdupFn_ = module_-&gt;getOrInsertFunction(&quot;strdup&quot;, strdupTy);</span></span>
 <span id="L293"><span class="lineNum">     293</span>              : </span>

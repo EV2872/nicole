@@ -2,7 +2,6 @@
 build/
 .cache/
 _deps/
-version/
 generate/
 vscode-nicole/
 Testing/
@@ -15,3 +14,4 @@ settings.json
 compile_commands.json
 tests*
 .vscode/
+bin/

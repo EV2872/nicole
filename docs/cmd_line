@@ -1,1 +1,1 @@
-genhtml coverage.info --output-directory ../docs/
+genhtml coverage.info --output-directory /home/evian/Escritorio/nicole/scripts/../docs/
