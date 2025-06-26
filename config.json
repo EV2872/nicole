@@ -1,0 +1,36 @@
+{ 
+  "project": { 
+    "name": "Nicole",
+    "description": "Static implementation of the languaje Nicole"
+  },
+  "options": {
+    "standar": {
+        "version": 23,
+        "required": true
+    },
+    "optimize": {
+        "level": "-O3",
+        "lto": true
+    },
+    "warnings": {
+        "colored": true,
+        "common": [],
+        "clangSpecifc": [],
+        "gccSpecifc": []
+    },
+    "debug": true
+  },
+  "external": {
+    "ccache": true,
+    "clangTidy": false,
+    "cppcheck": false,
+    "lld": false,
+    "catch2": {
+        "url": "https://github.com/catchorg/Catch2.git",
+        "tag": "v3.7.0"
+    },
+    "llvm": {
+        "version": "20"
+    }
+  }
+}

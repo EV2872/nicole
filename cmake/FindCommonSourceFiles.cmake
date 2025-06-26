@@ -1,4 +1,8 @@
-# Source files para el ejecutable principal
+# cmake/FindCommonSourceFiles.cmake
+# —————————————————————————————————————————————————————————————
+# Ficheros comunes de los tests y el binario principal
+# —————————————————————————————————————————————————————————————
+
 set(COMMON_SOURCES
     src/options/optionsParser.cc
     src/lexicalAnalysis/type.cc

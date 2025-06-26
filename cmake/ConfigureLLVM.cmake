@@ -1,4 +1,7 @@
-# Configuración de LLVM
+# cmake/ConfigureLLVM.cmake
+# —————————————————————————————————————————————————————————————
+# Configuración de backend LLVM
+# —————————————————————————————————————————————————————————————
 option(USE_LLVM_CONFIG_20 "Utilizar llvm-config-20 en lugar de llvm-config" OFF)
 if(USE_LLVM_CONFIG_20)
     set(LLVM_CONFIG "llvm-config-20")

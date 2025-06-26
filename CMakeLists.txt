@@ -1,6 +1,15 @@
 # Minimum CMake version
 cmake_minimum_required(VERSION 3.31.6)
 
+set_property(DIRECTORY
+             APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+             "${CMAKE_SOURCE_DIR}/config.json")
+
+
+# 1. Leer el contenido del fichero
+file(READ "${CMAKE_SOURCE_DIR}/config.json" _config_json)
+
+string(JSON PROJECT_NAME_JSON GET "${_config_json}" project name)
 # usar en la linea de comandos para generar compile_commands.json y que .clangd detecte catch2
 # cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 
@@ -8,6 +17,18 @@ cmake_minimum_required(VERSION 3.31.6)
 list(APPEND CMAKE_MODULE_PATH
   "${CMAKE_SOURCE_DIR}/cmake"
 )
+
+function(load_modules)
+    foreach(m IN LISTS ARGN)
+        include(${m})
+    endforeach()
+endfunction()
+
+#[[ Cargar módulos internos
+load_modules(
+
+)
+]]
 
 # Incluir el módulo que detecta y configura el compilador
 include(FindCompiler)
@@ -18,7 +39,7 @@ include(Version)
 # Añadir al include path
 include_directories(${VERSION_HEADER_DIR})
 
-project(MyProject LANGUAGES CXX)
+project(${PROJECT_NAME_JSON} LANGUAGES CXX)
 
 # Incluir el módulo que detecta y configura el ccache
 include(FindCcache)
@@ -41,6 +62,14 @@ include(FetchCatch2)
 # Incluir los módulos de fuentes
 include(FindCommonSourceFiles)
 include(FindTestSourceFiles)
+
+add_library(Catch2System INTERFACE)
+target_include_directories(
+  Catch2System
+  SYSTEM INTERFACE
+    ${_catch2_incs}
+)
+
 
 add_executable(tests
     ${COMMON_SOURCES}

@@ -1,4 +1,8 @@
-# Source files para el ejecutable test
+# cmake/FindTestSourceFiles.cmake
+# —————————————————————————————————————————————————————————————
+# Ficheros especificos de tests
+# —————————————————————————————————————————————————————————————
+
 set(TEST_SOURCES
     test/options/test_options.cc
     test/options/test_optionsParser.cc

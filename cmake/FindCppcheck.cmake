@@ -1,3 +1,8 @@
+# cmake/FindCppcheck.cmake
+# —————————————————————————————————————————————————————————————
+# Configura cppcheck
+# —————————————————————————————————————————————————————————————
+
 find_program(CPPCHECK_EXE NAMES cppcheck)
 if(CPPCHECK_EXE)
   add_custom_target(cppcheck

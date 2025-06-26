@@ -1,4 +1,8 @@
-# Configurar ccache (si está instalado)
+# cmake/FindCcache.cmake
+# —————————————————————————————————————————————————————————————
+# Configura ccache
+# —————————————————————————————————————————————————————————————
+
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
     message(STATUS "Usando ccache: ${CCACHE_PROGRAM}")
