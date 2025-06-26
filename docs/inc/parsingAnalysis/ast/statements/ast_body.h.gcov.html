@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-24 12:26:45</td>
+            <td class="headerValue">2025-06-26 01:12:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">20.0&nbsp;%</td>
@@ -79,12 +79,12 @@
 <span id="L17"><span class="lineNum">      17</span>              :   explicit AST_BODY(</span>
 <span id="L18"><span class="lineNum">      18</span>              :       const long long unsigned nodeId, const SourceLocation &amp;srcLoc,</span>
 <span id="L19"><span class="lineNum">      19</span>              :       const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp;body) noexcept</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">          12 :       : AST(nodeId, AST_TYPE::BODY, srcLoc), body_{body} {}</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">          24 :       : AST(nodeId, AST_TYPE::BODY, srcLoc), body_{body} {}</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span>              :   [[nodiscard]] auto body() const noexcept</span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          14 :       -&gt; const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp; {</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          14 :     return body_;</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          14 :   }</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          28 :       -&gt; const std::vector&lt;std::shared_ptr&lt;AST_STATEMENT&gt;&gt; &amp; {</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          28 :     return body_;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          28 :   }</span></span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
 <span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto scope() const noexcept -&gt; const std::shared_ptr&lt;Scope&gt; &amp; {</span></span>
 <span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :     return scope_;</span></span>

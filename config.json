@@ -15,8 +15,11 @@
     "warnings": {
         "colored": true,
         "common": [],
+        "commonSuppress": [],
         "clangSpecifc": [],
-        "gccSpecifc": []
+        "clangSuppress": [],
+        "gccSpecifc": [],
+        "gccSuppress": []
     },
     "debug": true
   },
