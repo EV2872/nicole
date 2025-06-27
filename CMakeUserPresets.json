@@ -1,0 +1,29 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "dev-full",
+      "description": "User configuration",
+      "inherits": "default",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++",
+        "ENABLE_DEBUG_SYMBOLS": "OFF",
+        "OPTIMIZATION_LEVEL": "-O3",
+        "CMAKE_INTERPROCEDURAL_OPTIMIZATION": "TRUE",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+        "CMAKE_COLOR_DIAGNOSTICS": "ON",
+        "ENABLE_WARNINGS": "ON",
+        "ENABLE_COVERAGE": "ON",
+        "USE_CPPCHECK": "ON",
+        "USE_CLANG_TIDY": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev-full",
+      "configurePreset": "dev-full"
+    }
+  ]
+}

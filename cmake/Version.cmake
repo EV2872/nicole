@@ -4,7 +4,7 @@
 # —————————————————————————————————————————————————————————————
 
 # Asegúrate de que exista el directorio de salida
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/generate")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/build/generate")
 
 # Obtener la versión desde git
 execute_process(
@@ -17,10 +17,10 @@ execute_process(
 # Configurar version.h
 configure_file(
   "${CMAKE_SOURCE_DIR}/version/version.h.in"
-  "${CMAKE_BINARY_DIR}/generate/version.h"
+  "${CMAKE_BINARY_DIR}/build/generate/version.h"
   @ONLY
 )
 
 # Exponer la ruta de headers generados para que otros targets la incluyan
-set(VERSION_HEADER_DIR "${CMAKE_BINARY_DIR}/generate"
+set(VERSION_HEADER_DIR "${CMAKE_BINARY_DIR}/build/generate"
     CACHE INTERNAL "Directorio de headers generados por Version.cmake")

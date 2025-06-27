@@ -11,7 +11,7 @@ if [ ! -d "${PROJECT_ROOT}/build" ]; then
     mkdir -p "${PROJECT_ROOT}/build"
     pushd "${PROJECT_ROOT}/build" > /dev/null
     #cmake ${GENERATOR} --preset default "${PROJECT_ROOT}"
-    cmake --preset default "${PROJECT_ROOT}"
+    cmake --preset dev-full "${PROJECT_ROOT}"
     cmake --build . --parallel "$(nproc)"
     popd > /dev/null
 fi
@@ -20,7 +20,7 @@ fi
 if [[ "${1:-}" == "-t" ]]; then
     pushd "${PROJECT_ROOT}/build" > /dev/null
     #cmake ${GENERATOR} --preset default -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
-    cmake --preset default -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
+    cmake --preset dev-full -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
     cmake --build . --parallel "$(nproc)"
 
     # Detectar compilador empleado

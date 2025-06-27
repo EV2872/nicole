@@ -2,7 +2,6 @@
 build/
 .cache/
 _deps/
-generate/
 vscode-nicole/
 Testing/
 CMakeFiles/

@@ -7,21 +7,10 @@
     {
       "name": "default",
       "description": "Preset por defecto",
-      "generator": "Ninja",
       "cacheVariables": {
         "PROJECT_NAME": "Nicole",
         "CMAKE_CXX_STANDARD": "23",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "ENABLE_DEBUG_SYMBOLS": "OFF",
-        "OPTIMIZATION_LEVEL": "",
-        "CMAKE_INTERPROCEDURAL_OPTIMIZATION": "TRUE",
-        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-        "CMAKE_COLOR_DIAGNOSTICS": "ON",
-        "ENABLE_WARNINGS": "ON",
-        "ENABLE_COVERAGE": "ON",
-        "USE_CPPCHECK": "ON",
-        "USE_CLANG_TIDY": "OFF",
         "CATCH2_URL": "https://github.com/catchorg/Catch2.git",
         "CATCH2_VERSION": "v3.7.0"
       }
