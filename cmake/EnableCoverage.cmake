@@ -3,7 +3,6 @@
 # Habilitar coverage para tests si se activa la opción ENABLE_COVERAGE
 # —————————————————————————————————————————————————————————————
 
-option(ENABLE_COVERAGE "Habilitar flags de coverage para tests" OFF)
 if(ENABLE_COVERAGE)
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         message(STATUS "Coverage habilitado con GCC")

@@ -3,6 +3,8 @@
 # Configura clang-tidy
 # —————————————————————————————————————————————————————————————
 
+if(USE_CLANG_TIDY)
+
 #find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 #if(CLANG_TIDY_EXE)
 #  set(CMAKE_CXX_CLANG_TIDY
@@ -13,3 +15,5 @@
 #     --use-color")
 #  message(STATUS "clang-tidy habilitado (solo src/)")
 #endif()
+
+endif()

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-26 01:12:47</td>
+            <td class="headerValue">2025-06-27 20:09:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -64,79 +64,79 @@
 <span id="L2"><span class="lineNum">       2</span>              : #include &lt;catch2/catch_test_macros.hpp&gt;</span>
 <span id="L3"><span class="lineNum">       3</span>              : #include &lt;sstream&gt;</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">           8 : TEST_CASE(&quot;Pruebas de la clase Error&quot;, &quot;[error]&quot;) {</span></span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           8 :   using nicole::Error;</span></span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           8 :   using nicole::ERROR_TYPE;</span></span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">          20 : TEST_CASE(&quot;Pruebas de la clase Error&quot;, &quot;[error]&quot;) {</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">          20 :   using nicole::Error;</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">          20 :   using nicole::ERROR_TYPE;</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           8 :   SECTION(&quot;Constructor y atributos&quot;) {</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           2 :     const Error error{ERROR_TYPE::MISSING_ARGUMENTS,</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           2 :                       &quot;Se necesitan más argumentos&quot;};</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           2 :     std::ostringstream oss;</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           2 :     oss &lt;&lt; error;</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">          20 :   SECTION(&quot;Constructor y atributos&quot;) {</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           5 :     const Error error{ERROR_TYPE::MISSING_ARGUMENTS,</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           5 :                       &quot;Se necesitan más argumentos&quot;};</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           5 :     std::ostringstream oss;</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           5 :     oss &lt;&lt; error;</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :     REQUIRE(error.info() == &quot;Se necesitan más argumentos&quot;);</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :     REQUIRE(oss.str() ==</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           2 :             &quot;Error MISSING_ARGUMENTS: Se necesitan más argumentos&quot;);</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           5 :     REQUIRE(error.info() == &quot;Se necesitan más argumentos&quot;);</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           5 :     REQUIRE(oss.str() ==</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           5 :             &quot;Error MISSING_ARGUMENTS: Se necesitan más argumentos&quot;);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           5 :   }</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           8 :   SECTION(&quot;Tipos de errores y mensajes asociados&quot;) {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           2 :     const Error errorBinaryName{ERROR_TYPE::MISSING_BINARY_NAME,</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           2 :                                 &quot;Nombre de binario no proporcionado&quot;};</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           2 :     std::ostringstream ossBinaryName;</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :     ossBinaryName &lt;&lt; errorBinaryName;</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          20 :   SECTION(&quot;Tipos de errores y mensajes asociados&quot;) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           5 :     const Error errorBinaryName{ERROR_TYPE::MISSING_BINARY_NAME,</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           5 :                                 &quot;Nombre de binario no proporcionado&quot;};</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           5 :     std::ostringstream ossBinaryName;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           5 :     ossBinaryName &lt;&lt; errorBinaryName;</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           2 :     REQUIRE(errorBinaryName.info() == &quot;Nombre de binario no proporcionado&quot;);</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           2 :     REQUIRE(ossBinaryName.str() ==</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :             &quot;Error MISSING_BINARY_NAME: Nombre de binario no proporcionado&quot;);</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           5 :     REQUIRE(errorBinaryName.info() == &quot;Nombre de binario no proporcionado&quot;);</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           5 :     REQUIRE(ossBinaryName.str() ==</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           5 :             &quot;Error MISSING_BINARY_NAME: Nombre de binario no proporcionado&quot;);</span></span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           2 :     const Error errorFileNotFound{ERROR_TYPE::ENTRY_FILE_NOT_FOUND,</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :                                   &quot;Archivo de entrada no encontrado&quot;};</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           2 :     std::ostringstream ossFileNotFound;</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           2 :     ossFileNotFound &lt;&lt; errorFileNotFound;</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           5 :     const Error errorFileNotFound{ERROR_TYPE::ENTRY_FILE_NOT_FOUND,</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           5 :                                   &quot;Archivo de entrada no encontrado&quot;};</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           5 :     std::ostringstream ossFileNotFound;</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           5 :     ossFileNotFound &lt;&lt; errorFileNotFound;</span></span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :     REQUIRE(errorFileNotFound.info() == &quot;Archivo de entrada no encontrado&quot;);</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           2 :     REQUIRE(ossFileNotFound.str() ==</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           2 :             &quot;Error ENTRY_FILE_NOT_FOUND: Archivo de entrada no encontrado&quot;);</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           5 :     REQUIRE(errorFileNotFound.info() == &quot;Archivo de entrada no encontrado&quot;);</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           5 :     REQUIRE(ossFileNotFound.str() ==</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           5 :             &quot;Error ENTRY_FILE_NOT_FOUND: Archivo de entrada no encontrado&quot;);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           5 :   }</span></span>
 <span id="L39"><span class="lineNum">      39</span>              : </span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           8 :   SECTION(&quot;Errores de lexer&quot;) {</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           2 :     const Error errorUnmatched{ERROR_TYPE::CHECK_UNMATCHED,</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           2 :                                &quot;Token no reconocido&quot;};</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           2 :     std::ostringstream ossUnmatched;</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           2 :     ossUnmatched &lt;&lt; errorUnmatched;</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">          20 :   SECTION(&quot;Errores de lexer&quot;) {</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           5 :     const Error errorUnmatched{ERROR_TYPE::CHECK_UNMATCHED,</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           5 :                                &quot;Token no reconocido&quot;};</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           5 :     std::ostringstream ossUnmatched;</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           5 :     ossUnmatched &lt;&lt; errorUnmatched;</span></span>
 <span id="L45"><span class="lineNum">      45</span>              : </span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           2 :     REQUIRE(errorUnmatched.info() == &quot;Token no reconocido&quot;);</span></span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           2 :     REQUIRE(ossUnmatched.str() == &quot;Error CHECK_UNMATCHED: Token no reconocido&quot;);</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           5 :     REQUIRE(errorUnmatched.info() == &quot;Token no reconocido&quot;);</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           5 :     REQUIRE(ossUnmatched.str() == &quot;Error CHECK_UNMATCHED: Token no reconocido&quot;);</span></span>
 <span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           2 :     const Error errorFileExtension{ERROR_TYPE::FILE_EXTENSION,</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           2 :                                    &quot;Extensión de archivo no válida&quot;};</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           2 :     std::ostringstream ossFileExtension;</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           2 :     ossFileExtension &lt;&lt; errorFileExtension;</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           5 :     const Error errorFileExtension{ERROR_TYPE::FILE_EXTENSION,</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           5 :                                    &quot;Extensión de archivo no válida&quot;};</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           5 :     std::ostringstream ossFileExtension;</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           5 :     ossFileExtension &lt;&lt; errorFileExtension;</span></span>
 <span id="L53"><span class="lineNum">      53</span>              : </span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           2 :     REQUIRE(errorFileExtension.info() == &quot;Extensión de archivo no válida&quot;);</span></span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           2 :     REQUIRE(ossFileExtension.str() ==</span></span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           2 :             &quot;Error FILE_EXTENSION: Extensión de archivo no válida&quot;);</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           2 :   }</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           5 :     REQUIRE(errorFileExtension.info() == &quot;Extensión de archivo no válida&quot;);</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           5 :     REQUIRE(ossFileExtension.str() ==</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           5 :             &quot;Error FILE_EXTENSION: Extensión de archivo no válida&quot;);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           5 :   }</span></span>
 <span id="L58"><span class="lineNum">      58</span>              : </span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           8 :   SECTION(&quot;Errores de flujo de tokens&quot;) {</span></span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           2 :     const Error errorEat{ERROR_TYPE::EAT,</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           2 :                          &quot;No se puede consumir el token actual&quot;};</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           2 :     std::ostringstream ossEat;</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           2 :     ossEat &lt;&lt; errorEat;</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">          20 :   SECTION(&quot;Errores de flujo de tokens&quot;) {</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           5 :     const Error errorEat{ERROR_TYPE::EAT,</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           5 :                          &quot;No se puede consumir el token actual&quot;};</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           5 :     std::ostringstream ossEat;</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           5 :     ossEat &lt;&lt; errorEat;</span></span>
 <span id="L64"><span class="lineNum">      64</span>              : </span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           2 :     REQUIRE(errorEat.info() == &quot;No se puede consumir el token actual&quot;);</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           2 :     REQUIRE(ossEat.str() == &quot;Error EAT: No se puede consumir el token actual&quot;);</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           5 :     REQUIRE(errorEat.info() == &quot;No se puede consumir el token actual&quot;);</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           5 :     REQUIRE(ossEat.str() == &quot;Error EAT: No se puede consumir el token actual&quot;);</span></span>
 <span id="L67"><span class="lineNum">      67</span>              : </span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           2 :     const Error errorLookAhead{ERROR_TYPE::LOOK_AHEAD,</span></span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">           2 :                                &quot;No se puede mirar más allá en el flujo&quot;};</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">           2 :     std::ostringstream ossLookAhead;</span></span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           2 :     ossLookAhead &lt;&lt; errorLookAhead;</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           5 :     const Error errorLookAhead{ERROR_TYPE::LOOK_AHEAD,</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">           5 :                                &quot;No se puede mirar más allá en el flujo&quot;};</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">           5 :     std::ostringstream ossLookAhead;</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           5 :     ossLookAhead &lt;&lt; errorLookAhead;</span></span>
 <span id="L72"><span class="lineNum">      72</span>              : </span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           2 :     REQUIRE(errorLookAhead.info() == &quot;No se puede mirar más allá en el flujo&quot;);</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           2 :     REQUIRE(ossLookAhead.str() ==</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           2 :             &quot;Error LOOK_AHEAD: No se puede mirar más allá en el flujo&quot;);</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           2 :   }</span></span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           8 : }</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           5 :     REQUIRE(errorLookAhead.info() == &quot;No se puede mirar más allá en el flujo&quot;);</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           5 :     REQUIRE(ossLookAhead.str() ==</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           5 :             &quot;Error LOOK_AHEAD: No se puede mirar más allá en el flujo&quot;);</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           5 :   }</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">          20 : }</span></span>
         </pre>
               </td>
             </tr>

@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 3.31.6)
 
 set_property(DIRECTORY
              APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-             "${CMAKE_SOURCE_DIR}/config.json")
+             "${CMAKE_SOURCE_DIR}/CMakePresets.json")
 
-
-# 1. Leer el contenido del fichero
+ 
+#[[ #1. Leer el contenido del fichero
 file(READ "${CMAKE_SOURCE_DIR}/config.json" _config_json)
-
 string(JSON PROJECT_NAME_JSON GET "${_config_json}" project name)
+]]
+
 # usar en la linea de comandos para generar compile_commands.json y que .clangd detecte catch2
 # cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 
@@ -39,7 +40,7 @@ include(Version)
 # Añadir al include path
 include_directories(${VERSION_HEADER_DIR})
 
-project(${PROJECT_NAME_JSON} LANGUAGES CXX)
+project(${PROJECT_NAME} LANGUAGES CXX)
 
 # Incluir el módulo que detecta y configura el ccache
 include(FindCcache)
@@ -96,7 +97,11 @@ include(ConfigureLLVM)
 include_directories(SYSTEM ${LLVM_INCLUDEDIR})
 
 # Set compiler and linker flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 ${COMPILER_WARNINGS} ${LLVM_CXX_FLAGS}")
+if (ENABLE_DEBUG_SYMBOLS)
+    set(DEBUG_WITH_SYMBOL "-g")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DEBUG_WITH_SYMBOL} ${OPTIMIZATION_LEVEL} ${COMPILER_WARNINGS} ${LLVM_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LLVM_LDFLAGS} ${LLVM_SYSTEM_LIBS} ${LLVM_LIBS}")
 
 # Include directories para el ejecutable principal

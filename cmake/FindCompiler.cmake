@@ -5,6 +5,7 @@
 # y fuerza su uso en la caché de CMake.
 # —————————————————————————————————————————————————————————————
 
+#[[
 if(NOT DEFINED CMAKE_CXX_COMPILER)
   find_program(CLANG_COMPILER clang++)
   if(CLANG_COMPILER)
@@ -20,3 +21,4 @@ if(NOT DEFINED CMAKE_CXX_COMPILER)
     endif()
   endif()
 endif()
+]]

@@ -4,10 +4,10 @@
 # —————————————————————————————————————————————————————————————
 
 # Habilitar diagnósticos coloreados en CMake 3.14+
-set(CMAKE_COLOR_DIAGNOSTICS ON)
+#set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 # Opción para activar o desactivar warnings
-option(ENABLE_WARNINGS "Activar flags de warnings" ON)
+#option(ENABLE_WARNINGS "Activar flags de warnings" ON)
 
 if(ENABLE_WARNINGS)
   # Flags comunes a Clang y GCC

@@ -15,7 +15,7 @@ namespace nicole {
 
 enum OPT_LEVEL { DEFAULT, MEDIUM, AGGRESSIVE };
 
-class Linker final {
+class Linker final { 
 private:
   Options options_;
   std::shared_ptr<llvm::TargetMachine> targetMachine_;

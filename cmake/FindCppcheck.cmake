@@ -3,7 +3,10 @@
 # Configura cppcheck
 # —————————————————————————————————————————————————————————————
 
+if (USE_CPPCHECK)
+
 find_program(CPPCHECK_EXE NAMES cppcheck)
+
 if(CPPCHECK_EXE)
   add_custom_target(cppcheck
     COMMAND env CLICOLOR_FORCE=1 ${CPPCHECK_EXE}
@@ -13,4 +16,6 @@ if(CPPCHECK_EXE)
     COMMENT "Ejecutando cppcheck solo en src/ con color"
     USES_TERMINAL
   )
+endif()
+
 endif()

@@ -6,26 +6,21 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Suponiendo que scripts/ está justo dentro del root del proyecto:
 PROJECT_ROOT="${SCRIPT_DIR}/.."
 
-# Comprobar si Ninja está instalado y definir el generador
-if command -v ninja &> /dev/null; then
-    GENERATOR="-G Ninja"
-else
-    GENERATOR=""
-fi
-
 # Crear el directorio build si no existe
 if [ ! -d "${PROJECT_ROOT}/build" ]; then
     mkdir -p "${PROJECT_ROOT}/build"
     pushd "${PROJECT_ROOT}/build" > /dev/null
-    cmake ${GENERATOR} "${PROJECT_ROOT}"
+    #cmake ${GENERATOR} --preset default "${PROJECT_ROOT}"
+    cmake --preset default "${PROJECT_ROOT}"
     cmake --build . --parallel "$(nproc)"
     popd > /dev/null
 fi
 
-# Si se pasó la opción -t, regenerar con coverage
+# Si se pasó la opción -t (test), regenerar con coverage
 if [[ "${1:-}" == "-t" ]]; then
     pushd "${PROJECT_ROOT}/build" > /dev/null
-    cmake ${GENERATOR} -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
+    #cmake ${GENERATOR} --preset default -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
+    cmake --preset default -DENABLE_COVERAGE=ON "${PROJECT_ROOT}"
     cmake --build . --parallel "$(nproc)"
 
     # Detectar compilador empleado
