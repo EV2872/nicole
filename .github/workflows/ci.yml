@@ -24,7 +24,7 @@ jobs:
           # Configurar con preset (genera CMakeCache.txt)
           cmake --preset dev-full
           # Ahora ya existe la caché; construimos
-          cmake --build build --parallel "$(nproc)"
+          cmake --build --parallel "$(nproc)"
 
       - name: Run tests with coverage
         run: ./scripts/nicoleCompileAndRun.sh -t
