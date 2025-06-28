@@ -10,26 +10,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # 1) Asigna LLVM_PATH con el valor de env o el default
-    env:
-      LLVM_PATH: ./llvm
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Install LLVM and Clang 20
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "20"
 
-      - name: Configure project
+      - name: Configure and Build
         run: |
-          # Ahora LLVM_PATH siempre está definido (por defecto ./llvm)
-          export CMAKE_PREFIX_PATH="${LLVM_PATH}/lib/cmake"
-          cmake --preset dev-full -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-
-      - name: Build project
-        run: |
+          # Configurar con preset (genera CMakeCache.txt)
+          cmake --preset dev-full
+          # Ahora ya existe la caché; construimos
           cmake --build build --parallel "$(nproc)"
 
       - name: Run tests with coverage
