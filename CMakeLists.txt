@@ -5,6 +5,10 @@ set_property(DIRECTORY
              APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
              "${CMAKE_SOURCE_DIR}/CMakePresets.json")
 
+set_property(DIRECTORY
+             APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+             "${CMAKE_SOURCE_DIR}/CMakeUserPresets.json") 
+
  
 #[[ #1. Leer el contenido del fichero
 file(READ "${CMAKE_SOURCE_DIR}/config.json" _config_json)
@@ -71,18 +75,24 @@ target_include_directories(
     ${_catch2_incs}
 )
 
-
 add_executable(tests
     ${COMMON_SOURCES}
     ${TEST_SOURCES}
 )
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+
+target_compile_options(tests
+  PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=null-dereference>
+)
+#[[
 target_compile_options(tests PRIVATE
     -Wno-error=implicit-int-conversion
     -Wno-error=old-style-cast
     -Wno-error=sign-conversion
 )
+]]
 
 # enables coverage for tests
 include(EnableCoverage)
@@ -102,6 +112,7 @@ if (ENABLE_DEBUG_SYMBOLS)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DEBUG_WITH_SYMBOL} ${OPTIMIZATION_LEVEL} ${COMPILER_WARNINGS} ${LLVM_CXX_FLAGS}")
+
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LLVM_LDFLAGS} ${LLVM_SYSTEM_LIBS} ${LLVM_LIBS}")
 
 # Include directories para el ejecutable principal
@@ -119,5 +130,9 @@ include(FindCppcheck)
 
 # Executable principal
 add_executable(binaries ${COMMON_SOURCES} src/main.cc)
-target_include_directories(binaries PRIVATE ${LLVM_INCLUDEDIR})
+target_include_directories(binaries PRIVATE SYSTEM  ${LLVM_INCLUDEDIR})
+target_compile_options(binaries
+  PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=null-dereference>
+)
 target_link_libraries(binaries ${LLVM_LIBS} ${LLVM_SYSTEM_LIBS})

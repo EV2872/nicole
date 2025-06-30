@@ -113,6 +113,9 @@ enum class ERROR_TYPE {
 
   case ERROR_TYPE::VALIDATE_TREE:
     return "VALIDATE_TREE";
+  
+  default:
+    return "UNKOWN_ERROR_TYPE";
   }
 }
 

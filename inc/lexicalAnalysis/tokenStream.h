@@ -50,7 +50,7 @@ public:
   // needed for whenever an import is found
   [[nodiscard]] auto
   insertAfter(const TokenStream &tkStream,
-              const size_t pos = std::numeric_limits<int>::infinity()) noexcept
+              const size_t pos = std::numeric_limits<size_t>::infinity()) noexcept
       -> std::expected<std::monostate, Error>;
 
   auto shiftToSemicolon() noexcept -> void;

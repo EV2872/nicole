@@ -152,6 +152,8 @@ auto astTypeToStr(const AST_TYPE type) noexcept -> std::string {
   case AST_TYPE::CHAIN:
     return "CHAIN";
   }
+
+  return "UNDEFINED_TYPE";
 }
 
 } // namespace nicole

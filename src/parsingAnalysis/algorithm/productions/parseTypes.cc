@@ -152,6 +152,7 @@ auto TopDown::parsePrimaryType() const noexcept
     default:
       break;
     }
+    break;
   }
   default:
     return createError(ERROR_TYPE::SINTAX,

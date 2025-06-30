@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-28 00:35:41</td>
+            <td class="headerValue">2025-06-30 17:16:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">12.5&nbsp;%</td>
@@ -76,7 +76,7 @@
 <span id="L14"><span class="lineNum">      14</span>              :   explicit AST_CONDITION(const long long unsigned nodeId,</span>
 <span id="L15"><span class="lineNum">      15</span>              :                          const SourceLocation &amp;srcLoc,</span>
 <span id="L16"><span class="lineNum">      16</span>              :                          const std::shared_ptr&lt;AST&gt; &amp;condition) noexcept</span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC tlaBgGNC">          54 :       : AST(nodeId, AST_TYPE::CONDITION, srcLoc), condition_{condition} {}</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC tlaBgGNC">           9 :       : AST(nodeId, AST_TYPE::CONDITION, srcLoc), condition_{condition} {}</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span>              :   [[nodiscard]] auto condition() const noexcept</span>
 <span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC tlaBgUNC">           0 :       -&gt; const std::shared_ptr&lt;AST&gt; &amp; {</span></span>

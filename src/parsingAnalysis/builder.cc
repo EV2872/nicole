@@ -22,18 +22,23 @@ auto Builder::createChar(const SourceLocation &srcLoc,
     switch (strNoQuotes[1]) {
     case 'n':
       result = '\n';
+      break;
     case 't':
       result = '\t';
+      break;
     case '\\':
       result = '\\';
+      break;
     case '\'':
       result = '\'';
+      break;
     case '\"':
       result = '\"';
+      break;
     default:
       result = strNoQuotes[1];
     }
-  }
+  } 
   return std::make_shared<AST_CHAR>(generateNextId(), srcLoc, result);
 }
 

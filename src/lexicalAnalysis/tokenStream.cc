@@ -60,7 +60,7 @@ auto TokenStream::isTokenAheadBeforeSemicolon(
 auto TokenStream::insertAfter(const TokenStream &tkStream,
                               const size_t pos) noexcept
     -> std::expected<std::monostate, Error> {
-  if (pos == std::numeric_limits<int>::infinity()) {
+  if (pos == std::numeric_limits<size_t>::infinity()) {
     return createError(ERROR_TYPE::INSERT_AFTER,
                        "cannot insert after the given position");
   }

@@ -31,6 +31,8 @@ public:
       return "char";
     case BasicKind::Str:
       return "str";
+    default:
+      return "UNKOWN BASIC TYPE";
     }
   }
 
@@ -51,6 +53,9 @@ public:
       // C-style string: pointer to i8
       llvm::Type *i8Ty = llvm::Type::getInt8Ty(context);
       return llvm::PointerType::get(i8Ty, /*AddressSpace=*/0);
+    }
+    default: {
+      return createError(ERROR_TYPE::TYPE, "not a basic type");
     }
     }
   }

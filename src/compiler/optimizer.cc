@@ -40,7 +40,7 @@ auto Optimizer::optimize(llvm::orc::ThreadSafeModule TSM) noexcept
                        "module verification failed after optimization");
   }
 
-  return std::move(TSM); // RVO se encarga de mover correctamente
+  return TSM; // RVO se encarga de mover correctamente
 }
 
 } // namespace nicole
