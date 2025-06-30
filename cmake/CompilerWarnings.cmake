@@ -53,11 +53,7 @@ set(DESIRED_WARNINGS
     -Wdouble-promotion
     -Wformat=2
     -Wmisleading-indentation
-
-    # flags para “no-error”
-#    -Wno-error=implicit-int-conversion
-#    -Wno-error=old-style-cast
-#    -Wno-error=sign-conversion
+    -Wnull-dereference
 )
 
 # 7) Variable donde acumularemos solo los flags soportados
