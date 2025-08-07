@@ -4,6 +4,8 @@
 #include <llvm/Support/InitLLVM.h>
 #include <memory>
 
+#include "../inc/parsingAnalysis/builder3.h"
+
 // valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all
 // --track-origins=yes --error-exitcode=1 ./build/bin/binaries
 // examples/super.nc
@@ -24,5 +26,21 @@ auto main(int argc, char *argv[]) noexcept -> int {
     std::cerr << compiled.error() << "\n";
     return 2;
   }
+  /*
+  auto BBB = nicole::SourceLocation {
+    nicole::Token{nicole::TokenType::AUTO, "", nicole::Location{"", 1, 2}},
+        nicole::Token {
+      nicole::TokenType::AUTO, "", nicole::Location{"", 1, 2}
+    }
+  };
+  auto child = nicole::Builder3::createString(BBB, "\"hhh\"");
+  auto AAA = nicole::Builder3::create<nicole::AST_STATEMENT>(
+      BBB, *child);
+  if ((AAA.value()) == (*child)->father()) {
+    std::cout << "working";
+  } else {
+    std::cout << "no working";
+  }
+  */
   return EXIT_SUCCESS;
 }
