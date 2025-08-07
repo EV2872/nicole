@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-08-07 22:36:39</td>
+            <td class="headerValue">2025-08-07 23:00:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryMed">80.0&nbsp;%</td>
@@ -77,15 +77,15 @@
 <span id="L15"><span class="lineNum">      15</span>              : public:</span>
 <span id="L16"><span class="lineNum">      16</span>              :   explicit Location(const std::filesystem::path &amp;file, std::size_t row,</span>
 <span id="L17"><span class="lineNum">      17</span>              :                     std::size_t col) noexcept</span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC tlaBgGNC">         582 :       : file_{file}, row_{row}, col_{col} {};</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC tlaBgGNC">         679 :       : file_{file}, row_{row}, col_{col} {};</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          66 :   [[nodiscard]] auto file() const noexcept -&gt; const std::filesystem::path &amp; {</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          66 :     return file_;</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          66 :   }</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          77 :   [[nodiscard]] auto file() const noexcept -&gt; const std::filesystem::path &amp; {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          77 :     return file_;</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          77 :   }</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          78 :   [[nodiscard]] auto row() const noexcept -&gt; std::size_t { return row_; }</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          91 :   [[nodiscard]] auto row() const noexcept -&gt; std::size_t { return row_; }</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          90 :   [[nodiscard]] auto col() const noexcept -&gt; std::size_t { return col_; }</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">         105 :   [[nodiscard]] auto col() const noexcept -&gt; std::size_t { return col_; }</span></span>
 <span id="L27"><span class="lineNum">      27</span>              : </span>
 <span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC tlaBgUNC">           0 :   [[nodiscard]] auto operator&lt;(const Location &amp;loc) const noexcept -&gt; bool {</span></span>
 <span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     if (row_ &lt; loc.row_) {</span></span>

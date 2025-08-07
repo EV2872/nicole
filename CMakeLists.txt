@@ -132,6 +132,13 @@ include(FindCppcheck)
 
 # Executable principal
 add_executable(binaries ${COMMON_SOURCES} src/main.cc)
+
+if(RUNNING_IN_CI)
+    target_compile_options(tests PRIVATE -frtti)
+    target_compile_options(binaries PRIVATE -frtti)
+endif()
+
+
 target_include_directories(binaries PRIVATE SYSTEM  ${LLVM_INCLUDEDIR})
 target_compile_options(binaries
   PRIVATE
