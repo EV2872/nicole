@@ -1,8 +1,8 @@
-# Nicole Compiler
+# Nicole the Compiler
 
 ![mascot](images/image.png)
 
-Toy Compiler written in c++ using LLVM 19 by Evian Concepción Peña
+Semi-profesional Compiler written in c++ using LLVM 20 by Evian Concepción Peña
 
 Tutor: Casiano Rodríguez León
 
