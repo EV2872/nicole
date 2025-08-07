@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-08-07 22:21:51</td>
+            <td class="headerValue">2025-08-07 22:36:39</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">66.7&nbsp;%</td>
@@ -66,13 +66,13 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : using namespace nicole;</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           5 : TEST_CASE(&quot;AST_IMPORT class methods&quot;, &quot;[AST_IMPORT]&quot;) {</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           5 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           5 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           5 :   AST_IMPORT astImport{0, SourceLocation{token, token}, &quot;/path/to/file&quot;};</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           6 : TEST_CASE(&quot;AST_IMPORT class methods&quot;, &quot;[AST_IMPORT]&quot;) {</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           6 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           6 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           6 :   AST_IMPORT astImport{0, SourceLocation{token, token}, &quot;/path/to/file&quot;};</span></span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           5 :   REQUIRE(astImport.path() == std::filesystem::path{&quot;/path/to/file&quot;});</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           5 : }</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           6 :   REQUIRE(astImport.path() == std::filesystem::path{&quot;/path/to/file&quot;});</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           6 : }</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
 <span id="L15"><span class="lineNum">      15</span>              : bool areASTStatementsEqual(const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;lhs,</span>
 <span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC tlaBgUNC">           0 :                            const std::shared_ptr&lt;AST_STATEMENT&gt; &amp;rhs) {</span></span>
@@ -95,23 +95,23 @@
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :   return false; // Por defecto, se considera que no son iguales</span></span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">           5 : TEST_CASE(&quot;AST_PRINT class methods&quot;, &quot;[AST_PRINT]&quot;) {</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           5 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           5 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           5 :   auto astBool1 = *Builder::createStatement(</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           5 :       SourceLocation{token, token},</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           5 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           5 :   auto astBool2 = *Builder::createStatement(</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           5 :       SourceLocation{token, token},</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           5 :       *Builder::createBool(SourceLocation{token, token}, false));</span></span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           5 :   auto astComma = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{astBool1, astBool2};</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">           6 : TEST_CASE(&quot;AST_PRINT class methods&quot;, &quot;[AST_PRINT]&quot;) {</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           6 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           6 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           6 :   auto astBool1 = *Builder::createStatement(</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           6 :       SourceLocation{token, token},</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           6 :       *Builder::createBool(SourceLocation{token, token}, true));</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           6 :   auto astBool2 = *Builder::createStatement(</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           6 :       SourceLocation{token, token},</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           6 :       *Builder::createBool(SourceLocation{token, token}, false));</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           6 :   auto astComma = std::vector&lt;std::shared_ptr&lt;AST&gt;&gt;{astBool1, astBool2};</span></span>
 <span id="L46"><span class="lineNum">      46</span>              : </span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           5 :   AST_PRINT astPrint{0, SourceLocation{token, token}, astComma};</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           6 :   AST_PRINT astPrint{0, SourceLocation{token, token}, astComma};</span></span>
 <span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           5 :   REQUIRE(astPrint.values() == astComma);</span></span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           5 :   REQUIRE(astPrint.values()[0] == astBool1);</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           5 :   REQUIRE(astPrint.values()[1] == astBool2);</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           5 : }</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           6 :   REQUIRE(astPrint.values() == astComma);</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           6 :   REQUIRE(astPrint.values()[0] == astBool1);</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           6 :   REQUIRE(astPrint.values()[1] == astBool2);</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           6 : }</span></span>
         </pre>
               </td>
             </tr>

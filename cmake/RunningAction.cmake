@@ -7,5 +7,6 @@ else()
 endif()
 
 if(RUNNING_IN_CI)
-    add_compile_options(-frtti)
+    target_compile_options(tests PRIVATE -frtti)
+    target_compile_options(binaries PRIVATE -frtti)
 endif()

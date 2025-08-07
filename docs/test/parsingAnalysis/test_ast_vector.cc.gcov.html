@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-08-07 22:21:51</td>
+            <td class="headerValue">2025-08-07 22:36:39</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -65,21 +65,21 @@
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : using namespace nicole;</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           5 : TEST_CASE(&quot;AST_VECTOR class methods&quot;, &quot;[AST_VECTOR]&quot;) {</span></span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           5 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           5 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           5 :   auto astBool1 = *Builder::createBool(SourceLocation{token, token}, true);</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           5 :   auto astBool2 = *Builder::createBool(SourceLocation{token, token}, false);</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           6 : TEST_CASE(&quot;AST_VECTOR class methods&quot;, &quot;[AST_VECTOR]&quot;) {</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           6 :   Location loc{&quot;file&quot;, 0, 0};</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           6 :   Token token{TokenType::OPERATOR_ADD, &quot;+&quot;, loc};</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           6 :   auto astBool1 = *Builder::createBool(SourceLocation{token, token}, true);</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           6 :   auto astBool2 = *Builder::createBool(SourceLocation{token, token}, false);</span></span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           5 :   std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; values{astBool1, astBool2};</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           5 :   AST_VECTOR astVector{0, SourceLocation{token, token}, values};</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           6 :   std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; values{astBool1, astBool2};</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           6 :   AST_VECTOR astVector{0, SourceLocation{token, token}, values};</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           5 :   REQUIRE(astVector.values().size() == 2);</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           5 :   REQUIRE(std::dynamic_pointer_cast&lt;AST_BOOL&gt;(astVector.values()[0])-&gt;value() ==</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           5 :           true);</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           5 :   REQUIRE(std::dynamic_pointer_cast&lt;AST_BOOL&gt;(astVector.values()[1])-&gt;value() ==</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           5 :           false);</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           5 : }</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           6 :   REQUIRE(astVector.values().size() == 2);</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           6 :   REQUIRE(std::dynamic_pointer_cast&lt;AST_BOOL&gt;(astVector.values()[0])-&gt;value() ==</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           6 :           true);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           6 :   REQUIRE(std::dynamic_pointer_cast&lt;AST_BOOL&gt;(astVector.values()[1])-&gt;value() ==</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           6 :           false);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           6 : }</span></span>
         </pre>
               </td>
             </tr>
