@@ -23,4 +23,7 @@ jobs:
         run: sudo apt-get install -y ccache
 
       - name: Run tests with coverage
-        run: ./scripts/nicoleCompileAndRun.sh -t
+        run: 
+          export CXXFLAGS="-frtti"
+          export CFLAGS="-frtti"
+          ./scripts/nicoleCompileAndRun.sh -t
