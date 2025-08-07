@@ -23,7 +23,4 @@ jobs:
         run: sudo apt-get install -y ccache
 
       - name: Run tests with coverage Compile with RTTI enabled and run tests
-        run: |
-          export CXXFLAGS="-frtti"
-          export CFLAGS="-frtti"
-          ./scripts/nicoleCompileAndRun.sh -t
+        run: ./scripts/nicoleCompileAndRun.sh -t
