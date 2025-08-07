@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-30 22:08:06</td>
+            <td class="headerValue">2025-08-07 21:42:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">25.0&nbsp;%</td>
@@ -78,12 +78,12 @@
 <span id="L16"><span class="lineNum">      16</span>              :   explicit AST_VECTOR(const long long unsigned nodeId,</span>
 <span id="L17"><span class="lineNum">      17</span>              :                       const SourceLocation &amp;srcLoc,</span>
 <span id="L18"><span class="lineNum">      18</span>              :                       const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp;values) noexcept</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">           3 :       : AST(nodeId, AST_TYPE::VECTOR, srcLoc), values_{values} {}</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC tlaBgGNC">           4 :       : AST(nodeId, AST_TYPE::VECTOR, srcLoc), values_{values} {}</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span>              :   [[nodiscard]] auto values() const noexcept</span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           9 :       -&gt; const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp; {</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           9 :     return values_;</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           9 :   }</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          12 :       -&gt; const std::vector&lt;std::shared_ptr&lt;AST&gt;&gt; &amp; {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          12 :     return values_;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          12 :   }</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
 <span id="L26"><span class="lineNum">      26</span>              :   [[nodiscard]] auto accept(const PrintTree &amp;visitor) const noexcept</span>
 <span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC tlaBgUNC">           0 :       -&gt; std::expected&lt;std::string, Error&gt; override {</span></span>

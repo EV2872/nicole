@@ -24,6 +24,4 @@ jobs:
 
       - name: Run tests with coverage
         run: 
-          export CXXFLAGS="-frtti"
-          export CFLAGS="-frtti"
-          ./scripts/nicoleCompileAndRun.sh -t
+          export CXXFLAGS="-frtti" && export CFLAGS="-frtti" && ./scripts/nicoleCompileAndRun.sh -t
