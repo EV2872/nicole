@@ -134,6 +134,7 @@ include(FindCppcheck)
 add_executable(binaries ${COMMON_SOURCES} src/main.cc)
 
 if(RUNNING_IN_CI)
+    set(CMAKE_CXX_STANDARD 20)
     target_compile_options(tests PRIVATE -frtti)
     target_compile_options(binaries PRIVATE -frtti)
 endif()
