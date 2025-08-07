@@ -22,8 +22,7 @@ jobs:
       - name: Install ccache
         run: sudo apt-get install -y ccache
 
-      - name: Run tests with coverage
-        run: - name: Compile with RTTI enabled and run tests
+      - name: Run tests with coverage Compile with RTTI enabled and run tests
         run: |
           export CXXFLAGS="-frtti"
           export CFLAGS="-frtti"
