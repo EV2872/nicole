@@ -19,11 +19,8 @@ jobs:
         with:
           version: "20"
 
-     # - name: Configure project
-      #  run: cmake --preset dev-full
-
-     # - name: Build project
-      #  run: cmake --build --preset dev-full --parallel "$(nproc)"
+      - name: Install ccache
+        run: sudo apt-get install -y ccache
 
       - name: Run tests with coverage
         run: ./scripts/nicoleCompileAndRun.sh -t
