@@ -97,6 +97,8 @@ target_compile_options(tests PRIVATE
 # enables coverage for tests
 include(EnableCoverage)
 
+include(RunningAction)
+
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(CTest)
 include(Catch)

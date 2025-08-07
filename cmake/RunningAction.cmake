@@ -1,0 +1,11 @@
+if(DEFINED ENV{GITHUB_ACTIONS} AND "$ENV{GITHUB_ACTIONS}" STREQUAL "true")
+    message(STATUS "Ejecutando dentro de GitHub Actions")
+    set(RUNNING_IN_CI TRUE)
+else()
+    message(STATUS "Ejecutando de forma local")
+    set(RUNNING_IN_CI FALSE)
+endif()
+
+if(RUNNING_IN_CI)
+    add_compile_options(-frtti)
+endif()
