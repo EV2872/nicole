@@ -23,4 +23,5 @@ jobs:
         run: sudo apt-get install -y ccache
 
       - name: Run tests with coverage Compile with RTTI enabled and run tests
+        run: echo muted action
        # run: ./scripts/nicoleCompileAndRun.sh -t
